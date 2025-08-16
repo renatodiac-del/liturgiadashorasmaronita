@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liturgia das Horas Maronita</title>
+    <!-- Google Fonts para uma tipografia mais elegante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+   
+    <style>
+        /* Estilo da Aplicação */
+        :root {
+            --primary-color: #582c0c; /* Um tom marrom sóbrio, inspirado na tradição */
+            --text-color: #333333;
+            --background-color: #fdfaf6; /* Um fundo levemente amarelado, como pergaminho */
+            --border-color: #e0d8cf;
+            --font-serif: 'Lora', serif; /* Fonte para o corpo do texto, ótima para leitura */
+            --font-sans: 'Inter', sans-serif; /* Fonte para títulos e elementos de UI */
+        }
+       
+        body {
+            font-family: var(--font-serif);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+       
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 1.5rem 2rem;
+            box-sizing: border-box;
+        }
+       
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+       
+        header h1 {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.8rem;
+        }
+       
+        header p {
+            margin: 0.25rem 0 0 0;
+            font-family: var(--font-sans);
+            color: #777;
+        }
+       
+        main {
+            line-height: 1.8;
+        }
+       
+        main h2 {
+            font-family: var(--font-sans);
+            font-size: 1.5rem;
+            text-align: center;
+            color: var(--primary-color);
+        }
+       
+        main .content {
+            font-size: 1.1rem;
+        }
+
+
+        /* Indicador de carregamento e mensagens de erro */
+        .loader, .message-box {
+            text-align: center;
+            padding: 3rem 1rem;
+            font-family: var(--font-sans);
+        }
+       
+        .loader p {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+       
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--primary-color);
+            animation: spin 1s ease infinite;
+            margin: 0 auto 1rem auto;
+        }
+       
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+       
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            color: #999;
+        }
+       
+        /* Design Responsivo para celulares */
+        @media (max-width: 600px) {
+            body { padding: 0.5rem; }
+            .container { padding: 1rem; border-radius: 0; border: none; box-shadow: none; }
+            header h1 { font-size: 1.5rem; }
+            main h2 { font-size: 1.3rem; }
+            main .content { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container">
+        <header>
+            <h1>Liturgia das Horas</h1>
+            <p>Rito Maronita</p>
+        </header>
+
+
+        <main id="liturgy-content">
+            <!-- O Loader será exibido aqui inicialmente -->
+            <div id="loader" class="loader">
+                <div class="spinner"></div>
+                <p>Buscando a oração do dia...</p>
+            </div>
+           
+            <!-- O conteúdo da oração ou a mensagem de erro será injetado aqui pelo JavaScript -->
+        </main>
+    </div>
+
+
+    <footer>
+        <p>Projeto Mosteiro Digital v2.0</p>
+    </footer>
+
+
+    <script>
+        // --- CONFIGURAÇÃO ---
+        // Link de publicação da planilha no formato CSV.
+        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?output=csv';
+
+
+        // Função principal para buscar e exibir a liturgia
+        async function fetchLiturgy() {
+            const contentArea = document.getElementById('liturgy-content');
+            const loader = document.getElementById('loader');
+
+
+            try {
+                // 1. Buscar os dados da planilha (publicada como CSV)
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                if (!response.ok) {
+                    throw new Error('Falha ao buscar os dados. Verifique se o link está correto e se a planilha está publicada na web.');
+                }
+                const csvText = await response.text();
+
+
+                // 2. Processar o texto CSV para um formato de fácil utilização (array de objetos)
+                const lines = csvText.trim().split(/\r?\n/);
+                const headers = lines.shift().split(',');
+                const data = lines.map(line => {
+                    const values = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                    let obj = {};
+                    headers.forEach((header, i) => {
+                        const cleanHeader = header.trim();
+                        const value = values[i] ? values[i].trim().replace(/^"|"$/g, '') : '';
+                        obj[cleanHeader] = value;
+                    });
+                    return obj;
+                });
+
+
+                // 3. Obter a data de hoje no formato DD/MM/YYYY
+                const today = new Date();
+                const day = String(today.getDate()).padStart(2, '0');
+                const month = String(today.getMonth() + 1).padStart(2, '0'); // Janeiro é 0
+                const year = today.getFullYear();
+                const todayString = `${day}/${month}/${year}`;
+               
+                // 4. Encontrar a oração correspondente à data de hoje
+                const todayLiturgy = data.find(item => item.DATA === todayString);
+               
+                // 5. Exibir o conteúdo na tela
+                loader.style.display = 'none'; // Esconde o indicador de carregamento
+
+
+                if (todayLiturgy) {
+                    contentArea.innerHTML = `
+                        <h2>${todayLiturgy.NOME_ORACAO || 'Oração do Dia'}</h2>
+                        <div class="content">
+                            ${todayLiturgy.CONTEUDO_HTML || '<p>Conteúdo não encontrado.</p>'}
+                        </div>
+                    `;
+                } else {
+                    contentArea.innerHTML = `
+                        <div class="message-box">
+                            <h2>Oração não encontrada</h2>
+                            <p>A oração para o dia de hoje (${todayString}) ainda não foi publicada na planilha.</p>
+                        </div>
+                    `;
+                }
+
+
+            } catch (error) {
+                console.error('Erro ao carregar a liturgia:', error);
+                loader.style.display = 'none';
+                contentArea.innerHTML = `
+                    <div class="message-box">
+                        <h2>Ocorreu um Erro</h2>
+                        <p>Não foi possível carregar a liturgia. Verifique a sua conexão com a internet ou o link da planilha.</p>
+                        <p style="font-size: 0.8rem; color: #999;">Detalhes: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+
+        // Inicia a aplicação assim que a página é carregada
+        document.addEventListener('DOMContentLoaded', fetchLiturgy);
+    </script>
+</body>
+</html>
