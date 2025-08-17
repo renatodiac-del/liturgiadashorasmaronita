@@ -169,65 +169,104 @@
     <footer>
         <p>Projeto Mosteiro Digital v2.1</p>
     </footer>
-    <script>
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv'; // CERTIFIQUE-SE QUE O LINK CORRETO ESTÁ AQUI!
-    const today = new Date();
+   <script>
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv'; // 
 
-    const ano = today.getFullYear();
-    const mes = String(today.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda se necessário
-    const dia = String(today.getDate()).padStart(2, '0');   // Adiciona zero à esquerda se necessário
+    // --- FUNÇÃO DE DIAGNÓSTICO ---
+    function exibirErro(mensagem, detalhe) {
+        const container = document.getElementById('botoes-oracao');
+        container.innerHTML = `
+            <div style="border: 2px solid red; padding: 10px; background-color: #ffebeb;">
+                <h3 style="color: red;">Diagnóstico da Forja</h3>
+                <p><strong>Ocorreu um erro durante a execução:</strong></p>
+                <p>${mensagem}</p>
+                <p><strong>Detalhe Técnico:</strong></p>
+                <pre style="white-space: pre-wrap; word-wrap: break-word;">${detalhe}</pre>
+                <p><em>Por favor, copie toda esta mensagem e envie para Efesto.</em></p>
+            </div>
+        `;
+        console.error(mensagem, detalhe);
+    }
 
-    // MUDANÇA CRÍTICA AQUI: Alteramos a ordem para ANO/MÊS/DIA
-    const dataFormatada = `${ano}/${mes}/${dia}`;
+    try {
+        const today = new Date();
+        const ano = today.getFullYear();
+        const mes = String(today.getMonth() + 1).padStart(2, '0');
+        const dia = String(today.getDate()).padStart(2, '0');
+        const dataFormatada = `${ano}/${mes}/${dia}`;
 
-    document.getElementById('data-atual').textContent = `Oração para o dia ${dia}/${mes}/${ano}`;
+        const dataAtualElem = document.getElementById('data-atual');
+        if (dataAtualElem) {
+            dataAtualElem.textContent = `Oração para o dia ${dia}/${mes}/${ano}`;
+        } else {
+            throw new Error("Elemento com id 'data-atual' não foi encontrado no HTML.");
+        }
 
-    fetch(csvUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro na rede ou ao buscar o arquivo CSV');
-            }
-            return response.text();
-        })
-        .then(data => {
-            const oracoesDoDia = [];
-            const linhas = data.split('\n');
+        fetch(csvUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Falha ao buscar o arquivo. O servidor respondeu com o status: ${response.status} ${response.statusText}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                const oracoesDoDia = [];
+                const linhas = data.split('\n');
 
-            // Ignora o cabeçalho (a primeira linha)
-            for (let i = 1; i < linhas.length; i++) {
-                const linha = linhas[i].trim();
-                if (linha) {
-                    const colunas = linha.split(';');
-                    // A coluna da data é a primeira (índice 0)
-                    if (colunas[0] === dataFormatada) {
-                        oracoesDoDia.push({
-                            nome: colunas[1], // Título da Oração
-                            link: colunas[2]  // Link do Documento
-                        });
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(';');
+                        if (colunas.length < 3) continue; // Pula linhas malformadas
+
+                        const dataPlanilha = colunas[0].trim();
+                        const nomeOracao = colunas[1].trim();
+                        const linkOracao = colunas[2].trim();
+
+                        if (dataPlanilha === dataFormatada) {
+                            if (!nomeOracao || !linkOracao) {
+                                console.warn(`Linha para ${dataPlanilha} encontrada, mas com dados faltando. Linha ${i+1}`);
+                                continue;
+                            }
+                            oracoesDoDia.push({
+                                nome: nomeOracao,
+                                link: linkOracao
+                            });
+                        }
                     }
                 }
-            }
 
-            const containerBotoes = document.getElementById('botoes-oracao');
-            if (oracoesDoDia.length > 0) {
-                oracoesDoDia.forEach(oracao => {
-                    const botao = document.createElement('a');
-                    botao.href = oracao.link;
-                    botao.textContent = oracao.nome;
-                    botao.className = 'botao-oracao';
-                    botao.target = '_blank'; // Abrir em nova aba
-                    containerBotoes.appendChild(botao);
-                });
-            } else {
-                containerBotoes.textContent = `Nenhuma Oração Encontrada para o dia de hoje (${dia}/${mes}/${ano})`;
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao processar as orações:', error);
-            document.getElementById('botoes-oracao').textContent = 'Falha ao carregar as orações. Verifique o console para mais detalhes.';
-        });
+                const containerBotoes = document.getElementById('botoes-oracao');
+                if (!containerBotoes) {
+                   throw new Error("Elemento com id 'botoes-oracao' não foi encontrado no HTML.");
+                }
+
+                containerBotoes.innerHTML = ''; // Limpa a área de botões
+
+                if (oracoesDoDia.length > 0) {
+                    oracoesDoDia.forEach(oracao => {
+                        const botao = document.createElement('a');
+                        botao.href = oracao.link;
+                        botao.textContent = oracao.nome;
+                        botao.className = 'botao-oracao';
+                        botao.target = '_blank';
+                        containerBotoes.appendChild(botao);
+                    });
+                } else {
+                    containerBotoes.textContent = `Nenhuma Oração Encontrada para o dia de hoje (${dia}/${mes}/${ano})`;
+                }
+            })
+            .catch(error => {
+                exibirErro('Erro ao buscar ou processar os dados da planilha.', error.message);
+            });
+
+    } catch (error) {
+        exibirErro('Ocorreu um erro crítico e inesperado no script.', error.message);
+    }
 </script>
+
 </body>
 </html>
+
 
 
