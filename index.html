@@ -172,7 +172,6 @@
    <script>
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
 
-    // O alvo para todas as nossas atualizações (botões, erros, mensagens)
     const mainContent = document.getElementById('liturgy-content');
 
     function exibirMensagem(htmlContent) {
@@ -200,14 +199,15 @@
                 for (let i = 1; i < linhas.length; i++) {
                     const linha = linhas[i].trim();
                     if (linha) {
-                        const colunas = linha.split(';');
+                        // MUDANÇA FINAL E DECISIVA AQUI: O DELIMITADOR É VÍRGULA!
+                        const colunas = linha.split(',');
                         if (colunas.length < 3) continue;
 
                         const dataPlanilha = colunas[0].trim();
                         if (dataPlanilha === dataFormatada) {
                             oracoesDoDia.push({
-                                nome: colunas[1].trim(),
-                                link: colunas[2].trim()
+                                nome: colunas[2].trim(), // Coluna 3 para o Nome/Título
+                                link: colunas[3].trim()  // Coluna 4 para o Link
                             });
                         }
                     }
@@ -216,7 +216,6 @@
                 if (oracoesDoDia.length > 0) {
                     let botoesHtml = '';
                     oracoesDoDia.forEach(oracao => {
-                        // Recriando o estilo do botão diretamente aqui para simplicidade
                         botoesHtml += `<a href="${oracao.link}" target="_blank" style="display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif;">${oracao.nome}</a>`;
                     });
                     exibirMensagem(botoesHtml);
@@ -245,6 +244,7 @@
 
 </body>
 </html>
+
 
 
 
