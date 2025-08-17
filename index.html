@@ -16,7 +16,10 @@
         .container { width: 100%; max-width: 800px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1.5rem 2rem; }
         header { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
         header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; }
-        #date-display { padding: 1rem 0; font-family: var(--font-sans); text-align: center; font-size: 1.2rem; font-weight: bold; color: var(--primary-color); }
+        #date-navigator { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-family: var(--font-sans); }
+        #date-navigator button { background: none; border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
+        #date-navigator button:hover { background-color: var(--button-bg-color); }
+        #current-date-display { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); }
         main { line-height: 1.8; }
         footer { margin-top: 2rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; color: #999; }
     </style>
@@ -27,89 +30,110 @@
             <h1>Liturgia das Horas - Rito Maronita</h1>
         </header>
 
-        <div id="date-display">Carregando data...</div>
+        <nav id="date-navigator">
+            <button id="btn-prev-day">&lt; Dia Anterior</button>
+            <div id="current-date-display">Carregando...</div>
+            <button id="btn-next-day">Próximo Dia &gt;</button>
+        </nav>
 
         <main id="liturgy-content">
-            <div style="font-family: 'Inter', sans-serif; text-align: center; padding: 2rem;">Iniciando busca...</div>
-        </main>
+            </main>
     </div>
 
     <footer>
-        <p>Projeto Mosteiro Digital v3.1</p>
+        <p>Projeto Mosteiro Digital v3.2 - Final</p>
     </footer>
 
     <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';// 
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv'; // 
         const mainContent = document.getElementById('liturgy-content');
-        const dateDisplay = document.getElementById('date-display');
+        const dateDisplay = document.getElementById('current-date-display');
+        const btnPrev = document.getElementById('btn-prev-day');
+        const btnNext = document.getElementById('btn-next-day');
 
-        function exibirErro(mensagem) {
-            mainContent.innerHTML = `
-                <div style="border: 2px solid red; padding: 10px; background-color: #ffebeb; font-family: 'Inter', sans-serif;">
-                    <h3 style="color: red;">Diagnóstico da Forja</h3>
-                    <p><strong>Ocorreu um erro:</strong></p>
-                    <p>${mensagem}</p>
-                </div>`;
+        let currentDate = new Date(); // A data que o usuário está visualizando
+
+        // Formata uma data para o padrão ANO/MÊS/DIA para buscar na planilha
+        function formatarDataParaBusca(date) {
+            const ano = date.getFullYear();
+            const mes = String(date.getMonth() + 1).padStart(2, '0');
+            const dia = String(date.getDate()).padStart(2, '0');
+            return `${ano}/${mes}/${dia}`;
         }
 
-        try {
-            const today = new Date();
-            const ano = today.getFullYear();
-            const mes = String(today.getMonth() + 1).padStart(2, '0');
-            const dia = String(today.getDate()).padStart(2, '0');
-            const dataFormatadaBusca = `${ano}/${mes}/${dia}`;
-            
-            // CORREÇÃO CRÍTICA AQUI: toLocaleDateString
-            const dataFormatadaExibicao = today.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            dateDisplay.textContent = `Orações para ${dataFormatadaExibicao}`;
+        // Formata uma data para o padrão DIA/MÊS/ANO para exibir ao usuário
+        function formatarDataParaExibicao(date) {
+            return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+        
+        // Exibe uma mensagem na área de conteúdo principal
+        function exibirMensagem(mensagem) {
+            mainContent.innerHTML = `<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 2rem;">${mensagem}</div>`;
+        }
 
-            fetch(csvUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Falha ao buscar o arquivo CSV. O servidor respondeu com o status: ${response.status}`);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    const oracoesDoDia = [];
-                    const linhas = data.split('\n');
+        // A função principal que busca e exibe as orações para uma data específica
+        async function buscarOracoes(date) {
+            const dataFormatadaBusca = formatarDataParaBusca(date);
+            dateDisplay.textContent = formatarDataParaExibicao(date);
+            exibirMensagem('Buscando orações...');
 
-                    for (let i = 1; i < linhas.length; i++) {
-                        const linha = linhas[i].trim();
-                        if (linha) {
-                            const colunas = linha.split(',');
-                            if (colunas.length < 5) continue; 
+            try {
+                const response = await fetch(csvUrl);
+                if (!response.ok) throw new Error(`Falha na rede (status: ${response.status})`);
+                
+                const data = await response.text();
+                const oracoesDoDia = [];
+                const linhas = data.split('\n');
 
-                            const dataPlanilha = colunas[0].trim();
-                            if (dataPlanilha === dataFormatadaBusca) {
-                                oracoesDoDia.push({
-                                    nome: colunas[3].trim(), // Título da Coluna D
-                                    link: colunas[4].trim()  // Link da Coluna E
-                                });
-                            }
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length < 5) continue;
+
+                        const dataPlanilha = colunas[0].trim();
+                        if (dataPlanilha === dataFormatadaBusca) {
+                            oracoesDoDia.push({
+                                nome: colunas[3].trim(), // Título da Coluna D
+                                link: colunas[4].trim()  // Link da Coluna E
+                            });
                         }
                     }
+                }
 
-                    if (oracoesDoDia.length > 0) {
-                        let botoesHtml = '';
-                        oracoesDoDia.forEach(oracao => {
-                            botoesHtml += `<a href="${oracao.link}" target="_blank" style="display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif;">${oracao.nome}</a>`;
-                        });
-                        mainContent.innerHTML = botoesHtml;
-                    } else {
-                        mainContent.innerHTML = `<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 2rem;">Nenhuma Oração Encontrada para o dia de hoje (${dataFormatadaExibicao})</div>`;
-                    }
-                })
-                .catch(error => {
-                    exibirErro(error.message);
-                });
-
-        } catch (error) {
-            exibirErro(`Ocorreu um erro crítico no script: ${error.message}`);
+                if (oracoesDoDia.length > 0) {
+                    let botoesHtml = '';
+                    oracoesDoDia.forEach(oracao => {
+                        botoesHtml += `<a href="${oracao.link}" target="_blank" style="display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif;">${oracao.nome}</a>`;
+                    });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem(`Nenhuma Oração Encontrada para o dia ${formatarDataParaExibicao(date)}`);
+                }
+            } catch (error) {
+                exibirMensagem(`<strong>Erro ao buscar orações:</strong> ${error.message}`);
+            }
         }
+
+        // Event listener para o botão de dia anterior
+        btnPrev.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() - 1);
+            buscarOracoes(currentDate);
+        });
+
+        // Event listener para o botão de próximo dia
+        btnNext.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() + 1);
+            buscarOracoes(currentDate);
+        });
+
+        // Carga Inicial: busca as orações para o dia de hoje quando a página abre
+        buscarOracoes(currentDate);
     </script>
 </body>
 </html>
+
+
 
 
 
