@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liturgia das Horas Maronita</title>
-    <!-- Google Fonts para uma tipografia mais elegante -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-   
+    
     <style>
-        /* Estilo da Aplicação */
+        /* Estilos da Aplicação (v2.1) */
         :root {
-            --primary-color: #582c0c; /* Um tom marrom sóbrio, inspirado na tradição */
+            --primary-color: #582c0c;
             --text-color: #333333;
-            --background-color: #fdfaf6; /* Um fundo levemente amarelado, como pergaminho */
+            --background-color: #fdfaf6;
             --border-color: #e0d8cf;
-            --font-serif: 'Lora', serif; /* Fonte para o corpo do texto, ótima para leitura */
-            --font-sans: 'Inter', sans-serif; /* Fonte para títulos e elementos de UI */
+            --button-bg-color: #f1ede9;
+            --button-active-bg-color: var(--primary-color);
+            --button-active-text-color: #ffffff;
+            --font-serif: 'Lora', serif;
+            --font-sans: 'Inter', sans-serif;
         }
-       
+        
         body {
             font-family: var(--font-serif);
             background-color: var(--background-color);
@@ -32,7 +34,7 @@
             min-height: 100vh;
             box-sizing: border-box;
         }
-       
+        
         .container {
             width: 100%;
             max-width: 800px;
@@ -43,14 +45,14 @@
             padding: 1.5rem 2rem;
             box-sizing: border-box;
         }
-       
+        
         header {
             text-align: center;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
-       
+        
         header h1 {
             font-family: var(--font-sans);
             font-weight: 700;
@@ -58,41 +60,64 @@
             margin: 0;
             font-size: 1.8rem;
         }
-       
+        
         header p {
             margin: 0.25rem 0 0 0;
             font-family: var(--font-sans);
             color: #777;
         }
-       
+
+        #prayer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        .nav-button {
+            font-family: var(--font-sans);
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background-color: var(--button-bg-color);
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .nav-button.active {
+            background-color: var(--button-active-bg-color);
+            color: var(--button-active-text-color);
+            border-color: var(--primary-color);
+        }
+        
         main {
             line-height: 1.8;
         }
-       
+        
         main h2 {
             font-family: var(--font-sans);
             font-size: 1.5rem;
             text-align: center;
             color: var(--primary-color);
         }
-       
+        
         main .content {
             font-size: 1.1rem;
         }
 
-
-        /* Indicador de carregamento e mensagens de erro */
         .loader, .message-box {
             text-align: center;
             padding: 3rem 1rem;
             font-family: var(--font-sans);
         }
-       
-        .loader p {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-        }
-       
+        
+        .loader p { font-size: 1.2rem; color: var(--primary-color); }
+        
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             width: 36px;
@@ -102,12 +127,12 @@
             animation: spin 1s ease infinite;
             margin: 0 auto 1rem auto;
         }
-       
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-       
+        
         footer {
             margin-top: 2rem;
             text-align: center;
@@ -115,8 +140,7 @@
             font-size: 0.8rem;
             color: #999;
         }
-       
-        /* Design Responsivo para celulares */
+        
         @media (max-width: 600px) {
             body { padding: 0.5rem; }
             .container { padding: 1rem; border-radius: 0; border: none; box-shadow: none; }
@@ -127,99 +151,106 @@
     </style>
 </head>
 <body>
-
-
     <div class="container">
         <header>
             <h1>Liturgia das Horas</h1>
             <p>Rito Maronita</p>
         </header>
-
+        
+        <nav id="prayer-nav"></nav>
 
         <main id="liturgy-content">
-            <!-- O Loader será exibido aqui inicialmente -->
             <div id="loader" class="loader">
                 <div class="spinner"></div>
-                <p>Buscando a oração do dia...</p>
+                <p>Buscando as orações do dia...</p>
             </div>
-           
-            <!-- O conteúdo da oração ou a mensagem de erro será injetado aqui pelo JavaScript -->
         </main>
     </div>
-
-
     <footer>
-        <p>Projeto Mosteiro Digital v2.0</p>
+        <p>Projeto Mosteiro Digital v2.1</p>
     </footer>
-
-
     <script>
         // --- CONFIGURAÇÃO ---
-        // Link de publicação da planilha no formato CSV.
         const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?output=csv';
 
+        // --- LÓGICA DA APLICAÇÃO (v2.1) ---
+        const navArea = document.getElementById('prayer-nav');
+        const contentArea = document.getElementById('liturgy-content');
+        const loader = document.getElementById('loader');
+        let dailyPrayers = []; // Para armazenar as orações do dia
 
-        // Função principal para buscar e exibir a liturgia
+        function displayPrayer(index) {
+            const prayer = dailyPrayers[index];
+            if (!prayer) return;
+
+            // Atualiza o conteúdo
+            contentArea.innerHTML = `
+                <h2>${prayer['Título'] || 'Oração do Dia'}</h2>
+                <div class="content">
+                    ${prayer['Texto Litúrgico'] || '<p>Conteúdo não encontrado.</p>'}
+                </div>
+            `;
+
+            // Atualiza o botão ativo
+            document.querySelectorAll('.nav-button').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
         async function fetchLiturgy() {
-            const contentArea = document.getElementById('liturgy-content');
-            const loader = document.getElementById('loader');
-
-
             try {
-                // 1. Buscar os dados da planilha (publicada como CSV)
                 const response = await fetch(GOOGLE_SHEET_CSV_URL);
-                if (!response.ok) {
-                    throw new Error('Falha ao buscar os dados. Verifique se o link está correto e se a planilha está publicada na web.');
-                }
+                if (!response.ok) throw new Error('Falha ao buscar os dados.');
+                
                 const csvText = await response.text();
-
-
-                // 2. Processar o texto CSV para um formato de fácil utilização (array de objetos)
+                
+                // Processa o CSV
                 const lines = csvText.trim().split(/\r?\n/);
-                const headers = lines.shift().split(',');
+                const headers = lines.shift().split(';'); // <--- ALTERAÇÃO 1: Usa ponto e vírgula
                 const data = lines.map(line => {
-                    const values = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                    const values = line.split(';'); // <--- ALTERAÇÃO 2: Usa ponto e vírgula
                     let obj = {};
                     headers.forEach((header, i) => {
                         const cleanHeader = header.trim();
+                        // Remove aspas do início e fim, se existirem
                         const value = values[i] ? values[i].trim().replace(/^"|"$/g, '') : '';
                         obj[cleanHeader] = value;
                     });
                     return obj;
                 });
-
-
-                // 3. Obter a data de hoje no formato DD/MM/YYYY
+                
+                // Obtém a data de hoje
                 const today = new Date();
-                const day = String(today.getDate()).padStart(2, '0');
-                const month = String(today.getMonth() + 1).padStart(2, '0'); // Janeiro é 0
-                const year = today.getFullYear();
-                const todayString = `${day}/${month}/${year}`;
-               
-                // 4. Encontrar a oração correspondente à data de hoje
-                const todayLiturgy = data.find(item => item.DATA === todayString);
-               
-                // 5. Exibir o conteúdo na tela
-                loader.style.display = 'none'; // Esconde o indicador de carregamento
+                const todayString = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+                
+                // Encontra TODAS as orações para hoje
+                dailyPrayers = data.filter(item => item.Data === todayString); // <--- ALTERAÇÃO 3: Usa 'Data' e .filter
+                
+                loader.style.display = 'none';
 
+                if (dailyPrayers.length > 0) {
+                    // Cria os botões de navegação
+                    navArea.innerHTML = ''; // Limpa a área de navegação
+                    dailyPrayers.forEach((prayer, index) => {
+                        const button = document.createElement('button');
+                        button.className = 'nav-button';
+                        // <--- ALTERAÇÃO 4: Usa 'Hora Litúrgica'
+                        button.textContent = prayer['Hora Litúrgica'] || `Oração ${index + 1}`;
+                        button.onclick = () => displayPrayer(index);
+                        navArea.appendChild(button);
+                    });
 
-                if (todayLiturgy) {
-                    contentArea.innerHTML = `
-                        <h2>${todayLiturgy.NOME_ORACAO || 'Oração do Dia'}</h2>
-                        <div class="content">
-                            ${todayLiturgy.CONTEUDO_HTML || '<p>Conteúdo não encontrado.</p>'}
-                        </div>
-                    `;
+                    // Exibe a primeira oração por padrão
+                    displayPrayer(0);
                 } else {
+                    // Exibe mensagem de não encontrado
                     contentArea.innerHTML = `
                         <div class="message-box">
-                            <h2>Oração não encontrada</h2>
-                            <p>A oração para o dia de hoje (${todayString}) ainda não foi publicada na planilha.</p>
+                            <h2>Nenhuma Oração Encontrada</h2>
+                            <p>As orações para o dia de hoje (${todayString}) ainda não foram publicadas na planilha.</p>
                         </div>
                     `;
                 }
-
-
             } catch (error) {
                 console.error('Erro ao carregar a liturgia:', error);
                 loader.style.display = 'none';
@@ -232,9 +263,7 @@
                 `;
             }
         }
-
-
-        // Inicia a aplicação assim que a página é carregada
+        
         document.addEventListener('DOMContentLoaded', fetchLiturgy);
     </script>
 </body>
