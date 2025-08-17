@@ -170,101 +170,63 @@
         <p>Projeto Mosteiro Digital v2.1</p>
     </footer>
     <script>
-        // --- CONFIGURAÇÃO ---
-        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?output=csv';
+    const csvUrl = 'COLE_SEU_NOVO_LINK_CSV_AQUI'; // CERTIFIQUE-SE QUE O LINK CORRETO ESTÁ AQUI!
+    const today = new Date();
 
-        // --- LÓGICA DA APLICAÇÃO (v2.1) ---
-        const navArea = document.getElementById('prayer-nav');
-        const contentArea = document.getElementById('liturgy-content');
-        const loader = document.getElementById('loader');
-        let dailyPrayers = []; // Para armazenar as orações do dia
+    const ano = today.getFullYear();
+    const mes = String(today.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda se necessário
+    const dia = String(today.getDate()).padStart(2, '0');   // Adiciona zero à esquerda se necessário
 
-        function displayPrayer(index) {
-            const prayer = dailyPrayers[index];
-            if (!prayer) return;
+    // MUDANÇA CRÍTICA AQUI: Alteramos a ordem para ANO/MÊS/DIA
+    const dataFormatada = `${ano}/${mes}/${dia}`;
 
-            // Atualiza o conteúdo
-            contentArea.innerHTML = `
-                <h2>${prayer['Título'] || 'Oração do Dia'}</h2>
-                <div class="content">
-                    ${prayer['Texto Litúrgico'] || '<p>Conteúdo não encontrado.</p>'}
-                </div>
-            `;
+    document.getElementById('data-atual').textContent = `Oração para o dia ${dia}/${mes}/${ano}`;
 
-            // Atualiza o botão ativo
-            document.querySelectorAll('.nav-button').forEach((btn, i) => {
-                btn.classList.toggle('active', i === index);
-            });
-        }
-
-        async function fetchLiturgy() {
-            try {
-                const response = await fetch(GOOGLE_SHEET_CSV_URL);
-                if (!response.ok) throw new Error('Falha ao buscar os dados.');
-                
-                const csvText = await response.text();
-                
-                // Processa o CSV
-                const lines = csvText.trim().split(/\r?\n/);
-                const headers = lines.shift().split(';'); // <--- ALTERAÇÃO 1: Usa ponto e vírgula
-                const data = lines.map(line => {
-                    const values = line.split(';'); // <--- ALTERAÇÃO 2: Usa ponto e vírgula
-                    let obj = {};
-                    headers.forEach((header, i) => {
-                        const cleanHeader = header.trim();
-                        // Remove aspas do início e fim, se existirem
-                        const value = values[i] ? values[i].trim().replace(/^"|"$/g, '') : '';
-                        obj[cleanHeader] = value;
-                    });
-                    return obj;
-                });
-                
-                // Obtém a data de hoje
-                const today = new Date();
-                const todayString = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
-                
-                // Encontra TODAS as orações para hoje
-                dailyPrayers = data.filter(item => item.Data === todayString); // <--- ALTERAÇÃO 3: Usa 'Data' e .filter
-                
-                loader.style.display = 'none';
-
-                if (dailyPrayers.length > 0) {
-                    // Cria os botões de navegação
-                    navArea.innerHTML = ''; // Limpa a área de navegação
-                    dailyPrayers.forEach((prayer, index) => {
-                        const button = document.createElement('button');
-                        button.className = 'nav-button';
-                        // <--- ALTERAÇÃO 4: Usa 'Hora Litúrgica'
-                        button.textContent = prayer['Hora Litúrgica'] || `Oração ${index + 1}`;
-                        button.onclick = () => displayPrayer(index);
-                        navArea.appendChild(button);
-                    });
-
-                    // Exibe a primeira oração por padrão
-                    displayPrayer(0);
-                } else {
-                    // Exibe mensagem de não encontrado
-                    contentArea.innerHTML = `
-                        <div class="message-box">
-                            <h2>Nenhuma Oração Encontrada</h2>
-                            <p>As orações para o dia de hoje (${todayString}) ainda não foram publicadas na planilha.</p>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Erro ao carregar a liturgia:', error);
-                loader.style.display = 'none';
-                contentArea.innerHTML = `
-                    <div class="message-box">
-                        <h2>Ocorreu um Erro</h2>
-                        <p>Não foi possível carregar a liturgia. Verifique a sua conexão com a internet ou o link da planilha.</p>
-                        <p style="font-size: 0.8rem; color: #999;">Detalhes: ${error.message}</p>
-                    </div>
-                `;
+    fetch(csvUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na rede ou ao buscar o arquivo CSV');
             }
-        }
-        
-        document.addEventListener('DOMContentLoaded', fetchLiturgy);
-    </script>
+            return response.text();
+        })
+        .then(data => {
+            const oracoesDoDia = [];
+            const linhas = data.split('\n');
+
+            // Ignora o cabeçalho (a primeira linha)
+            for (let i = 1; i < linhas.length; i++) {
+                const linha = linhas[i].trim();
+                if (linha) {
+                    const colunas = linha.split(';');
+                    // A coluna da data é a primeira (índice 0)
+                    if (colunas[0] === dataFormatada) {
+                        oracoesDoDia.push({
+                            nome: colunas[1], // Título da Oração
+                            link: colunas[2]  // Link do Documento
+                        });
+                    }
+                }
+            }
+
+            const containerBotoes = document.getElementById('botoes-oracao');
+            if (oracoesDoDia.length > 0) {
+                oracoesDoDia.forEach(oracao => {
+                    const botao = document.createElement('a');
+                    botao.href = oracao.link;
+                    botao.textContent = oracao.nome;
+                    botao.className = 'botao-oracao';
+                    botao.target = '_blank'; // Abrir em nova aba
+                    containerBotoes.appendChild(botao);
+                });
+            } else {
+                containerBotoes.textContent = `Nenhuma Oração Encontrada para o dia de hoje (${dia}/${mes}/${ano})`;
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao processar as orações:', error);
+            document.getElementById('botoes-oracao').textContent = 'Falha ao carregar as orações. Verifique o console para mais detalhes.';
+        });
+</script>
 </body>
 </html>
+
