@@ -170,22 +170,13 @@
         <p>Projeto Mosteiro Digital v2.1</p>
     </footer>
    <script>
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv'; // 
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
 
-    // --- FUNÇÃO DE DIAGNÓSTICO ---
-    function exibirErro(mensagem, detalhe) {
-        const container = document.getElementById('botoes-oracao');
-        container.innerHTML = `
-            <div style="border: 2px solid red; padding: 10px; background-color: #ffebeb;">
-                <h3 style="color: red;">Diagnóstico da Forja</h3>
-                <p><strong>Ocorreu um erro durante a execução:</strong></p>
-                <p>${mensagem}</p>
-                <p><strong>Detalhe Técnico:</strong></p>
-                <pre style="white-space: pre-wrap; word-wrap: break-word;">${detalhe}</pre>
-                <p><em>Por favor, copie toda esta mensagem e envie para Efesto.</em></p>
-            </div>
-        `;
-        console.error(mensagem, detalhe);
+    // O alvo para todas as nossas atualizações (botões, erros, mensagens)
+    const mainContent = document.getElementById('liturgy-content');
+
+    function exibirMensagem(htmlContent) {
+        mainContent.innerHTML = htmlContent;
     }
 
     try {
@@ -195,17 +186,10 @@
         const dia = String(today.getDate()).padStart(2, '0');
         const dataFormatada = `${ano}/${mes}/${dia}`;
 
-        const dataAtualElem = document.getElementById('data-atual');
-        if (dataAtualElem) {
-            dataAtualElem.textContent = `Oração para o dia ${dia}/${mes}/${ano}`;
-        } else {
-            throw new Error("Elemento com id 'data-atual' não foi encontrado no HTML.");
-        }
-
         fetch(csvUrl)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Falha ao buscar o arquivo. O servidor respondeu com o status: ${response.status} ${response.statusText}`);
+                    throw new Error(`Falha ao buscar o arquivo. Status: ${response.status}`);
                 }
                 return response.text();
             })
@@ -217,56 +201,51 @@
                     const linha = linhas[i].trim();
                     if (linha) {
                         const colunas = linha.split(';');
-                        if (colunas.length < 3) continue; // Pula linhas malformadas
+                        if (colunas.length < 3) continue;
 
                         const dataPlanilha = colunas[0].trim();
-                        const nomeOracao = colunas[1].trim();
-                        const linkOracao = colunas[2].trim();
-
                         if (dataPlanilha === dataFormatada) {
-                            if (!nomeOracao || !linkOracao) {
-                                console.warn(`Linha para ${dataPlanilha} encontrada, mas com dados faltando. Linha ${i+1}`);
-                                continue;
-                            }
                             oracoesDoDia.push({
-                                nome: nomeOracao,
-                                link: linkOracao
+                                nome: colunas[1].trim(),
+                                link: colunas[2].trim()
                             });
                         }
                     }
                 }
 
-                const containerBotoes = document.getElementById('botoes-oracao');
-                if (!containerBotoes) {
-                   throw new Error("Elemento com id 'botoes-oracao' não foi encontrado no HTML.");
-                }
-
-                containerBotoes.innerHTML = ''; // Limpa a área de botões
-
                 if (oracoesDoDia.length > 0) {
+                    let botoesHtml = '';
                     oracoesDoDia.forEach(oracao => {
-                        const botao = document.createElement('a');
-                        botao.href = oracao.link;
-                        botao.textContent = oracao.nome;
-                        botao.className = 'botao-oracao';
-                        botao.target = '_blank';
-                        containerBotoes.appendChild(botao);
+                        // Recriando o estilo do botão diretamente aqui para simplicidade
+                        botoesHtml += `<a href="${oracao.link}" target="_blank" style="display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif;">${oracao.nome}</a>`;
                     });
+                    exibirMensagem(botoesHtml);
                 } else {
-                    containerBotoes.textContent = `Nenhuma Oração Encontrada para o dia de hoje (${dia}/${mes}/${ano})`;
+                    exibirMensagem(`<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 2rem;">Nenhuma Oração Encontrada para o dia de hoje (${dia}/${mes}/${ano})</div>`);
                 }
             })
             .catch(error => {
-                exibirErro('Erro ao buscar ou processar os dados da planilha.', error.message);
+                const erroHtml = `
+                    <div style="border: 2px solid red; padding: 10px; background-color: #ffebeb; font-family: 'Inter', sans-serif;">
+                        <h3 style="color: red;">Diagnóstico da Forja</h3>
+                        <p><strong>Ocorreu um erro:</strong> ${error.message}</p>
+                    </div>`;
+                exibirMensagem(erroHtml);
             });
 
     } catch (error) {
-        exibirErro('Ocorreu um erro crítico e inesperado no script.', error.message);
+        const erroHtml = `
+            <div style="border: 2px solid red; padding: 10px; background-color: #ffebeb; font-family: 'Inter', sans-serif;">
+                <h3 style="color: red;">Erro Crítico</h3>
+                <p><strong>Ocorreu um erro inesperado no script:</strong> ${error.message}</p>
+            </div>`;
+        exibirMensagem(erroHtml);
     }
 </script>
 
 </body>
 </html>
+
 
 
 
