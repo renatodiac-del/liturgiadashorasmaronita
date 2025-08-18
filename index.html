@@ -3,81 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIAGNÓSTICO - Mosteiro Digital</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <title>Liturgia das Horas Maronita</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f0f0f0; padding: 1rem; }
-        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 1rem 2rem; border-radius: 8px; }
-        h1, h2 { color: #582c0c; font-family: 'Lora', serif; border-bottom: 2px solid #e0d8cf; padding-bottom: 0.5rem; }
-        .debug-box { margin-bottom: 2rem; }
-        pre { background-color: #f1ede9; padding: 1rem; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; border: 1px solid #e0d8cf; }
-        .success { color: green; font-weight: bold; }
-        .error { color: red; font-weight: bold; }
+        :root {
+            --primary-color: #582c0c; --text-color: #333333; --background-color: #fdfaf6;
+            --border-color: #e0d8cf; --button-bg-color: #f1ede9; --font-serif: 'Lora', serif; --font-sans: 'Inter', sans-serif;
+        }
+        body { font-family: var(--font-serif); background-color: var(--background-color); color: var(--text-color); margin: 0; padding: 1rem; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 800px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1.5rem 2rem; }
+        
+        header { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .header-img { height: 150px; width: auto; }
+        header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; flex-grow: 1; }
+        
+        #permanent-nav { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        #permanent-nav button { background-color: var(--button-bg-color); border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; font-family: var(--font-sans); font-size: 0.9rem; transition: background-color 0.2s; }
+        #permanent-nav button:hover { background-color: #e9e4e0; }
+
+        #date-navigator { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-family: var(--font-sans); border-top: 1px solid var(--border-color); margin-top: 1rem;}
+        #date-navigator button { background: none; border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
+        #date-navigator button:hover { background-color: var(--button-bg-color); }
+        #current-date-display { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); text-align: center; }
+
+        #synaxarion-container { padding: 1.5rem 0; text-align: center; border-bottom: 1px solid var(--border-color); min-height: 20px;}
+        .synaxarion-button {
+            display: inline-block; padding: 0.8rem 1.5rem; background-color: var(--primary-color); color: #ffffff;
+            border: 2px solid var(--primary-color); border-radius: 8px; font-family: var(--font-sans);
+            text-decoration: none; font-size: 1.1rem; transition: background-color 0.2s, color 0.2s;
+        }
+        .synaxarion-button:hover { background-color: #ffffff; color: var(--primary-color); }
+        
+        main { line-height: 1.8; margin-top: 1.5rem; }
+        .prayer-button { display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif; transition: background-color 0.2s; }
+        .prayer-button:hover { background-color: #e9e4e0; }
+
+        footer { margin-top: 2rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; color: #999; }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.1rem; }
+            .header-img { height: 90px; }
+            .header-content { gap: 0.5rem;}
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Diagnóstico de Fontes de Dados (v5.6)</h1>
-        <p>Esta página mostra o conteúdo bruto recebido de cada link da planilha, como visto pelo aplicativo.</p>
-        
-        <div id="debug-daily" class="debug-box">
-            <h2>Fonte 1: Orações Diárias (`dailyLiturgyUrl`)</h2>
-            <pre>Buscando...</pre>
-        </div>
+        <header>
+             <div class="header-content">
+                <img src="https://i.imgur.com/CApQPnb.png" alt="Cedro do Líbano" class="header-img">
+                <h1>Liturgia das Horas - Rito Maronita</h1>
+                <img src="https://i.imgur.com/TZ1B9IL.png" alt="São Marun" class="header-img">
+            </div>
+        </header>
 
-        <div id="debug-synaxarion" class="debug-box">
-            <h2>Fonte 2: Synaxarion (`synaxarionUrl`)</h2>
-            <pre>Buscando...</pre>
-        </div>
+        <nav id="permanent-nav">
+            <button id="btn-daily">Liturgia Diária</button>
+            <button id="btn-ordinario">Ordinário</button>
+            <button id="btn-comum">Comum dos Santos</button>
+        </nav>
 
-        <div id="debug-comum" class="debug-box">
-            <h2>Fonte 3: Comum dos Santos (`comumUrl`)</h2>
-            <pre>Buscando...</pre>
-        </div>
+        <main>
+            <nav id="date-navigator">
+                <button id="btn-prev-day">&lt; Dia Anterior</button>
+                <div id="current-date-display">Carregando...</div>
+                <button id="btn-next-day">Próximo Dia &gt;</button>
+            </nav>
+
+            <div id="synaxarion-container"></div>
+            <div id="liturgy-content"></div>
+        </main>
     </div>
 
+    <footer>
+        <p>Projeto Mosteiro Digital v5.7</p>
+    </footer>
+
     <script>
+        // --- FONTES DE DADOS (v5.7 - MAPEAMENTO VALIDADO PELO DIAGNÓSTICO) ---
         const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
         const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
         const synaxarionUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=461721383&single=true&output=csv';
 
-        const dailyDiv = document.querySelector('#debug-daily pre');
-        const synaxarionDiv = document.querySelector('#debug-synaxarion pre');
-        const comumDiv = document.querySelector('#debug-comum pre');
+        // --- ELEMENTOS DO DOM ---
+        const mainContent = document.getElementById('liturgy-content');
+        const synaxarionContainer = document.getElementById('synaxarion-container');
+        const dateDisplay = document.getElementById('current-date-display');
+        const dateNavigator = document.getElementById('date-navigator');
+        
+        // --- BOTÕES ---
+        const btnPrev = document.getElementById('btn-prev-day');
+        const btnNext = document.getElementById('btn-next-day');
+        const btnDaily = document.getElementById('btn-daily');
+        const btnOrdinario = document.getElementById('btn-ordinario');
+        const btnComum = document.getElementById('btn-comum');
 
-        async function runDiagnostics() {
+        let currentDate = new Date();
+        let comumDataCache = null;
+
+        // --- FUNÇÕES DE FORMATAÇÃO E EXIBIÇÃO ---
+        function formatarDataParaBusca(date) {
+            const ano = date.getFullYear();
+            const mes = String(date.getMonth() + 1).padStart(2, '0');
+            const dia = String(date.getDate()).padStart(2, '0');
+            return `${ano}/${mes}/${dia}`;
+        }
+
+        function formatarDataParaExibicao(date) {
+            return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+        
+        function exibirMensagem(container, mensagem) {
+            container.innerHTML = `<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 1rem;">${mensagem}</div>`;
+        }
+        
+        // --- LÓGICA PRINCIPAL ---
+
+        // 1. LITURGIA DIÁRIA (COM SYNXARION INTEGRADO)
+        async function carregarConteudoDoDia(date) {
+            dateNavigator.style.display = 'flex';
+            synaxarionContainer.style.display = 'block';
+            mainContent.style.display = 'block';
+            dateDisplay.textContent = formatarDataParaExibicao(date);
+            
+            exibirMensagem(mainContent, 'Buscando orações...');
+            synaxarionContainer.innerHTML = '';
+
+            const dataFormatadaBusca = formatarDataParaBusca(date);
+
             const results = await Promise.allSettled([
                 fetch(dailyLiturgyUrl),
-                fetch(synaxarionUrl),
-                fetch(comumUrl)
+                fetch(synaxarionUrl)
             ]);
 
-            // Diagnóstico da Fonte 1 (Orações)
-            if (results[0].status === 'fulfilled' && results[0].value.ok) {
-                const text = await results[0].value.text();
-                dailyDiv.innerHTML = `<span class="success">SUCESSO</span>\n\n${text}`;
+            const prayersResult = results[0];
+            const synaxarionResult = results[1];
+
+            // Processa as orações (APENAS se a busca for bem-sucedida)
+            if (prayersResult.status === 'fulfilled' && prayersResult.value.ok) {
+                const prayersText = await prayersResult.value.text();
+                const oracoes = [];
+                const linhasOracoes = prayersText.split('\n');
+                for (let i = 1; i < linhasOracoes.length; i++) {
+                    const linha = linhasOracoes[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length >= 5 && colunas[0].trim() === dataFormatadaBusca) {
+                            oracoes.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
+                        }
+                    }
+                }
+
+                if (oracoes.length > 0) {
+                    let botoesHtml = '';
+                    oracoes.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem(mainContent, `Nenhuma Oração Encontrada para o dia ${formatarDataParaExibicao(date)}`);
+                }
             } else {
-                dailyDiv.innerHTML = `<span class="error">FALHA</span>\n\nNão foi possível buscar dados deste link.`;
+                exibirMensagem(mainContent, `<strong>Erro:</strong> Falha ao buscar as orações diárias.`);
             }
 
-            // Diagnóstico da Fonte 2 (Synaxarion)
-            if (results[1].status === 'fulfilled' && results[1].value.ok) {
-                const text = await results[1].value.text();
-                synaxarionDiv.innerHTML = `<span class="success">SUCESSO</span>\n\n${text}`;
-            } else {
-                synaxarionDiv.innerHTML = `<span class="error">FALHA</span>\n\nNão foi possível buscar dados deste link. (Isto é esperado se a Folha3 foi deletada para teste).`;
-            }
-
-            // Diagnóstico da Fonte 3 (Comum)
-            if (results[2].status === 'fulfilled' && results[2].value.ok) {
-                const text = await results[2].value.text();
-                comumDiv.innerHTML = `<span class="success">SUCESSO</span>\n\n${text}`;
-            } else {
-                comumDiv.innerHTML = `<span class="error">FALHA</span>\n\nNão foi possível buscar dados deste link.`;
+            // Processa o Synaxarion (APENAS se a busca for bem-sucedida)
+            if (synaxarionResult.status === 'fulfilled' && synaxarionResult.value.ok) {
+                const synaxarionText = await synaxarionResult.value.text();
+                const linhasSynaxarion = synaxarionText.split('\n');
+                let synaxarionDoDia = null;
+                 for (let i = 1; i < linhasSynaxarion.length; i++) {
+                    const linha = linhasSynaxarion[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length >= 3 && colunas[0].trim() === dataFormatadaBusca) {
+                            synaxarionDoDia = { nome: colunas[1].trim(), link: colunas[2].trim() };
+                            break; 
+                        }
+                    }
+                }
+                if (synaxarionDoDia) {
+                    synaxarionContainer.innerHTML = `<a href="${synaxarionDoDia.link}" target="_blank" class="synaxarion-button">${synaxarionDoDia.nome}</a>`;
+                }
             }
         }
 
-        runDiagnostics();
+        // 2. ORDINÁRIO
+        async function buscarOrdinario() {
+            dateNavigator.style.display = 'none';
+            synaxarionContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+            exibirMensagem(mainContent, 'Buscando Ordinário...');
+
+            try {
+                const response = await fetch(dailyLiturgyUrl);
+                if (!response.ok) throw new Error(`Falha na rede`);
+                const data = await response.text();
+                const ordinarioItens = [];
+                const linhas = data.split('\n');
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length >= 5 && colunas[0].trim().toUpperCase() === 'ORDINARIO') {
+                             ordinarioItens.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
+                        }
+                    }
+                }
+                if (ordinarioItens.length > 0) {
+                    let botoesHtml = '';
+                    ordinarioItens.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem(mainContent, 'Nenhum item do Ordinário encontrado.');
+                }
+            } catch (error) {
+                exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
+            }
+        }
+
+        // 3. COMUM DOS SANTOS
+        async function exibirMenuComum() {
+            dateNavigator.style.display = 'none';
+            synaxarionContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+            exibirMensagem(mainContent, 'Carregando categorias...');
+            try {
+                 if (!comumDataCache) {
+                    const response = await fetch(comumUrl);
+                    if (!response.ok) throw new Error(`Falha na rede`);
+                    comumDataCache = await response.text();
+                }
+                const categorias = new Set();
+                const linhas = comumDataCache.split('\n');
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length > 0 && colunas[0].trim()) {
+                            categorias.add(colunas[0].trim());
+                        }
+                    }
+                }
+                if (categorias.size > 0) {
+                    let botoesHtml = '';
+                    categorias.forEach(cat => {
+                        botoesHtml += `<a href="#" onclick="event.preventDefault(); buscarComumPorCategoria('${cat.replace(/'/g, "\\'")}')" class="prayer-button">${cat}</a>`;
+                    });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem(mainContent, 'Nenhuma categoria do Comum encontrada.');
+                }
+            } catch (error) {
+                 exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
+            }
+        }
+
+        function buscarComumPorCategoria(categoria) {
+            exibirMensagem(mainContent, `Buscando orações para ${categoria}...`);
+            const oracoes = [];
+            const linhas = comumDataCache.split('\n');
+            for (let i = 1; i < linhas.length; i++) {
+                const linha = linhas[i].trim();
+                if (linha) {
+                    const colunas = linha.split(',');
+                    if (colunas.length >= 3 && colunas[0].trim() === categoria) {
+                        oracoes.push({ nome: colunas[1].trim(), link: colunas[2].trim() });
+                    }
+                }
+            }
+            if (oracoes.length > 0) {
+                let botoesHtml = '';
+                oracoes.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                mainContent.innerHTML = botoesHtml;
+            } else {
+                exibirMensagem(mainContent, `Nenhuma oração encontrada para ${categoria}.`);
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        btnPrev.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() - 1);
+            carregarConteudoDoDia(currentDate);
+        });
+        btnNext.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() + 1);
+            carregarConteudoDoDia(currentDate);
+        });
+        
+        btnDaily.addEventListener('click', () => {
+            currentDate = new Date(); 
+            carregarConteudoDoDia(currentDate);
+        });
+        btnOrdinario.addEventListener('click', buscarOrdinario);
+        btnComum.addEventListener('click', exibirMenuComum);
+
+        // --- INICIALIZAÇÃO ---
+        carregarConteudoDoDia(currentDate);
     </script>
 </body>
 </html>
