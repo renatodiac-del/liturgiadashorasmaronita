@@ -79,14 +79,16 @@
     </div>
 
     <footer>
-        <p>Projeto Mosteiro Digital v5.4</p>
+        <p>Projeto Mosteiro Digital v5.5</p>
     </footer>
 
     <script>
-        // --- FONTES DE DADOS ---
-        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
+        // --- FONTES DE DADOS (v5.5 - MAPEAMENTO CORRIGIDO E FINAL) ---
+        // Liturgia Diária (Folha1) aponta para o GID 461721383.
+        // Synaxarion (Folha3) aponta para o GID 0.
+        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=461721383&single=true&output=csv';
         const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
-        const synaxarionUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=461721383&single=true&output=csv';
+        const synaxarionUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
 
         // --- ELEMENTOS DO DOM ---
         const mainContent = document.getElementById('liturgy-content');
@@ -122,7 +124,7 @@
         
         // --- LÓGICA PRINCIPAL ---
 
-        // 1. LITURGIA DIÁRIA (COM SYNXARION INTEGRADO) - v5.4 LÓGICA REFORJADA
+        // 1. LITURGIA DIÁRIA (COM SYNXARION INTEGRADO) - v5.4 LÓGICA RESILIENTE
         async function carregarConteudoDoDia(date) {
             dateNavigator.style.display = 'flex';
             synaxarionContainer.style.display = 'block';
@@ -187,7 +189,6 @@
                     synaxarionContainer.innerHTML = `<a href="${synaxarionDoDia.link}" target="_blank" class="synaxarion-button">${synaxarionDoDia.nome}</a>`;
                 }
             }
-            // Se a busca pelo synaxarion falhar, nada acontece, o que é o comportamento desejado.
         }
 
         // 2. ORDINÁRIO
