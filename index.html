@@ -17,7 +17,7 @@
         
         header { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
         .header-content { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-        .header-img { height: 150px; width: auto; } /* <--- ALTERAÇÃO AQUI */
+        .header-img { height: 150px; width: auto; }
         header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; flex-grow: 1; }
         
         #permanent-nav { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
@@ -45,7 +45,7 @@
 
         @media (max-width: 600px) {
             header h1 { font-size: 1.1rem; }
-            .header-img { height: 90px; } /* <--- ALTERAÇÃO AQUI (versão mobile) */
+            .header-img { height: 90px; }
             .header-content { gap: 0.5rem;}
         }
     </style>
@@ -79,14 +79,15 @@
     </div>
 
     <footer>
-        <p>Projeto Mosteiro Digital v5.2</p>
+        <p>Projeto Mosteiro Digital v5.3</p>
     </footer>
 
     <script>
-        // --- FONTES DE DADOS ---
-        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=461721383&single=true&output=csv';
+        // --- FONTES DE DADOS (v5.3 - ORDEM RESTAURADA) ---
+        // As URLs foram restauradas à sua ordem lógica original.
+        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
         const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
-        const synaxarionUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
+        const synaxarionUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=461721383&single=true&output=csv';
 
         // --- ELEMENTOS DO DOM ---
         const mainContent = document.getElementById('liturgy-content');
@@ -126,6 +127,7 @@
         async function carregarConteudoDoDia(date) {
             dateNavigator.style.display = 'flex';
             synaxarionContainer.style.display = 'block';
+            mainContent.style.display = 'block';
             dateDisplay.textContent = formatarDataParaExibicao(date);
             
             exibirMensagem(mainContent, 'Buscando orações...');
@@ -192,6 +194,7 @@
         async function buscarOrdinario() {
             dateNavigator.style.display = 'none';
             synaxarionContainer.style.display = 'none';
+            mainContent.style.display = 'block';
             exibirMensagem(mainContent, 'Buscando Ordinário...');
 
             try {
@@ -225,6 +228,7 @@
         async function exibirMenuComum() {
             dateNavigator.style.display = 'none';
             synaxarionContainer.style.display = 'none';
+            mainContent.style.display = 'block';
             exibirMensagem(mainContent, 'Carregando categorias...');
             try {
                  if (!comumDataCache) {
@@ -290,7 +294,7 @@
         });
         
         btnDaily.addEventListener('click', () => {
-            currentDate = new Date(); // Reseta para a data atual
+            currentDate = new Date(); 
             carregarConteudoDoDia(currentDate);
         });
         btnOrdinario.addEventListener('click', buscarOrdinario);
