@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liturgia das Horas Maronita</title>
+    
+    <title>Hora Maronita</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#582c0c">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/gwRd4N4.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -70,11 +77,11 @@
     </div>
 
     <footer>
-        <p>Projeto Mosteiro Digital v6.0</p>
+        <p>Projeto Mosteiro Digital v7.0</p>
     </footer>
 
     <script>
-        // --- FONTES DE DADOS (v6.0 - SIMPLIFICADO) ---
+        // --- FONTES DE DADOS ---
         const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
         const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
 
@@ -110,8 +117,6 @@
         }
         
         // --- LÓGICA PRINCIPAL ---
-
-        // 1. LITURGIA DIÁRIA
         async function buscarOracoesDoDia(date) {
             dateNavigator.style.display = 'flex';
             mainContent.style.display = 'block';
@@ -150,7 +155,6 @@
             }
         }
 
-        // 2. ORDINÁRIO
         async function buscarOrdinario() {
             dateNavigator.style.display = 'none';
             mainContent.style.display = 'block';
@@ -183,7 +187,6 @@
             }
         }
 
-        // 3. COMUM DOS SANTOS
         async function exibirMenuComum() {
             dateNavigator.style.display = 'none';
             mainContent.style.display = 'block';
@@ -263,6 +266,7 @@
     </script>
 </body>
 </html>
+
 
 
 
