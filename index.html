@@ -79,12 +79,11 @@
     </div>
 
     <footer>
-        <p>Projeto Mosteiro Digital v5.3</p>
+        <p>Projeto Mosteiro Digital v5.4</p>
     </footer>
 
     <script>
-        // --- FONTES DE DADOS (v5.3 - ORDEM RESTAURADA) ---
-        // As URLs foram restauradas à sua ordem lógica original.
+        // --- FONTES DE DADOS ---
         const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
         const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
         const synaxarionUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=461721383&single=true&output=csv';
@@ -123,7 +122,7 @@
         
         // --- LÓGICA PRINCIPAL ---
 
-        // 1. LITURGIA DIÁRIA (COM SYNXARION INTEGRADO)
+        // 1. LITURGIA DIÁRIA (COM SYNXARION INTEGRADO) - v5.4 LÓGICA REFORJADA
         async function carregarConteudoDoDia(date) {
             dateNavigator.style.display = 'flex';
             synaxarionContainer.style.display = 'block';
@@ -135,18 +134,17 @@
 
             const dataFormatadaBusca = formatarDataParaBusca(date);
 
-            try {
-                const [prayersResponse, synaxarionResponse] = await Promise.all([
-                    fetch(dailyLiturgyUrl),
-                    fetch(synaxarionUrl)
-                ]);
+            const results = await Promise.allSettled([
+                fetch(dailyLiturgyUrl),
+                fetch(synaxarionUrl)
+            ]);
 
-                if (!prayersResponse.ok || !synaxarionResponse.ok) throw new Error('Falha na rede ao buscar dados.');
+            const prayersResult = results[0];
+            const synaxarionResult = results[1];
 
-                const prayersText = await prayersResponse.text();
-                const synaxarionText = await synaxarionResponse.text();
-
-                // Processa as orações
+            // Processa as orações (APENAS se a busca for bem-sucedida)
+            if (prayersResult.status === 'fulfilled' && prayersResult.value.ok) {
+                const prayersText = await prayersResult.value.text();
                 const oracoes = [];
                 const linhasOracoes = prayersText.split('\n');
                 for (let i = 1; i < linhasOracoes.length; i++) {
@@ -166,8 +164,13 @@
                 } else {
                     exibirMensagem(mainContent, `Nenhuma Oração Encontrada para o dia ${formatarDataParaExibicao(date)}`);
                 }
+            } else {
+                exibirMensagem(mainContent, `<strong>Erro:</strong> Falha ao buscar as orações diárias.`);
+            }
 
-                // Processa o Synaxarion
+            // Processa o Synaxarion (APENAS se a busca for bem-sucedida)
+            if (synaxarionResult.status === 'fulfilled' && synaxarionResult.value.ok) {
+                const synaxarionText = await synaxarionResult.value.text();
                 const linhasSynaxarion = synaxarionText.split('\n');
                 let synaxarionDoDia = null;
                  for (let i = 1; i < linhasSynaxarion.length; i++) {
@@ -180,14 +183,11 @@
                         }
                     }
                 }
-
                 if (synaxarionDoDia) {
                     synaxarionContainer.innerHTML = `<a href="${synaxarionDoDia.link}" target="_blank" class="synaxarion-button">${synaxarionDoDia.nome}</a>`;
                 }
-
-            } catch (error) {
-                exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
             }
+            // Se a busca pelo synaxarion falhar, nada acontece, o que é o comportamento desejado.
         }
 
         // 2. ORDINÁRIO
@@ -305,6 +305,7 @@
     </script>
 </body>
 </html>
+
 
 
 
