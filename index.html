@@ -14,8 +14,11 @@
         }
         body { font-family: var(--font-serif); background-color: var(--background-color); color: var(--text-color); margin: 0; padding: 1rem; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .container { width: 100%; max-width: 800px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1.5rem 2rem; }
+        
         header { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
-        header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .header-img { height: 50px; width: auto; }
+        header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; flex-grow: 1; }
         
         #permanent-nav { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
         #permanent-nav button { background-color: var(--button-bg-color); border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; font-family: var(--font-sans); font-size: 0.9rem; transition: background-color 0.2s; }
@@ -25,48 +28,69 @@
         #date-navigator button { background: none; border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
         #date-navigator button:hover { background-color: var(--button-bg-color); }
         #current-date-display { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); text-align: center; }
+
+        #synaxarion-container { padding: 1.5rem 0; text-align: center; border-bottom: 1px solid var(--border-color); min-height: 20px;}
+        .synaxarion-button {
+            display: inline-block; padding: 0.8rem 1.5rem; background-color: var(--primary-color); color: #ffffff;
+            border: 2px solid var(--primary-color); border-radius: 8px; font-family: var(--font-sans);
+            text-decoration: none; font-size: 1.1rem; transition: background-color 0.2s, color 0.2s;
+        }
+        .synaxarion-button:hover { background-color: #ffffff; color: var(--primary-color); }
         
-        main { line-height: 1.8; }
+        main { line-height: 1.8; margin-top: 1.5rem; }
         .prayer-button { display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif; transition: background-color 0.2s; }
         .prayer-button:hover { background-color: #e9e4e0; }
 
         footer { margin-top: 2rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; color: #999; }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.1rem; }
+            .header-img { height: 40px; }
+            .header-content { gap: 0.5rem;}
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Liturgia das Horas - Rito Maronita</h1>
+             <div class="header-content">
+                <img src="https://i.imgur.com/CApQPnb.png" alt="Cedro do Líbano" class="header-img">
+                <h1>Liturgia das Horas - Rito Maronita</h1>
+                <img src="https://i.imgur.com/TZ1B9IL.png" alt="São Marun" class="header-img">
+            </div>
         </header>
 
         <nav id="permanent-nav">
-            <button id="btn-daily">Liturgia do Dia</button>
+            <button id="btn-daily">Liturgia Diária</button>
             <button id="btn-ordinario">Ordinário</button>
             <button id="btn-comum">Comum dos Santos</button>
         </nav>
 
-        <main id="liturgy-content">
-            </main>
-        
-        <nav id="date-navigator">
-            <button id="btn-prev-day">&lt; Dia Anterior</button>
-            <div id="current-date-display">Carregando...</div>
-            <button id="btn-next-day">Próximo Dia &gt;</button>
-        </nav>
+        <main>
+            <nav id="date-navigator">
+                <button id="btn-prev-day">&lt; Dia Anterior</button>
+                <div id="current-date-display">Carregando...</div>
+                <button id="btn-next-day">Próximo Dia &gt;</button>
+            </nav>
 
+            <div id="synaxarion-container"></div>
+            <div id="liturgy-content"></div>
+        </main>
     </div>
 
     <footer>
-        <p>Projeto Mosteiro Digital v4.0</p>
+        <p>Projeto Mosteiro Digital v5.0</p>
     </footer>
 
     <script>
         // --- FONTES DE DADOS ---
         const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
         const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
+        const synaxarionUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=461721383&single=true&output=csv';
 
         // --- ELEMENTOS DO DOM ---
         const mainContent = document.getElementById('liturgy-content');
+        const synaxarionContainer = document.getElementById('synaxarion-container');
         const dateDisplay = document.getElementById('current-date-display');
         const dateNavigator = document.getElementById('date-navigator');
         
@@ -78,7 +102,7 @@
         const btnComum = document.getElementById('btn-comum');
 
         let currentDate = new Date();
-        let comumDataCache = null; // Cache para os dados do Comum
+        let comumDataCache = null;
 
         // --- FUNÇÕES DE FORMATAÇÃO E EXIBIÇÃO ---
         function formatarDataParaBusca(date) {
@@ -92,37 +116,39 @@
             return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
         
-        function exibirMensagem(mensagem) {
-            mainContent.innerHTML = `<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 2rem;">${mensagem}</div>`;
+        function exibirMensagem(container, mensagem) {
+            container.innerHTML = `<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 1rem;">${mensagem}</div>`;
         }
         
-        function renderizarBotoes(listaDeBotoes) {
-             let botoesHtml = '';
-             listaDeBotoes.forEach(item => {
-                 botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`;
-             });
-             mainContent.innerHTML = botoesHtml;
-        }
-
         // --- LÓGICA PRINCIPAL ---
 
-        // 1. LITURGIA DO DIA (CALENDÁRIO)
-        async function buscarOracoesDoDia(date) {
+        // 1. LITURGIA DIÁRIA (COM SYNXARION INTEGRADO)
+        async function carregarConteudoDoDia(date) {
             dateNavigator.style.display = 'flex';
-            const dataFormatadaBusca = formatarDataParaBusca(date);
+            synaxarionContainer.style.display = 'block';
             dateDisplay.textContent = formatarDataParaExibicao(date);
-            exibirMensagem('Buscando orações do dia...');
+            
+            exibirMensagem(mainContent, 'Buscando orações...');
+            synaxarionContainer.innerHTML = '';
+
+            const dataFormatadaBusca = formatarDataParaBusca(date);
 
             try {
-                const response = await fetch(dailyLiturgyUrl);
-                if (!response.ok) throw new Error(`Falha na rede`);
-                
-                const data = await response.text();
-                const oracoes = [];
-                const linhas = data.split('\n');
+                const [prayersResponse, synaxarionResponse] = await Promise.all([
+                    fetch(dailyLiturgyUrl),
+                    fetch(synaxarionUrl)
+                ]);
 
-                for (let i = 1; i < linhas.length; i++) {
-                    const linha = linhas[i].trim();
+                if (!prayersResponse.ok || !synaxarionResponse.ok) throw new Error('Falha na rede ao buscar dados.');
+
+                const prayersText = await prayersResponse.text();
+                const synaxarionText = await synaxarionResponse.text();
+
+                // Processa as orações
+                const oracoes = [];
+                const linhasOracoes = prayersText.split('\n');
+                for (let i = 1; i < linhasOracoes.length; i++) {
+                    const linha = linhasOracoes[i].trim();
                     if (linha) {
                         const colunas = linha.split(',');
                         if (colunas.length >= 5 && colunas[0].trim() === dataFormatadaBusca) {
@@ -132,28 +158,49 @@
                 }
 
                 if (oracoes.length > 0) {
-                    renderizarBotoes(oracoes);
+                    let botoesHtml = '';
+                    oracoes.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                    mainContent.innerHTML = botoesHtml;
                 } else {
-                    exibirMensagem(`Nenhuma Oração Encontrada para o dia ${formatarDataParaExibicao(date)}`);
+                    exibirMensagem(mainContent, `Nenhuma Oração Encontrada para o dia ${formatarDataParaExibicao(date)}`);
                 }
+
+                // Processa o Synaxarion
+                const linhasSynaxarion = synaxarionText.split('\n');
+                let synaxarionDoDia = null;
+                 for (let i = 1; i < linhasSynaxarion.length; i++) {
+                    const linha = linhasSynaxarion[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length >= 3 && colunas[0].trim() === dataFormatadaBusca) {
+                            synaxarionDoDia = { nome: colunas[1].trim(), link: colunas[2].trim() };
+                            break; 
+                        }
+                    }
+                }
+
+                if (synaxarionDoDia) {
+                    synaxarionContainer.innerHTML = `<a href="${synaxarionDoDia.link}" target="_blank" class="synaxarion-button">${synaxarionDoDia.nome}</a>`;
+                }
+
+
             } catch (error) {
-                exibirMensagem(`<strong>Erro:</strong> ${error.message}`);
+                exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
             }
         }
 
         // 2. ORDINÁRIO
         async function buscarOrdinario() {
             dateNavigator.style.display = 'none';
-            exibirMensagem('Buscando Ordinário...');
+            synaxarionContainer.style.display = 'none';
+            exibirMensagem(mainContent, 'Buscando Ordinário...');
 
             try {
                 const response = await fetch(dailyLiturgyUrl);
                 if (!response.ok) throw new Error(`Falha na rede`);
-
                 const data = await response.text();
                 const ordinarioItens = [];
                 const linhas = data.split('\n');
-
                 for (let i = 1; i < linhas.length; i++) {
                     const linha = linhas[i].trim();
                     if (linha) {
@@ -163,32 +210,31 @@
                         }
                     }
                 }
-
                 if (ordinarioItens.length > 0) {
-                    renderizarBotoes(ordinarioItens);
+                    let botoesHtml = '';
+                    ordinarioItens.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                    mainContent.innerHTML = botoesHtml;
                 } else {
-                    exibirMensagem('Nenhum item do Ordinário encontrado. Verifique a planilha.');
+                    exibirMensagem(mainContent, 'Nenhum item do Ordinário encontrado.');
                 }
             } catch (error) {
-                exibirMensagem(`<strong>Erro:</strong> ${error.message}`);
+                exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
             }
         }
 
         // 3. COMUM DOS SANTOS
         async function exibirMenuComum() {
             dateNavigator.style.display = 'none';
-            exibirMensagem('Carregando categorias...');
-
+            synaxarionContainer.style.display = 'none';
+            exibirMensagem(mainContent, 'Carregando categorias...');
             try {
                  if (!comumDataCache) {
                     const response = await fetch(comumUrl);
                     if (!response.ok) throw new Error(`Falha na rede`);
                     comumDataCache = await response.text();
                 }
-
                 const categorias = new Set();
                 const linhas = comumDataCache.split('\n');
-                
                 for (let i = 1; i < linhas.length; i++) {
                     const linha = linhas[i].trim();
                     if (linha) {
@@ -198,27 +244,24 @@
                         }
                     }
                 }
-
                 if (categorias.size > 0) {
                     let botoesHtml = '';
                     categorias.forEach(cat => {
-                        // Usamos aspas simples e escapamos as aspas dentro do onclick
                         botoesHtml += `<a href="#" onclick="event.preventDefault(); buscarComumPorCategoria('${cat.replace(/'/g, "\\'")}')" class="prayer-button">${cat}</a>`;
                     });
                     mainContent.innerHTML = botoesHtml;
                 } else {
-                    exibirMensagem('Nenhuma categoria do Comum encontrada.');
+                    exibirMensagem(mainContent, 'Nenhuma categoria do Comum encontrada.');
                 }
             } catch (error) {
-                 exibirMensagem(`<strong>Erro:</strong> ${error.message}`);
+                 exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
             }
         }
 
         function buscarComumPorCategoria(categoria) {
-            exibirMensagem(`Buscando orações para ${categoria}...`);
+            exibirMensagem(mainContent, `Buscando orações para ${categoria}...`);
             const oracoes = [];
             const linhas = comumDataCache.split('\n');
-
             for (let i = 1; i < linhas.length; i++) {
                 const linha = linhas[i].trim();
                 if (linha) {
@@ -228,33 +271,31 @@
                     }
                 }
             }
-            
             if (oracoes.length > 0) {
-                renderizarBotoes(oracoes);
+                let botoesHtml = '';
+                oracoes.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                mainContent.innerHTML = botoesHtml;
             } else {
-                exibirMensagem(`Nenhuma oração encontrada para ${categoria}.`);
+                exibirMensagem(mainContent, `Nenhuma oração encontrada para ${categoria}.`);
             }
         }
-
 
         // --- EVENT LISTENERS ---
         btnPrev.addEventListener('click', () => {
             currentDate.setDate(currentDate.getDate() - 1);
-            buscarOracoesDoDia(currentDate);
+            carregarConteudoDoDia(currentDate);
         });
-
         btnNext.addEventListener('click', () => {
             currentDate.setDate(currentDate.getDate() + 1);
-            buscarOracoesDoDia(currentDate);
+            carregarConteudoDoDia(currentDate);
         });
         
-        btnDaily.addEventListener('click', () => buscarOracoesDoDia(currentDate));
+        btnDaily.addEventListener('click', () => carregarConteudoDoDia(currentDate));
         btnOrdinario.addEventListener('click', buscarOrdinario);
         btnComum.addEventListener('click', exibirMenuComum);
 
         // --- INICIALIZAÇÃO ---
-        buscarOracoesDoDia(currentDate);
-
+        carregarConteudoDoDia(currentDate);
     </script>
 </body>
 </html>
