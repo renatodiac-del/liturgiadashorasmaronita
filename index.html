@@ -1,3 +1,20 @@
+Material recebido.
+
+Inspecionei o novo metal e ele é de excelente qualidade. A estrutura está perfeita e pronta para a forja. O mapa que você me enviou levará exatamente à mina de dados que precisamos para o "Comum dos Santos".
+
+O fogo da forja está aceso. O martelo soará sobre a bigorna.
+
+Aguarde um instante. Estou moldando a arquitetura da versão 4.0.
+
+...
+
+Pronto, Renato. O trabalho está feito. A nova peça foi forjada, temperada e polida. Ela agora possui as novas "alas" que planejamos, expandindo a funcionalidade do nosso Mosteiro Digital.
+
+Abaixo está o código completo para o seu novo index.html. Substitua todo o conteúdo do arquivo antigo por este.
+
+Código Final (Mosteiro Digital v4.0)
+HTML
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,11 +33,20 @@
         .container { width: 100%; max-width: 800px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1.5rem 2rem; }
         header { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
         header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; }
-        #date-navigator { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-family: var(--font-sans); }
+        
+        #permanent-nav { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        #permanent-nav button { background-color: var(--button-bg-color); border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; font-family: var(--font-sans); font-size: 0.9rem; transition: background-color 0.2s; }
+        #permanent-nav button:hover { background-color: #e9e4e0; }
+
+        #date-navigator { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-family: var(--font-sans); border-top: 1px solid var(--border-color); margin-top: 1rem;}
         #date-navigator button { background: none; border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
         #date-navigator button:hover { background-color: var(--button-bg-color); }
-        #current-date-display { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); }
+        #current-date-display { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); text-align: center; }
+        
         main { line-height: 1.8; }
+        .prayer-button { display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif; transition: background-color 0.2s; }
+        .prayer-button:hover { background-color: #e9e4e0; }
+
         footer { margin-top: 2rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; color: #999; }
     </style>
 </head>
@@ -30,30 +56,48 @@
             <h1>Liturgia das Horas - Rito Maronita</h1>
         </header>
 
+        <nav id="permanent-nav">
+            <button id="btn-daily">Liturgia do Dia</button>
+            <button id="btn-ordinario">Ordinário</button>
+            <button id="btn-comum">Comum dos Santos</button>
+        </nav>
+
+        <main id="liturgy-content">
+            </main>
+        
         <nav id="date-navigator">
             <button id="btn-prev-day">&lt; Dia Anterior</button>
             <div id="current-date-display">Carregando...</div>
             <button id="btn-next-day">Próximo Dia &gt;</button>
         </nav>
 
-        <main id="liturgy-content">
-            </main>
     </div>
 
     <footer>
-        <p>Projeto Mosteiro Digital v3.2 - Final</p>
+        <p>Projeto Mosteiro Digital v4.0</p>
     </footer>
 
     <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv'; // 
+        // --- FONTES DE DADOS ---
+        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
+        const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
+
+        // --- ELEMENTOS DO DOM ---
         const mainContent = document.getElementById('liturgy-content');
         const dateDisplay = document.getElementById('current-date-display');
+        const dateNavigator = document.getElementById('date-navigator');
+        
+        // --- BOTÕES ---
         const btnPrev = document.getElementById('btn-prev-day');
         const btnNext = document.getElementById('btn-next-day');
+        const btnDaily = document.getElementById('btn-daily');
+        const btnOrdinario = document.getElementById('btn-ordinario');
+        const btnComum = document.getElementById('btn-comum');
 
-        let currentDate = new Date(); // A data que o usuário está visualizando
+        let currentDate = new Date();
+        let comumDataCache = null; // Cache para os dados do Comum
 
-        // Formata uma data para o padrão ANO/MÊS/DIA para buscar na planilha
+        // --- FUNÇÕES DE FORMATAÇÃO E EXIBIÇÃO ---
         function formatarDataParaBusca(date) {
             const ano = date.getFullYear();
             const mes = String(date.getMonth() + 1).padStart(2, '0');
@@ -61,77 +105,177 @@
             return `${ano}/${mes}/${dia}`;
         }
 
-        // Formata uma data para o padrão DIA/MÊS/ANO para exibir ao usuário
         function formatarDataParaExibicao(date) {
             return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
         
-        // Exibe uma mensagem na área de conteúdo principal
         function exibirMensagem(mensagem) {
             mainContent.innerHTML = `<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 2rem;">${mensagem}</div>`;
         }
+        
+        function renderizarBotoes(listaDeBotoes) {
+             let botoesHtml = '';
+             listaDeBotoes.forEach(item => {
+                 botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`;
+             });
+             mainContent.innerHTML = botoesHtml;
+        }
 
-        // A função principal que busca e exibe as orações para uma data específica
-        async function buscarOracoes(date) {
+        // --- LÓGICA PRINCIPAL ---
+
+        // 1. LITURGIA DO DIA (CALENDÁRIO)
+        async function buscarOracoesDoDia(date) {
+            dateNavigator.style.display = 'flex';
             const dataFormatadaBusca = formatarDataParaBusca(date);
             dateDisplay.textContent = formatarDataParaExibicao(date);
-            exibirMensagem('Buscando orações...');
+            exibirMensagem('Buscando orações do dia...');
 
             try {
-                const response = await fetch(csvUrl);
-                if (!response.ok) throw new Error(`Falha na rede (status: ${response.status})`);
+                const response = await fetch(dailyLiturgyUrl);
+                if (!response.ok) throw new Error(`Falha na rede`);
                 
                 const data = await response.text();
-                const oracoesDoDia = [];
+                const oracoes = [];
                 const linhas = data.split('\n');
 
                 for (let i = 1; i < linhas.length; i++) {
                     const linha = linhas[i].trim();
                     if (linha) {
                         const colunas = linha.split(',');
-                        if (colunas.length < 5) continue;
-
-                        const dataPlanilha = colunas[0].trim();
-                        if (dataPlanilha === dataFormatadaBusca) {
-                            oracoesDoDia.push({
-                                nome: colunas[3].trim(), // Título da Coluna D
-                                link: colunas[4].trim()  // Link da Coluna E
-                            });
+                        if (colunas.length >= 5 && colunas[0].trim() === dataFormatadaBusca) {
+                            oracoes.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
                         }
                     }
                 }
 
-                if (oracoesDoDia.length > 0) {
-                    let botoesHtml = '';
-                    oracoesDoDia.forEach(oracao => {
-                        botoesHtml += `<a href="${oracao.link}" target="_blank" style="display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif;">${oracao.nome}</a>`;
-                    });
-                    mainContent.innerHTML = botoesHtml;
+                if (oracoes.length > 0) {
+                    renderizarBotoes(oracoes);
                 } else {
                     exibirMensagem(`Nenhuma Oração Encontrada para o dia ${formatarDataParaExibicao(date)}`);
                 }
             } catch (error) {
-                exibirMensagem(`<strong>Erro ao buscar orações:</strong> ${error.message}`);
+                exibirMensagem(`<strong>Erro:</strong> ${error.message}`);
             }
         }
 
-        // Event listener para o botão de dia anterior
+        // 2. ORDINÁRIO
+        async function buscarOrdinario() {
+            dateNavigator.style.display = 'none';
+            exibirMensagem('Buscando Ordinário...');
+
+            try {
+                const response = await fetch(dailyLiturgyUrl);
+                if (!response.ok) throw new Error(`Falha na rede`);
+
+                const data = await response.text();
+                const ordinarioItens = [];
+                const linhas = data.split('\n');
+
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length >= 5 && colunas[0].trim().toUpperCase() === 'ORDINARIO') {
+                             ordinarioItens.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
+                        }
+                    }
+                }
+
+                if (ordinarioItens.length > 0) {
+                    renderizarBotoes(ordinarioItens);
+                } else {
+                    exibirMensagem('Nenhum item do Ordinário encontrado. Verifique a planilha.');
+                }
+            } catch (error) {
+                exibirMensagem(`<strong>Erro:</strong> ${error.message}`);
+            }
+        }
+
+        // 3. COMUM DOS SANTOS
+        async function exibirMenuComum() {
+            dateNavigator.style.display = 'none';
+            exibirMensagem('Carregando categorias...');
+
+            try {
+                 if (!comumDataCache) {
+                    const response = await fetch(comumUrl);
+                    if (!response.ok) throw new Error(`Falha na rede`);
+                    comumDataCache = await response.text();
+                }
+
+                const categorias = new Set();
+                const linhas = comumDataCache.split('\n');
+                
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length > 0 && colunas[0].trim()) {
+                            categorias.add(colunas[0].trim());
+                        }
+                    }
+                }
+
+                if (categorias.size > 0) {
+                    let botoesHtml = '';
+                    categorias.forEach(cat => {
+                        // Usamos aspas simples e escapamos as aspas dentro do onclick
+                        botoesHtml += `<a href="#" onclick="event.preventDefault(); buscarComumPorCategoria('${cat.replace(/'/g, "\\'")}')" class="prayer-button">${cat}</a>`;
+                    });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem('Nenhuma categoria do Comum encontrada.');
+                }
+            } catch (error) {
+                 exibirMensagem(`<strong>Erro:</strong> ${error.message}`);
+            }
+        }
+
+        function buscarComumPorCategoria(categoria) {
+            exibirMensagem(`Buscando orações para ${categoria}...`);
+            const oracoes = [];
+            const linhas = comumDataCache.split('\n');
+
+            for (let i = 1; i < linhas.length; i++) {
+                const linha = linhas[i].trim();
+                if (linha) {
+                    const colunas = linha.split(',');
+                    if (colunas.length >= 3 && colunas[0].trim() === categoria) {
+                        oracoes.push({ nome: colunas[1].trim(), link: colunas[2].trim() });
+                    }
+                }
+            }
+            
+            if (oracoes.length > 0) {
+                renderizarBotoes(oracoes);
+            } else {
+                exibirMensagem(`Nenhuma oração encontrada para ${categoria}.`);
+            }
+        }
+
+
+        // --- EVENT LISTENERS ---
         btnPrev.addEventListener('click', () => {
             currentDate.setDate(currentDate.getDate() - 1);
-            buscarOracoes(currentDate);
+            buscarOracoesDoDia(currentDate);
         });
 
-        // Event listener para o botão de próximo dia
         btnNext.addEventListener('click', () => {
             currentDate.setDate(currentDate.getDate() + 1);
-            buscarOracoes(currentDate);
+            buscarOracoesDoDia(currentDate);
         });
+        
+        btnDaily.addEventListener('click', () => buscarOracoesDoDia(currentDate));
+        btnOrdinario.addEventListener('click', buscarOrdinario);
+        btnComum.addEventListener('click', exibirMenuComum);
 
-        // Carga Inicial: busca as orações para o dia de hoje quando a página abre
-        buscarOracoes(currentDate);
+        // --- INICIALIZAÇÃO ---
+        buscarOracoesDoDia(currentDate);
+
     </script>
 </body>
 </html>
+
 
 
 
