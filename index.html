@@ -3,14 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protótipo - Capela Virtual Maronita</title>
     
-    <title>Hora Maronita</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#582c0c">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/gwRd4N4.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
@@ -42,103 +36,50 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
             overflow: hidden;
         }
-        .santuario-header {
-            width: 100%;
-            line-height: 0;
-        }
-        #imagem-santuario {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        #botoes-navegacao {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 20px 0;
-            background-color: #e9e4dE;
-            border-top: 1px solid #d4c8b8;
-            border-bottom: 1px solid #d4c8b8;
-        }
-        .botao-nav {
-            background-color: var(--cor-verde-cedro);
+        .santuario-placeholder {
+            background-color: var(--cor-dourado-bizantino);
             color: var(--cor-bege-pergaminho);
-            font-family: var(--fonte-corpo);
-            font-size: 14px;
-            font-weight: 700;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .botao-nav:hover {
-            background-color: #4a6149;
-            transform: translateY(-2px);
-        }
-        #date-navigator { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 1rem 1.5rem; 
-            font-family: var(--font-sans);
-        }
-        #date-navigator button { 
-            background: none; 
-            border: 1px solid var(--border-color); 
-            color: var(--primary-color); 
-            padding: 0.5rem 1rem; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            font-size: 0.9rem; 
-            transition: background-color 0.2s; 
-        }
-        #date-navigator button:hover { 
-            background-color: #e9e4dE; 
-        }
-        #current-date-display { 
-            font-size: 1.2rem; 
-            font-weight: bold; 
-            color: var(--primary-color); 
-            text-align: center; 
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--fonte-titulos);
+            font-size: 24px;
+            text-align: center;
         }
         .conteudo-principal {
             padding: 20px 30px;
             line-height: 1.7;
         }
-        .prayer-button { 
-            display: block; 
-            padding: 1rem; 
-            margin-bottom: 0.5rem; 
-            text-align: center; 
-            background-color: #f1ede9; 
-            color: #582c0c; 
-            text-decoration: none; 
-            border-radius: 8px; 
-            font-family: 'Inter', sans-serif; 
-            transition: background-color 0.2s; 
-        }
-        .prayer-button:hover { 
-            background-color: #e9e4e0; 
-        }
-        .rodape-app {
-            background-color: #e9e4dE;
-            border-top: 1px solid #d4c8b8;
+        .conteudo-principal h2 {
+            font-family: var(--fonte-titulos);
+            color: var(--cor-marrom-monastico);
             text-align: center;
-            padding: 15px 0;
-            font-family: var(--fonte-corpo);
-            font-size: 12px;
-            color: #706659;
+        }
+        .conteudo-principal p {
+            font-size: 16px;
+            margin-bottom: 1.2em;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <header class="santuario-header">
-            <img id="imagem-santuario" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAHMA+gDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1VWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6pooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArecchinippHw+S48ZeGdK1Xxd4d0y3m0mO7F1e289v9jka4lQRloppFaTMaEKCpAUnIxXotFAHgX/CgfiV/0X/xR/4LdG/+R6P+FA/Er/ov/ij/AMFujf8AyPXvtfP3x88U614Z+M3w8j0vxB4w0zTr6G+/tGDw1pS6jJdKnlbAUa2n2gZfJ+X7w5oA2f8AhQTxK/6L/wCKP/Bbo3/yPR/woH4lf9F/8Uf+C3Rv/kevOf8AhY3jT/of/it/4TTf/Kuj/hY3jT/of/it/wCE03/yugD0b/hQTxK/6L/4o/8ABbo3/wAj0f8ACgfiV/0X/wAUf+C3Rv8A5Hrzr/hY3jT/AKH/AOK3/hNN/wDKuj/hY3jT/of/AIrf+E03/wAroA9G/wCFA/Er/ov/AIo/8Fujf/I9H/CgfiV/0X/xR/4LdG/+R686/wCFjeNP+h/+K3/hNN/8q6P+FjeNP+h/+K3/AIXTf/K6APRv+FA/Er/ov/ij/wAFujf/ACPR/wAKB+JX/Rf/ABR/4LdG/wDkevOv+FjeNP8Aof8A4rf+E03/AMq6P+FjeNP+h/8Ait/4TTf/ACugD0b/AIUD8Sv+i/8Aij/wW6N/8j0f8KB+JX/Rf/FH/gt0b/5Hrzr/AIWN40/6H/4rf+E03/yro/4WN40/6H/4rf8AhNN/8roA9G/4UD8Sv+i/+KP/AAW6N/8AI9H/AAoH4lf9F/8AFH/gt0b/AOR686/4WN40/wCh/wDit/4TTf8Ayro/4WN40/6H/wCK3/hNN/8AK6APRv8AhQTxK/6L/wCKP/Bbo3/yPR/woH4lf9F/8Uf+C3Rv/kevNbf4ieNJLyGNvH/x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
+        <header>
+            <div class="santuario-placeholder">
+                Espaço Reservado para o Santuário
+            </div>
+        </header>
+        <main class="conteudo-principal">
+            <h2>Bem-vindo à sua Capela Virtual</h2>
+            <p>Este é o espaço sagrado onde o texto das suas orações diárias aparecerá. A fonte utilizada aqui é a 'Inter', escolhida por sua clareza e legibilidade, facilitando a meditação sem distrações.</p>
+            <p>Abaixo, teremos os botões para navegar entre a Liturgia Diária, o Ordinário e o Comum dos Santos, todos desenhados para serem acessíveis e integrados a este ambiente de paz.</p>
+        </main>
+    </div>
+
+</body>
+</html>
 
 
 
