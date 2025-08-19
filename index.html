@@ -13,72 +13,154 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --primary-color: #582c0c; --text-color: #333333; --background-color: #fdfaf6;
-            --border-color: #e0d8cf; --button-bg-color: #f1ede9; --font-serif: 'Lora', serif; --font-sans: 'Inter', sans-serif;
+            --cor-marrom-monastico: #582c0c;
+            --cor-bege-pergaminho: #fdfaf6;
+            --cor-dourado-bizantino: #bca37f;
+            --cor-verde-cedro: #3a4d39;
+            --cor-cinza-escriba: #3d3d3d;
+            --fonte-titulos: 'Lora', serif;
+            --fonte-corpo: 'Inter', sans-serif;
         }
-        body { font-family: var(--font-serif); background-color: var(--background-color); color: var(--text-color); margin: 0; padding: 1rem; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 800px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1.5rem 2rem; }
-        
-        header { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
-        .header-content { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-        .header-img { height: 150px; width: auto; }
-        header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; flex-grow: 1; }
-        
-        #permanent-nav { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        #permanent-nav button { background-color: var(--button-bg-color); border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; font-family: var(--font-sans); font-size: 0.9rem; transition: background-color 0.2s; }
-        #permanent-nav button:hover { background-color: #e9e4e0; }
-
-        #date-navigator { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-family: var(--font-sans); border-top: 1px solid var(--border-color); margin-top: 1rem;}
-        #date-navigator button { background: none; border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
-        #date-navigator button:hover { background-color: var(--button-bg-color); }
-        #current-date-display { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); text-align: center; }
-        
-        main { line-height: 1.8; margin-top: 1.5rem; }
-        .prayer-button { display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif; transition: background-color 0.2s; }
-        .prayer-button:hover { background-color: #e9e4e0; }
-
-        footer { margin-top: 2rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; color: #999; }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.1rem; }
-            .header-img { height: 90px; }
-            .header-content { gap: 0.5rem;}
+        body {
+            margin: 0;
+            background-color: var(--cor-bege-pergaminho);
+            background-image: url('https://www.transparenttextures.com/patterns/old-paper.png'); 
+            font-family: 'Inter', sans-serif;
+            color: var(--cor-cinza-escriba);
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--cor-bege-pergaminho);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+            overflow: hidden;
+        }
+        .santuario-header {
+            width: 100%;
+            line-height: 0; /* Remove espaço extra abaixo da imagem */
+        }
+        #imagem-santuario {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        #botoes-navegacao {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+            background-color: #e9e4dE;
+            border-top: 1px solid #d4c8b8;
+            border-bottom: 1px solid #d4c8b8;
+        }
+        .botao-nav {
+            background-color: var(--cor-verde-cedro);
+            color: var(--cor-bege-pergaminho);
+            font-family: var(--fonte-corpo);
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .botao-nav:hover {
+            background-color: #4a6149;
+            transform: translateY(-2px);
+        }
+        #date-navigator { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 1rem 1.5rem; 
+            font-family: var(--font-sans);
+        }
+        #date-navigator button { 
+            background: none; 
+            border: 1px solid var(--border-color); 
+            color: var(--primary-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-size: 0.9rem; 
+            transition: background-color 0.2s; 
+        }
+        #date-navigator button:hover { 
+            background-color: #e9e4dE; 
+        }
+        #current-date-display { 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            color: var(--primary-color); 
+            text-align: center; 
+        }
+        .conteudo-principal {
+            padding: 20px 30px;
+            line-height: 1.7;
+        }
+        .prayer-button { 
+            display: block; 
+            padding: 1rem; 
+            margin-bottom: 0.5rem; 
+            text-align: center; 
+            background-color: #f1ede9; 
+            color: #582c0c; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-family: 'Inter', sans-serif; 
+            transition: background-color 0.2s; 
+        }
+        .prayer-button:hover { 
+            background-color: #e9e4e0; 
+        }
+        .rodape-app {
+            background-color: #e9e4dE;
+            border-top: 1px solid #d4c8b8;
+            text-align: center;
+            padding: 15px 0;
+            font-family: var(--fonte-corpo);
+            font-size: 12px;
+            color: #706659;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <header>
-             <div class="header-content">
-                <img src="https://i.imgur.com/CApQPnb.png" alt="Cedro do Líbano" class="header-img">
-                <h1>Liturgia das Horas - Rito Maronita</h1>
-                <img src="https://i.imgur.com/TZ1B9IL.png" alt="São Marun" class="header-img">
-            </div>
+        <header class="santuario-header">
+            <img id="imagem-santuario" src="https://drive.google.com/uc?export=view&id=1Onbfp2cUXRixuTlYMAzy3mbQ81gRDxks" alt="Santuário Maronita - Ascensão de Rabbula">
         </header>
 
-        <nav id="permanent-nav">
-            <button id="btn-daily">Liturgia Diária</button>
-            <button id="btn-ordinario">Ordinário</button>
-            <button id="btn-comum">Comum dos Santos</button>
+        <nav id="botoes-navegacao">
+            <button class="botao-nav" id="btn-daily">Liturgia Diária</button>
+            <button class="botao-nav" id="btn-ordinario">Ordinário</button>
+            <button class="botao-nav" id="btn-comum">Comum dos Santos</button>
         </nav>
 
-        <main>
+        <main class="conteudo-principal">
             <nav id="date-navigator">
                 <button id="btn-prev-day">&lt; Dia Anterior</button>
                 <div id="current-date-display">Carregando...</div>
                 <button id="btn-next-day">Próximo Dia &gt;</button>
             </nav>
-
-            <div id="liturgy-content"></div>
+            <div id="liturgy-content">
+                </div>
         </main>
+        
+        <footer class="rodape-app">
+            <p>Projeto "O Coração Maronita" v8.0</p>
+        </footer>
     </div>
-
-    <footer>
-        <p>Projeto Mosteiro Digital v7.0</p>
-    </footer>
 
     <script>
         // --- FONTES DE DADOS ---
@@ -130,15 +212,16 @@
                 const response = await fetch(dailyLiturgyUrl);
                 if (!response.ok) throw new Error('Falha ao buscar as orações diárias.');
                 
-                const prayersText = await response.text();
+                const csvText = await response.text();
+                const allRows = csvText.split(/\\r\\n|\\n/);
                 const oracoes = [];
-                const linhasOracoes = prayersText.split('\n');
-                for (let i = 1; i < linhasOracoes.length; i++) {
-                    const linha = linhasOracoes[i].trim();
-                    if (linha) {
-                        const colunas = linha.split(',');
-                        if (colunas.length >= 5 && colunas[0].trim() === dataFormatadaBusca) {
-                            oracoes.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
+
+                for (let i = 1; i < allRows.length; i++) {
+                    const row = allRows[i].trim();
+                    if (row) {
+                        const columns = row.split(',');
+                        if (columns.length >= 5 && columns[0].trim() === dataFormatadaBusca) {
+                            oracoes.push({ nome: columns[3].trim().replace(/"/g, ''), link: columns[4].trim().replace(/"/g, '') });
                         }
                     }
                 }
@@ -155,32 +238,32 @@
             }
         }
 
-        async function buscarOrdinario() {
+        async function buscarItensPorTipo(tipo) {
             dateNavigator.style.display = 'none';
             mainContent.style.display = 'block';
-            exibirMensagem(mainContent, 'Buscando Ordinário...');
+            exibirMensagem(mainContent, `Buscando ${tipo}...`);
 
             try {
                 const response = await fetch(dailyLiturgyUrl);
                 if (!response.ok) throw new Error(`Falha na rede`);
-                const data = await response.text();
-                const ordinarioItens = [];
-                const linhas = data.split('\n');
-                for (let i = 1; i < linhas.length; i++) {
-                    const linha = linhas[i].trim();
-                    if (linha) {
-                        const colunas = linha.split(',');
-                        if (colunas.length >= 5 && colunas[0].trim().toUpperCase() === 'ORDINARIO') {
-                             ordinarioItens.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
+                const csvText = await response.text();
+                const allRows = csvText.split(/\\r\\n|\\n/);
+                const itens = [];
+                for (let i = 1; i < allRows.length; i++) {
+                    const row = allRows[i].trim();
+                    if (row) {
+                        const columns = row.split(',');
+                        if (columns.length >= 5 && columns[0].trim().toUpperCase() === tipo.toUpperCase()) {
+                            itens.push({ nome: columns[3].trim().replace(/"/g, ''), link: columns[4].trim().replace(/"/g, '') });
                         }
                     }
                 }
-                if (ordinarioItens.length > 0) {
+                if (itens.length > 0) {
                     let botoesHtml = '';
-                    ordinarioItens.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                    itens.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
                     mainContent.innerHTML = botoesHtml;
                 } else {
-                    exibirMensagem(mainContent, 'Nenhum item do Ordinário encontrado.');
+                    exibirMensagem(mainContent, `Nenhum item do ${tipo} encontrado.`);
                 }
             } catch (error) {
                 exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
@@ -192,19 +275,19 @@
             mainContent.style.display = 'block';
             exibirMensagem(mainContent, 'Carregando categorias...');
             try {
-                 if (!comumDataCache) {
+                if (!comumDataCache) {
                     const response = await fetch(comumUrl);
                     if (!response.ok) throw new Error(`Falha na rede`);
                     comumDataCache = await response.text();
                 }
                 const categorias = new Set();
-                const linhas = comumDataCache.split('\n');
-                for (let i = 1; i < linhas.length; i++) {
-                    const linha = linhas[i].trim();
-                    if (linha) {
-                        const colunas = linha.split(',');
-                        if (colunas.length > 0 && colunas[0].trim()) {
-                            categorias.add(colunas[0].trim());
+                const allRows = comumDataCache.split(/\\r\\n|\\n/);
+                for (let i = 1; i < allRows.length; i++) {
+                    const row = allRows[i].trim();
+                    if (row) {
+                        const columns = row.split(',');
+                        if (columns.length > 0 && columns[0].trim()) {
+                            categorias.add(columns[0].trim().replace(/"/g, ''));
                         }
                     }
                 }
@@ -225,13 +308,13 @@
         function buscarComumPorCategoria(categoria) {
             exibirMensagem(mainContent, `Buscando orações para ${categoria}...`);
             const oracoes = [];
-            const linhas = comumDataCache.split('\n');
-            for (let i = 1; i < linhas.length; i++) {
-                const linha = linhas[i].trim();
-                if (linha) {
-                    const colunas = linha.split(',');
-                    if (colunas.length >= 3 && colunas[0].trim() === categoria) {
-                        oracoes.push({ nome: colunas[1].trim(), link: colunas[2].trim() });
+            const allRows = comumDataCache.split(/\\r\\n|\\n/);
+            for (let i = 1; i < allRows.length; i++) {
+                const row = allRows[i].trim();
+                if (row) {
+                    const columns = row.split(',');
+                    if (columns.length >= 3 && columns[0].trim().replace(/"/g, '') === categoria) {
+                        oracoes.push({ nome: columns[1].trim().replace(/"/g, ''), link: columns[2].trim().replace(/"/g, '') });
                     }
                 }
             }
@@ -258,11 +341,13 @@
             currentDate = new Date(); 
             buscarOracoesDoDia(currentDate);
         });
-        btnOrdinario.addEventListener('click', buscarOrdinario);
+        btnOrdinario.addEventListener('click', () => buscarItensPorTipo('ORDINARIO'));
         btnComum.addEventListener('click', exibirMenuComum);
 
         // --- INICIALIZAÇÃO ---
-        buscarOracoesDoDia(currentDate);
+        document.addEventListener('DOMContentLoaded', () => {
+            buscarOracoesDoDia(currentDate);
+        });
     </script>
 </body>
 </html>
