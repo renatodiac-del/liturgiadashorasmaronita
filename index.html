@@ -3,83 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protótipo - Capela Virtual Maronita</title>
     
+    <title>Hora Maronita</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#582c0c">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/gwRd4N4.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --cor-marrom-monastico: #582c0c;
-            --cor-bege-pergaminho: #fdfaf6;
-            --cor-dourado-bizantino: #bca37f;
-            --cor-verde-cedro: #3a4d39;
-            --cor-cinza-escriba: #3d3d3d;
-            --fonte-titulos: 'Lora', serif;
-            --fonte-corpo: 'Inter', sans-serif;
+            --primary-color: #582c0c; --text-color: #333333; --background-color: #fdfaf6;
+            --border-color: #e0d8cf; --button-bg-color: #f1ede9; --font-serif: 'Lora', serif; --font-sans: 'Inter', sans-serif;
         }
-        body {
-            margin: 0;
-            background-color: var(--cor-bege-pergaminho);
-            background-image: url('https://www.transparenttextures.com/patterns/old-paper.png'); 
-            font-family: 'Inter', sans-serif;
-            color: var(--cor-cinza-escriba);
-            padding: 20px;
-        }
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--cor-bege-pergaminho);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-            overflow: hidden;
-        }
-        .santuario-placeholder {
-            background-color: var(--cor-dourado-bizantino);
-            color: var(--cor-bege-pergaminho);
-            width: 100%;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--fonte-titulos);
-            font-size: 24px;
-            text-align: center;
-        }
-        .conteudo-principal {
-            padding: 20px 30px;
-            line-height: 1.7;
-        }
-        .conteudo-principal h2 {
-            font-family: var(--fonte-titulos);
-            color: var(--cor-marrom-monastico);
-            text-align: center;
-        }
-        .conteudo-principal p {
-            font-size: 16px;
-            margin-bottom: 1.2em;
+        body { font-family: var(--font-serif); background-color: var(--background-color); color: var(--text-color); margin: 0; padding: 1rem; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 800px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1.5rem 2rem; }
+        
+        header { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .header-img { height: 150px; width: auto; }
+        header h1 { font-family: var(--font-sans); color: var(--primary-color); margin: 0; font-size: 1.8rem; flex-grow: 1; }
+        
+        #permanent-nav { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        #permanent-nav button { background-color: var(--button-bg-color); border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; font-family: var(--font-sans); font-size: 0.9rem; transition: background-color 0.2s; }
+        #permanent-nav button:hover { background-color: #e9e4e0; }
+
+        #date-navigator { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-family: var(--font-sans); border-top: 1px solid var(--border-color); margin-top: 1rem;}
+        #date-navigator button { background: none; border: 1px solid var(--border-color); color: var(--primary-color); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
+        #date-navigator button:hover { background-color: var(--button-bg-color); }
+        #current-date-display { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); text-align: center; }
+        
+        main { line-height: 1.8; margin-top: 1.5rem; }
+        .prayer-button { display: block; padding: 1rem; margin-bottom: 0.5rem; text-align: center; background-color: #f1ede9; color: #582c0c; text-decoration: none; border-radius: 8px; font-family: 'Inter', sans-serif; transition: background-color 0.2s; }
+        .prayer-button:hover { background-color: #e9e4e0; }
+
+        footer { margin-top: 2rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; color: #999; }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.1rem; }
+            .header-img { height: 90px; }
+            .header-content { gap: 0.5rem;}
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <header>
-            <div class="santuario-placeholder">
-                Espaço Reservado para o Santuário
+             <div class="header-content">
+                <img src="https://i.imgur.com/CApQPnb.png" alt="Cedro do Líbano" class="header-img">
+                <h1>Liturgia das Horas - Rito Maronita</h1>
+                <img src="https://i.imgur.com/TZ1B9IL.png" alt="São Marun" class="header-img">
             </div>
         </header>
-        <main class="conteudo-principal">
-            <h2>Bem-vindo à sua Capela Virtual</h2>
-            <p>Este é o espaço sagrado onde o texto das suas orações diárias aparecerá. A fonte utilizada aqui é a 'Inter', escolhida por sua clareza e legibilidade, facilitando a meditação sem distrações.</p>
-            <p>Abaixo, teremos os botões para navegar entre a Liturgia Diária, o Ordinário e o Comum dos Santos, todos desenhados para serem acessíveis e integrados a este ambiente de paz.</p>
+
+        <nav id="permanent-nav">
+            <button id="btn-daily">Liturgia Diária</button>
+            <button id="btn-ordinario">Ordinário</button>
+            <button id="btn-comum">Comum dos Santos</button>
+        </nav>
+
+        <main>
+            <nav id="date-navigator">
+                <button id="btn-prev-day">&lt; Dia Anterior</button>
+                <div id="current-date-display">Carregando...</div>
+                <button id="btn-next-day">Próximo Dia &gt;</button>
+            </nav>
+
+            <div id="liturgy-content"></div>
         </main>
     </div>
 
+    <footer>
+        <p>Projeto Mosteiro Digital v7.0</p>
+    </footer>
+
+    <script>
+        // --- FONTES DE DADOS ---
+        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
+        const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
+
+        // --- ELEMENTOS DO DOM ---
+        const mainContent = document.getElementById('liturgy-content');
+        const dateDisplay = document.getElementById('current-date-display');
+        const dateNavigator = document.getElementById('date-navigator');
+        
+        // --- BOTÕES ---
+        const btnPrev = document.getElementById('btn-prev-day');
+        const btnNext = document.getElementById('btn-next-day');
+        const btnDaily = document.getElementById('btn-daily');
+        const btnOrdinario = document.getElementById('btn-ordinario');
+        const btnComum = document.getElementById('btn-comum');
+
+        let currentDate = new Date();
+        let comumDataCache = null;
+
+        // --- FUNÇÕES DE FORMATAÇÃO E EXIBIÇÃO ---
+        function formatarDataParaBusca(date) {
+            const ano = date.getFullYear();
+            const mes = String(date.getMonth() + 1).padStart(2, '0');
+            const dia = String(date.getDate()).padStart(2, '0');
+            return `${ano}/${mes}/${dia}`;
+        }
+
+        function formatarDataParaExibicao(date) {
+            return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+        
+        function exibirMensagem(container, mensagem) {
+            container.innerHTML = `<div style="font-family: 'Inter', sans-serif; text-align: center; padding: 1rem;">${mensagem}</div>`;
+        }
+        
+        // --- LÓGICA PRINCIPAL ---
+        async function buscarOracoesDoDia(date) {
+            dateNavigator.style.display = 'flex';
+            mainContent.style.display = 'block';
+            dateDisplay.textContent = formatarDataParaExibicao(date);
+            
+            exibirMensagem(mainContent, 'Buscando orações...');
+            
+            const dataFormatadaBusca = formatarDataParaBusca(date);
+
+            try {
+                const response = await fetch(dailyLiturgyUrl);
+                if (!response.ok) throw new Error('Falha ao buscar as orações diárias.');
+                
+                const prayersText = await response.text();
+                const oracoes = [];
+                const linhasOracoes = prayersText.split('\n');
+                for (let i = 1; i < linhasOracoes.length; i++) {
+                    const linha = linhasOracoes[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length >= 5 && colunas[0].trim() === dataFormatadaBusca) {
+                            oracoes.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
+                        }
+                    }
+                }
+
+                if (oracoes.length > 0) {
+                    let botoesHtml = '';
+                    oracoes.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem(mainContent, `Nenhuma Oração Encontrada para o dia ${formatarDataParaExibicao(date)}`);
+                }
+            } catch (error) {
+                exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
+            }
+        }
+
+        async function buscarOrdinario() {
+            dateNavigator.style.display = 'none';
+            mainContent.style.display = 'block';
+            exibirMensagem(mainContent, 'Buscando Ordinário...');
+
+            try {
+                const response = await fetch(dailyLiturgyUrl);
+                if (!response.ok) throw new Error(`Falha na rede`);
+                const data = await response.text();
+                const ordinarioItens = [];
+                const linhas = data.split('\n');
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length >= 5 && colunas[0].trim().toUpperCase() === 'ORDINARIO') {
+                             ordinarioItens.push({ nome: colunas[3].trim(), link: colunas[4].trim() });
+                        }
+                    }
+                }
+                if (ordinarioItens.length > 0) {
+                    let botoesHtml = '';
+                    ordinarioItens.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem(mainContent, 'Nenhum item do Ordinário encontrado.');
+                }
+            } catch (error) {
+                exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
+            }
+        }
+
+        async function exibirMenuComum() {
+            dateNavigator.style.display = 'none';
+            mainContent.style.display = 'block';
+            exibirMensagem(mainContent, 'Carregando categorias...');
+            try {
+                 if (!comumDataCache) {
+                    const response = await fetch(comumUrl);
+                    if (!response.ok) throw new Error(`Falha na rede`);
+                    comumDataCache = await response.text();
+                }
+                const categorias = new Set();
+                const linhas = comumDataCache.split('\n');
+                for (let i = 1; i < linhas.length; i++) {
+                    const linha = linhas[i].trim();
+                    if (linha) {
+                        const colunas = linha.split(',');
+                        if (colunas.length > 0 && colunas[0].trim()) {
+                            categorias.add(colunas[0].trim());
+                        }
+                    }
+                }
+                if (categorias.size > 0) {
+                    let botoesHtml = '';
+                    categorias.forEach(cat => {
+                        botoesHtml += `<a href="#" onclick="event.preventDefault(); buscarComumPorCategoria('${cat.replace(/'/g, "\\'")}')" class="prayer-button">${cat}</a>`;
+                    });
+                    mainContent.innerHTML = botoesHtml;
+                } else {
+                    exibirMensagem(mainContent, 'Nenhuma categoria do Comum encontrada.');
+                }
+            } catch (error) {
+                 exibirMensagem(mainContent, `<strong>Erro:</strong> ${error.message}`);
+            }
+        }
+
+        function buscarComumPorCategoria(categoria) {
+            exibirMensagem(mainContent, `Buscando orações para ${categoria}...`);
+            const oracoes = [];
+            const linhas = comumDataCache.split('\n');
+            for (let i = 1; i < linhas.length; i++) {
+                const linha = linhas[i].trim();
+                if (linha) {
+                    const colunas = linha.split(',');
+                    if (colunas.length >= 3 && colunas[0].trim() === categoria) {
+                        oracoes.push({ nome: colunas[1].trim(), link: colunas[2].trim() });
+                    }
+                }
+            }
+            if (oracoes.length > 0) {
+                let botoesHtml = '';
+                oracoes.forEach(item => { botoesHtml += `<a href="${item.link}" target="_blank" class="prayer-button">${item.nome}</a>`; });
+                mainContent.innerHTML = botoesHtml;
+            } else {
+                exibirMensagem(mainContent, `Nenhuma oração encontrada para ${categoria}.`);
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        btnPrev.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() - 1);
+            buscarOracoesDoDia(currentDate);
+        });
+        btnNext.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() + 1);
+            buscarOracoesDoDia(currentDate);
+        });
+        
+        btnDaily.addEventListener('click', () => {
+            currentDate = new Date(); 
+            buscarOracoesDoDia(currentDate);
+        });
+        btnOrdinario.addEventListener('click', buscarOrdinario);
+        btnComum.addEventListener('click', exibirMenuComum);
+
+        // --- INICIALIZAÇÃO ---
+        buscarOracoesDoDia(currentDate);
+    </script>
 </body>
 </html>
+Arquivo 2: manifest.json
+JSON
+
+{
+    "name": "Hora Maronita",
+    "short_name": "Hora Maronita",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fdfaf6",
+    "theme_color": "#582c0c",
+    "description": "Aplicativo para a Liturgia das Horas do Rito Maronita.",
+    "icons": [
+        {
+            "src": "https://i.imgur.com/gwRd4N4.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://i.imgur.com/gwRd4N4.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
+
+
 
 
 
