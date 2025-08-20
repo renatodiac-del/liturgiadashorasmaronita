@@ -10,27 +10,41 @@
       padding: 0;
       text-align: center;
       font-family: Arial, sans-serif;
-      background-color: #e8dcc2; /* cor semelhante ao fundo do ícone */
+      background-color: #e8dcc2;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
     }
 
-    .container {
+    /* Ícone como fundo */
+    .background-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;   /* ocupa quase toda a largura da tela */
+      height: auto;
+      opacity: 0.25; /* deixa translúcido para os botões ficarem visíveis */
+      z-index: 0;    /* fica atrás */
+    }
+
+    /* Container dos botões */
+    .buttons {
+      position: relative;
+      z-index: 1; /* fica na frente */
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .icon {
-      width: 200px;
-      margin-bottom: 30px;
     }
 
     .button {
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.9);
       border: 2px solid #800000;
       border-radius: 8px;
       padding: 12px 20px;
@@ -54,8 +68,11 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="img/icone-home.png" alt="Ícone" class="icon">
+  <!-- Ícone como fundo -->
+  <img src="img/icone-home.png" alt="Ícone" class="background-icon">
+
+  <!-- Botões na frente -->
+  <div class="buttons">
     <a href="#" class="button"><img src="img/cruz.png" alt="Cruz"> Oração do Dia</a>
     <a href="#" class="button"><img src="img/cruz.png" alt="Cruz"> Liturgia das Horas</a>
     <a href="#" class="button"><img src="img/cruz.png" alt="Cruz"> Sobre</a>
