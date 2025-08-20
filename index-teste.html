@@ -9,14 +9,18 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      /* degradê mais escuro (15% menos luminosidade) */
-      background: linear-gradient(to bottom, #a67c2c, #d2b48c, #e6c300);
+      /* Fundo dourado escuro + luz branca suave no centro */
+      background: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.15) 0%,   /* 15% de branco no centro */
+        #8b6b1f 60%,                   /* dourado escuro predominante */
+        #5c4414 100%                   /* dourado bem escuro nas bordas */
+      );
       height: 100vh;
       overflow: hidden;
       position: relative;
     }
 
-    /* Ícone ajustado para preencher a tela */
+    /* Ícone ajustado */
     .background-icon {
       display: block;
       max-width: 100%;
@@ -31,7 +35,7 @@
     /* Container dos botões */
     .buttons {
       position: absolute;
-      bottom: 3%; /* bem próximo do rodapé */
+      bottom: 3%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 1;
@@ -72,7 +76,7 @@
   </style>
 </head>
 <body>
-  <!-- Ícone ajustado para preencher a tela -->
+  <!-- Ícone central -->
   <img src="img/icone-home.png" alt="Ícone" class="background-icon">
 
   <!-- Botões -->
