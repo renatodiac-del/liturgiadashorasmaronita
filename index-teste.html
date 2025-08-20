@@ -7,34 +7,34 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       height: 100vh;
       display: flex;
+      justify-content: center;
+      align-items: flex-end;
       flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      /* Fundo dourado mais escuro com degradê branco no centro */
-      background: radial-gradient(circle at center, #fff 0%, #b8860b 15%, #8b6508 100%);
+
+      /* Fundo em mosaico dourado losango */
+      background-color: #5a3d0b; /* dourado bem escuro de base */
+      background-image: 
+        repeating-linear-gradient(45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px);
+      background-size: 40px 40px;
     }
 
     .home-icon {
       position: absolute;
       top: 0;
-      width: 90%;
-      max-width: 600px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 100%;
       height: auto;
-      z-index: 0;
     }
 
     .buttons {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 30px;
-      width: 100%;
+      margin-bottom: 20px;
+      width: 90%;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 15px;
     }
 
@@ -42,36 +42,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: rgba(255, 255, 255, 0.9);
-      color: #333;
-      font-size: 1.2em;
-      font-weight: bold;
+      background-color: rgba(255, 215, 0, 0.9);
       border: none;
       border-radius: 12px;
-      padding: 14px 26px;
-      width: 70%;
-      max-width: 350px;
+      padding: 12px;
+      font-size: 1.2rem;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transition: transform 0.2s, background-color 0.2s;
+      font-weight: bold;
+      position: relative;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
     }
 
     .btn img {
-      height: 20px;
-      margin-right: 10px;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-      background-color: #f5f5dc;
+      position: absolute;
+      left: 12px;
+      width: 24px;
+      height: 24px;
     }
   </style>
 </head>
 <body>
-  <!-- Ícone principal -->
   <img src="img/icone-home.png" alt="Ícone Home" class="home-icon">
 
-  <!-- Botões -->
   <div class="buttons">
     <button class="btn"><img src="img/cruz.png" alt="Cruz"> Qurbono</button>
     <button class="btn"><img src="img/cruz.png" alt="Cruz"> Oração das Horas</button>
