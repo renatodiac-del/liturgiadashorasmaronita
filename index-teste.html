@@ -2,73 +2,88 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Liturgia das Horas Maronita — TESTE VISUAL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liturgia das Horas Maronita</title>
   <style>
-    :root{
-      --marrom:#582c0c; --bege:#fdfaf6; --bege2:#f1ede9; --borda:#e0d8cf;
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      /* Fundo mais escuro em 10% */
+      background: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.15) 0%,   /* 15% branco no centro */
+        #6f5419 60%,                   /* dourado mais escuro */
+        #3e2d0e 100%                   /* dourado ainda mais escuro nas bordas */
+      );
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
-    body{
-      margin:0; font-family: "Georgia", serif; background: var(--bege); color:#333;
-      display:flex; align-items:center; justify-content:center; min-height:100vh;
+
+    /* Ícone ajustado */
+    .background-icon {
+      display: block;
+      max-width: 100%;
+      max-height: 100vh;
+      width: auto;
+      height: auto;
+      margin: 0 auto;
+      position: relative;
+      z-index: 0;
     }
-    .container{
-      width:100%; max-width: 840px; background:#fff; border:1px solid var(--borda);
-      border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.06); padding:24px 28px;
+
+    /* Container dos botões */
+    .buttons {
+      position: absolute;
+      bottom: 3%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    header{ text-align:center; padding-bottom:12px; border-bottom:2px solid var(--borda); }
-    header h1{ margin:0; color:var(--marrom); font-size:1.8rem; }
-    .hero-icon{ text-align:center; margin:18px 0 8px; }
-    .hero-icon img{ max-width:320px; height:auto; border-radius:8px; }
-    #permanent-nav{
-      display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:16px 0 8px;
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 3px solid #800000;
+      border-radius: 25px;
+      padding: 10px 18px;
+      margin: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #800000;
+      text-decoration: none;
+      width: 200px;
+      position: relative;
+      transition: transform 0.2s ease, background-color 0.2s ease;
     }
-    #permanent-nav button{
-      background:var(--bege2); border:1px solid var(--borda); color:var(--marrom);
-      padding:12px 16px; border-radius:10px; font-weight:700; font-size:1rem;
-      display:flex; align-items:center; gap:10px; cursor:pointer; transition: .2s ease;
+
+    .button img {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      left: 10px;
     }
-    #permanent-nav button:hover{ background:#e9e4e0; }
-    #permanent-nav button img{ width:18px; height:18px; }
-    main{ text-align:center; color:#777; margin-top:10px; }
-    footer{ margin-top:18px; text-align:center; color:#999; font-size:.85rem; }
-    @media (max-width: 520px){
-      header h1{ font-size:1.2rem; }
-      .hero-icon img{ max-width:260px; }
+
+    .button:hover {
+      background-color: #f5e6e6;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Liturgia das Horas — Rito Maronita</h1>
-    </header>
+  <!-- Ícone central -->
+  <img src="img/icone-home.png" alt="Ícone" class="background-icon">
 
-    <!-- Ícone aprovado (São Marun + Cristo) -->
-    <div class="hero-icon">
-      <img src="./img/icone-home.png" alt="Ícone São Marun e Cristo">
-    </div>
-
-    <!-- Os 3 botões com a cruz antes do texto -->
-    <nav id="permanent-nav">
-      <button id="btn-daily">
-        <img src="./img/cruz.png" alt="Cruz"> Liturgia Diária
-      </button>
-      <button id="btn-ordinario">
-        <img src="./img/cruz.png" alt="Cruz"> Ordinário
-      </button>
-      <button id="btn-comum">
-        <img src="./img/cruz.png" alt="Cruz"> Comum dos Santos
-      </button>
-    </nav>
-
-    <main>
-      <p>Este é um teste visual. A parte operativa (busca das orações) continua no seu <b>index.html</b> original.</p>
-    </main>
-
-    <footer>
-      Projeto Mosteiro Digital — protótipo visual
-    </footer>
+  <!-- Botões -->
+  <div class="buttons">
+    <a href="#" class="button"><img src="img/cruz.png" alt="Cruz">Qurbono</a>
+    <a href="#" class="button"><img src="img/cruz.png" alt="Cruz">Oração das Horas</a>
+    <a href="#" class="button"><img src="img/cruz.png" alt="Cruz">Calendário Litúrgico</a>
   </div>
 </body>
 </html>
