@@ -15,15 +15,13 @@
       position: relative;
     }
 
-    /* Ícone ocupa a tela desde o topo */
+    /* Ícone reduzido a 50% */
     .background-icon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;   /* cobre toda a tela */
-      object-position: top; /* gruda no canto superior */
+      display: block;
+      width: 50%;   /* metade do tamanho */
+      height: auto;
+      margin: 0 auto; /* centraliza horizontalmente */
+      position: relative;
       z-index: 0;
     }
 
@@ -71,7 +69,7 @@
   </style>
 </head>
 <body>
-  <!-- Ícone como fundo -->
+  <!-- Ícone reduzido -->
   <img src="img/icone-home.png" alt="Ícone" class="background-icon">
 
   <!-- Botões -->
@@ -82,5 +80,6 @@
   </div>
 </body>
 </html>
+
 
 
