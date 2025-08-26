@@ -54,11 +54,19 @@
       cursor: pointer;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       transition: transform 0.2s, background-color 0.2s;
+      position: relative;
     }
 
     .btn img {
       height: 20px;
       margin-right: 10px;
+      position: absolute;
+      left: 18px;
+    }
+
+    .btn span {
+      width: 100%;
+      text-align: center;
     }
 
     .btn:hover {
@@ -68,14 +76,23 @@
   </style>
 </head>
 <body>
-  <!-- Ícone principal -->
-  <img src="img/icone-home.png" alt="Ícone Home" class="home-icon">
+  <!-- Ícone principal (com cache-busting) -->
+  <img src="img/icone-home.png?v=1" alt="Ícone Home" class="home-icon">
 
   <!-- Botões -->
   <div class="buttons">
-    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Qurbono</button>
-    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Oração das Horas</button>
-    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Calendário Litúrgico</button>
+    <button class="btn">
+      <img src="img/cruz.png?v=1" alt="Cruz">
+      <span>Qurbono</span>
+    </button>
+    <button class="btn">
+      <img src="img/cruz.png?v=1" alt="Cruz">
+      <span>Oração das Horas</span>
+    </button>
+    <button class="btn">
+      <img src="img/cruz.png?v=1" alt="Cruz">
+      <span>Calendário Litúrgico</span>
+    </button>
   </div>
 </body>
 </html>
