@@ -13,7 +13,6 @@
       --dourado-claro:#e6c979;
     }
 
-    /* Fundo mosaico + brilho central */
     body{
       margin:0;
       min-height:100vh;
@@ -30,7 +29,6 @@
       background-blend-mode: normal, normal, screen;
     }
 
-    /* Ícone principal */
     .home-icon{
       position:absolute;
       top:0;
@@ -42,13 +40,12 @@
       pointer-events:none;
     }
 
-    /* Área dos botões */
     .buttons{
       position:relative;
       z-index:1;
       width:100%;
       max-width:520px;
-      padding:0 16px 18px;  /* menos espaço na parte inferior */
+      padding:0 16px 12px;  /* botões mais próximos do rodapé */
       display:flex;
       flex-direction:column;
       gap:12px;
@@ -58,8 +55,8 @@
     .btn{
       position:relative;
       width:100%;
-      max-width:216px;  /* largura mantida */
-      padding:12px 24px; /* ↓ altura reduzida em ~10% (antes 14px) */
+      max-width:216px;
+      padding:12px 24px; /* altura -10% */
       border-radius:22px;
       border:5px solid var(--bordavermelha);
       outline:2px solid var(--dourado-claro);
@@ -78,7 +75,6 @@
       transition:transform .2s ease, background-color .2s ease, box-shadow .2s ease;
     }
 
-    /* Cruz à esquerda */
     .btn img{
       position:absolute;
       left:14px;
@@ -95,10 +91,20 @@
     }
     .btn:active{ transform:scale(.99); }
 
-    @media (max-width:420px){
-      .btn{ font-size:1rem; padding:11px 20px; } /* reduz também no mobile */
-      .btn img{ left:12px; width:20px; height:20px; }
+    footer{
+      position:relative;
+      z-index:1;
+      margin-bottom:8px;
+      font-size:0.85rem;
+      color:#fff;
+      text-align:center;
     }
+    footer a{
+      color:#ffd700;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    footer a:hover{ text-decoration:underline; }
   </style>
 </head>
 <body>
@@ -112,6 +118,11 @@
     <a class="btn" href="#"><img src="img/cruz.png" alt="Cruz">Calendário Litúrgico</a>
     <a class="btn" href="#"><img src="img/cruz.png" alt="Cruz">Patrística Siríaca</a>
   </div>
+
+  <!-- Rodapé com link -->
+  <footer>
+    🔙 <a href="index.html">Voltar à versão principal</a>
+  </footer>
 </body>
 </html>
 
