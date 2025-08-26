@@ -41,6 +41,7 @@
         .prayer-button:hover { background-color: #e9e4e0; }
 
         footer { margin-top: 2rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; color: #999; }
+        footer a { color: #582c0c; text-decoration: none; }
 
         @media (max-width: 600px) {
             header h1 { font-size: 1.1rem; }
@@ -76,13 +77,17 @@
         </main>
     </div>
 
+    <!-- Rodapé atualizado -->
     <footer>
         <p>Projeto Mosteiro Digital v7.0</p>
+        <p style="margin-top:8px; font-size:0.8rem;">
+          🔧 <a href="index-teste.html">Versão de Teste</a>
+        </p>
     </footer>
 
     <script>
         // --- FONTES DE DADOS ---
-        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
+        const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQua_1f6Zh2z381rylAXiNfwqREC9GGJcEZuLbQ5n3ftovaIjTINhFar2Xr8wRLNACDSHz1aQhNIETl/pub?output=csv';
         const comumUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
 
         // --- ELEMENTOS DO DOM ---
@@ -162,7 +167,7 @@
 
             try {
                 const response = await fetch(dailyLiturgyUrl);
-                if (!response.ok) throw new Error(`Falha na rede`);
+                if (!response.ok) throw new Error('Falha na rede');
                 const data = await response.text();
                 const ordinarioItens = [];
                 const linhas = data.split('\n');
@@ -194,7 +199,7 @@
             try {
                  if (!comumDataCache) {
                     const response = await fetch(comumUrl);
-                    if (!response.ok) throw new Error(`Falha na rede`);
+                    if (!response.ok) throw new Error('Falha na rede');
                     comumDataCache = await response.text();
                 }
                 const categorias = new Set();
