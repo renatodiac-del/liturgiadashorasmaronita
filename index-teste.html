@@ -2,128 +2,70 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Capela Virtual São Marun — Teste</title>
   <style>
-    :root{
-      --dourado-base:#5a3d0b;
-      --linha-dourada:rgba(255,215,0,.18);
-      --branco-luz:rgba(255,255,255,.14);
-      --bordavermelha:#800000;
-      --dourado-claro:#e6c979;
-    }
-
     body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-end;
-      font-family:system-ui,-apple-system,"Segoe UI",Inter,Arial,sans-serif;
+      margin:0; height:100vh; font-family: Arial, sans-serif;
+      display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+      /* mosaico/losango em CSS puro */
+      background-color:#5a3d0b;
       background-image:
-        repeating-linear-gradient(45deg, var(--linha-dourada) 0 2px, transparent 2px 40px),
-        repeating-linear-gradient(-45deg, var(--linha-dourada) 0 2px, transparent 2px 40px),
-        radial-gradient(circle at 50% 38%, var(--branco-luz) 0%, rgba(255,255,255,0) 45%);
-      background-color: var(--dourado-base);
-      background-blend-mode: normal, normal, screen;
+        repeating-linear-gradient(45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px);
+      background-size:40px 40px;
     }
+    .top-links{
+      position:absolute; top:10px; right:10px;
+    }
+    .top-links a{
+      text-decoration:none; color:#fff; background:#8b0000; border:1px solid #6f0000;
+      padding:.45rem .75rem; border-radius:10px; font-weight:bold; font-size:.9rem;
+    }
+    .top-links a:hover{ background:#a00000; }
 
     .home-icon{
-      position:absolute;
-      top:0;
-      left:0;
-      width:100vw;
-      max-width:100vw;
-      height:auto;
-      z-index:0;
-      pointer-events:none;
+      position:absolute; top:0; left:50%; transform:translateX(-50%);
+      width:100%; max-width:100%; height:auto;
     }
 
     .buttons{
-      position:relative;
-      z-index:1;
-      width:100%;
-      max-width:520px;
-      padding:0 16px 12px;  /* botões mais próximos do rodapé */
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      align-items:center;
+      width:90%; display:flex; flex-direction:column; gap:14px; margin-bottom:22px;
+      align-items:center; z-index:1;
     }
-
     .btn{
-      position:relative;
-      width:100%;
-      max-width:216px;
-      padding:12px 24px; /* altura -10% */
+      position:relative; display:flex; align-items:center; justify-content:center;
+      background-color:rgba(255,255,255,0.92);
+      border:3px solid #800000;            /* borda vermelha */
+      box-shadow:0 0 0 2px #d6b25a inset;  /* “borda” dourada interna */
       border-radius:22px;
-      border:5px solid var(--bordavermelha);
-      outline:2px solid var(--dourado-claro);
-      outline-offset:2px;
-      background:rgba(255,255,255,.92);
-      box-shadow:
-        0 6px 16px rgba(0,0,0,.22),
-        0 0 10px rgba(255,215,0,.35);
-      font-weight:700;
-      font-size:1.05rem;
-      color:#5a221c;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      transition:transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+      padding:10px 26px;
+      width:70%; max-width:350px;          /* largura dos botões */
+      font-size:1.1rem; font-weight:bold; color:#800000; cursor:pointer;
+      transition:transform .2s, background-color .2s;
     }
-
-    .btn img{
-      position:absolute;
-      left:14px;
-      width:22px;
-      height:22px;
-    }
-
-    .btn:hover{
-      transform:scale(1.03);
-      background:#fff8dc;
-      box-shadow:
-        0 10px 20px rgba(0,0,0,.28),
-        0 0 14px rgba(255,215,0,.45);
-    }
-    .btn:active{ transform:scale(.99); }
-
-    footer{
-      position:relative;
-      z-index:1;
-      margin-bottom:8px;
-      font-size:0.85rem;
-      color:#fff;
-      text-align:center;
-    }
-    footer a{
-      color:#ffd700;
-      text-decoration:none;
-      font-weight:bold;
-    }
-    footer a:hover{ text-decoration:underline; }
+    .btn:hover{ transform:scale(1.04); background-color:#fff3da; }
+    .btn img{ position:absolute; left:16px; width:22px; height:22px; }
   </style>
 </head>
 <body>
-  <!-- Ícone principal -->
-  <img src="img/icone-home.png" alt="Ícone São Marun" class="home-icon"/>
+  <!-- Link de VOLTA ao app principal -->
+  <div class="top-links">
+    <a href="index.html">Voltar ao app principal</a>
+  </div>
+
+  <!-- Ícone principal (use img/icone-home.png) -->
+  <img src="img/icone-home.png" alt="Ícone Home" class="home-icon">
 
   <!-- Botões -->
   <div class="buttons">
-    <a class="btn" href="#"><img src="img/cruz.png" alt="Cruz">Qurbono</a>
-    <a class="btn" href="#"><img src="img/cruz.png" alt="Cruz">Oração das Horas</a>
-    <a class="btn" href="#"><img src="img/cruz.png" alt="Cruz">Calendário Litúrgico</a>
-    <a class="btn" href="#"><img src="img/cruz.png" alt="Cruz">Patrística Siríaca</a>
+    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Qurbono</button>
+    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Oração das Horas</button>
+    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Calendário Litúrgico</button>
+    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Patrística Siríaca</button>
   </div>
-
-  <!-- Rodapé com link -->
-  <footer>
-    🔙 <a href="index.html">Voltar à versão principal</a>
-  </footer>
 </body>
 </html>
+
 
 
