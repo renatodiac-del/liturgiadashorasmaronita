@@ -10,7 +10,7 @@
       --linha-dourada:rgba(255,215,0,.18);
       --branco-luz:rgba(255,255,255,.14);
       --bordavermelha:#800000;
-      --dourado-claro:#e6c979; /* dourado mais claro e “reluzente” */
+      --dourado-claro:#e6c979;
     }
 
     /* Fundo mosaico + brilho central */
@@ -30,56 +30,55 @@
       background-blend-mode: normal, normal, screen;
     }
 
-    /* Ícone principal no topo, colado no topo e nas laterais no celular */
+    /* Ícone principal */
     .home-icon{
       position:absolute;
       top:0;
-      left:0;               /* encosta na lateral esquerda */
-      width:100vw;          /* ocupa toda a largura da tela */
-      max-width:100vw;      /* garante que encoste nas bordas */
+      left:0;
+      width:100vw;
+      max-width:100vw;
       height:auto;
       z-index:0;
       pointer-events:none;
     }
 
-    /* Área dos botões na parte inferior */
+    /* Área dos botões */
     .buttons{
       position:relative;
       z-index:1;
       width:100%;
       max-width:520px;
-      padding:22px 16px 30px;
+      padding:0 16px 18px;  /* menos espaço na parte inferior */
       display:flex;
       flex-direction:column;
-      gap:14px;
+      gap:12px;
       align-items:center;
     }
 
     .btn{
       position:relative;
-      /* LARGURA 40% MENOR (antes máx. ~360px) */
       width:100%;
-      max-width:216px;                 /* 360px → 216px (−40%) */
-      padding:14px 24px;               /* mantém “espessura” */
+      max-width:216px;  /* largura mantida */
+      padding:12px 24px; /* ↓ altura reduzida em ~10% (antes 14px) */
       border-radius:22px;
-      border:5px solid var(--bordavermelha);   /* borda vermelha mais espessa */
-      outline:2px solid var(--dourado-claro);  /* borda externa dourada fina */
-      outline-offset:2px;                       /* separação para destacar */
+      border:5px solid var(--bordavermelha);
+      outline:2px solid var(--dourado-claro);
+      outline-offset:2px;
       background:rgba(255,255,255,.92);
       box-shadow:
         0 6px 16px rgba(0,0,0,.22),
-        0 0 10px rgba(255,215,0,.35);          /* leve “brilho” dourado */
+        0 0 10px rgba(255,215,0,.35);
       font-weight:700;
       font-size:1.05rem;
       color:#5a221c;
       display:flex;
       align-items:center;
-      justify-content:center;  /* texto centralizado */
+      justify-content:center;
       text-decoration:none;
       transition:transform .2s ease, background-color .2s ease, box-shadow .2s ease;
     }
 
-    /* Cruz fixa à esquerda */
+    /* Cruz à esquerda */
     .btn img{
       position:absolute;
       left:14px;
@@ -97,7 +96,7 @@
     .btn:active{ transform:scale(.99); }
 
     @media (max-width:420px){
-      .btn{ font-size:1rem; padding:12px 20px; }
+      .btn{ font-size:1rem; padding:11px 20px; } /* reduz também no mobile */
       .btn img{ left:12px; width:20px; height:20px; }
     }
   </style>
