@@ -35,11 +35,11 @@ display:flex; flex-direction:column; min-height:100vh;
 border:6px solid var(--turquesa); box-shadow:0 0 0 4px var(--dourado) inset; border-radius:12px}
 
 
-.buttons{display:flex; flex-direction:column; gap:12px}
+.buttons{display:flex; flex-direction:column; gap:16px}
 .btn{position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
 background-color:rgba(255,255,255,0.95);
 border:3px solid var(--turquesa); box-shadow:0 0 0 2px var(--dourado) inset, 0 4px 10px var(--sombra);
-border-radius:18px; padding:8px 14px; width:58%; font-size:0.95rem; font-weight:bold; color:var(--vermelho);
+border-radius:18px; padding:12px 18px; width:77%; font-size:1.2rem; font-weight:bold; color:var(--vermelho);
 transition:transform .15s ease, background-color .2s ease; text-decoration:none; margin:0 auto}
 .btn:hover{transform:scale(1.02); background:#fff3da}
 .btn img{position:absolute; left:12px; width:22px; height:22px}
@@ -71,27 +71,4 @@ footer a{color:#fff}
 <img src="img/cruz2.jpg" alt="Cruz"> Synaxarion
 </button>
 <button class="btn" data-action="leituras">
-<img src="img/cruz2.jpg" alt="Cruz"> Leituras bíblicas
-</button>
-<button class="btn" data-action="biblioteca">
-<img src="img/cruz2.jpg" alt="Cruz"> Biblioteca
-</button>
-</section>
-</main>
-
-
-<div id="toast" style="position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:.6rem .9rem; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s ease"></div>
-
-
-<footer>
-Qurbono (teste) · Navegação temporária — <a href="index-teste.html">voltar</a>
-</footer>
-
-
-<script>
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800)}
-const routes={eucaristia:{msg:'Liturgia Eucarística do Dia — em breve'},anaforas:{msg:'Anáforas — em breve'},synaxarion:{msg:'Synaxarion — em breve'},leituras:{msg:'Leituras bíblicas — em breve'},biblioteca:{msg:'Biblioteca — em breve'}};
-document.querySelectorAll('.btn[data-action]').forEach(b=>b.addEventListener('click',e=>{const a=e.currentTarget.getAttribute('data-action');toast(routes[a]?.msg||'Em breve')}));
-</script>
-</body>
 </html>
