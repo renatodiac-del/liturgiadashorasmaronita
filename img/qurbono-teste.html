@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qurbono — Página de Teste</title>
+<meta name="theme-color" content="#5a3d0b">
+<style>
+:root{
+--bordo:#800000; --bordo-dark:#6f0000; --dourado:#d6b25a; --bg:#5a3d0b;
+--branco:#ffffff; --sombra:rgba(0,0,0,.15);
+--fonte: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+margin:0; min-height:100vh; font-family:var(--fonte);
+display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+color:#1b1b1b;
+/* mosaico/losango em CSS puro */
+background-color:var(--bg);
+background-image:
+repeating-linear-gradient(45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px),
+repeating-linear-gradient(-45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px);
+background-size:40px 40px;
+}
+
+
+/* Links superiores */
+.top-links{position:absolute; top:10px; right:10px; display:flex; gap:.5rem}
+.top-links a{color:#fff; text-decoration:none; background:var(--bordo); border:1px solid var(--bordo-dark); padding:.45rem .75rem; border-radius:10px; font-weight:bold; font-size:.9rem}
+.top-links a:hover{background:#a00000}
+
+
+/* Ícone superior central */
+.home-icon{position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; max-width:100%; height:auto}
+
+
+/* Conteúdo (botões) */
+.buttons{width:90%; max-width:420px; display:flex; flex-direction:column; gap:14px; margin-bottom:22px; align-items:center; z-index:1}
+
+
+.btn{position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
+background-color:rgba(255,255,255,0.95);
+border:3px solid var(--bordo); box-shadow:0 0 0 2px var(--dourado) inset, 0 6px 14px var(--sombra);
+border-radius:22px; padding:12px 26px; width:100%; font-size:1.1rem; font-weight:bold; color:var(--bordo);
+transition:transform .15s ease, background-color .2s ease; text-decoration:none
+}
+.btn:hover{transform:scale(1.03); background-color:#fff3da}
+.btn img{position:absolute; left:16px; width:22px; height:22px}
+
+
+/* Área de avisos/feedback */
+.toast{position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:.6rem .9rem; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s ease}
+.toast.show{opacity:1}
+
+
+footer{position:fixed; bottom:0; left:0; right:0; padding:.35rem .75rem; text-align:center; color:#eee; font-size:.8rem; background:rgba(0,0,0,.15)}
+footer a{color:#fff}
+@media (max-width:400px){ .btn{font-size:1rem; padding:10px 20px} }
+</style>
+</head>
+<body>
+<!-- Links de navegação superiores -->
+<div class="top-links">
+<a href="index-teste.html" title="Voltar à página de teste visual">Voltar ao teste</a>
+<a href="index.html" title="Ir ao app principal">App principal</a>
+</div>
+
+
+<!-- Ícone próprio do Qurbono (adicione img/icone-qurbono.jpg ao repositório) -->
+<img src="img/icone-qurbono.jpg" alt="Ícone do Qurbono" class="home-icon" onerror="this.style.display='none'">
+</html>
