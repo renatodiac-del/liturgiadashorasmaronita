@@ -1,85 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qurbono — Teste (Estável)</title>
-  <meta name="theme-color" content="#1a2a40">
-  <style>
-    :root{
-      --azul:#1a2a40; --vermelho:#a00000; --turquesa:#40E0D0; --dourado:#d6b25a; --sombra:rgba(0,0,0,.15);
-      --fonte: Arial, Helvetica, sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:var(--fonte); color:#1b1b1b;
-      background: var(--azul);
-      background-image:
-        repeating-linear-gradient(45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px),
-        repeating-linear-gradient(-45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px);
-      background-size:40px 40px;
-      display:flex; flex-direction:column; min-height:100vh;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qurbono — Teste (Estável)</title>
+<meta name="theme-color" content="#1a2a40">
+<style>
+:root{
+--azul:#1a2a40; --vermelho:#a00000; --turquesa:#40E0D0; --dourado:#d6b25a; --sombra:rgba(0,0,0,.15);
+--fonte: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+margin:0; font-family:var(--fonte); color:#1b1b1b;
+background: var(--azul);
+background-image:
+repeating-linear-gradient(45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px),
+repeating-linear-gradient(-45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px);
+background-size:40px 40px;
+display:flex; flex-direction:column; min-height:100vh;
+}
 
-    .top{display:flex; gap:.5rem; justify-content:flex-end; padding:10px}
-    .top a{color:#fff; text-decoration:none; background:var(--vermelho); border:1px solid #6f0000; padding:.45rem .75rem; border-radius:10px; font-weight:bold; font-size:.9rem}
 
-    .wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 24px}
+.top{display:flex; gap:.5rem; justify-content:flex-end; padding:10px}
+.top a{color:#fff; text-decoration:none; background:var(--vermelho); border:1px solid #6f0000; padding:.45rem .75rem; border-radius:10px; font-weight:bold; font-size:.9rem}
 
-    .hero{display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px}
 
-    .buttons{display:flex; flex-direction:column; gap:12px}
-    .btn{position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
-      background-color:rgba(255,255,255,0.95);
-      border:3px solid var(--turquesa); box-shadow:0 0 0 2px var(--dourado) inset, 0 6px 14px var(--sombra);
-      border-radius:22px; padding:10px 18px; width:100%; font-size:1rem; font-weight:bold; color:var(--vermelho);
-      transition:transform .15s ease, background-color .2s ease; text-decoration:none}
-    .btn:hover{transform:scale(1.02); background:#fff3da}
-    .btn img{position:absolute; left:14px; width:22px; height:22px}
+.wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 24px}
 
-    footer{margin-top:auto; text-align:center; color:#eee; font-size:.8rem; padding:.5rem}
-    footer a{color:#fff}
-  </style>
+
+/* Ícone principal com borda turquesa + dourada interna */
+.hero{display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
+border:6px solid var(--turquesa); box-shadow:0 0 0 4px var(--dourado) inset; border-radius:12px}
+
+
+.buttons{display:flex; flex-direction:column; gap:10px}
+.btn{position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
+background-color:rgba(255,255,255,0.95);
+border:3px solid var(--turquesa); box-shadow:0 0 0 2px var(--dourado) inset, 0 4px 10px var(--sombra);
+border-radius:18px; padding:6px 12px; width:50%; font-size:0.85rem; font-weight:bold; color:var(--vermelho);
+transition:transform .15s ease, background-color .2s ease; text-decoration:none; margin:0 auto}
+.btn:hover{transform:scale(1.02); background:#fff3da}
+.btn img{position:absolute; left:12px; width:22px; height:22px}
+
+
+footer{margin-top:auto; text-align:center; color:#eee; font-size:.8rem; padding:.5rem}
+footer a{color:#fff}
+</style>
 </head>
 <body>
-  <div class="top">
-    <a href="index-teste.html">Voltar ao teste</a>
-    <a href="index.html">App principal</a>
-  </div>
+<div class="top">
+<a href="index-teste.html">Voltar ao teste</a>
+<a href="index.html">App principal</a>
+</div>
 
-  <main class="wrap">
-    <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
 
-    <section class="buttons" aria-label="Menu do Qurbono (teste)">
-      <button class="btn" data-action="eucaristia">
-        <img src="img/cruz2.jpg" alt="Cruz"> Liturgia Eucarística do Dia
-      </button>
-      <button class="btn" data-action="anaforas">
-        <img src="img/cruz2.jpg" alt="Cruz"> Anáforas
-      </button>
-      <button class="btn" data-action="synaxarion">
-        <img src="img/cruz2.jpg" alt="Cruz"> Synaxarion
-      </button>
-      <button class="btn" data-action="leituras">
-        <img src="img/cruz2.jpg" alt="Cruz"> Leituras bíblicas
-      </button>
-      <button class="btn" data-action="biblioteca">
-        <img src="img/cruz2.jpg" alt="Cruz"> Biblioteca
-      </button>
-    </section>
-  </main>
+<main class="wrap">
+<img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
 
-  <div id="toast" style="position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:.6rem .9rem; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s ease"></div>
 
-  <footer>
-    Qurbono (teste) · Navegação temporária — <a href="index-teste.html">voltar</a>
-  </footer>
+<section class="buttons" aria-label="Menu do Qurbono (teste)">
+<button class="btn" data-action="eucaristia">
+<img src="img/cruz2.jpg" alt="Cruz"> Liturgia Eucarística do Dia
+</button>
+<button class="btn" data-action="anaforas">
+<img src="img/cruz2.jpg" alt="Cruz"> Anáforas
+</button>
+<button class="btn" data-action="synaxarion">
+<img src="img/cruz2.jpg" alt="Cruz"> Synaxarion
+</button>
+<img src="img/cruz2.jpg" alt="Cruz"> Synaxarion
+ </button>
+ <button class="btn" data-action="leituras">
+ <img src="img/cruz2.jpg" alt="Cruz"> Leituras bíblicas
+ </button>
+ <button class="btn" data-action="biblioteca">
+ <img src="img/cruz2.jpg" alt="Cruz"> Biblioteca
+ </button>
+ </section>
+ </main>
 
-  <script>
-    function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800)}
-    const routes={eucaristia:{msg:'Liturgia Eucarística do Dia — em breve'},anaforas:{msg:'Anáforas — em breve'},synaxarion:{msg:'Synaxarion — em breve'},leituras:{msg:'Leituras bíblicas — em breve'},biblioteca:{msg:'Biblioteca — em breve'}};
-    document.querySelectorAll('.btn[data-action]').forEach(b=>b.addEventListener('click',e=>{const a=e.currentTarget.getAttribute('data-action');toast(routes[a]?.msg||'Em breve')}));
-  </script>
+
+ <div id="toast" style="position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:.6rem .9rem; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s ease"></div>
+
+
+ <footer>
+ Qurbono (teste) · Navegação temporária — <a href="index-teste.html">voltar</a>
+ </footer>
+
+
+ <script>
+ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800)}
+ const routes={eucaristia:{msg:'Liturgia Eucarística do Dia — em breve'},anaforas:{msg:'Anáforas — em breve'},synaxarion:{msg:'Synaxarion — em breve'},leituras:{msg:'Leituras bíblicas — em breve'},biblioteca:{msg:'Biblioteca — em breve'}};
+ document.querySelectorAll('.btn[data-action]').forEach(b=>b.addEventListener('click',e=>{const a=e.currentTarget.getAttribute('data-action');toast(routes[a]?.msg||'Em breve')}));
+ </script>
 </body>
 </html>
