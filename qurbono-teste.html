@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+
+<button class="btn" data-action="biblioteca">
+<img src="img/cruz2.jpg" alt="Cruz"> Biblioteca
+</button>
+</main>
+
+
+<!-- Feedback simples (toast) -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+
+<footer>
+Qurbono (teste) · Navegação temporária — <a href="index-teste.html">voltar</a>
+</footer>
+
+
+<script>
+// Utilitário de feedback
+function showToast(msg){
+const t = document.getElementById('toast');
+t.textContent = msg; t.classList.add('show');
+clearTimeout(window.__toastTimer);
+window.__toastTimer = setTimeout(()=> t.classList.remove('show'), 1800);
+}
+
+
+// Handlers provisórios (páginas reais serão ligadas depois)
+const routes = {
+eucaristia: {
+msg: 'Liturgia Eucarística do Dia — em breve (página de teste dedicada)'.trim(),
+href: null // quando existir, usar: 'eucaristia-teste.html'
+},
+anaforas: {
+msg: 'Anáforas — em breve (criar anaforas-teste.html)'.trim(),
+href: null
+},
+synaxarion: {
+msg: 'Synaxarion — em breve (página de teste dedicada)'.trim(),
+href: null
+},
+leituras: {
+msg: 'Leituras bíblicas — em breve (página de teste dedicada)'.trim(),
+href: null
+},
+biblioteca: {
+msg: 'Biblioteca — em breve (página de teste dedicada)'.trim(),
+href: null
+}
+};
+
+
+document.querySelectorAll('.btn[data-action]')?.forEach(btn=>{
+btn.addEventListener('click', (e)=>{
+const action = e.currentTarget.getAttribute('data-action');
+const r = routes[action];
+if(r?.href){
+location.href = r.href;
+} else {
+showToast(r?.msg || 'Em breve');
+}
+});
+});
+
+
+// Dica de cache (opcional): acrescente ?v=2 ao final do src durante testes
+// Ex.: <img src="img/icone-qurbono.jpg?v=2">
+</script>
+</body>
+</html>
+
