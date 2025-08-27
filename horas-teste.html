@@ -1,79 +1,66 @@
 <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oração das Horas — Teste</title>
+<meta name="theme-color" content="#f3e6cf">
+<style>
+:root{
+--bege:#f3e6cf; --vermelho:#a00000; --turquesa:#40E0D0; --dourado:#d6b25a; --sombra:rgba(0,0,0,.15); --laranja:#ff7a00;
+--fonte: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+margin:0; font-family:var(--fonte); color:#1b1b1b;
+background: var(--bege);
+/* mosaico bege com detalhes vermelhos */
+background-image:
+repeating-linear-gradient(45deg, rgba(160,0,0,0.22) 0, rgba(160,0,0,0.22) 2px, transparent 2px, transparent 40px),
+repeating-linear-gradient(-45deg, rgba(160,0,0,0.22) 0, rgba(160,0,0,0.22) 2px, transparent 2px, transparent 40px);
+background-size:40px 40px;
+display:flex; flex-direction:column; min-height:100vh;
+}
+
+
+/* topo com título central e links abaixo */
+.top{display:flex; flex-direction:column; gap:.5rem; align-items:center; padding:12px 12px}
+.title{color:var(--dourado); font-weight:800; letter-spacing:.3px; font-size:1.5rem; text-align:center}
+.top-links{display:flex; gap:.5rem}
+.top-links a{color:#fff; text-decoration:none; background:var(--vermelho); border:1px solid #6f0000; padding:.45rem .75rem; border-radius:10px; font-weight:bold; font-size:.9rem}
+
+
+.wrap{width:100%; max-width:560px; margin:0 auto; padding:10px 16px 24px}
+
+
+/* Ícone/hero com bordas laranja + dourado interno */
+.hero{display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px; border:6px solid var(--laranja); box-shadow:0 0 0 4px var(--dourado) inset; border-radius:12px}
+.hero[hidden]{display:none}
+
+
 /* chip fallback quando não houver imagem específica */
-.chip{display:inline-block; margin:8px 0 14px; padding:10px 14px; background:rgba(255,255,255,.9); border:3px solid var(--turquesa); box-shadow:0 0 0 2px var(--dourado) inset; border-radius:14px; font-weight:bold; color:var(--vermelho)}
+.chip{display:inline-block; margin:8px 0 14px; padding:10px 14px; background:rgba(255,255,255,.9); border:3px solid var(--laranja); box-shadow:0 0 0 2px var(--dourado) inset; border-radius:14px; font-weight:bold; color:var(--vermelho)}
 
 
+/* lista única de botões */
 .buttons{display:flex; flex-direction:column; gap:12px}
 .btn{position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
 background-color:rgba(255,255,255,0.95);
-border:1.68px solid var(--laranja); box-shadow:0 0 0 1.12px var(--dourado) inset, 0 4px 10px var(--sombra);
+border:1.68px solid var(--laranja); /* 30% mais fino */
+box-shadow:0 0 0 1.12px var(--dourado) inset, 0 4px 10px var(--sombra);
 border-radius:18px; padding:10px 14px; width:72%; font-size:0.98rem; font-weight:bold; color:var(--vermelho);
 transition:transform .15s ease, background-color .2s ease; text-decoration:none; margin:0 auto}
 .btn:hover{transform:scale(1.02); background:#fff3da}
 .btn img{position:absolute; left:12px; width:22px; height:22px}
 
 
-footer{margin-top:auto; text-align:center; color:#eee; font-size:.8rem; padding:.5rem}
-footer a{color:#fff}
+footer{margin-top:auto; text-align:center; color:#7a6a55; font-size:.8rem; padding:.5rem}
+footer a{color:#7a0000}
 </style>
 </head>
 <body>
 <div class="top">
-<div class="title">Oração das Horas — Página de Teste</div>
-<div style="display:flex; gap:.5rem">
+<div class="title">Oração das Horas</div>
+<div class="top-links">
 <a href="qurbono-teste.html">Voltar ao Qurbono</a>
-<a href="index.html">App principal</a>
-</div>
-</div>
-
-
-<main class="wrap">
-<!-- Ícone principal atualizado -->
-<img class="hero" id="hero" src="img/icone-horas.jpg" alt="Ícone da Oração das Horas" onerror="this.hidden=true; document.getElementById('hero-chip').hidden=false;">
-<div id="hero-chip" class="chip" hidden>Oração das Horas</div>
-
-
-<!-- Lista de botões -->
-<section class="buttons" aria-label="Ações — Oração das Horas (teste)">
-<button class="btn" data-action="lilyo"><img src="img/cruz3.png" alt="Cruz"> Lilyo — Vigílias</button>
-<button class="btn" data-action="safro"><img src="img/cruz3.png" alt="Cruz"> Safro — Oração da Manhã</button>
-<button class="btn" data-action="manha-leituras"><img src="img/cruz3.png" alt="Cruz"> Salmo do Dia e Leituras da Manhã</button>
-<button class="btn" data-action="terca"><img src="img/cruz3.png" alt="Cruz"> Hora Terça — 9 horas</button>
-<button class="btn" data-action="sexta"><img src="img/cruz3.png" alt="Cruz"> Hora Sexta — 12 horas</button>
-<button class="btn" data-action="nona"><img src="img/cruz3.png" alt="Cruz"> Hora Nona — 15 horas</button>
-<button class="btn" data-action="ramsho"><img src="img/cruz3.png" alt="Cruz"> Ramsho — Oração da Tarde</button>
-<button class="btn" data-action="tarde-leituras"><img src="img/cruz3.png" alt="Cruz"> Salmo do Dia e Leituras da Tarde</button>
-<button class="btn" data-action="sutoro"><img src="img/cruz3.png" alt="Cruz"> Sutoro — Oração da Noite</button>
-<button class="btn" data-action="sinaxarion"><img src="img/cruz3.png" alt="Cruz"> Sinaxarion</button>
-<button class="btn" data-action="calendario"><img src="img/cruz3.png" alt="Cruz"> Calendário Litúrgico</button>
-</section>
-</main>
-
-
-<div id="toast" style="position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:.6rem .9rem; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s ease"></div>
-
-
-<footer>
-Oração das Horas — página de teste. <a href="qurbono-teste.html">Voltar</a>
-</footer>
-
-
-<script>
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800)}
-const routes={
-lilyo:'Lilyo (Vigílias) — em breve.',
-safro:'Safro — em breve.',
-'manha-leituras':'Salmo do Dia e Leituras da Manhã — em breve.',
-terca:'Hora Terça — em breve.',
-sexta:'Hora Sexta — em breve.',
-nona:'Hora Nona — em breve.',
-ramsho:'Ramsho — em breve.',
-'tarde-leituras':'Salmo do Dia e Leituras da Tarde — em breve.',
-sutoro:'Sutoro — em breve.',
-sinaxarion:'Sinaxarion — em breve.',
-calendario:'Calendário Litúrgico — em breve.'
-};
-document.querySelectorAll('.btn[data-action]').forEach(b=>b.addEventListener('click',e=>{const a=e.currentTarget.getAttribute('data-action');toast(routes[a]||'Em breve')}));
-</script>
-</body>
-</html>
