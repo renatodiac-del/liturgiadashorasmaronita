@@ -39,7 +39,8 @@ header{text-align:center;padding:16px 12px 8px}
 /* A própria faixa da data é o botão (contém data + dia da semana) */
 .date{
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding:14px 20px; border-radius:16px; min-width:240px;
+  padding:9px 18px; /* altura -20% */
+  border-radius:16px; min-width:240px;
   background:#fff; color:var(--navy); font-size:1.3rem; font-weight:900;
   border:3px solid var(--turq);
   box-shadow:
@@ -54,6 +55,14 @@ header{text-align:center;padding:16px 12px 8px}
     inset 0 0 0 3px var(--ouro),
     0 0 0 3px rgba(64,224,208,.55),
     0 3px 8px var(--shadow);
+}
+
+.weekday{
+  font-size:1.05rem; font-weight:700; color:#27466a; text-transform:capitalize;
+}
+.weekday.quinta{
+  font-size:0.85rem; /* ~3pt menor */
+  font-weight:400;   /* sem negrito */
 }
 
 /* Navegação (abaixo da faixa de data) */
@@ -108,8 +117,10 @@ function fmtDate(d){
   return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
 }
 function fmtWeekday(d){
-  const wd=d.toLocaleDateString('pt-BR',{weekday:'long'});
-  return wd.charAt(0).toUpperCase()+wd.slice(1);
+  let wd=d.toLocaleDateString('pt-BR',{weekday:'long'});
+  wd = wd.charAt(0).toUpperCase()+wd.slice(1);
+  if(wd.toLowerCase().includes('quinta')) wd = 'Quinta-feira'; // força f minúsculo
+  return wd;
 }
 
 /* Gere o link real do dia */
@@ -121,7 +132,10 @@ function getLinkForDate(d){
 }
 
 function render(){
-  dateEl.innerHTML = `${fmtDate(current)}<br><small>${fmtWeekday(current)}</small>`;
+  const dataStr = fmtDate(current);
+  const wd = fmtWeekday(current);
+  const wdClass = wd.startsWith("Quinta-feira") ? "weekday quinta" : "weekday";
+  dateEl.innerHTML = `${dataStr}<br><span class="${wdClass}">${wd}</span>`;
 }
 prevBt.onclick=()=>{current.setDate(current.getDate()-1);render();};
 nextBt.onclick=()=>{current.setDate(current.getDate()+1);render();};
