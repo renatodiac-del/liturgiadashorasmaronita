@@ -27,16 +27,13 @@
     border-bottom: 1px solid var(--line);
   }
   h1{
-    margin:0; font-size:1.8rem; letter-spacing:.3px;
-    color:#5a3b1c;
+    margin:0; font-size:1.8rem; letter-spacing:.3px; color:#5a3b1c;
   }
   p.lead{
     margin:.4rem auto 1rem; max-width:780px; color:#6d5a49; font-size:.98rem;
   }
 
-  .wrap{
-    max-width:1100px; margin:0 auto; padding:16px;
-  }
+  .wrap{ max-width:1200px; margin:0 auto; padding:16px; }
   .grid{
     display:grid; gap:16px;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -57,13 +54,8 @@
   .card-body{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:10px; }
   .title{ font-weight:800; letter-spacing:.2px; margin:0; font-size:1.05rem }
   .desc{ margin:0; color:#6c6257; font-size:.9rem; min-height:2.2em }
-
-  /* faixa de cores do tema */
   .swatches{ display:flex; gap:6px; align-items:center; flex-wrap:wrap }
-  .swatch{
-    width:18px; height:18px; border-radius:50%;
-    border:1px solid rgba(0,0,0,.15);
-  }
+  .swatch{ width:18px; height:18px; border-radius:50%; border:1px solid rgba(0,0,0,.15) }
   .actions{ display:flex; gap:8px; margin-top:6px }
   .btn{
     appearance:none; border:1px solid #cdbda8; background:#fff; color:#5a3b1c;
@@ -74,12 +66,17 @@
   .btn:hover{ background:#fff6ea; transform: translateY(-1px); border-color:#bda58b }
   .btn:active{ transform: translateY(0) }
 
-  /* bordas dos cards coloridas para reforçar o tema */
+  /* cores de borda para reforçar tema */
+  .t-app{ border-color:#582c0c }
+  .t-inter{ border-color:#00BFFF }
   .t-ordinario{ border-color:#d6b25a }
   .t-tempos{ border-color:#582c0c }
   .t-quaresma{ border-color:#b8860b }
-  .t-paixao{ border-color:#ffd700 }
-  .t-ressur{ border-color:#ffd700 }
+  .t-paixao{ border-color:#b8860b }
+  .t-ressur{ border-color:#b8860b }
+  .t-test-horas{ border-color:#ff7a00 }
+  .t-test-qurbono{ border-color:#40E0D0 }
+  .t-test-index{ border-color:#8b0000 }
 
   footer{
     text-align:center; padding:16px; color:#7b6c5b; font-size:.85rem;
@@ -90,11 +87,45 @@
 <body>
 <header>
   <h1>Mapa Litúrgico — Visuais & Navegação</h1>
-  <p class="lead">Escolha um cartão para abrir a página correspondente e validar o esquema de cores, ícone e botões. Este índice ajuda a comparar rapidamente cada tema.</p>
+  <p class="lead">Acesse rapidamente todas as páginas do projeto para validar esquema de cores, ícones e botões.</p>
 </header>
 
 <main class="wrap">
   <section class="grid">
+
+    <!-- APP PRINCIPAL -->
+    <article class="card t-app">
+      <img class="thumb" src="https://i.imgur.com/CApQPnb.png" alt="App principal — cedro">
+      <div class="card-body">
+        <h3 class="title">App Principal</h3>
+        <p class="desc">Liturgia Diária (carrega do Google Sheets, com navegação por data).</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#fdfaf6"></span>
+          <span class="swatch" style="background:#582c0c"></span>
+          <span class="swatch" style="background:#d6b25a"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="index.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- INTERMEDIÁRIA (ORAÇÃO DAS HORAS) -->
+    <article class="card t-inter">
+      <img class="thumb" src="img/icone-oração.jpg" alt="Intermediária — Oração das Horas">
+      <div class="card-body">
+        <h3 class="title">Intermediária — Oração das Horas</h3>
+        <p class="desc">Menu com: Oração do Dia, Ordinário, Comum dos Santos, Festas por Data, Biblioteca.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#4b5320"></span>
+          <span class="swatch" style="background:#add8e6"></span>
+          <span class="swatch" style="background:#00BFFF"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="oracao.html">Abrir</a>
+        </div>
+      </div>
+    </article>
 
     <!-- ORDINÁRIO -->
     <article class="card t-ordinario">
@@ -113,12 +144,12 @@
       </div>
     </article>
 
-    <!-- TEMPOS -->
+    <!-- TEMPOS (ANÚNCIO / EPIFANIA / PENTECOSTES / CRUZ) -->
     <article class="card t-tempos">
       <img class="thumb" src="img/icone-tempos.jpg" alt="Tempos — ícone">
       <div class="card-body">
         <h3 class="title">Anúncio / Epifania / Pentecostes / Cruz</h3>
-        <p class="desc">Fundo dourado com detalhes marrons; título, bordas e fontes em marrom.</p>
+        <p class="desc">Fundo dourado com detalhes marrons; título e bordas em marrom.</p>
         <div class="swatches">
           <span class="swatch" style="background:#d6b25a"></span>
           <span class="swatch" style="background:#582c0c"></span>
@@ -135,11 +166,11 @@
       <img class="thumb" src="img/icone-quaresma.jpg" alt="Quaresma — ícone">
       <div class="card-body">
         <h3 class="title">Grande Quaresma</h3>
-        <p class="desc">Fundo roxo com detalhes dourados; título, bordas e fontes em ouro-velho.</p>
+        <p class="desc">Fundo roxo; detalhes e bordas em dourado ouro-velho; cruz 18px redonda.</p>
         <div class="swatches">
           <span class="swatch" style="background:#4B0082"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
           <span class="swatch" style="background:#b8860b"></span>
+          <span class="swatch" style="background:#d6b25a"></span>
         </div>
         <div class="actions">
           <a class="btn" href="quaresma.html">Abrir</a>
@@ -152,10 +183,10 @@
       <img class="thumb" src="img/icone-paixao.jpg" alt="Semana da Paixão — ícone">
       <div class="card-body">
         <h3 class="title">Semana da Paixão</h3>
-        <p class="desc">Fundo vermelho com detalhes e bordas douradas; letras em roxo.</p>
+        <p class="desc">Fundo vermelho; bordas em ouro-velho; letras roxas; cruz 21px redonda.</p>
         <div class="swatches">
           <span class="swatch" style="background:#8B0000"></span>
-          <span class="swatch" style="background:#FFD700"></span>
+          <span class="swatch" style="background:#b8860b"></span>
           <span class="swatch" style="background:#4B0082"></span>
         </div>
         <div class="actions">
@@ -164,15 +195,15 @@
       </div>
     </article>
 
-    <!-- RESSURREIÇÃO -->
+    <!-- RESSURREIÇÃO GLORIOSA -->
     <article class="card t-ressur">
       <img class="thumb" src="img/icone-ressurreicao.jpg" alt="Ressurreição — ícone">
       <div class="card-body">
         <h3 class="title">Ressurreição Gloriosa</h3>
-        <p class="desc">Fundo bege pastel com detalhes dourados; títulos e bordas em dourado reluzente.</p>
+        <p class="desc">Bege pastel; detalhes ouro-velho; cruz 26px redonda com rotação de 1°.</p>
         <div class="swatches">
           <span class="swatch" style="background:#fdf5e6"></span>
-          <span class="swatch" style="background:#ffd700"></span>
+          <span class="swatch" style="background:#b8860b"></span>
           <span class="swatch" style="background:#daa520"></span>
         </div>
         <div class="actions">
@@ -181,11 +212,62 @@
       </div>
     </article>
 
+    <!-- TESTE — ORAÇÃO DO DIA -->
+    <article class="card t-test-horas">
+      <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia — teste">
+      <div class="card-body">
+        <h3 class="title">Oração do Dia (teste)</h3>
+        <p class="desc">Página de teste com data, dia da semana e navegação anterior/próximo.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#f3e6cf"></span>
+          <span class="swatch" style="background:#ff7a00"></span>
+          <span class="swatch" style="background:#d6b25a"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="horas-teste.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- TESTE — QURBONO -->
+    <article class="card t-test-qurbono">
+      <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono — teste">
+      <div class="card-body">
+        <h3 class="title">Qurbono (teste)</h3>
+        <p class="desc">Visual azul com diagonais; botões grandes; navegação temporária.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#1a2a40"></span>
+          <span class="swatch" style="background:#a00000"></span>
+          <span class="swatch" style="background:#40E0D0"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="qurbono-teste.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- TESTE — INDEX -->
+    <article class="card t-test-index">
+      <img class="thumb" src="https://i.imgur.com/TZ1B9IL.png" alt="São Marun — imagem">
+      <div class="card-body">
+        <h3 class="title">Index (teste visual)</h3>
+        <p class="desc">Página de teste do layout, antes da consolidação no App principal.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#8b0000"></span>
+          <span class="swatch" style="background:#f1ede9"></span>
+          <span class="swatch" style="background:#582c0c"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="index-teste.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
   </section>
 </main>
 
 <footer>
-  Mapa Litúrgico · facilite a revisão visual e o acesso rápido às páginas. | <a href="index.html">Voltar ao App</a> | <a href="oracao.html">Intermediária</a>
+  Mapa Litúrgico · revisão visual e acesso rápido a todas as páginas. | <a href="index.html">App principal</a> | <a href="oracao.html">Intermediária</a>
 </footer>
 </body>
 </html>
