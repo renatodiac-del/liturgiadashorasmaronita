@@ -11,11 +11,11 @@ body{
   background:#d6b25a; /* dourado */
   background-image:
     repeating-linear-gradient(45deg, rgba(88,44,12,.22) 0, rgba(88,44,12,.22) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(88,44,12,.22) 0, rgba(88,44,12,.22) 2px, transparent 2px, transparent 40px); /* detalhes marrons */
+    repeating-linear-gradient(-45deg, rgba(88,44,12,.22) 0, rgba(88,44,12,.22) 2px, transparent 2px, transparent 40px);
   background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
 }
 header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
-.title{color:#582c0c; /* marrom */ font-weight:800; letter-spacing:.3px; font-size:1.9rem; margin:0}
+.title{color:#582c0c; /* marrom */ font-weight:800; letter-spacing:.3px; font-size:1.7rem; margin:0} /* -2 pontos */
 .top-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}
 .top-links a{
   color:#fff; text-decoration:none; background:#582c0c; border:1px solid #3e1f08;
@@ -23,7 +23,6 @@ header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding
 }
 .wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
 
-/* Ícone principal com borda marrom */
 .hero{
   display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
   border:6px solid #582c0c; box-shadow:0 0 0 4px rgba(88,44,12,.45) inset; border-radius:12px
@@ -34,26 +33,28 @@ header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding
   border:3px solid #582c0c; box-shadow:0 0 0 2px rgba(88,44,12,.45) inset; border-radius:14px; font-weight:bold; color:#582c0c
 }
 
-/* Botões (bordas e fonte em marrom) */
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
   background-color:rgba(255,255,255,0.97);
-  border:1.35px solid #582c0c; /* marrom */
+  border:1.35px solid #582c0c;
   box-shadow:0 0 0 .9px rgba(88,44,12,.45) inset, 0 4px 10px rgba(0,0,0,.15);
   border-radius:18px;
   padding:8px 16px; width:66%; font-size:.94rem; font-weight:bold; color:#582c0c; line-height:1.2;
   transition:transform .15s ease, background-color .2s ease; text-align:center
 }
-.btn:hover{transform:scale(1.02); background:#fff3da}
+.btn:hover{transform:scale(1.02);background:#fff3da}
 
-/* Ícone (cruz) à esquerda — arquivo novo: cruz5.wepb */
-.btn img{position:absolute; left:12px; width:33px; height:33px; display:block; object-fit:cover; border-radius:3px}
+/* Cruz arredondada */
+.btn img{
+  position:absolute; left:12px; width:26px; height:26px;
+  object-fit:cover; border-radius:50%; display:block
+}
 .btn .label{width:100%; text-align:center; pointer-events:none}
 
 footer{margin-top:auto;text-align:center;color:#3f2a16;font-size:.8rem;padding:8px}
 footer a{color:#3f2a16}
-@media(max-width:600px){.title{font-size:1.7rem}.btn{width:80%}}
+@media(max-width:600px){.title{font-size:1.5rem}.btn{width:80%}}
 </style>
 </head>
 <body>
@@ -71,13 +72,13 @@ footer a{color:#3f2a16}
   <div id="hero-chip" class="chip" style="display:none">Anúncio/Epifania/Pentecostes/Cruz</div>
 
   <section class="buttons" aria-label="Tempos — dias">
-    <a class="btn" href="#"><img src="img/cruz5.wepb" alt=""><span class="label">Domingo</span></a>
-    <a class="btn" href="#"><img src="img/cruz5.wepb" alt=""><span class="label">Segunda-feira</span></a>
-    <a class="btn" href="#"><img src="img/cruz5.wepb" alt=""><span class="label">Terça-feira</span></a>
-    <a class="btn" href="#"><img src="img/cruz5.wepb" alt=""><span class="label">Quarta-feira</span></a>
-    <a class="btn" href="#"><img src="img/cruz5.wepb" alt=""><span class="label">Quinta-feira</span></a>
-    <a class="btn" href="#"><img src="img/cruz5.wepb" alt=""><span class="label">Sexta-feira</span></a>
-    <a class="btn" href="#"><img src="img/cruz5.wepb" alt=""><span class="label">Sábado</span></a>
+    <a class="btn" href="#"><img src="img/cruz2.jpg" alt=""><span class="label">Domingo</span></a>
+    <a class="btn" href="#"><img src="img/cruz2.jpg" alt=""><span class="label">Segunda-feira</span></a>
+    <a class="btn" href="#"><img src="img/cruz2.jpg" alt=""><span class="label">Terça-feira</span></a>
+    <a class="btn" href="#"><img src="img/cruz2.jpg" alt=""><span class="label">Quarta-feira</span></a>
+    <a class="btn" href="#"><img src="img/cruz2.jpg" alt=""><span class="label">Quinta-feira</span></a>
+    <a class="btn" href="#"><img src="img/cruz2.jpg" alt=""><span class="label">Sexta-feira</span></a>
+    <a class="btn" href="#"><img src="img/cruz2.jpg" alt=""><span class="label">Sábado</span></a>
   </section>
 </main>
 
