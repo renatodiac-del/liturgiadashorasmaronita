@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Synaxarion</title>
+<meta name="theme-color" content="#b8860b">
+<style>
+:root{
+  --ouro:#b8860b; --turq:#40E0D0; --ink:#123d41;
+  --paper:#fff7e6; --shadow:rgba(0,0,0,.14);
+  --fonte: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;font-family:var(--fonte);background:var(--ouro);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(64,224,208,.20) 0, rgba(64,224,208,.20) 2px, transparent 2px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(64,224,208,.20) 0, rgba(64,224,208,.20) 2px, transparent 2px, transparent 40px);
+  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh; color:var(--ink);
+}
+header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
+.title{
+  color:var(--turq); font-size:1.8rem; font-weight:900; letter-spacing:.3px; margin:0 0 8px;
+  text-shadow:0 0 0.8px var(--ouro), 0 0 1.6px var(--ouro), 0 0 3px rgba(184,134,11,.6);
+}
+.wrap{max-width:640px;margin:0 auto;padding:10px 16px 24px;width:100%}
+
+/* Ícone com borda dupla (ouro + turquesa) */
+.hero{
+  display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
+  border:6px solid var(--ouro);
+  box-shadow:0 0 0 4px var(--turq) inset, 0 6px 18px var(--shadow);
+  border-radius:14px; background:#fff;
+}
+.hero[hidden]{display:none}
+.chip{
+  display:inline-block; padding:10px 14px; background:var(--paper);
+  border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--turq) inset; border-radius:14px;
+  font-weight:bold; color:var(--turq); text-shadow:0 0 1px var(--ouro), 0 0 2px var(--ouro);
+}
+
+/* Navegação por datas específicas */
+.datebox{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 4px}
+.navbtn{
+  appearance:none; border:2px solid var(--turq); background:#fff; color:var(--ink);
+  padding:8px 12px; border-radius:12px; font-weight:800; cursor:pointer;
+  box-shadow:0 2px 6px var(--shadow), inset 0 0 0 2px var(--ouro);
+  transition:transform .12s ease, background-color .2s ease, border-color .2s ease;
+}
+.navbtn:hover{background:#f1fffc; transform:translateY(-1px)}
+.date{display:inline-flex; align-items:center; justify-content:center; min-width:210px;
+  background:#fff; border:2px solid var(--turq); box-shadow:inset 0 0 0 2px var(--ouro), 0 3px 10px var(--shadow);
+  padding:8px 14px; border-radius:12px; font-size:1.25rem; font-weight:900; color:var(--turq);
+  text-shadow:0 0 1px var(--ouro), 0 0 2px var(--ouro);
+}
+
+footer{margin-top:auto;text-align:center;color:#0d3b3f;font-size:.85rem;padding:.75rem}
+footer a{color:#053e44;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <h1 class="title">Synaxarion</h1>
+</header>
+
+<main class="wrap">
+  <!-- ícone principal (tenta .jgp e cai para .jpg) -->
+  <img class="hero" id="hero" src="img/icone-sinaxarion.jgp" alt="Ícone — Synaxarion"
+       onerror="if(!this.dataset.swapped){ this.dataset.swapped=1; this.src='img/icone-sinaxarion.jpg'; } else { this.hidden=true; document.getElementById('chip').hidden=false; }">
+  <div id="chip" class="chip" hidden>Synaxarion</div>
+
+  <!-- Data + navegação (sem dia da semana) -->
+  <div class="datebox" aria-label="Navegação por datas do Synaxarion">
+    <button id="prev" class="navbtn" type="button">← Anterior</button>
+    <div id="date" class="date">--/--</div>
+    <button id="next" class="navbtn" type="button">Próximo →</button>
+  </div>
+</main>
+
+<footer>
+  Synaxarion · <a href="qurbono-teste.html">Qurbono</a> · <a href="horas-teste.html">Oração do Dia (teste)</a> · <a href="index.html">App</a>
+</footer>
+
+<script>
+/* Lista de datas existentes (ORDem crescente). Edite conforme sua tabela.
+   Formato: 'MM-DD' — exibiremos como 'DD/MM'. */
+const AVAILABLE = [
+  '01-01','01-06','01-15','02-02','02-14','03-19','03-25','04-23',
+  '05-03','05-10','06-24','06-29','07-20','08-06','08-15','09-14',
+  '10-01','10-07','11-01','12-06','12-08','12-25'
+];
+
+const dateEl = document.getElementById('date');
+let idx = 0;
+
+// Pega a posição mais próxima de hoje, se existir
+(function pickNearest(){
+  const today = new Date();
+  const m = String(today.getMonth()+1).padStart(2,'0');
+  const d = String(today.getDate()).padStart(2,'0');
+  const key = `${m}-${d}`;
+  const pos = AVAILABLE.indexOf(key);
+  if (pos >= 0) idx = pos;
+})();
+
+function fmt(pt){ // 'MM-DD' -> 'DD/MM'
+  const [mm,dd] = pt.split('-');
+  return `${dd}/${mm}`;
+}
+function render(){ dateEl.textContent = fmt(AVAILABLE[idx]); }
+document.getElementById('prev').addEventListener('click', ()=>{
+  idx = (idx - 1 + AVAILABLE.length) % AVAILABLE.length; render();
+});
+document.getElementById('next').addEventListener('click', ()=>{
+  idx = (idx + 1) % AVAILABLE.length; render();
+});
+render();
+</script>
+</body>
+</html>
