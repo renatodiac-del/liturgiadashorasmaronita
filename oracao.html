@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oração do Dia</title>
+  <title>Oração das Horas</title>
   <meta name="theme-color" content="#4b5320"> <!-- verde musgo -->
 
   <style>
@@ -32,7 +32,7 @@
       text-align: center;
     }
     .title {
-      color: #003366; /* azul marinho */
+      color: #00BFFF; /* azul celeste */
       font-weight: 800;
       letter-spacing: 0.3px;
       font-size: 1.9rem;
@@ -48,8 +48,8 @@
     .top-links a {
       color: #ffffff;
       text-decoration: none;
-      background: #003366;
-      border: 1px solid #001f33;
+      background: #00BFFF; /* azul celeste */
+      border: 1px solid #009acd;
       padding: 8px 12px;
       border-radius: 10px;
       font-weight: bold;
@@ -70,7 +70,7 @@
       max-width: 100%;
       height: auto;
       max-height: 420px;
-      border: 6px solid #003366; /* azul marinho */
+      border: 6px solid #00BFFF; /* azul celeste */
       box-shadow: 0 0 0 4px #add8e6 inset; /* azul claro */
       border-radius: 12px;
     }
@@ -81,11 +81,11 @@
       margin: 8px 0 14px;
       padding: 10px 14px;
       background: rgba(255,255,255,0.9);
-      border: 3px solid #003366;
+      border: 3px solid #00BFFF;
       box-shadow: 0 0 0 2px #add8e6 inset;
       border-radius: 14px;
       font-weight: bold;
-      color: #003366;
+      color: #00BFFF;
     }
 
     /* Lista de botões */
@@ -105,15 +105,15 @@
       cursor: pointer;
 
       background-color: rgba(255,255,255,0.97);
-      border: 1.35px solid #003366;
+      border: 1.35px solid #00BFFF; /* azul celeste */
       box-shadow: 0 0 0 0.9px #add8e6 inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius: 18px;
 
       padding: 8px 16px;
-      width: 83%;
+      width: 66%; /* 20% menor que antes */
       font-size: 0.94rem;
       font-weight: bold;
-      color: #003366;
+      color: #00BFFF;
       line-height: 1.2;
       transition: transform 0.15s ease, background-color 0.2s ease;
       text-align: center;
@@ -124,8 +124,8 @@
     .btn img {
       position: absolute;
       left: 12px;
-      width: 22px;
-      height: 22px;
+      width: 33px;   /* antes 22px → +50% */
+      height: 33px;
       display: block;
       object-fit: cover;
       border-radius: 3px;
@@ -147,13 +147,13 @@
 
     @media (max-width: 600px) {
       .title { font-size: 1.7rem; }
-      .btn { width: 90%; }
+      .btn { width: 80%; }
     }
   </style>
 </head>
 <body>
   <header class="top">
-    <h1 class="title">Oração do Dia</h1>
+    <h1 class="title">Oração das Horas</h1>
     <nav class="top-links" aria-label="atalhos">
       <a href="index.html">Voltar ao App principal</a>
       <a href="horas-teste.html">Ir para Oração do Dia</a>
@@ -169,10 +169,10 @@
       alt="Ícone Oração"
       onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';"
     >
-    <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
+    <div id="hero-chip" class="chip" style="display:none">Oração das Horas</div>
 
     <!-- Botões principais -->
-    <section class="buttons" aria-label="Menu — Oração do Dia (intermediária)">
+    <section class="buttons" aria-label="Menu — Oração das Horas (intermediária)">
       <a class="btn" href="horas-teste.html">
         <img src="img/cedro.jpg" alt="">
         <span class="label">Oração do Dia</span>
@@ -193,7 +193,6 @@
         <span class="label">Festas por Data</span>
       </a>
 
-      <!-- novo botão -->
       <a class="btn" href="index.html?view=biblioteca">
         <img src="img/cedro.jpg" alt="">
         <span class="label">Biblioteca</span>
@@ -202,11 +201,10 @@
   </main>
 
   <footer>
-    Página intermediária — Oração do Dia. <a href="index.html">Voltar</a>
+    Página intermediária — Oração das Horas. <a href="index.html">Voltar</a>
   </footer>
 
   <script>
-    // garante que o chip não apareça quando a imagem carregar
     document.getElementById('hero').addEventListener('load', function(){
       document.getElementById('hero-chip').style.display = 'none';
     });
