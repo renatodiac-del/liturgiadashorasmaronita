@@ -40,16 +40,24 @@ header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding
 .btn{
   position:relative; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
   background-color:rgba(255,255,255,0.97);
-  border:1.35px solid #d6b25a; /* borda dourada */
-  box-shadow:0 0 0 .9px rgba(214,178,90,.55) inset, 0 4px 10px rgba(0,0,0,.12);
+  /* borda dourada (interna) +20% e aro verde (externo) */
+  border:1.62px solid #d6b25a; /* era ~1.35px */
+  box-shadow:
+    0 0 0 1.08px rgba(214,178,90,.55) inset, /* era ~0.9px */
+    0 0 0 2px #22552f,                         /* aro verde por fora */
+    0 4px 10px rgba(0,0,0,.12);               /* sombra */
   border-radius:18px;
+
   padding:8px 16px; width:66%; font-size:.94rem; font-weight:bold; color:#254a2f; line-height:1.2;
   transition:transform .15s ease, background-color .2s ease; text-align:center
 }
 .btn:hover{transform:scale(1.02); background:#fff8e0}
 
-/* Ícone (cruz) à esquerda */
-.btn img{position:absolute; left:12px; width:33px; height:33px; display:block; object-fit:cover; border-radius:3px}
+/* Cruz 10% menor e redonda */
+.btn img{
+  position:absolute; left:12px; width:30px; height:30px; /* 33 → 30px */
+  object-fit:cover; border-radius:50%; display:block
+}
 .btn .label{width:100%; text-align:center; pointer-events:none}
 
 footer{margin-top:auto;text-align:center;color:#3a5a44;font-size:.8rem;padding:8px}
