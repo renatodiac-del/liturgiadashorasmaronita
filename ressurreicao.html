@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ressurreição Gloriosa</title>
+<meta name="theme-color" content="#fdf5e6"> <!-- bege pastel -->
+<style>
+*{box-sizing:border-box}html,body{height:100%}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;color:#1b1b1b;
+  background:#fdf5e6; /* bege pastel */
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,215,0,.3) 0, rgba(255,215,0,.3) 2px, transparent 2px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(255,215,0,.3) 0, rgba(255,215,0,.3) 2px, transparent 2px, transparent 40px); /* dourado */
+  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
+}
+header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
+.title{color:#ffd700; /* dourado reluzente */ font-weight:800;font-size:2rem;margin:0;text-shadow:0 0 8px rgba(255,215,0,.6)}
+.top-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}
+.top-links a{color:#fff;text-decoration:none;background:#ffd700;border:1px solid #daa520;padding:8px 12px;border-radius:10px;font-weight:bold;font-size:.9rem}
+
+.wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
+.hero{display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
+  border:6px solid #ffd700;box-shadow:0 0 12px rgba(255,215,0,.6) inset;border-radius:12px}
+.hero[hidden]{display:none}
+.chip{display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.9);
+  border:3px solid #ffd700;box-shadow:0 0 8px rgba(255,215,0,.5) inset;border-radius:14px;font-weight:bold;color:#ffd700}
+
+.buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
+.btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
+  background:rgba(255,255,255,.97);
+  border:1.35px solid #ffd700;box-shadow:0 0 0 .9px rgba(255,215,0,.5) inset,0 4px 10px rgba(0,0,0,.15);
+  border-radius:18px;padding:8px 16px;width:66%;font-size:1rem;font-weight:bold;color:#ffd700;
+  transition:transform .15s ease,background-color .2s ease;text-align:center
+}
+.btn:hover{transform:scale(1.02);background:#fffbe0}
+.btn img{position:absolute;left:12px;width:33px;height:33px;object-fit:cover;border-radius:3px}
+.btn .label{width:100%;text-align:center;pointer-events:none}
+
+footer{margin-top:auto;text-align:center;color:#b8860b;font-size:.8rem;padding:8px}
+footer a{color:#ffd700}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1 class="title">Ressurreição Gloriosa</h1>
+  <nav class="top-links">
+    <a href="ordinario.html">← Ordinário</a>
+    <a href="index.html">App principal</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <img class="hero" id="hero" src="img/icone-ressurreicao.jpg" alt="Ícone Ressurreição"
+       onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
+  <div id="hero-chip" class="chip" style="display:none">Ressurreição</div>
+
+  <section class="buttons">
+    <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">Tempo Pascal (placeholder)</span></a>
+  </section>
+</main>
+
+<footer>Ressurreição Gloriosa · <a href="ordinario.html">Voltar</a></footer>
+<script>
+document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+</script>
+</body>
+</html>
