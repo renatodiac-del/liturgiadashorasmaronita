@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oração das Horas — Teste</title>
+  <title>Oração do Dia — Teste</title>
   <meta name="theme-color" content="#f3e6cf">
 
   <style>
@@ -66,7 +66,7 @@
 
     .hero {
       display: block;
-      margin: 6px auto 14px;
+      margin: 6px auto 10px;
       max-width: 100%;
       height: auto;
       max-height: 420px;
@@ -78,7 +78,7 @@
 
     .chip {
       display: inline-block;
-      margin: 8px 0 14px;
+      margin: 8px 0 10px;
       padding: 10px 14px;
       background: rgba(255,255,255,0.9);
       border: 3px solid #ff7a00;
@@ -86,6 +86,50 @@
       border-radius: 14px;
       font-weight: bold;
       color: #a00000;
+    }
+
+    /* Barra de data + navegação */
+    .datebar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0 14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .datebtn {
+      background: #ffffff;
+      border: 1px solid #e2cfae;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 0.92rem;
+      color: #7a0000;
+      cursor: pointer;
+      transition: background-color .2s ease, transform .1s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      justify-self: start;
+    }
+    .datebtn:hover { background: #fff3da; transform: translateY(-1px); }
+    .datebtn.next { justify-self: end; }
+
+    .datedisplay {
+      text-align: center;
+      color: #582c0c;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      line-height: 1.25;
+    }
+    .datedisplay .date {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .datedisplay .weekday {
+      font-size: 0.95rem;
+      color: #7a5c3a;
+      text-transform: lowercase;
     }
 
     .buttons {
@@ -109,8 +153,8 @@
       /* Altura 20% menor */
       padding: 8px 16px;
 
-      width: 83%;                 
-      font-size: 0.94rem;         
+      width: 83%;
+      font-size: 0.94rem;
       font-weight: bold;
       color: #a00000;
       line-height: 1.2;
@@ -159,12 +203,13 @@
     @media (max-width: 600px) {
       .title { font-size: 1.7rem; }
       .btn { width: 90%; }
+      .datebtn { font-size: 0.9rem; padding: 6px 10px; }
     }
   </style>
 </head>
 <body>
   <header class="top">
-    <h1 class="title">Oração das Horas</h1>
+    <h1 class="title">Oração do Dia</h1>
     <nav class="top-links" aria-label="atalhos">
       <a href="qurbono-teste.html">Voltar ao Qurbono</a>
       <a href="index.html">App principal</a>
@@ -177,30 +222,34 @@
       class="hero"
       id="hero"
       src="img/icone-horas.jpg"
-      alt="Ícone da Oração das Horas"
+      alt="Ícone"
       onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';"
     >
-    <div id="hero-chip" class="chip" style="display:none">Oração das Horas</div>
+    <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
 
-    <section class="buttons" aria-label="Ações — Oração das Horas (teste)">
-      <a class="btn" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
-      <a class="btn" data-action="safro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Safro — Oração da Manhã</span></a>
-      <a class="btn" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leituras da Manhã</span></a>
-      <a class="btn" data-action="terca" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Terça — 9 horas</span></a>
-      <a class="btn" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Sexta — 12 horas</span></a>
-      <a class="btn" data-action="nona" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Nona — 15 horas</span></a>
-      <a class="btn" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
-      <a class="btn" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leituras da Tarde</span></a>
-      <a class="btn" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
-      <a class="btn" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sinaxarion</span></a>
-      <a class="btn" data-action="calendario" href="#"><img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span></a>
+    <!-- Barra de data e navegação -->
+    <div class="datebar" id="datebar" aria-label="Navegar por datas">
+      <button class="datebtn prev" id="btn-prev" type="button">◀ Anterior</button>
+      <div class="datedisplay">
+        <div class="date" id="date-text">--/--/----</div>
+        <div class="weekday" id="weekday-text">--</div>
+      </div>
+      <button class="datebtn next" id="btn-next" type="button">Próximo ▶</button>
+    </div>
+
+    <!-- Lista de ações (placeholder, mantém visual para testes) -->
+    <section class="buttons" aria-label="Ações — Oração do Dia (teste)">
+      <a class="btn" data-action="manhas" href="#"><img src="img/cruz3.png" alt=""><span class="label">Orações da Manhã</span></a>
+      <a class="btn" data-action="leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Leituras do Dia</span></a>
+      <a class="btn" data-action="vesperas" href="#"><img src="img/cruz3.png" alt=""><span class="label">Orações da Tarde</span></a>
+      <a class="btn" data-action="noite" href="#"><img src="img/cruz3.png" alt=""><span class="label">Orações da Noite</span></a>
     </section>
   </main>
 
   <div id="toast"></div>
 
   <footer>
-    Oração das Horas — página de teste. <a href="qurbono-teste.html">Voltar</a>
+    Oração do Dia — página de teste. <a href="qurbono-teste.html">Voltar</a>
   </footer>
 
   <script>
@@ -211,32 +260,60 @@
       clearTimeout(window.__tid);
       window.__tid = setTimeout(function(){ t.style.opacity = 0; }, 1800);
     }
+
+    // Garantia: se a imagem carregar, o chip não aparece
+    document.getElementById('hero').addEventListener('load', function(){
+      document.getElementById('hero-chip').style.display = 'none';
+    });
+
+    // ====== Navegação de datas (similar ao app principal) ======
+    var currentDate = new Date(); // começa hoje
+
+    function two(n){ return String(n).padStart(2,'0'); }
+
+    function formatDateBR(date){
+      return date.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
+    }
+    function weekdayBR(date){
+      // ex.: "quarta-feira"
+      return date.toLocaleDateString('pt-BR', { weekday: 'long' });
+    }
+
+    function updateDateBar(){
+      document.getElementById('date-text').textContent = formatDateBR(currentDate);
+      document.getElementById('weekday-text').textContent = weekdayBR(currentDate);
+      // Hook: aqui chamaremos o carregamento real das orações pelo CSV
+      // ex.: carregarOracoesDoDia(currentDate);
+    }
+
+    document.getElementById('btn-prev').addEventListener('click', function(){
+      currentDate.setDate(currentDate.getDate() - 1);
+      updateDateBar();
+      toast('Carregar orações do dia anterior…');
+    });
+    document.getElementById('btn-next').addEventListener('click', function(){
+      currentDate.setDate(currentDate.getDate() + 1);
+      updateDateBar();
+      toast('Carregar orações do próximo dia…');
+    });
+
+    // Inicializa data (ex.: 27/08/2025, quarta-feira)
+    updateDateBar();
+
+    // ====== Placeholders dos botões ======
+    var msgs = {
+      manhas:'Orações da manhã (carregar da planilha) — em breve.',
+      leituras:'Leituras do dia (carregar da planilha) — em breve.',
+      vesperas:'Orações da tarde (carregar da planilha) — em breve.',
+      noite:'Orações da noite (carregar da planilha) — em breve.'
+    };
     document.querySelectorAll('.btn[data-action]').forEach(function(a){
       a.addEventListener('click', function(e){
         e.preventDefault();
         var ac = e.currentTarget.getAttribute('data-action');
-        var msgs = {
-          lilyo:'Lilyo (Vigílias) — em breve.',
-          safro:'Safro — em breve.',
-          'manha-leituras':'Salmo do Dia e Leituras da Manhã — em breve.',
-          terca:'Hora Terça — em breve.',
-          sexta:'Hora Sexta — em breve.',
-          nona:'Hora Nona — em breve.',
-          ramsho:'Ramsho — em breve.',
-          'tarde-leituras':'Salmo do Dia e Leituras da Tarde — em breve.',
-          sutoro:'Sutoro — em breve.',
-          sinaxarion:'Sinaxarion — em breve.',
-          calendario:'Calendário Litúrgico — em breve.'
-        };
         toast(msgs[ac] || 'Em breve');
       });
-    });
-
-    // se a imagem carregar, garante que o chip NÃO apareça
-    document.getElementById('hero').addEventListener('load', function(){
-      document.getElementById('hero-chip').style.display = 'none';
     });
   </script>
 </body>
 </html>
-
