@@ -33,7 +33,7 @@ header{display:flex;justify-content:center;text-align:center;padding:12px 12px 0
   border:3px solid var(--dourado); box-shadow:0 0 0 2px rgba(214,178,90,.45) inset; border-radius:14px; font-weight:800; color:var(--navy)
 }
 
-/* Navegação por data (sem botões de conteúdo) */
+/* Navegação por data */
 .datebox{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 6px}
 .navbtn{
   appearance:none;border:1px solid #98c6ef;background:#fff;color:var(--navy);cursor:pointer;
@@ -53,8 +53,8 @@ footer a{color:#0b2a4d;text-decoration:none}
 <header><h1 class="title">Leituras Bíblicas</h1></header>
 
 <main class="wrap">
-  <img class="hero" id="hero" src="img/icone-leituras.jgp" alt="Ícone — Leituras"
-       onerror="if(!this.dataset.swapped){this.dataset.swapped=1;this.src='img/icone-leituras.jpg';}else{this.hidden=true;document.getElementById('chip').hidden=false;}">
+  <img class="hero" id="hero" src="img/icone-leituras.png" alt="Ícone — Leituras"
+       onerror="this.hidden=true;document.getElementById('chip').hidden=false;">
   <div id="chip" class="chip" hidden>Leituras Bíblicas</div>
 
   <div class="datebox" aria-label="Navegação por data">
@@ -70,11 +70,11 @@ footer a{color:#0b2a4d;text-decoration:none}
 <footer>Leituras · <a href="qurbono-teste.html">Qurbono</a> · <a href="index.html">App</a></footer>
 
 <script>
-const dateEl = document.getElementById('date');
-const weekEl = document.getElementById('weekday');
-const prevBt = document.getElementById('prev');
-const nextBt = document.getElementById('next');
-let current = new Date();
+const dateEl=document.getElementById('date');
+const weekEl=document.getElementById('weekday');
+const prevBt=document.getElementById('prev');
+const nextBt=document.getElementById('next');
+let current=new Date();
 function fmtDate(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});}
 function fmtWeekday(d){return d.toLocaleDateString('pt-BR',{weekday:'long'});}
 function render(){dateEl.textContent=fmtDate(current); const wd=fmtWeekday(current); weekEl.textContent=wd.charAt(0).toUpperCase()+wd.slice(1);}
