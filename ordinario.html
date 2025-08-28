@@ -1,95 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ordinário</title>
-<meta name="theme-color" content="#bfe3c2"> <!-- verde claro -->
-<style>
-*{box-sizing:border-box}html,body{height:100%}
-body{
-  margin:0;font-family:Arial,Helvetica,sans-serif;color:#1b1b1b;
-  background:#bfe3c2; /* verde claro */
-  background-image:
-    repeating-linear-gradient(45deg, rgba(34,85,47,.25) 0, rgba(34,85,47,.25) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(34,85,47,.25) 0, rgba(34,85,47,.25) 2px, transparent 2px, transparent 40px); /* verde escuro */
-  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
-}
-header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
-.title{color:#d6b25a; /* dourado */ font-weight:800; letter-spacing:.3px; font-size:1.9rem; margin:0}
-.top-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}
-.top-links a{
-  color:#254a2f; text-decoration:none; background:#f8f3e6;
-  border:1px solid #d6b25a; padding:8px 12px; border-radius:10px; font-weight:bold; font-size:.9rem; line-height:1
-}
-.wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oração das Horas</title>
+  <meta name="theme-color" content="#556b2f">
+  <style>
+    :root{
+      --verde:#556b2f; --verde-claro:#7a9d54; --azul:#87ceeb;
+      --dourado:#d6b25a; --shadow:rgba(0,0,0,.15);
+      --fonte: Arial, Helvetica, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--fonte); color:#1b1b1b;
+      background: var(--verde-claro);
+      background-image:
+        repeating-linear-gradient(45deg, rgba(0,0,0,.15) 0, rgba(0,0,0,.15) 2px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(0,0,0,.15) 0, rgba(0,0,0,.15) 2px, transparent 2px, transparent 40px);
+      background-size:40px 40px;
+      display:flex; flex-direction:column; min-height:100vh;
+    }
 
-/* Ícone principal com borda dourada */
-.hero{
-  display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
-  border:6px solid #d6b25a; box-shadow:0 0 0 4px rgba(214,178,90,.55) inset; border-radius:12px
-}
-.hero[hidden]{display:none}
-.chip{
-  display:inline-block; margin:8px 0 14px; padding:10px 14px; background:rgba(255,255,255,.9);
-  border:3px solid #d6b25a; box-shadow:0 0 0 2px rgba(214,178,90,.55) inset; border-radius:14px; font-weight:bold; color:#254a2f
-}
+    header{text-align:center; padding:12px}
+    .title{
+      color:var(--azul); font-weight:900; font-size:2rem;
+      text-shadow:
+        -1px -1px 0 var(--dourado),
+         1px -1px 0 var(--dourado),
+        -1px  1px 0 var(--dourado),
+         1px  1px 0 var(--dourado);
+    }
 
-/* Botões */
-.buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
-.btn{
-  position:relative; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
-  background-color:rgba(255,255,255,0.97);
-  /* borda dourada (interna) +20% e aro verde (externo) */
-  border:1.62px solid #d6b25a; /* era ~1.35px */
-  box-shadow:
-    0 0 0 1.08px rgba(214,178,90,.55) inset, /* era ~0.9px */
-    0 0 0 2px #22552f,                         /* aro verde por fora */
-    0 4px 10px rgba(0,0,0,.12);               /* sombra */
-  border-radius:18px;
+    .wrap{width:100%; max-width:620px; margin:0 auto; padding:10px 16px 24px}
 
-  padding:8px 16px; width:66%; font-size:.94rem; font-weight:bold; color:#254a2f; line-height:1.2;
-  transition:transform .15s ease, background-color .2s ease; text-align:center
-}
-.btn:hover{transform:scale(1.02); background:#fff8e0}
+    /* Ícone central */
+    .hero{
+      display:block;
+      margin:6px auto 18px;
+      max-width:100%;
+      height:auto;
+      max-height:420px;
+      border:6px solid var(--azul);
+      box-shadow:
+        0 0 0 4px var(--dourado), /* nova borda dourada externa */
+        0 0 0 4px var(--dourado) inset;
+      border-radius:12px;
+    }
 
-/* Cruz 10% menor e redonda */
-.btn img{
-  position:absolute; left:12px; width:30px; height:30px; /* 33 → 30px */
-  object-fit:cover; border-radius:50%; display:block
-}
-.btn .label{width:100%; text-align:center; pointer-events:none}
+    /* Botões */
+    .buttons{display:flex; flex-direction:column; gap:14px; margin-top:18px}
+    .btn{
+      position:relative;
+      display:flex; align-items:center; justify-content:center;
+      text-decoration:none; cursor:pointer;
+      background-color:#fff;
+      border:2.4px solid var(--azul);
+      box-shadow:0 0 0 2px var(--dourado) inset, 0 4px 10px var(--shadow);
+      border-radius:18px;
+      padding:12px 18px;
+      width:66%;   /* largura aumentada em 18% */
+      margin:0 auto;
+      font-size:1rem; font-weight:bold; color:var(--azul);
+      transition:transform .15s ease, background-color .2s ease;
+    }
+    .btn:hover{transform:scale(1.02); background:#f8faff}
 
-footer{margin-top:auto;text-align:center;color:#3a5a44;font-size:.8rem;padding:8px}
-footer a{color:#254a2f}
-@media(max-width:600px){.title{font-size:1.7rem}.btn{width:80%}}
-</style>
+    /* Ícone fixo à esquerda dentro do botão */
+    .btn img{
+      position:absolute; left:14px;
+      width:26px; height:26px;
+    }
+  </style>
 </head>
 <body>
-<header class="top">
-  <h1 class="title">Ordinário</h1>
-  <nav class="top-links" aria-label="atalhos">
-    <a href="index.html">App principal</a>
-    <a href="oracao.html">Voltar à Intermediária</a>
-  </nav>
-</header>
+  <header>
+    <h1 class="title">Oração das Horas</h1>
+  </header>
 
-<main class="wrap">
-  <img class="hero" id="hero" src="img/icone-ordinario.jpg" alt="Ícone Ordinário"
-       onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
-  <div id="hero-chip" class="chip" style="display:none">Ordinário</div>
+  <main class="wrap">
+    <!-- Ícone principal -->
+    <img class="hero" src="img/icone-oração.jpg" alt="Ícone da Oração das Horas">
 
-  <section class="buttons" aria-label="Seções do Ordinário">
-    <a class="btn" href="tempos.html"><img src="img/cruz4.jpeg" alt=""><span class="label">Epifania / Anúncio / Pentecostes / Cruz</span></a>
-    <a class="btn" href="quaresma.html"><img src="img/cruz4.jpeg" alt=""><span class="label">Quaresma</span></a>
-    <a class="btn" href="paixao.html"><img src="img/cruz4.jpeg" alt=""><span class="label">Semana Santa</span></a>
-    <a class="btn" href="ressurreicao.html"><img src="img/cruz4.jpeg" alt=""><span class="label">Ressurreição</span></a>
-  </section>
-</main>
-
-<footer>Ordinário · <a href="index.html">Voltar</a></footer>
-<script>
-document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
-</script>
+    <section class="buttons">
+      <a class="btn" href="horas-teste.html"><img src="img/cedro.jpg" alt="">Oração do Dia</a>
+      <a class="btn" href="ordinario.html"><img src="img/cedro.jpg" alt="">Ordinário</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Comum dos Santos</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Festas por Data</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Biblioteca</a>
+    </section>
+  </main>
 </body>
 </html>
