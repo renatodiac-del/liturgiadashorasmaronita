@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oração do Dia</title>
+  <meta name="theme-color" content="#f3e6cf">
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1b1b1b;
+      background: #f3e6cf;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(160,0,0,0.22) 0, rgba(160,0,0,0.22) 2px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(160,0,0,0.22) 0, rgba(160,0,0,0.22) 2px, transparent 2px, transparent 40px);
+      background-size: 40px 40px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header.top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      padding: 12px 12px 0 12px;
+      text-align: center;
+    }
+    .title {
+      color: #d6b25a;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      font-size: 1.9rem;
+      margin: 0;
+    }
+    .top-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 6px 0 10px;
+    }
+    .top-links a {
+      color: #ffffff;
+      text-decoration: none;
+      background: #a00000;
+      border: 1px solid #6f0000;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      line-height: 1;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 10px 16px 24px;
+    }
+
+    .hero {
+      display: block;
+      margin: 6px auto 14px;
+      max-width: 100%;
+      height: auto;
+      max-height: 420px;
+      border: 6px solid #ff7a00;
+      box-shadow: 0 0 0 4px #d6b25a inset;
+      border-radius: 12px;
+    }
+    .hero[hidden] { display: none; }
+
+    .chip {
+      display: inline-block;
+      margin: 8px 0 14px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.9);
+      border: 3px solid #ff7a00;
+      box-shadow: 0 0 0 2px #d6b25a inset;
+      border-radius: 14px;
+      font-weight: bold;
+      color: #a00000;
+    }
+
+    /* Lista de botões */
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .btn {
+      position: relative;             /* para fixar o ícone à esquerda */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+
+      background-color: rgba(255,255,255,0.97);
+      border: 1.35px solid #ff7a00;
+      box-shadow: 0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
+      border-radius: 18px;
+
+      /* altura 20% menor, largura 83% como nas demais páginas */
+      padding: 8px 16px;
+      width: 83%;
+      font-size: 0.94rem;
+      font-weight: bold;
+      color: #a00000;
+      line-height: 1.2;
+      transition: transform 0.15s ease, background-color 0.2s ease;
+      text-align: center;
+    }
+    .btn:hover { transform: scale(1.02); background: #fff3da; }
+
+    /* Ícone cedro à esquerda */
+    .btn img {
+      position: absolute;
+      left: 12px;
+      width: 22px;
+      height: 22px;
+      display: block;
+      object-fit: cover;
+      border-radius: 3px;
+    }
+    .btn .label {
+      width: 100%;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      color: #7a6a55;
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+    footer a { color: #7a0000; }
+
+    #toast {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    @media (max-width: 600px) {
+      .title { font-size: 1.7rem; }
+      .btn { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <h1 class="title">Oração do Dia</h1>
+    <nav class="top-links" aria-label="atalhos">
+      <a href="index.html">Voltar ao App principal</a>
+      <a href="horas-teste.html">Ir para Oração do Dia</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- Ícone principal -->
+    <img
+      class="hero"
+      id="hero"
+      src="img/icone-oração.jpg"
+      alt="Ícone Oração"
+      onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';"
+    >
+    <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
+
+    <!-- Botões principais com ícone cedro -->
+    <section class="buttons" aria-label="Menu — Oração do Dia (intermediária)">
+      <a class="btn" href="horas-teste.html">
+        <img src="img/cedro.jpg" alt="">
+        <span class="label">Oração do Dia</span>
+      </a>
+
+      <a class="btn" href="index.html?view=ordinario">
+        <img src="img/cedro.jpg" alt="">
+        <span class="label">Ordinário</span>
+      </a>
+
+      <a class="btn" href="index.html?view=comum">
+        <img src="img/cedro.jpg" alt="">
+        <span class="label">Comum dos Santos</span>
+      </a>
+
+      <a class="btn" href="index.html?view=calendario">
+        <img src="img/cedro.jpg" alt="">
+        <span class="label">Festas por Data</span>
+      </a>
+    </section>
+  </main>
+
+  <div id="toast"></div>
+
+  <footer>
+    Página intermediária — Oração do Dia. <a href="index.html">Voltar</a>
+  </footer>
+
+  <script>
+    // garante que o chip não apareça quando a imagem carregar
+    document.getElementById('hero').addEventListener('load', function(){
+      document.getElementById('hero-chip').style.display = 'none';
+    });
+
+    // opcional: toasts se quiser transformar os links em placeholders
+    function toast(msg){
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.opacity = 1;
+      clearTimeout(window.__tid);
+      window.__tid = setTimeout(function(){ t.style.opacity = 0; }, 1600);
+    }
+  </script>
+</body>
+</html>
