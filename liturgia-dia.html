@@ -21,10 +21,10 @@ body{
 
 /* HEADER */
 header{text-align:center;padding:16px 12px 8px}
-.title{color:var(--navy);font-size:2rem;font-weight:900;text-shadow:0 0 3px rgba(214,178,90,.6)}
+.title{color:var(--navy);font-size:1.6rem;font-weight:900;text-shadow:0 0 3px rgba(214,178,90,.5)}
 
 /* CONTAINER */
-.wrap{max-width:640px;margin:0 auto;padding:10px 16px 24px;width:100%}
+.wrap{max-width:640px;margin:0 auto;padding:10px 16px 28px;width:100%}
 
 /* ÍCONE */
 .hero{
@@ -32,11 +32,42 @@ header{text-align:center;padding:16px 12px 8px}
   border:6px solid var(--ouro); box-shadow:0 0 0 4px var(--navy) inset,0 8px 18px var(--shadow);
   border-radius:14px
 }
-.hero[hidden]{display:none}
-.chip{display:none}
 
-/* NAVEGAÇÃO */
-.datebox{display:flex;align-items:center;justify-content:center;gap:14px;margin:14px 0 6px}
+/* BLOCO CENTRAL (data + entrar + navegação) */
+.centerbox{display:flex;flex-direction:column;align-items:center;gap:10px}
+
+/* Data (apenas display) */
+.date{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:12px 18px; border-radius:14px; min-width:230px;
+  background:#fff; color:var(--navy); font-size:1.4rem; font-weight:900;
+  border:3px solid var(--turq);
+  box-shadow:
+    inset 0 0 0 3px var(--ouro),
+    0 2px 6px var(--shadow);
+}
+.weekday{font-size:1.05rem;font-weight:700;color:#27466a;text-transform:capitalize}
+
+/* Botão ENTRAR (maior) */
+.enterbtn{
+  margin-top:4px;
+  padding:12px 22px; border-radius:14px; font-weight:900; font-size:1.1rem;
+  background:#fff; color:var(--navy); cursor:pointer; width:min(72%, 360px);
+  border:3px solid var(--turq);
+  box-shadow:
+    inset 0 0 0 3px var(--ouro),
+    0 3px 8px var(--shadow);
+  transition:background-color .2s, transform .12s;
+  text-align:center;
+}
+.enterbtn:hover{background:#fff9e8; transform:translateY(-1px)}
+.enterbtn:active{transform:translateY(0)}
+
+/* Linha de navegação (abaixo do ENTRAR) */
+.navrow{
+  display:flex; align-items:center; justify-content:center; gap:14px; margin-top:4px;
+  width:100%;
+}
 .navbtn{
   appearance:none; background:#fff; cursor:pointer;
   padding:9px 14px; border-radius:12px; font-weight:900;
@@ -45,12 +76,9 @@ header{text-align:center;padding:16px 12px 8px}
     inset 0 0 0 3px var(--ouro), /* dourada interna extra */
     0 2px 6px var(--shadow);
   color:var(--navy);
+  transition:background-color .2s, transform .12s;
 }
 .navbtn:hover{background:#fffaf2; transform:translateY(-1px)}
-
-.date-text{display:flex;flex-direction:column;align-items:center;min-width:230px}
-.date{font-size:1.4rem;font-weight:900;color:var(--navy)}
-.weekday{font-size:1.05rem;font-weight:700;color:#27466a}
 
 footer{margin-top:auto;text-align:center;color:#27466a;font-size:.85rem;padding:.8rem}
 footer a{color:#0b2a4d;text-decoration:none;font-weight:700}
@@ -62,15 +90,20 @@ footer a{color:#0b2a4d;text-decoration:none;font-weight:700}
 <main class="wrap">
   <img class="hero" src="img/icone-liturgiadia.jpg" alt="Ícone — Liturgia do Dia">
 
-  <!-- Data + navegação (sem botão extra) -->
-  <div class="datebox" aria-label="Navegação por datas">
-    <button id="prev" class="navbtn" type="button">← Anterior</button>
-    <div class="date-text">
-      <div id="date" class="date">--/--/----</div>
-      <div id="weekday" class="weekday">-</div>
+  <section class="centerbox" aria-label="Navegação e acesso">
+    <!-- Data e dia da semana -->
+    <div id="date" class="date">--/--/----</div>
+    <div id="weekday" class="weekday">-</div>
+
+    <!-- Botão grande de entrada -->
+    <button id="enter" class="enterbtn" type="button">Entrar</button>
+
+    <!-- Setas de navegação (abaixo, centralizadas) -->
+    <div class="navrow">
+      <button id="prev" class="navbtn" type="button" aria-label="Dia anterior">← Anterior</button>
+      <button id="next" class="navbtn" type="button" aria-label="Próximo dia">Próximo →</button>
     </div>
-    <button id="next" class="navbtn" type="button">Próximo →</button>
-  </div>
+  </section>
 </main>
 
 <footer>
@@ -78,18 +111,43 @@ footer a{color:#0b2a4d;text-decoration:none;font-weight:700}
 </footer>
 
 <script>
+let current=new Date();
+
 const dateEl=document.getElementById('date');
 const weekEl=document.getElementById('weekday');
-let current=new Date();
-function fmtDate(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});}
-function fmtWeekday(d){return d.toLocaleDateString('pt-BR',{weekday:'long'});}
+const prevBt=document.getElementById('prev');
+const nextBt=document.getElementById('next');
+const enterBt=document.getElementById('enter');
+
+function fmtDate(d){
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function fmtWeekday(d){
+  const wd=d.toLocaleDateString('pt-BR',{weekday:'long'});
+  return wd.charAt(0).toUpperCase()+wd.slice(1);
+}
+
+/* 👉 Ajuste aqui: gere o link real do dia (planilha/CSV/página do dia) */
+function getLinkForDate(d){
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  // Exemplo placeholder:
+  // return `https://seu-endpoint/${y}-${m}-${day}`;
+  return `#${y}-${m}-${day}`; // placeholder seguro
+}
+
 function render(){
   dateEl.textContent=fmtDate(current);
-  let wd=fmtWeekday(current);
-  weekEl.textContent=wd.charAt(0).toUpperCase()+wd.slice(1);
+  weekEl.textContent=fmtWeekday(current);
 }
-document.getElementById('prev').onclick=()=>{current.setDate(current.getDate()-1);render();}
-document.getElementById('next').onclick=()=>{current.setDate(current.getDate()+1);render();}
+prevBt.onclick=()=>{current.setDate(current.getDate()-1);render();};
+nextBt.onclick=()=>{current.setDate(current.getDate()+1);render();};
+enterBt.onclick=()=>{
+  const url=getLinkForDate(current);
+  if(url && url !== '#') window.open(url,'_blank');
+};
+
 render();
 </script>
 </body>
