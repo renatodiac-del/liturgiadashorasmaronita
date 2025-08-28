@@ -109,8 +109,8 @@
       /* Altura 20% menor */
       padding: 8px 16px;
 
-      width: 83%;                 /* largura aumentada */
-      font-size: 0.94rem;         /* fonte menor */
+      width: 83%;                 
+      font-size: 0.94rem;         
       font-weight: bold;
       color: #a00000;
       line-height: 1.2;
@@ -172,14 +172,15 @@
   </header>
 
   <main class="wrap">
+    <!-- Ícone principal -->
     <img
       class="hero"
       id="hero"
       src="img/icone-horas.jpg"
       alt="Ícone da Oração das Horas"
-      onerror="this.hidden=true; document.getElementById('hero-chip').hidden=false;"
+      onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';"
     >
-    <div id="hero-chip" class="chip" hidden>Oração das Horas</div>
+    <div id="hero-chip" class="chip" style="display:none">Oração das Horas</div>
 
     <section class="buttons" aria-label="Ações — Oração das Horas (teste)">
       <a class="btn" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
@@ -231,13 +232,11 @@
       });
     });
 
-    /* Remoção defensiva: se existir algum botão "Oração das Horas", ocultar. */
-    document.querySelectorAll('.buttons .btn').forEach(function(btn){
-      var txt = btn.textContent.trim().toLowerCase();
-      if (txt === 'oração das horas' || txt === 'oracao das horas') {
-        btn.style.display = 'none';
-      }
+    // se a imagem carregar, garante que o chip NÃO apareça
+    document.getElementById('hero').addEventListener('load', function(){
+      document.getElementById('hero-chip').style.display = 'none';
     });
   </script>
 </body>
 </html>
+
