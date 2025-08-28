@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mapa Litúrgico — Visuais & Navegação</title>
+<meta name="theme-color" content="#efe8d8">
+<style>
+  :root{
+    --paper:#f7f1e6; --ink:#2f2a24; --card:#ffffff; --line:#e3d7c6;
+    --shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family: Arial, Helvetica, sans-serif; color:var(--ink);
+    background:var(--paper);
+    background-image:
+      repeating-linear-gradient(45deg, rgba(0,0,0,.035) 0, rgba(0,0,0,.035) 1px, transparent 1px, transparent 32px),
+      repeating-linear-gradient(-45deg, rgba(0,0,0,.025) 0, rgba(0,0,0,.025) 1px, transparent 1px, transparent 46px);
+    background-size: 32px 32px, 46px 46px;
+  }
+
+  header{
+    padding: 18px 16px 8px;
+    text-align:center;
+    border-bottom: 1px solid var(--line);
+  }
+  h1{
+    margin:0; font-size:1.8rem; letter-spacing:.3px;
+    color:#5a3b1c;
+  }
+  p.lead{
+    margin:.4rem auto 1rem; max-width:780px; color:#6d5a49; font-size:.98rem;
+  }
+
+  .wrap{
+    max-width:1100px; margin:0 auto; padding:16px;
+  }
+  .grid{
+    display:grid; gap:16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow: var(--shadow);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .thumb{
+    width:100%; aspect-ratio: 16/9; object-fit:cover;
+    border-bottom:1px solid var(--line);
+  }
+  .card-body{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:10px; }
+  .title{ font-weight:800; letter-spacing:.2px; margin:0; font-size:1.05rem }
+  .desc{ margin:0; color:#6c6257; font-size:.9rem; min-height:2.2em }
+
+  /* faixa de cores do tema */
+  .swatches{ display:flex; gap:6px; align-items:center; flex-wrap:wrap }
+  .swatch{
+    width:18px; height:18px; border-radius:50%;
+    border:1px solid rgba(0,0,0,.15);
+  }
+  .actions{ display:flex; gap:8px; margin-top:6px }
+  .btn{
+    appearance:none; border:1px solid #cdbda8; background:#fff; color:#5a3b1c;
+    padding:8px 12px; border-radius:12px; font-weight:700; font-size:.9rem;
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px; justify-content:center; flex:1;
+    transition: transform .12s ease, background-color .2s ease, border-color .2s ease;
+  }
+  .btn:hover{ background:#fff6ea; transform: translateY(-1px); border-color:#bda58b }
+  .btn:active{ transform: translateY(0) }
+
+  /* bordas dos cards coloridas para reforçar o tema */
+  .t-ordinario{ border-color:#d6b25a }
+  .t-tempos{ border-color:#582c0c }
+  .t-quaresma{ border-color:#b8860b }
+  .t-paixao{ border-color:#ffd700 }
+  .t-ressur{ border-color:#ffd700 }
+
+  footer{
+    text-align:center; padding:16px; color:#7b6c5b; font-size:.85rem;
+    border-top:1px solid var(--line); margin-top:12px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mapa Litúrgico — Visuais & Navegação</h1>
+  <p class="lead">Escolha um cartão para abrir a página correspondente e validar o esquema de cores, ícone e botões. Este índice ajuda a comparar rapidamente cada tema.</p>
+</header>
+
+<main class="wrap">
+  <section class="grid">
+
+    <!-- ORDINÁRIO -->
+    <article class="card t-ordinario">
+      <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário — ícone">
+      <div class="card-body">
+        <h3 class="title">Ordinário</h3>
+        <p class="desc">Fundo verde claro com detalhes verde escuro; bordas e título dourados.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#bfe3c2"></span>
+          <span class="swatch" style="background:#22552f"></span>
+          <span class="swatch" style="background:#d6b25a"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="ordinario.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- TEMPOS -->
+    <article class="card t-tempos">
+      <img class="thumb" src="img/icone-tempos.jpg" alt="Tempos — ícone">
+      <div class="card-body">
+        <h3 class="title">Anúncio / Epifania / Pentecostes / Cruz</h3>
+        <p class="desc">Fundo dourado com detalhes marrons; título, bordas e fontes em marrom.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#d6b25a"></span>
+          <span class="swatch" style="background:#582c0c"></span>
+          <span class="swatch" style="background:#3e1f08"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="tempos.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- QUARESMA -->
+    <article class="card t-quaresma">
+      <img class="thumb" src="img/icone-quaresma.jpg" alt="Quaresma — ícone">
+      <div class="card-body">
+        <h3 class="title">Grande Quaresma</h3>
+        <p class="desc">Fundo roxo com detalhes dourados; título, bordas e fontes em ouro-velho.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#4B0082"></span>
+          <span class="swatch" style="background:#d6b25a"></span>
+          <span class="swatch" style="background:#b8860b"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="quaresma.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- SEMANA DA PAIXÃO -->
+    <article class="card t-paixao">
+      <img class="thumb" src="img/icone-paixao.jpg" alt="Semana da Paixão — ícone">
+      <div class="card-body">
+        <h3 class="title">Semana da Paixão</h3>
+        <p class="desc">Fundo vermelho com detalhes e bordas douradas; letras em roxo.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#8B0000"></span>
+          <span class="swatch" style="background:#FFD700"></span>
+          <span class="swatch" style="background:#4B0082"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="paixao.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- RESSURREIÇÃO -->
+    <article class="card t-ressur">
+      <img class="thumb" src="img/icone-ressurreicao.jpg" alt="Ressurreição — ícone">
+      <div class="card-body">
+        <h3 class="title">Ressurreição Gloriosa</h3>
+        <p class="desc">Fundo bege pastel com detalhes dourados; títulos e bordas em dourado reluzente.</p>
+        <div class="swatches">
+          <span class="swatch" style="background:#fdf5e6"></span>
+          <span class="swatch" style="background:#ffd700"></span>
+          <span class="swatch" style="background:#daa520"></span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="ressurreicao.html">Abrir</a>
+        </div>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<footer>
+  Mapa Litúrgico · facilite a revisão visual e o acesso rápido às páginas. | <a href="index.html">Voltar ao App</a> | <a href="oracao.html">Intermediária</a>
+</footer>
+</body>
+</html>
