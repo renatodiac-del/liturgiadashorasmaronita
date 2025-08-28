@@ -35,7 +35,7 @@
       color: #d6b25a;
       font-weight: 800;
       letter-spacing: 0.3px;
-      font-size: 1.9rem; /* + ~3pt */
+      font-size: 1.9rem;
       margin: 0;
     }
     .top-links {
@@ -237,12 +237,19 @@
       <button class="datebtn next" id="btn-next" type="button">Próximo ▶</button>
     </div>
 
-    <!-- Lista de ações (placeholder, mantém visual para testes) -->
+    <!-- Lista de botões (todos os originais) -->
     <section class="buttons" aria-label="Ações — Oração do Dia (teste)">
-      <a class="btn" data-action="manhas" href="#"><img src="img/cruz3.png" alt=""><span class="label">Orações da Manhã</span></a>
-      <a class="btn" data-action="leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Leituras do Dia</span></a>
-      <a class="btn" data-action="vesperas" href="#"><img src="img/cruz3.png" alt=""><span class="label">Orações da Tarde</span></a>
-      <a class="btn" data-action="noite" href="#"><img src="img/cruz3.png" alt=""><span class="label">Orações da Noite</span></a>
+      <a class="btn" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
+      <a class="btn" data-action="safro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Safro</span></a>
+      <a class="btn" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leituras da Manhã</span></a>
+      <a class="btn" data-action="terca" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Terça — 9 horas</span></a>
+      <a class="btn" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Sexta — 12 horas</span></a>
+      <a class="btn" data-action="nona" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Nona — 15 horas</span></a>
+      <a class="btn" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
+      <a class="btn" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leituras da Tarde</span></a>
+      <a class="btn" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
+      <a class="btn" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sinaxarion</span></a>
+      <a class="btn" data-action="calendario" href="#"><img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span></a>
     </section>
   </main>
 
@@ -266,24 +273,20 @@
       document.getElementById('hero-chip').style.display = 'none';
     });
 
-    // ====== Navegação de datas (similar ao app principal) ======
+    // ====== Navegação de datas ======
     var currentDate = new Date(); // começa hoje
-
-    function two(n){ return String(n).padStart(2,'0'); }
 
     function formatDateBR(date){
       return date.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
     }
     function weekdayBR(date){
-      // ex.: "quarta-feira"
       return date.toLocaleDateString('pt-BR', { weekday: 'long' });
     }
 
     function updateDateBar(){
       document.getElementById('date-text').textContent = formatDateBR(currentDate);
       document.getElementById('weekday-text').textContent = weekdayBR(currentDate);
-      // Hook: aqui chamaremos o carregamento real das orações pelo CSV
-      // ex.: carregarOracoesDoDia(currentDate);
+      // Hook futuro: carregarOracoesDoDia(currentDate);
     }
 
     document.getElementById('btn-prev').addEventListener('click', function(){
@@ -297,15 +300,22 @@
       toast('Carregar orações do próximo dia…');
     });
 
-    // Inicializa data (ex.: 27/08/2025, quarta-feira)
+    // Inicializa a data
     updateDateBar();
 
-    // ====== Placeholders dos botões ======
+    // ====== Mensagens dos botões (originais) ======
     var msgs = {
-      manhas:'Orações da manhã (carregar da planilha) — em breve.',
-      leituras:'Leituras do dia (carregar da planilha) — em breve.',
-      vesperas:'Orações da tarde (carregar da planilha) — em breve.',
-      noite:'Orações da noite (carregar da planilha) — em breve.'
+      'lilyo':'Lilyo (Vigílias) — em breve.',
+      'safro':'Safro — em breve.',
+      'manha-leituras':'Salmo do Dia e Leituras da Manhã — em breve.',
+      'terca':'Hora Terça — em breve.',
+      'sexta':'Hora Sexta — em breve.',
+      'nona':'Hora Nona — em breve.',
+      'ramsho':'Ramsho — em breve.',
+      'tarde-leituras':'Salmo do Dia e Leituras da Tarde — em breve.',
+      'sutoro':'Sutoro — em breve.',
+      'sinaxarion':'Sinaxarion — em breve.',
+      'calendario':'Calendário Litúrgico — em breve.'
     };
     document.querySelectorAll('.btn[data-action]').forEach(function(a){
       a.addEventListener('click', function(e){
