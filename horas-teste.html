@@ -7,7 +7,6 @@
   <meta name="theme-color" content="#f3e6cf">
 
   <style>
-    /* RESET ESSENCIAL */
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
@@ -24,7 +23,6 @@
       min-height: 100vh;
     }
 
-    /* TOPO */
     header.top {
       display: flex;
       flex-direction: column;
@@ -34,10 +32,10 @@
       text-align: center;
     }
     .title {
-      color: #d6b25a;              /* dourado */
+      color: #d6b25a;
       font-weight: 800;
       letter-spacing: 0.3px;
-      font-size: 1.6rem;
+      font-size: 1.9rem; /* + ~3pt */
       margin: 0;
     }
     .top-links {
@@ -59,7 +57,6 @@
       line-height: 1;
     }
 
-    /* CONTEÚDO */
     .wrap {
       width: 100%;
       max-width: 620px;
@@ -67,33 +64,30 @@
       padding: 10px 16px 24px;
     }
 
-    /* IMAGEM PRINCIPAL (“hero”) */
     .hero {
       display: block;
       margin: 6px auto 14px;
       max-width: 100%;
       height: auto;
       max-height: 420px;
-      border: 6px solid #ff7a00;   /* laranja */
-      box-shadow: 0 0 0 4px #d6b25a inset;  /* dourado interno */
+      border: 6px solid #ff7a00;
+      box-shadow: 0 0 0 4px #d6b25a inset;
       border-radius: 12px;
     }
     .hero[hidden] { display: none; }
 
-    /* CHIP DE FALLBACK */
     .chip {
       display: inline-block;
       margin: 8px 0 14px;
       padding: 10px 14px;
       background: rgba(255,255,255,0.9);
-      border: 3px solid #ff7a00;             /* laranja */
-      box-shadow: 0 0 0 2px #d6b25a inset;    /* dourado interno */
+      border: 3px solid #ff7a00;
+      box-shadow: 0 0 0 2px #d6b25a inset;
       border-radius: 14px;
       font-weight: bold;
-      color: #a00000;                         /* vermelho */
+      color: #a00000;
     }
 
-    /* LISTA DE BOTÕES (ÂNCORAS) */
     .buttons {
       display: flex;
       flex-direction: column;
@@ -101,36 +95,43 @@
       align-items: center;
     }
     .btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       text-decoration: none;
       cursor: pointer;
-
       background-color: rgba(255,255,255,0.97);
-      border: 1.68px solid #ff7a00;          /* laranja 30% mais fino */
-      box-shadow: 0 0 0 1.12px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
+      border: 1.35px solid #ff7a00;
+      box-shadow: 0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius: 18px;
 
-      padding: 10px 16px;
-      width: 72%;
-      font-size: 1rem;
+      /* Altura 20% menor */
+      padding: 8px 16px;
+
+      width: 83%;                 /* largura aumentada */
+      font-size: 0.94rem;         /* fonte menor */
       font-weight: bold;
-      color: #a00000;                         /* vermelho */
+      color: #a00000;
       line-height: 1.2;
       transition: transform 0.15s ease, background-color 0.2s ease;
       text-align: center;
     }
     .btn:hover { transform: scale(1.02); background: #fff3da; }
+
     .btn img {
+      position: absolute;
+      left: 12px;
       width: 22px;
       height: 22px;
-      flex: 0 0 22px;
       display: block;
     }
+    .btn .label {
+      width: 100%;
+      text-align: center;
+      pointer-events: none;
+    }
 
-    /* RODAPÉ */
     footer {
       margin-top: auto;
       text-align: center;
@@ -140,7 +141,6 @@
     }
     footer a { color: #7a0000; }
 
-    /* TOAST */
     #toast {
       position: fixed;
       bottom: 18px;
@@ -156,10 +156,9 @@
       transition: opacity 0.2s ease;
     }
 
-    /* RESPONSIVO */
     @media (max-width: 600px) {
-      .title { font-size: 1.4rem; }
-      .btn { width: 86%; }
+      .title { font-size: 1.7rem; }
+      .btn { width: 90%; }
     }
   </style>
 </head>
@@ -173,7 +172,6 @@
   </header>
 
   <main class="wrap">
-    <!-- Ícone principal atualizado -->
     <img
       class="hero"
       id="hero"
@@ -183,19 +181,18 @@
     >
     <div id="hero-chip" class="chip" hidden>Oração das Horas</div>
 
-    <!-- Lista de botões -->
     <section class="buttons" aria-label="Ações — Oração das Horas (teste)">
-      <a class="btn" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""> Lilyo — Vigílias</a>
-      <a class="btn" data-action="safro" href="#"><img src="img/cruz3.png" alt=""> Safro — Oração da Manhã</a>
-      <a class="btn" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""> Salmo do Dia e Leituras da Manhã</a>
-      <a class="btn" data-action="terca" href="#"><img src="img/cruz3.png" alt=""> Hora Terça — 9 horas</a>
-      <a class="btn" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""> Hora Sexta — 12 horas</a>
-      <a class="btn" data-action="nona" href="#"><img src="img/cruz3.png" alt=""> Hora Nona — 15 horas</a>
-      <a class="btn" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""> Ramsho — Oração da Tarde</a>
-      <a class="btn" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""> Salmo do Dia e Leituras da Tarde</a>
-      <a class="btn" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""> Sutoro — Oração da Noite</a>
-      <a class="btn" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""> Sinaxarion</a>
-      <a class="btn" data-action="calendario" href="#"><img src="img/cruz3.png" alt=""> Calendário Litúrgico</a>
+      <a class="btn" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
+      <a class="btn" data-action="safro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Safro — Oração da Manhã</span></a>
+      <a class="btn" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leituras da Manhã</span></a>
+      <a class="btn" data-action="terca" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Terça — 9 horas</span></a>
+      <a class="btn" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Sexta — 12 horas</span></a>
+      <a class="btn" data-action="nona" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Nona — 15 horas</span></a>
+      <a class="btn" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
+      <a class="btn" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leituras da Tarde</span></a>
+      <a class="btn" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
+      <a class="btn" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sinaxarion</span></a>
+      <a class="btn" data-action="calendario" href="#"><img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span></a>
     </section>
   </main>
 
@@ -232,6 +229,14 @@
         };
         toast(msgs[ac] || 'Em breve');
       });
+    });
+
+    /* Remoção defensiva: se existir algum botão "Oração das Horas", ocultar. */
+    document.querySelectorAll('.buttons .btn').forEach(function(btn){
+      var txt = btn.textContent.trim().toLowerCase();
+      if (txt === 'oração das horas' || txt === 'oracao das horas') {
+        btn.style.display = 'none';
+      }
     });
   </script>
 </body>
