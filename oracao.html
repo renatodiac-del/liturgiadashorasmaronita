@@ -4,210 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Oração das Horas</title>
-  <meta name="theme-color" content="#4b5320"> <!-- verde musgo -->
-
+  <meta name="theme-color" content="#556b2f">
   <style>
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #1b1b1b;
-      background: #4b5320; /* verde musgo */
+    :root{
+      --verde:#556b2f; --verde-claro:#7a9d54; --azul:#87ceeb;
+      --dourado:#d6b25a; --shadow:rgba(0,0,0,.15);
+      --fonte: Arial, Helvetica, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--fonte); color:#1b1b1b;
+      background: var(--verde-claro);
       background-image:
-        repeating-linear-gradient(45deg, rgba(173, 216, 230, 0.3) 0, rgba(173, 216, 230, 0.3) 2px, transparent 2px, transparent 40px),
-        repeating-linear-gradient(-45deg, rgba(173, 216, 230, 0.3) 0, rgba(173, 216, 230, 0.3) 2px, transparent 2px, transparent 40px);
-      background-size: 40px 40px;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+        repeating-linear-gradient(45deg, rgba(0,0,0,.15) 0, rgba(0,0,0,.15) 2px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(0,0,0,.15) 0, rgba(0,0,0,.15) 2px, transparent 2px, transparent 40px);
+      background-size:40px 40px;
+      display:flex; flex-direction:column; min-height:100vh;
     }
 
-    header.top {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: center;
-      padding: 12px 12px 0 12px;
-      text-align: center;
-    }
-    .title {
-      color: #00BFFF; /* azul celeste */
-      font-weight: 800;
-      letter-spacing: 0.3px;
-      font-size: 1.9rem;
-      margin: 0;
-    }
-    .top-links {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 6px 0 10px;
-    }
-    .top-links a {
-      color: #ffffff;
-      text-decoration: none;
-      background: #00BFFF; /* azul celeste */
-      border: 1px solid #009acd;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 0.9rem;
-      line-height: 1;
+    header{text-align:center; padding:12px}
+    .title{color:var(--azul); font-weight:900; font-size:1.8rem}
+
+    .wrap{width:100%; max-width:620px; margin:0 auto; padding:10px 16px 24px}
+
+    /* Ícone */
+    .hero{
+      display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
+      border:6px solid var(--azul); box-shadow:0 0 0 4px var(--dourado) inset; border-radius:12px
     }
 
-    .wrap {
-      width: 100%;
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 10px 16px 24px;
+    /* Botões */
+    .buttons{display:flex; flex-direction:column; gap:14px; margin-top:18px}
+    .btn{
+      display:flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; cursor:pointer;
+      background-color:#fff; border:2.4px solid var(--azul);
+      box-shadow:0 0 0 2px var(--dourado) inset, 0 4px 10px var(--shadow);
+      border-radius:18px; padding:12px 18px; width:80%; margin:0 auto;
+      font-size:1rem; font-weight:bold; color:var(--azul);
+      transition:transform .15s ease, background-color .2s ease
     }
-
-    .hero {
-      display: block;
-      margin: 6px auto 14px;
-      max-width: 100%;
-      height: auto;
-      max-height: 420px;
-      border: 6px solid #00BFFF; /* azul celeste */
-      box-shadow: 0 0 0 4px #add8e6 inset; /* azul claro */
-      border-radius: 12px;
-    }
-    .hero[hidden] { display: none; }
-
-    .chip {
-      display: inline-block;
-      margin: 8px 0 14px;
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.9);
-      border: 3px solid #00BFFF;
-      box-shadow: 0 0 0 2px #add8e6 inset;
-      border-radius: 14px;
-      font-weight: bold;
-      color: #00BFFF;
-    }
-
-    /* Lista de botões */
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-      margin-top: 4px;
-    }
-    .btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      cursor: pointer;
-
-      background-color: rgba(255,255,255,0.97);
-      border: 1.35px solid #00BFFF; /* azul celeste */
-      box-shadow: 0 0 0 0.9px #add8e6 inset, 0 4px 10px rgba(0,0,0,0.15);
-      border-radius: 18px;
-
-      padding: 8px 16px;
-      width: 66%; /* 20% menor que antes */
-      font-size: 0.94rem;
-      font-weight: bold;
-      color: #00BFFF;
-      line-height: 1.2;
-      transition: transform 0.15s ease, background-color 0.2s ease;
-      text-align: center;
-    }
-    .btn:hover { transform: scale(1.02); background: #fff3da; }
-
-    /* Ícone cedro à esquerda */
-    .btn img {
-      position: absolute;
-      left: 12px;
-      width: 33px;   /* antes 22px → +50% */
-      height: 33px;
-      display: block;
-      object-fit: cover;
-      border-radius: 3px;
-    }
-    .btn .label {
-      width: 100%;
-      text-align: center;
-      pointer-events: none;
-    }
-
-    footer {
-      margin-top: auto;
-      text-align: center;
-      color: #e0e0e0;
-      font-size: 0.8rem;
-      padding: 8px;
-    }
-    footer a { color: #ffffff; }
-
-    @media (max-width: 600px) {
-      .title { font-size: 1.7rem; }
-      .btn { width: 80%; }
-    }
+    .btn:hover{transform:scale(1.02); background:#f8faff}
+    .btn img{width:28px; height:28px}
   </style>
 </head>
 <body>
-  <header class="top">
+  <header>
     <h1 class="title">Oração das Horas</h1>
-    <nav class="top-links" aria-label="atalhos">
-      <a href="index.html">Voltar ao App principal</a>
-      <a href="horas-teste.html">Ir para Oração do Dia</a>
-    </nav>
   </header>
 
   <main class="wrap">
-    <!-- Ícone principal -->
-    <img
-      class="hero"
-      id="hero"
-      src="img/icone-oração.jpg"
-      alt="Ícone Oração"
-      onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';"
-    >
-    <div id="hero-chip" class="chip" style="display:none">Oração das Horas</div>
+    <img class="hero" src="img/icone-oracao.jpg" alt="Ícone da Oração das Horas">
 
-    <!-- Botões principais -->
-    <section class="buttons" aria-label="Menu — Oração das Horas (intermediária)">
-      <a class="btn" href="horas-teste.html">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label">Oração do Dia</span>
-      </a>
-
-      <a class="btn" href="index.html?view=ordinario">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label">Ordinário</span>
-      </a>
-
-      <a class="btn" href="index.html?view=comum">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label">Comum dos Santos</span>
-      </a>
-
-      <a class="btn" href="index.html?view=calendario">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label">Festas por Data</span>
-      </a>
-
-      <a class="btn" href="index.html?view=biblioteca">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label">Biblioteca</span>
-      </a>
+    <section class="buttons">
+      <a class="btn" href="horas-teste.html"><img src="img/cedro.jpg" alt=""> Oração do Dia</a>
+      <a class="btn" href="ordinario.html"><img src="img/cedro.jpg" alt=""> Ordinário</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt=""> Comum dos Santos</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt=""> Festas por Data</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt=""> Biblioteca</a>
     </section>
   </main>
-
-  <footer>
-    Página intermediária — Oração das Horas. <a href="index.html">Voltar</a>
-  </footer>
-
-  <script>
-    document.getElementById('hero').addEventListener('load', function(){
-      document.getElementById('hero-chip').style.display = 'none';
-    });
-  </script>
 </body>
 </html>
