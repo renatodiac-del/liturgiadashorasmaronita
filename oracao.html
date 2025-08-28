@@ -28,24 +28,38 @@
 
     .wrap{width:100%; max-width:620px; margin:0 auto; padding:10px 16px 24px}
 
-    /* Ícone */
+    /* Ícone central */
     .hero{
-      display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid var(--azul); box-shadow:0 0 0 4px var(--dourado) inset; border-radius:12px
+      display:block;
+      margin:6px auto 18px;
+      max-width:100%;
+      height:auto;
+      max-height:420px;
+      border:6px solid var(--azul);
+      box-shadow:0 0 0 4px var(--dourado) inset;
+      border-radius:12px;
     }
 
     /* Botões */
     .buttons{display:flex; flex-direction:column; gap:14px; margin-top:18px}
     .btn{
-      display:flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; cursor:pointer;
-      background-color:#fff; border:2.4px solid var(--azul);
+      position:relative;
+      display:flex; align-items:center; justify-content:center;
+      text-decoration:none; cursor:pointer;
+      background-color:#fff;
+      border:2.4px solid var(--azul);
       box-shadow:0 0 0 2px var(--dourado) inset, 0 4px 10px var(--shadow);
       border-radius:18px; padding:12px 18px; width:80%; margin:0 auto;
       font-size:1rem; font-weight:bold; color:var(--azul);
-      transition:transform .15s ease, background-color .2s ease
+      transition:transform .15s ease, background-color .2s ease;
     }
     .btn:hover{transform:scale(1.02); background:#f8faff}
-    .btn img{width:28px; height:28px}
+
+    /* Ícone fixo à esquerda dentro do botão */
+    .btn img{
+      position:absolute; left:14px;
+      width:26px; height:26px;
+    }
   </style>
 </head>
 <body>
@@ -54,14 +68,15 @@
   </header>
 
   <main class="wrap">
+    <!-- Ícone principal -->
     <img class="hero" src="img/icone-oracao.jpg" alt="Ícone da Oração das Horas">
 
     <section class="buttons">
-      <a class="btn" href="horas-teste.html"><img src="img/cedro.jpg" alt=""> Oração do Dia</a>
-      <a class="btn" href="ordinario.html"><img src="img/cedro.jpg" alt=""> Ordinário</a>
-      <a class="btn" href="#"><img src="img/cedro.jpg" alt=""> Comum dos Santos</a>
-      <a class="btn" href="#"><img src="img/cedro.jpg" alt=""> Festas por Data</a>
-      <a class="btn" href="#"><img src="img/cedro.jpg" alt=""> Biblioteca</a>
+      <a class="btn" href="horas-teste.html"><img src="img/cedro.jpg" alt="">Oração do Dia</a>
+      <a class="btn" href="ordinario.html"><img src="img/cedro.jpg" alt="">Ordinário</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Comum dos Santos</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Festas por Data</a>
+      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Biblioteca</a>
     </section>
   </main>
 </body>
