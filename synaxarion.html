@@ -65,9 +65,9 @@ footer a{color:#053e44;text-decoration:none;font-weight:700}
 </header>
 
 <main class="wrap">
-  <!-- ícone principal (tenta .jgp e cai para .jpg) -->
-  <img class="hero" id="hero" src="img/icone-sinaxarion.jgp" alt="Ícone — Synaxarion"
-       onerror="if(!this.dataset.swapped){ this.dataset.swapped=1; this.src='img/icone-sinaxarion.jpg'; } else { this.hidden=true; document.getElementById('chip').hidden=false; }">
+  <!-- Ícone principal -->
+  <img class="hero" id="hero" src="img/icone-synaxarion.jpg" alt="Ícone — Synaxarion"
+       onerror="this.hidden=true;document.getElementById('chip').hidden=false;">
   <div id="chip" class="chip" hidden>Synaxarion</div>
 
   <!-- Data + navegação (sem dia da semana) -->
@@ -83,38 +83,22 @@ footer a{color:#053e44;text-decoration:none;font-weight:700}
 </footer>
 
 <script>
-/* Lista de datas existentes (ORDem crescente). Edite conforme sua tabela.
-   Formato: 'MM-DD' — exibiremos como 'DD/MM'. */
 const AVAILABLE = [
   '01-01','01-06','01-15','02-02','02-14','03-19','03-25','04-23',
   '05-03','05-10','06-24','06-29','07-20','08-06','08-15','09-14',
   '10-01','10-07','11-01','12-06','12-08','12-25'
 ];
-
-const dateEl = document.getElementById('date');
-let idx = 0;
-
-// Pega a posição mais próxima de hoje, se existir
+const dateEl=document.getElementById('date'); let idx=0;
 (function pickNearest(){
-  const today = new Date();
-  const m = String(today.getMonth()+1).padStart(2,'0');
-  const d = String(today.getDate()).padStart(2,'0');
-  const key = `${m}-${d}`;
-  const pos = AVAILABLE.indexOf(key);
-  if (pos >= 0) idx = pos;
+  const today=new Date();
+  const m=String(today.getMonth()+1).padStart(2,'0');
+  const d=String(today.getDate()).padStart(2,'0');
+  const key=`${m}-${d}`; const pos=AVAILABLE.indexOf(key); if(pos>=0) idx=pos;
 })();
-
-function fmt(pt){ // 'MM-DD' -> 'DD/MM'
-  const [mm,dd] = pt.split('-');
-  return `${dd}/${mm}`;
-}
-function render(){ dateEl.textContent = fmt(AVAILABLE[idx]); }
-document.getElementById('prev').addEventListener('click', ()=>{
-  idx = (idx - 1 + AVAILABLE.length) % AVAILABLE.length; render();
-});
-document.getElementById('next').addEventListener('click', ()=>{
-  idx = (idx + 1) % AVAILABLE.length; render();
-});
+function fmt(pt){const [mm,dd]=pt.split('-'); return `${dd}/${mm}`;}
+function render(){ dateEl.textContent=fmt(AVAILABLE[idx]); }
+document.getElementById('prev').addEventListener('click',()=>{idx=(idx-1+AVAILABLE.length)%AVAILABLE.length;render();});
+document.getElementById('next').addEventListener('click',()=>{idx=(idx+1)%AVAILABLE.length;render();});
 render();
 </script>
 </body>
