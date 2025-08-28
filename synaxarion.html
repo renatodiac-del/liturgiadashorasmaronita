@@ -7,67 +7,88 @@
 <style>
 :root{
   --ouro:#b8860b; --turq:#40E0D0; --ink:#123d41;
-  --paper:#fff7e6; --shadow:rgba(0,0,0,.14);
+  --paper:#fff7e6; --shadow:rgba(0,0,0,.16);
   --fonte: Arial, Helvetica, sans-serif;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  margin:0;font-family:var(--fonte);background:var(--ouro);
+  font-family:var(--fonte);background:var(--ouro);color:var(--ink);
   background-image:
     repeating-linear-gradient(45deg, rgba(64,224,208,.20) 0, rgba(64,224,208,.20) 2px, transparent 2px, transparent 40px),
     repeating-linear-gradient(-45deg, rgba(64,224,208,.20) 0, rgba(64,224,208,.20) 2px, transparent 2px, transparent 40px);
-  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh; color:var(--ink);
+  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
 }
-header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
+
+/* HEADER (sem botões; só o título) */
+header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 12px 4px}
 .title{
-  color:var(--turq); font-size:2.05rem; font-weight:900; letter-spacing:.3px; margin:0 0 8px;
-  text-shadow:0 0 0.8px var(--ouro), 0 0 1.6px var(--ouro), 0 0 3px rgba(184,134,11,.6);
+  color:var(--turq); font-size:2.1rem; font-weight:900; letter-spacing:.3px;
+  text-shadow:
+    0 0 1px var(--ouro), 0 0 2px var(--ouro), 0 0 6px rgba(184,134,11,.65);
 }
+
+/* CONTEÚDO */
 .wrap{max-width:640px;margin:0 auto;padding:10px 16px 24px;width:100%}
 
-/* Ícone com TRÊS camadas: externa TURQUESA, meio DOURADO, interna TURQUESA */
+/* ÍCONE PRINCIPAL — borda TRIPLA (turquesa / dourado / turquesa) */
 .hero{
-  display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;background:#fff;
-  border:6px solid var(--turq);
+  display:block;margin:8px auto 16px;max-width:100%;height:auto;max-height:420px;background:#fff;
+  /* camada externa visível */
+  border:8px solid var(--turq);
+  /* duas camadas internas reforçadas + sombra externa para relevo */
   box-shadow:
-    0 0 0 6px var(--ouro) inset,
-    0 0 0 12px var(--turq) inset,
-    0 6px 18px var(--shadow);
-  border-radius:14px;
+    0 0 0 8px var(--ouro) inset,      /* meio dourado (mais espesso) */
+    0 0 0 16px var(--turq) inset,     /* interna turquesa (mais espessa) */
+    0 8px 20px var(--shadow);         /* relevo */
+  border-radius:16px;
 }
 .hero[hidden]{display:none}
 .chip{
   display:inline-block; padding:10px 14px; background:var(--paper);
-  border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--turq) inset; border-radius:14px;
-  font-weight:bold; color:var(--turq); text-shadow:0 0 1px var(--ouro), 0 0 2px var(--ouro);
+  border:4px solid var(--ouro); box-shadow:0 0 0 3px var(--turq) inset; border-radius:14px;
+  font-weight:800; color:var(--turq);
+  text-shadow:0 0 1px var(--ouro), 0 0 2px var(--ouro);
 }
 
-/* Navegação por datas específicas (SEM dia da semana, sem outro botão “Synaxarion”) */
-.datebox{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 4px}
+/* NAV POR DATAS (sem qualquer outro botão “Synaxarion”) */
+.datebox{
+  display:flex;align-items:center;justify-content:center;gap:12px;margin:12px 0 4px
+}
 .navbtn{
-  appearance:none; border:2px solid var(--turq); background:#fff; color:var(--ink);
-  padding:8px 12px; border-radius:12px; font-weight:800; cursor:pointer;
-  box-shadow:0 2px 6px var(--shadow), inset 0 0 0 2px var(--ouro);
+  appearance:none; background:#fff; color:var(--ink); cursor:pointer;
+  padding:9px 14px; border-radius:12px; font-weight:900;
+  border:2px solid var(--turq);
+  box-shadow:
+    inset 0 0 0 2px var(--ouro),
+    0 2px 6px var(--shadow);
   transition:transform .12s ease, background-color .2s ease, border-color .2s ease;
 }
 .navbtn:hover{background:#f1fffc; transform:translateY(-1px)}
 
-/* Painel da data (aparência de “botão” visual, mas sem ação) */
+/* PAINEL DA DATA — borda TRIPLA + fonte com contorno dourado reforçado */
 .date{
-  display:inline-flex; align-items:center; justify-content:center; min-width:230px;
-  background:#fff;
+  display:inline-flex; align-items:center; justify-content:center; min-width:260px;
+  background:#fff; padding:12px 18px; border-radius:14px;
+  /* 3 camadas na moldura do painel (turquesa / dourado / turquesa) */
   border:3px solid var(--turq);
   box-shadow:
-    inset 0 0 0 3px var(--ouro),
-    inset 0 0 0 7px var(--turq),
-    0 3px 10px var(--shadow);
-  padding:10px 16px; border-radius:12px;
-  font-size:1.35rem; font-weight:900; color:var(--turq);
-  text-shadow:0 0 1px var(--ouro), 0 0 2px var(--ouro);
+    inset 0 0 0 4px var(--ouro),
+    inset 0 0 0 10px var(--turq),
+    0 4px 12px var(--shadow);
+  /* tipografia */
+  font-size:1.45rem; font-weight:900; color:var(--turq);
+  /* contorno/“sombra” dourada reforçada (camada múltipla) */
+  text-shadow:
+    0 0 1px var(--ouro),
+    0 0 2px var(--ouro),
+    0 0 3px var(--ouro),
+    0 0 6px rgba(184,134,11,.55);
+  /* opcional: contorno real em webkit, se disponível */
+  -webkit-text-stroke: 0.6px var(--ouro);
 }
 
-footer{margin-top:auto;text-align:center;color:#0d3b3f;font-size:.85rem;padding:.75rem}
+footer{margin-top:auto;text-align:center;color:#0d3b3f;font-size:.85rem;padding:.8rem}
 footer a{color:#053e44;text-decoration:none;font-weight:700}
 </style>
 </head>
@@ -77,12 +98,12 @@ footer a{color:#053e44;text-decoration:none;font-weight:700}
 </header>
 
 <main class="wrap">
-  <!-- Ícone principal -->
+  <!-- Ícone principal (com borda tripla) -->
   <img class="hero" id="hero" src="img/icone-synaxarion.jpg" alt="Ícone — Synaxarion"
        onerror="this.hidden=true;document.getElementById('chip').hidden=false;">
   <div id="chip" class="chip" hidden>Synaxarion</div>
 
-  <!-- Data + navegação (sem dia da semana) -->
+  <!-- Data + navegação (SEM dia da semana, sem outro botão) -->
   <div class="datebox" aria-label="Navegação por datas do Synaxarion">
     <button id="prev" class="navbtn" type="button">← Anterior</button>
     <div id="date" class="date">-- de ------</div>
@@ -95,17 +116,22 @@ footer a{color:#053e44;text-decoration:none;font-weight:700}
 </footer>
 
 <script>
-/* Lista de datas existentes (ordem crescente). Formato: 'MM-DD' */
+/* Datas disponíveis (ordem crescente) — MM-DD */
 const AVAILABLE = [
   '01-01','01-06','01-15','02-02','02-14','03-19','03-25','04-23',
   '05-03','05-10','06-24','06-29','07-20','08-06','08-15','09-14',
   '10-01','10-07','11-01','12-06','12-08','12-25'
 ];
 
+const MONTHS_PT = [
+  "janeiro","fevereiro","março","abril","maio","junho",
+  "julho","agosto","setembro","outubro","novembro","dezembro"
+];
+
 const dateEl = document.getElementById('date');
 let idx = 0;
 
-// começa na data de hoje, se existir na lista
+// Começa na data de hoje, se existir na lista
 (function pickNearest(){
   const today = new Date();
   const m = String(today.getMonth()+1).padStart(2,'0');
@@ -115,22 +141,22 @@ let idx = 0;
   if (pos >= 0) idx = pos;
 })();
 
-const MONTHS_PT = [
-  "janeiro","fevereiro","março","abril","maio","junho",
-  "julho","agosto","setembro","outubro","novembro","dezembro"
-];
-
-function fmtLong(pt){ // 'MM-DD' -> 'D[º] de mês'
-  const [mm,dd] = pt.split('-').map(n => parseInt(n,10));
-  const day = dd;
+function fmtLong(md){ // 'MM-DD' -> 'D[º] de mês'
+  const [mm,dd] = md.split('-').map(n => parseInt(n,10));
   const monthName = MONTHS_PT[mm-1];
-  const suffix = (day === 1) ? "º" : "";
-  return `${day}${suffix} de ${monthName}`;
+  const isFirst = dd === 1;
+  return `${dd}${isFirst ? "º" : ""} de ${monthName}`;
 }
 
-function render(){ dateEl.textContent = fmtLong(AVAILABLE[idx]); }
-document.getElementById('prev').addEventListener('click', ()=>{ idx = (idx - 1 + AVAILABLE.length) % AVAILABLE.length; render(); });
-document.getElementById('next').addEventListener('click', ()=>{ idx = (idx + 1) % AVAILABLE.length; render(); });
+function render(){
+  dateEl.textContent = fmtLong(AVAILABLE[idx]);
+}
+document.getElementById('prev').addEventListener('click', ()=>{
+  idx = (idx - 1 + AVAILABLE.length) % AVAILABLE.length; render();
+});
+document.getElementById('next').addEventListener('click', ()=>{
+  idx = (idx + 1) % AVAILABLE.length; render();
+});
 render();
 </script>
 </body>
