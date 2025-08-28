@@ -11,9 +11,10 @@ body{
   background:#4B0082; /* roxo */
   background-image:
     repeating-linear-gradient(45deg, rgba(214,178,90,.25) 0, rgba(214,178,90,.25) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(214,178,90,.25) 0, rgba(214,178,90,.25) 2px, transparent 2px, transparent 40px); /* detalhes dourados */
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.25) 0, rgba(214,178,90,.25) 2px, transparent 2px, transparent 40px);
   background-size:40px 40px;display:flex;flex-direction:column;min-height:100vh;
 }
+
 header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
 .title{color:#b8860b; /* ouro velho */ font-weight:800; font-size:1.9rem; margin:0}
 .top-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}
@@ -35,7 +36,12 @@ header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding
   transition:transform .15s ease,background-color .2s ease;text-align:center
 }
 .btn:hover{transform:scale(1.02);background:#fff3da}
-.btn img{position:absolute;left:12px;width:33px;height:33px;object-fit:cover;border-radius:3px}
+
+/* Cruz 30% menor e redonda */
+.btn img{
+  position:absolute;left:12px;width:23px;height:23px; /* 33px - 30% */
+  object-fit:cover;border-radius:50%;display:block
+}
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
 footer{margin-top:auto;text-align:center;color:#d6b25a;font-size:.8rem;padding:8px}
