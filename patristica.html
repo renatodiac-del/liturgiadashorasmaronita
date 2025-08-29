@@ -1,0 +1,118 @@
+<!-- patristica.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Patrística Siríaca</title>
+<style>
+:root{
+  --areia:#efe1c7;       /* fundo bege “areia do deserto” */
+  --areia2:#e6d6b4;
+  --estrela:#ffffff;
+  --ouro:#b4923a;        /* dourado ouro velho */
+  --preto:#111;
+  --shadow:rgba(0,0,0,.18);
+  --sans: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--sans); color:#2b2114;
+  background:
+    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,.8), transparent 60%),
+    radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,.75), transparent 60%),
+    radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.7), transparent 60%),
+    radial-gradient(1px 1px at 28% 58%, rgba(255,255,255,.8), transparent 60%),
+    linear-gradient(var(--areia), var(--areia2));
+  background-repeat: repeat;
+  display:flex; flex-direction:column; min-height:100vh;
+}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
+.title{
+  text-align:center; font-size:1.9rem; font-weight:900; color:var(--preto);
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro); /* borda dourada */
+  margin-bottom:8px;
+}
+/* Ícone ovalado com mínima perda de detalhes */
+.hero{
+  display:block;margin:8px auto 16px; max-width:100%;
+  width:100%; height:340px; object-fit:contain;       /* evita corte */
+  border:6px solid var(--ouro); border-radius:40% / 18%;  /* oval suave */
+  box-shadow:0 8px 18px var(--shadow); background:#fff7e6;
+}
+
+/* Navegação por “nome do Padre” no estilo do Synaxarion */
+.centerbox{display:flex; flex-direction:column; align-items:center; gap:12px}
+.nameBtn{
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  padding:12px 20px; min-width:260px; border-radius:16px;
+  background:#fff; color:#2b2114; font-weight:900; font-size:1.15rem; cursor:pointer; user-select:none;
+  border:3px solid var(--ouro); box-shadow: inset 0 0 0 3px rgba(180,146,58,.55), 0 3px 8px var(--shadow);
+  transition:transform .12s, background-color .2s;
+}
+.nameBtn:hover{transform:scale(1.02); background:#fffdf4}
+.navrow{display:flex; justify-content:center; gap:14px}
+.navbtn{
+  background:#fff; color:#2b2114; font-weight:900; padding:9px 14px; border-radius:12px; cursor:pointer;
+  border:3px solid var(--ouro); box-shadow: inset 0 0 0 3px rgba(180,146,58,.5), 0 2px 6px var(--shadow);
+  transition:background-color .2s, transform .12s;
+}
+.navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
+footer{margin-top:16px;text-align:center;color:#5b4b1c;font-size:.9rem;padding:.8rem}
+footer a{color:#3b2a19;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">Patrística Siríaca</h1>
+
+    <img class="hero" src="img/icone-patristica.png" alt="Patrística Siríaca">
+
+    <section class="centerbox" aria-label="Navegação por autores siríacos">
+      <button id="nameBtn" class="nameBtn" type="button">—</button>
+      <div class="navrow">
+        <button id="prev" class="navbtn" type="button">← Anterior</button>
+        <button id="next" class="navbtn" type="button">Próximo →</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="index-teste.html">Página Inicial</a> · <a href="mapa.html">Mapa</a>
+  </footer>
+
+<script>
+/* Lista inicial (você pode expandir depois).
+   A ordenação pode ser ajustada para ignorar “Santo/São” se necessário,
+   mas aqui seguimos a ordem fornecida. */
+const autores = [
+  "Santo Efrém",
+  "Narsai de Nisibis",
+  "Jacó de Serugh",
+  "Isaque de Nínive"
+];
+
+const nameBtn = document.getElementById('nameBtn');
+const prevBt = document.getElementById('prev');
+const nextBt = document.getElementById('next');
+let idx = 0;
+
+function render(){
+  nameBtn.textContent = autores[idx];
+}
+function linkDoAutor(nome){
+  // placeholder de rota; adapte para a página/âncora real deste autor
+  const slug = nome.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+               .toLowerCase().replace(/[^\w]+/g,'-').replace(/^-+|-+$/g,'');
+  return `#${slug}`;
+}
+nameBtn.addEventListener('click', ()=>{ window.open(linkDoAutor(autores[idx]), '_blank'); });
+prevBt.addEventListener('click', ()=>{ idx=(idx-1+autores.length)%autores.length; render(); });
+nextBt.addEventListener('click', ()=>{ idx=(idx+1)%autores.length; render(); });
+
+render();
+</script>
+</body>
+</html>
