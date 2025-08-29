@@ -1,4 +1,4 @@
-<!-- index-teste.html (ajuste: imagem retrato inteira + fundo dourado mosaico) -->
+<!-- index-teste.html (ajuste: ícone +15%, fundo ouro velho/laranja, botões mais próximos) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,8 +8,8 @@
 <style>
   :root{
     --vermelho:#a00000;
-    --ouro:#b4923a;           /* ouro-velho */
-    --mosaico:#5a3a1e;        /* marrom dos ladrilhos */
+    --ouro:#b4923a;             /* ouro velho */
+    --laranja:#a64800;          /* laranja escuro */
     --shadow:rgba(0,0,0,.12);
     --fonte: Arial, Helvetica, sans-serif;
   }
@@ -20,47 +20,40 @@
     font-family: var(--fonte);
     display:flex; flex-direction:column; min-height:100vh;
 
-    /* FUNDO: dourado com detalhes marrons (mosaico/ladrilhos) */
-    background:#f6edd8; /* base bege/dourado claro */
+    /* FUNDO: ouro velho com mosaico em laranja escuro */
+    background:#b4923a;
     background-image:
-      repeating-linear-gradient(45deg, rgba(180,146,58,.20) 0, rgba(180,146,58,.20) 2px, transparent 2px, transparent 42px),
-      repeating-linear-gradient(-45deg, rgba(90,58,30,.12) 0, rgba(90,58,30,.12) 2px, transparent 2px, transparent 42px);
-    background-size:42px 42px;
+      repeating-linear-gradient(45deg, rgba(166,72,0,.22) 0, rgba(166,72,0,.22) 2px, transparent 2px, transparent 44px),
+      repeating-linear-gradient(-45deg, rgba(166,72,0,.18) 0, rgba(166,72,0,.18) 2px, transparent 2px, transparent 44px);
+    background-size:44px 44px;
   }
 
   .wrap{
-    width:100%; max-width:680px; margin:0 auto; padding:8px 16px 18px;
+    width:100%; max-width:680px; margin:0 auto; padding:8px 16px 12px;
     display:flex; flex-direction:column; flex:1 1 auto;
   }
 
-  /* Ícone principal (retrato) — sem corte: usa dimensões naturais */
-  .hero-box{
-    position:relative;
-    text-align:center;          /* centraliza a imagem pelo conteúdo */
-  }
+  /* Ícone principal: aumentado em 15% */
+  .hero-box{text-align:center; position:relative}
   .hero{
-    display:inline-block;        /* para centralizar pelo text-align */
-    width:auto;                  /* NÃO força largura total */
-    max-width:100%;              /* mas não ultrapassa a página */
-    height:auto;                 /* mantém proporção natural (retrato) */
-    max-height:480px;            /* limita no desktop para não ficar gigante */
-    border:0; border-bottom:8px solid var(--ouro);  /* borda ouro só na base */
+    display:inline-block;
+    width:auto; height:auto;
+    max-width:100%;
+    max-height:552px; /* antes ~480px → +15% */
+    border:0; border-bottom:8px solid var(--ouro);
     border-radius:16px 16px 14px 14px;
     box-shadow:0 10px 24px var(--shadow);
   }
 
   .buttons{
-    margin-top:auto;             /* ancora embaixo */
-    transform:translateY(-10px); /* sobe um pouco o grupo */
-    display:flex; flex-direction:column; gap:12px; align-items:center;
-    padding-bottom:16px;
+    margin-top:4px;              /* bem mais próximo do ícone */
+    display:flex; flex-direction:column; gap:10px; align-items:center;
+    padding-bottom:12px;
   }
 
-  /* Botões: +15% largura, -10% altura; borda interna ouro-velho (mantendo a vermelha) */
   .btn{
     position:relative;
-    width:82%;
-    padding:10px 18px;           /* altura -10% */
+    width:82%; padding:10px 18px;
     display:flex; align-items:center; justify-content:center;
     text-decoration:none; text-align:center; cursor:pointer;
     color:var(--vermelho); background:#fff; font-weight:800; font-size:1rem;
@@ -74,34 +67,27 @@
     transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
     background-image:linear-gradient(#fff,#fffaf2);
 
-    padding-left:58px; /* espaço para a cruz à esquerda */
+    padding-left:58px;
   }
   .btn:hover{transform:translateY(-1px); background:#fff8ef}
 
-  /* Cruz à esquerda: redonda e +20% (mantendo o mesmo arquivo cruz.png) */
   .btn .icon{
     position:absolute; left:14px; top:50%; transform:translateY(-50%);
-    width:30px; height:30px;     /* +20% */
-    border-radius:50%; object-fit:cover;
+    width:30px; height:30px; border-radius:50%; object-fit:cover;
   }
 
-  /* 1º botão sobrepõe levemente a base da imagem (sem tampar o rosto/figura) */
-  .btn--overlap{ margin-top:-18px; z-index:2; }
+  .btn--overlap{ margin-top:-12px; z-index:2; }
 
-  @media (min-width: 900px){
-    .btn{width:78%}
-  }
   @media (max-width: 380px){
     .btn{width:88%}
-    .hero{max-height:420px}
+    .hero{max-height:480px}
   }
 </style>
 </head>
 <body>
   <main class="wrap">
     <section class="hero-box">
-      <!-- ÍCONE PRINCIPAL (retrato), sem corte -->
-      <img class="hero" src="img/icone-home.png" alt="">
+      <img class="hero" src="img/icone-home.png" alt="Ícone da Página Inicial">
     </section>
 
     <nav class="buttons" aria-label="Ações principais">
@@ -109,17 +95,14 @@
         <img class="icon" src="img/cruz.png" alt="">
         Qurbono
       </a>
-
       <a class="btn" href="oracao.html">
         <img class="icon" src="img/cruz.png" alt="">
         Oração das Horas
       </a>
-
       <a class="btn" href="calendario.html">
         <img class="icon" src="img/cruz.png" alt="">
         Calendário Litúrgico
       </a>
-
       <a class="btn" href="patristica.html">
         <img class="icon" src="img/cruz.png" alt="">
         Patrística Siríaca
@@ -128,3 +111,4 @@
   </main>
 </body>
 </html>
+
