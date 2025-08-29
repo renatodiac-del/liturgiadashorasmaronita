@@ -1,4 +1,4 @@
-<!-- mapa.html (versão em cards com ícones) -->
+<!-- mapa.html (cards com ícones) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,14 +14,8 @@
   body{margin:0; padding:18px; background:var(--bg); color:var(--txt); font-family:var(--sans)}
   h1{margin:.2rem 0 1rem; font-size:1.7rem}
   .section{margin:18px 0}
-  .section-title{
-    font-weight:900; font-size:1rem; margin:0 0 .6rem;
-    color:#4a3828; letter-spacing:.2px
-  }
-  .grid{
-    display:grid; gap:14px;
-    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-  }
+  .section-title{font-weight:900; font-size:1rem; margin:0 0 .6rem; color:#4a3828; letter-spacing:.2px}
+  .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
   .card{
     display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--card);
     border:1.5px solid var(--bord); border-radius:14px; overflow:hidden;
@@ -29,24 +23,19 @@
     transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
   }
   .card:hover{transform:translateY(-2px); border-color:var(--gold); box-shadow:0 10px 22px rgba(0,0,0,.12)}
-  .thumb{
-    width:100%; aspect-ratio: 16/10; object-fit:cover;
-    border-bottom:4px solid var(--gold);
-  }
+  .thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold)}
   .thumb[hidden]{display:none!important}
   .body{padding:12px 12px 14px}
   .title{
     font-weight:900; font-size:1.02rem; margin:0 0 4px; color:var(--accent);
-    text-shadow: -0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold),
-                 -0.5px  0.5px 0 var(--gold), 0.5px  0.5px 0 var(--gold);
+    text-shadow:-0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold),
+                -0.5px  0.5px 0 var(--gold), 0.5px  0.5px 0 var(--gold);
   }
   .subtitle{margin:0; font-size:.9rem; color:#5a4634}
-  /* etiqueta pequena opcional */
   .tag{
     display:inline-block; margin-top:8px; font-size:.75rem; font-weight:700; color:#4a3828;
-    background:linear-gradient(#fff, #fff9ef); border:1px solid var(--gold);
-    box-shadow:inset 0 0 0 1px rgba(214,178,90,.6);
-    border-radius:999px; padding:4px 8px;
+    background:linear-gradient(#fff,#fff9ef); border:1px solid var(--gold);
+    box-shadow:inset 0 0 0 1px rgba(214,178,90,.6); border-radius:999px; padding:4px 8px;
   }
 </style>
 </head>
@@ -58,10 +47,20 @@
   <h2 class="section-title">App principal</h2>
   <div class="grid">
     <a class="card" href="index.html">
-      <img class="thumb" src="img/icone-app.jpg" alt="App" onerror="this.hidden=true">
+      <img class="thumb" src="img/icone-app.jpg" alt="App atual" onerror="this.hidden=true">
       <div class="body">
-        <h3 class="title">App Principal</h3>
+        <h3 class="title">App Principal (atual)</h3>
         <p class="subtitle">Liturgia diária via planilhas</p>
+      </div>
+    </a>
+
+    <!-- NOVA PÁGINA INICIAL CONSOLIDADA -->
+    <a class="card" href="index-teste.html">
+      <img class="thumb" src="img/icone-app-teste.jpg" alt="Página Inicial consolidada" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Página Inicial (consolidada)</h3>
+        <p class="subtitle">Qurbono · Horas · Calendário · Patrística</p>
+        <span class="tag">novo</span>
       </div>
     </a>
   </div>
@@ -83,7 +82,7 @@
       <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" onerror="this.hidden=true">
       <div class="body">
         <h3 class="title">Qurbono (teste)</h3>
-        <p class="subtitle">Acesso rápido a eucaristia</p>
+        <p class="subtitle">Acesso rápido à Divina Liturgia</p>
       </div>
     </a>
 
@@ -92,16 +91,14 @@
       <div class="body">
         <h3 class="title">Comum dos Santos</h3>
         <p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p>
-        <span class="tag">novo</span>
       </div>
     </a>
 
-    <a class="card" href="festas.data.html">
+    <a class="card" href="festas-por-datas.html">
       <img class="thumb" src="img/icone-festadata.jpg" alt="Festas por Datas" onerror="this.hidden=true">
       <div class="body">
         <h3 class="title">Festas por Datas</h3>
         <p class="subtitle">Navegação por datas especiais</p>
-        <span class="tag">novo</span>
       </div>
     </a>
 
@@ -110,7 +107,6 @@
       <div class="body">
         <h3 class="title">Biblioteca</h3>
         <p class="subtitle">Tempos e coleções litúrgicas</p>
-        <span class="tag">novo</span>
       </div>
     </a>
   </div>
