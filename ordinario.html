@@ -1,16 +1,17 @@
+<!-- ordinario.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ordinário</title>
-<meta name="theme-color" content="#5b3a6e">
+<meta name="theme-color" content="#f5f0e5">
 <style>
 :root{
-  /* Cores base */
-  --lilas:#5b3a6e;           /* lilás escuro */
-  --ouro:#d6b25a;            /* dourado */
-  --verde-borda:#2f6b3a;     /* mantém a identidade dos botões */
-  --texto:#f3f0f6;
+  --fundo:#f5f0e5;          /* bege/creme */
+  --mosaico:#e0d2b8;        /* mosaico bege claro */
+  --dourado:#d6b25a;
+  --verde-borda:#2f6b3a;    /* mantém verde externo */
+  --texto:#0f2a25; 
   --shadow:rgba(0,0,0,.18);
   --fonte: Arial, Helvetica, sans-serif;
 }
@@ -18,69 +19,57 @@
 html,body{height:100%}
 body{
   margin:0; font-family:var(--fonte); color:var(--texto);
-  background: var(--lilas);
-  /* mosaico/detalhe dourado */
+  background: var(--fundo);
   background-image:
-    repeating-linear-gradient(45deg, rgba(214,178,90,.22) 0, rgba(214,178,90,.22) 2px, transparent 2px, transparent 42px),
-    repeating-linear-gradient(-45deg, rgba(214,178,90,.18) 0, rgba(214,178,90,.18) 2px, transparent 2px, transparent 42px);
+    repeating-linear-gradient(45deg, rgba(214,178,90,.20) 0, rgba(214,178,90,.20) 2px, transparent 2px, transparent 42px),
+    repeating-linear-gradient(-45deg, rgba(224,210,184,.15) 0, rgba(224,210,184,.15) 2px, transparent 2px, transparent 42px);
   background-size:42px 42px;
   display:flex; flex-direction:column; min-height:100vh;
 }
-
-header{text-align:center;padding:6px 6px 2px}
+header{text-align:center;padding:6px}
 .title{
-  color:var(--ouro); font-weight:900; font-size:2.4rem; /* +2pt aprox */
-  margin:0; text-shadow:0 1px 0 rgba(0,0,0,.25);
+  color:var(--dourado); font-weight:900; font-size:2.4rem; margin:0;
+  text-shadow:0 1px 0 rgba(0,0,0,.25)
 }
 
-.wrap{max-width:640px;margin:0 auto;padding:8px 16px 10px;width:100%}
+.wrap{max-width:640px;margin:0 auto;padding:8px 16px 6px;width:100%}
 
-/* Ícone principal com borda verde + aro dourado externo + dourado interno */
 .hero{
   display:block; margin:6px auto 12px; max-width:100%; height:auto; max-height:420px; background:#fff;
-  border:6px solid var(--verde-borda);         /* externa verde */
-  box-shadow:
-    0 0 0 4px var(--ouro),                     /* aro dourado EXTERNO */
-    0 0 0 5px var(--ouro) inset,               /* aro dourado INTERNO (20% ↑) */
-    0 6px 18px var(--shadow);
+  border:6px solid var(--verde-borda); /* verde externo */
+  box-shadow: 0 0 0 4px var(--dourado), /* aro dourado externo */
+             0 0 0 5px var(--dourado) inset, 0 6px 18px var(--shadow);
   border-radius:14px;
 }
 
-/* Botões — largos; altura padrão preservada (exceto o 1º) */
 .buttons{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .btn{
   position:relative; display:flex; align-items:center; justify-content:center; text-align:center;
   text-decoration:none; cursor:pointer; background:#fff; color:#234a2d; font-weight:800;
-  border:3px solid var(--verde-borda);               /* borda externa verde */
-  box-shadow: inset 0 0 0 3.6px var(--ouro),         /* dourado interno (20% ↑) */
-              0 4px 10px var(--shadow);
-  border-radius:18px; padding:12px 18px;             /* altura padrão */
-  width:84%;                                         /* largura ↑ */
-  margin:0 auto; transition:transform .15s, background-color .2s;
-  font-size:0.95rem;                                 /* ~1 ponto menor */
+  border:3px solid var(--verde-borda);
+  box-shadow: inset 0 0 0 3.6px var(--dourado), 0 4px 10px var(--shadow);
+  border-radius:18px; padding:12px 18px; width:84%; margin:0 auto;
+  transition:transform .15s, background-color .2s;
+  font-size:0.95rem; /* ~1pt menor */
 }
 .btn:hover{transform:scale(1.02); background:#fffdf4}
 
-/* Somente o 1º botão: altura -20% */
-.btn--primeiro{ padding:9.6px 18px; }                /* 20% a menos no eixo vertical */
+/* 1º botão com -20% altura */
+.btn--primeiro{ padding:9.6px 18px; }
 
-/* Cruz arredondada 30% maior, à esquerda fixa */
 .btn img{
   position:absolute; left:14px;
-  width:30px; height:30px;           /* +30% */
+  width:30px; height:30px; /* +30% */
   border-radius:50%; object-fit:cover;
 }
 
-/* Rodapé colado ao último botão */
-footer{margin-top:4px;text-align:center;color:#f0e7ff;font-size:.88rem;padding:.5rem 0 .7rem}
-footer a{color:#ffe9a6;text-decoration:none;font-weight:800}
+footer{margin-top:4px;text-align:center;color:#0d2e28;font-size:.88rem;padding:.5rem 0 .7rem}
+footer a{color:#1c3e38;text-decoration:none;font-weight:800}
 footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-<header>
-  <h1 class="title">Ordinário</h1>
-</header>
+<header><h1 class="title">Ordinário</h1></header>
 
 <main class="wrap">
   <img class="hero" src="img/icone-ordinario.jpg" alt="Ícone — Ordinário">
@@ -90,21 +79,9 @@ footer a:hover{text-decoration:underline}
       <img src="img/cruz4.jpeg" alt="">
       Epifania - Anúncio<br>Pentecostes - Cruz
     </a>
-
-    <a class="btn" href="quaresma.html">
-      <img src="img/cruz4.jpeg" alt="">
-      Quaresma
-    </a>
-
-    <a class="btn" href="paixao.html">
-      <img src="img/cruz4.jpeg" alt="">
-      Semana Santa
-    </a>
-
-    <a class="btn" href="ressurreicao.html">
-      <img src="img/cruz4.jpeg" alt="">
-      Ressurreição
-    </a>
+    <a class="btn" href="quaresma.html"><img src="img/cruz4.jpeg" alt="">Quaresma</a>
+    <a class="btn" href="paixao.html"><img src="img/cruz4.jpeg" alt="">Semana Santa</a>
+    <a class="btn" href="ressurreicao.html"><img src="img/cruz4.jpeg" alt="">Ressurreição</a>
   </section>
 </main>
 
