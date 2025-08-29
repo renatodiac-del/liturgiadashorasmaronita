@@ -3,58 +3,66 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ordinário</title>
-<meta name="theme-color" content="#7a9d54">
+<meta name="theme-color" content="#5b3a6e">
 <style>
 :root{
-  --fundo:#7a9d54; --det:#3f5d2a;
-  --dourado:#d6b25a; --verde-borda:#2f6b3a;
-  --texto:#1b1b1b; --shadow:rgba(0,0,0,.16);
+  /* Cores base */
+  --lilas:#5b3a6e;           /* lilás escuro */
+  --ouro:#d6b25a;            /* dourado */
+  --verde-borda:#2f6b3a;     /* mantém a identidade dos botões */
+  --texto:#f3f0f6;
+  --shadow:rgba(0,0,0,.18);
   --fonte: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0; font-family:var(--fonte); color:var(--texto);
-  background: var(--fundo);
+  background: var(--lilas);
+  /* mosaico/detalhe dourado */
   background-image:
-    repeating-linear-gradient(45deg, rgba(63,93,42,.18) 0, rgba(63,93,42,.18) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(63,93,42,.18) 0, rgba(63,93,42,.18) 2px, transparent 2px, transparent 40px);
-  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
+    repeating-linear-gradient(45deg, rgba(214,178,90,.22) 0, rgba(214,178,90,.22) 2px, transparent 2px, transparent 42px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.18) 0, rgba(214,178,90,.18) 2px, transparent 2px, transparent 42px);
+  background-size:42px 42px;
+  display:flex; flex-direction:column; min-height:100vh;
 }
 
-header{text-align:center;padding:6px}
+header{text-align:center;padding:6px 6px 2px}
 .title{
-  color:var(--dourado); font-weight:900; font-size:2.25rem; /* +3 pontos aprox */
-  margin:0; text-shadow:0 1px 0 rgba(0,0,0,.15);
+  color:var(--ouro); font-weight:900; font-size:2.4rem; /* +2pt aprox */
+  margin:0; text-shadow:0 1px 0 rgba(0,0,0,.25);
 }
 
-.wrap{max-width:640px;margin:0 auto;padding:8px 16px 20px;width:100%}
+.wrap{max-width:640px;margin:0 auto;padding:8px 16px 10px;width:100%}
 
 /* Ícone principal com borda verde + aro dourado externo + dourado interno */
 .hero{
-  display:block; margin:2px auto 12px; max-width:100%; height:auto; max-height:420px; background:#fff;
+  display:block; margin:6px auto 12px; max-width:100%; height:auto; max-height:420px; background:#fff;
   border:6px solid var(--verde-borda);         /* externa verde */
   box-shadow:
-    0 0 0 4px var(--dourado),                  /* aro dourado EXTERNO */
-    0 0 0 5px var(--dourado) inset,            /* aro dourado INTERNO (20% ↑) */
-    0 6px 16px var(--shadow);
+    0 0 0 4px var(--ouro),                     /* aro dourado EXTERNO */
+    0 0 0 5px var(--ouro) inset,               /* aro dourado INTERNO (20% ↑) */
+    0 6px 18px var(--shadow);
   border-radius:14px;
 }
 
-/* Botões — mais largos, mesma altura visual */
+/* Botões — largos; altura padrão preservada (exceto o 1º) */
 .buttons{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .btn{
   position:relative; display:flex; align-items:center; justify-content:center; text-align:center;
   text-decoration:none; cursor:pointer; background:#fff; color:#234a2d; font-weight:800;
   border:3px solid var(--verde-borda);               /* borda externa verde */
-  box-shadow: inset 0 0 0 3.6px var(--dourado),      /* dourado interno (20% ↑) */
+  box-shadow: inset 0 0 0 3.6px var(--ouro),         /* dourado interno (20% ↑) */
               0 4px 10px var(--shadow);
-  border-radius:18px; padding:12px 18px;             /* altura mantida */
-  width:84%;                                         /* LARGURA ↑ */
+  border-radius:18px; padding:12px 18px;             /* altura padrão */
+  width:84%;                                         /* largura ↑ */
   margin:0 auto; transition:transform .15s, background-color .2s;
-  font-size:0.95rem;                                  /* ~1 ponto menor */
+  font-size:0.95rem;                                 /* ~1 ponto menor */
 }
-.btn:hover{transform:scale(1.02); background:#f7fff8}
+.btn:hover{transform:scale(1.02); background:#fffdf4}
+
+/* Somente o 1º botão: altura -20% */
+.btn--primeiro{ padding:9.6px 18px; }                /* 20% a menos no eixo vertical */
 
 /* Cruz arredondada 30% maior, à esquerda fixa */
 .btn img{
@@ -63,8 +71,10 @@ header{text-align:center;padding:6px}
   border-radius:50%; object-fit:cover;
 }
 
-footer{margin-top:auto;text-align:center;color:#12351f;font-size:.85rem;padding:.75rem}
-footer a{color:#0b3a21;text-decoration:none;font-weight:700}
+/* Rodapé colado ao último botão */
+footer{margin-top:4px;text-align:center;color:#f0e7ff;font-size:.88rem;padding:.5rem 0 .7rem}
+footer a{color:#ffe9a6;text-decoration:none;font-weight:800}
+footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -76,7 +86,7 @@ footer a{color:#0b3a21;text-decoration:none;font-weight:700}
   <img class="hero" src="img/icone-ordinario.jpg" alt="Ícone — Ordinário">
 
   <section class="buttons" aria-label="Seções do Ordinário">
-    <a class="btn" href="tempos.html">
+    <a class="btn btn--primeiro" href="tempos.html">
       <img src="img/cruz4.jpeg" alt="">
       Epifania - Anúncio<br>Pentecostes - Cruz
     </a>
