@@ -1,4 +1,4 @@
-<!-- index-teste.html (ajuste fino: ícone +10%, botões mais abaixo) -->
+<!-- index-teste.html (títulos centrados ignorando a cruz) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,7 +19,6 @@
     margin:0;
     font-family: var(--fonte);
     display:flex; flex-direction:column; min-height:100vh;
-
     /* Fundo: ouro velho com mosaico em laranja escuro */
     background:#b4923a;
     background-image:
@@ -33,28 +32,29 @@
     display:flex; flex-direction:column; flex:1 1 auto;
   }
 
-  /* Ícone principal: aumentado em +10% */
+  /* Ícone principal: max-height ~608px (ajuste fino anterior) */
   .hero-box{text-align:center; position:relative}
   .hero{
     display:inline-block;
-    width:auto; height:auto;
-    max-width:100%;
-    max-height:608px; /* aumentei em +10% */
+    width:auto; height:auto; max-width:100%; max-height:608px;
     border:0; border-bottom:8px solid var(--ouro);
     border-radius:16px 16px 14px 14px;
     box-shadow:0 10px 24px var(--shadow);
   }
 
-  /* Botões agora com mais respiro abaixo do ícone */
+  /* Botões com mais respiro abaixo do ícone */
   .buttons{
-    margin-top:16px;             /* desce o bloco de botões */
+    margin-top:16px;
     display:flex; flex-direction:column; gap:10px; align-items:center;
     padding-bottom:12px;
   }
 
+  /* Botões: +15% largura, -10% altura; borda interna ouro-velho
+     TÍTULO CENTRALIZADO: padding simétrico (58px à esquerda e direita) */
   .btn{
     position:relative;
-    width:82%; padding:10px 18px;
+    width:82%;
+    padding:10px 58px;             /* <<< simétrico: centraliza o texto sem considerar a cruz */
     display:flex; align-items:center; justify-content:center;
     text-decoration:none; text-align:center; cursor:pointer;
     color:var(--vermelho); background:#fff; font-weight:800; font-size:1rem;
@@ -67,11 +67,10 @@
 
     transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
     background-image:linear-gradient(#fff,#fffaf2);
-
-    padding-left:58px;
   }
   .btn:hover{transform:translateY(-1px); background:#fff8ef}
 
+  /* Cruz: redonda, +20%, fixa à esquerda */
   .btn .icon{
     position:absolute; left:14px; top:50%; transform:translateY(-50%);
     width:30px; height:30px; border-radius:50%; object-fit:cover;
@@ -88,7 +87,7 @@
 <body>
   <main class="wrap">
     <section class="hero-box">
-      <img class="hero" src="img/icone-home.png" alt="Ícone da Página Inicial">
+      <img class="hero" src="img/icone-home.png" alt="">
     </section>
 
     <nav class="buttons" aria-label="Ações principais">
