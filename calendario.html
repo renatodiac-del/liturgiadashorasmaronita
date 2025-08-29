@@ -1,0 +1,74 @@
+<!-- calendario.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calendário Litúrgico</title>
+<style>
+:root{
+  --navy:#0b1e3a;         /* azul marinho */
+  --bordo:#6b0015;        /* vermelho bordô */
+  --ouro:#b4923a;         /* dourado ouro velho */
+  --shadow:rgba(0,0,0,.18);
+  --sans: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--sans); color:#f5f3ef;
+  background: var(--navy);
+  /* céu estrelado */
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.8), rgba(255,255,255,0)),
+    radial-gradient(1.6px 1.6px at 70% 20%, rgba(255,255,255,.7), rgba(255,255,255,0)),
+    radial-gradient(1.4px 1.4px at 35% 80%, rgba(255,255,255,.65), rgba(255,255,255,0)),
+    radial-gradient(1.8px 1.8px at 85% 60%, rgba(255,255,255,.75), rgba(255,255,255,0));
+  background-repeat: repeat;
+  display:flex; flex-direction:column; min-height:100vh;
+}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 20px;width:100%;display:flex;flex-direction:column;gap:14px}
+.hero{
+  display:block;margin:8px auto 12px;max-width:100%;height:320px;object-fit:cover;
+  border:6px solid var(--ouro);           /* borda do ícone: ouro velho */
+  border-radius:14px; box-shadow:0 8px 18px var(--shadow)
+}
+/* título: bordô com “borda” dourada */
+.title{
+  text-align:center; font-size:2rem; font-weight:900; color:var(--bordo);
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+.buttons{display:flex; flex-direction:column; gap:12px; align-items:center; margin-top:8px}
+.btn{
+  position:relative; width:78%; padding:10px 18px;
+  display:flex; align-items:center; justify-content:center;
+  background:#fff; color:var(--bordo); text-decoration:none; font-weight:900; font-size:1.05rem;
+  border:3px solid var(--ouro);                     /* borda: ouro velho */
+  box-shadow: inset 0 0 0 2.4px rgba(180,146,58,.55), 0 4px 12px var(--shadow);
+  border-radius:18px; transition:.15s ease; background-image:linear-gradient(#fff,#fff8ea);
+}
+.btn:hover{transform:translateY(-1px); filter:brightness(1.02)}
+.tag{display:inline-block;margin-left:.6rem;font-size:.8rem;font-weight:800;color:#3a2d10}
+.footer{margin-top:auto;text-align:center;opacity:.9;font-size:.9rem;padding:.8rem 0}
+.footer a{color:#ffd;}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <img class="hero" src="img/icone-clendario.png" alt="Calendário Litúrgico">
+
+    <h1 class="title">Calendário Litúrgico</h1>
+
+    <nav class="buttons" aria-label="Anos do calendário">
+      <a class="btn" href="cal-2024.html">2024</a>
+      <a class="btn" href="cal-2025.html">2025 <span class="tag">atual</span></a>
+      <a class="btn" href="cal-2026.html">2026</a>
+    </nav>
+  </main>
+
+  <div class="footer">
+    <a href="index-teste.html">Página Inicial</a> · <a href="mapa.html">Mapa</a>
+  </div>
+</body>
+</html>
