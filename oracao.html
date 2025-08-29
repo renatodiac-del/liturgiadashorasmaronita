@@ -23,11 +23,11 @@
       display:flex; flex-direction:column; min-height:100vh;
     }
 
-    /* Título o mais próximo possível do topo, sem colar */
+    /* Título no topo (quase colado) */
     header{ text-align:center; padding:1px 0 0 }
     .title{
       color:var(--azul); font-weight:900; font-size:2.2rem;
-      margin:0; /* elimina espaçamento extra */
+      margin:0;
       text-shadow:
         -1px -1px 0 var(--dourado),
          1px -1px 0 var(--dourado),
@@ -35,25 +35,27 @@
          1px  1px 0 var(--dourado);
     }
 
-    /* Container com respiro mínimo no topo */
     .wrap{width:100%; max-width:620px; margin:0 auto; padding:2px 16px 12px}
 
-    /* Ícone encostado no título (com pequeno respiro) */
+    /* Ícone encostado ao título, com pequeno respiro */
     .hero{
       display:block;
-      margin:2px auto 6px; /* ~2px de respiro abaixo do título */
+      margin:2px auto 6px;
       max-width:100%;
       height:auto;
       max-height:420px;
       border:6px solid var(--azul);
       box-shadow:
-        0 0 0 4px var(--dourado), /* borda dourada externa */
+        0 0 0 4px var(--dourado),
         0 0 0 4px var(--dourado) inset;
       border-radius:12px;
     }
 
-    /* Botões mais próximos do ícone e mais baixos */
-    .buttons{display:flex; flex-direction:column; gap:10px; margin-top:4px}
+    /* Botões mais para baixo (separados do ícone) */
+    .buttons{
+      display:flex; flex-direction:column; gap:10px;
+      margin-top:24px;  /* ↑ empurra os botões para mais perto da borda inferior */
+    }
     .btn{
       position:relative;
       display:flex; align-items:center; justify-content:center;
@@ -62,18 +64,16 @@
       border:2.4px solid var(--azul);
       box-shadow:0 0 0 2px var(--dourado) inset, 0 4px 10px var(--shadow);
       border-radius:18px;
-      padding:9px 18px;           /* ↓ altura (antes 11px) */
-      width:66%;                  /* largura mantida */
+      padding:9px 18px;        /* altura reduzida, como combinamos */
+      width:66%;
       margin:0 auto;
-      font-size:1rem; font-weight:bold; color:var(--azul); /* fonte mantida */
+      font-size:1rem; font-weight:bold; color:var(--azul);
       transition:transform .15s ease, background-color .2s ease;
     }
     .btn:hover{transform:scale(1.02); background:#f8faff}
-
-    /* Cedro com mesmo tamanho e alinhado à esquerda */
     .btn img{
       position:absolute; left:14px;
-      width:26px; height:26px;   /* tamanho do ícone mantido */
+      width:26px; height:26px;
     }
   </style>
 </head>
@@ -83,7 +83,6 @@
   </header>
 
   <main class="wrap">
-    <!-- Ícone principal -->
     <img class="hero" src="img/icone-oração.jpg" alt="Ícone da Oração das Horas">
 
     <section class="buttons">
