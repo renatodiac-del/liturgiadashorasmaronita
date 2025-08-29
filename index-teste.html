@@ -1,69 +1,159 @@
+<!-- index-teste.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Capela Virtual São Marun — Teste</title>
-  <style>
-    body{
-      margin:0; height:100vh; font-family: Arial, sans-serif;
-      display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
-      /* mosaico/losango em CSS puro */
-      background-color:#5a3d0b;
-      background-image:
-        repeating-linear-gradient(45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px),
-        repeating-linear-gradient(-45deg, rgba(255,215,0,0.25) 0, rgba(255,215,0,0.25) 2px, transparent 2px, transparent 40px);
-      background-size:40px 40px;
-    }
-    .top-links{
-      position:absolute; top:10px; right:10px;
-    }
-    .top-links a{
-      text-decoration:none; color:#fff; background:#8b0000; border:1px solid #6f0000;
-      padding:.45rem .75rem; border-radius:10px; font-weight:bold; font-size:.9rem;
-    }
-    .top-links a:hover{ background:#a00000; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Página Inicial — Versão Consolidada</title>
+<meta name="theme-color" content="#f3e6cf">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f3e6cf;          /* bege de fundo */
+    --txt:#2b1f16;
+    --vermelho:#a00000;
+    --ouro:#b4923a;        /* ouro velho */
+    --shadow:rgba(0,0,0,.12);
+    --sans:'Inter', system-ui, Arial, sans-serif;
+    --serif:'Lora', Georgia, serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--txt);
+    font-family:var(--serif);
+    display:flex; flex-direction:column; min-height:100vh;
+  }
 
-    .home-icon{
-      position:absolute; top:0; left:50%; transform:translateX(-50%);
-      width:100%; max-width:100%; height:auto;
-    }
+  /* Cabeçalho simples */
+  header{padding:8px 14px 0; text-align:center}
+  .title{
+    margin:6px 0 0; font-family:var(--sans); font-weight:800; font-size:1.4rem; color:var(--vermelho);
+    text-shadow:
+      -0.6px -0.6px 0 var(--ouro),
+       0.6px -0.6px 0 var(--ouro),
+      -0.6px  0.6px 0 var(--ouro),
+       0.6px  0.6px 0 var(--ouro);
+    letter-spacing:.2px;
+  }
 
-    .buttons{
-      width:90%; display:flex; flex-direction:column; gap:14px; margin-bottom:22px;
-      align-items:center; z-index:1;
-    }
-    .btn{
-      position:relative; display:flex; align-items:center; justify-content:center;
-      background-color:rgba(255,255,255,0.92);
-      border:3px solid #800000;            /* borda vermelha */
-      box-shadow:0 0 0 2px #d6b25a inset;  /* “borda” dourada interna */
-      border-radius:22px;
-      padding:10px 26px;
-      width:70%; max-width:350px;          /* largura dos botões */
-      font-size:1.1rem; font-weight:bold; color:#800000; cursor:pointer;
-      transition:transform .2s, background-color .2s;
-    }
-    .btn:hover{ transform:scale(1.04); background-color:#fff3da; }
-    .btn img{ position:absolute; left:16px; width:22px; height:22px; }
-  </style>
+  /* Conteúdo principal em coluna: imagem em cima, botões ancorados no rodapé */
+  .wrap{
+    width:100%; max-width:680px; margin:0 auto; padding:6px 16px 16px;
+    display:flex; flex-direction:column; flex:1 1 auto;
+  }
+
+  /* Ícone central — borda dourada apenas na base */
+  .hero-box{position:relative}
+  .hero{
+    display:block; width:100%; max-height:420px; height:340px; object-fit:cover; border:0;
+    border-bottom:8px solid var(--ouro);          /* só na base */
+    border-radius:16px 16px 14px 14px;            /* topo arredondado */
+    box-shadow:0 10px 24px var(--shadow);
+  }
+
+  /* Grupo de botões: fica no fundo da tela em qualquer breakpoint */
+  .buttons{
+    margin-top:auto;                               /* empurra para o rodapé visual */
+    transform:translateY(-10px);                   /* sobe um pouco o grupo */
+    display:flex; flex-direction:column; gap:12px; align-items:center;
+    padding-bottom:16px;                           /* respiro no rodapé */
+  }
+
+  /* Botão base — +15% largura e –10% altura em relação a um padrão comum */
+  .btn{
+    --w: 82%;                                     /* largura base (mais larga ~ +15%) */
+    --padY: 10px;                                 /* altura -10% (era ~11px) */
+    position:relative; width:var(--w);
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    text-decoration:none; text-align:center; cursor:pointer;
+    background:#fff;
+    color:var(--vermelho); font-family:var(--sans); font-weight:800; font-size:1rem;
+    padding:var(--padY) 18px;
+    border:3px solid var(--vermelho);             /* borda vermelha externa */
+    box-shadow:
+      inset 0 0 0 3px var(--ouro),                /* borda interna (ouro-velho) */
+      0 4px 12px var(--shadow);
+    border-radius:18px;
+    transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
+    background-image:linear-gradient(#fff, #fffaf3);
+  }
+  .btn:hover{transform:translateY(-1px); background:#fff7ee}
+  .btn:active{transform:translateY(0)}
+  .btn span{line-height:1.2}
+
+  /* Ícone (cruz) nos botões: redondo e +20% maior */
+  .btn img{
+    width:30px; height:30px;                      /* ~ +20% em relação a 25px */
+    border-radius:50%; object-fit:cover;
+  }
+
+  /* Primeiro botão com leve sobreposição no rodapé da imagem */
+  .btn--overlap{
+    margin-top:-18px;                              /* sobrepõe só a quina inferior da imagem */
+    z-index:2;
+  }
+
+  /* Responsividade fina */
+  @media (min-width: 900px){
+    .hero{height:380px}
+    .btn{--w: 78%}
+  }
+  @media (max-width: 380px){
+    .btn{--w: 88%}
+    .hero{height:300px}
+  }
+
+  /* Barra superior de navegação opcional (pode remover) */
+  .top-links{
+    display:flex; gap:.5rem; justify-content:flex-end; padding:6px 16px;
+  }
+  .top-links a{
+    font-family:var(--sans); font-size:.9rem; text-decoration:none; color:#fff;
+    background:var(--vermelho); padding:.42rem .7rem; border-radius:10px; border:1px solid #6f0000;
+  }
+  .top-links a:hover{filter:brightness(1.03)}
+</style>
 </head>
 <body>
-  <!-- Link de VOLTA ao app principal -->
-  <div class="top-links">
-    <a href="index.html">Voltar ao app principal</a>
-  </div>
+  <header>
+    <h1 class="title">Página Inicial — Consolidação</h1>
+  </header>
 
-  <!-- Ícone principal (use img/icone-home.png) -->
-  <img src="img/icone-home.png" alt="Ícone Home" class="home-icon">
+  <main class="wrap">
+    <section class="hero-box">
+      <!-- Troque pelo seu arquivo real -->
+      <img class="hero" src="img/sao-marun.jpg" alt="São Marun">
+    </section>
 
-  <!-- Botões -->
-  <div class="buttons">
-    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Qurbono</button>
-    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Oração das Horas</button>
-    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Calendário Litúrgico</button>
-    <button class="btn"><img src="img/cruz.png" alt="Cruz"> Patrística Siríaca</button>
-  </div>
+    <nav class="buttons" aria-label="Ações principais">
+      <!-- 1) Qurbono: com sobreposição leve no ícone -->
+      <a class="btn btn--overlap" href="qurbono-teste.html">
+        <img src="img/cruz2.jpg" alt="">
+        <span>Qurbono — Divina Liturgia</span>
+      </a>
+
+      <!-- 2) Oração das Horas -->
+      <a class="btn" href="oracao.html">
+        <img src="img/cruz3.png" alt="">
+        <span>Oração das Horas</span>
+      </a>
+
+      <!-- 3) Calendário Litúrgico (abre página dos 3 anos – a criar) -->
+      <a class="btn" href="calendario.html">
+        <img src="img/cruz6.jpeg" alt="">
+        <span>Calendário Litúrgico</span>
+      </a>
+
+      <!-- 4) Patrística Siríaca (navegação alfabética – a criar) -->
+      <a class="btn" href="patristica.html">
+        <img src="img/cruz8.jpeg" alt="">
+        <span>Patrística Siríaca</span>
+      </a>
+    </nav>
+  </main>
 </body>
 </html>
 
