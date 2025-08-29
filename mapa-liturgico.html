@@ -1,312 +1,211 @@
+<!-- mapa.html (versão em cards com ícones) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mapa Litúrgico — Visuais & Navegação</title>
-<meta name="theme-color" content="#efe8d8">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mapa Litúrgico</title>
 <style>
   :root{
-    --paper:#f7f1e6; --ink:#2f2a24; --card:#ffffff; --line:#e3d7c6;
-    --shadow: 0 8px 24px rgba(0,0,0,.08);
+    --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+    --gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.08);
+    --sans: Arial, Helvetica, sans-serif;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; font-family: Arial, Helvetica, sans-serif; color:var(--ink);
-    background:var(--paper);
-    background-image:
-      repeating-linear-gradient(45deg, rgba(0,0,0,.035) 0, rgba(0,0,0,.035) 1px, transparent 1px, transparent 32px),
-      repeating-linear-gradient(-45deg, rgba(0,0,0,.025) 0, rgba(0,0,0,.025) 1px, transparent 1px, transparent 46px);
-    background-size: 32px 32px, 46px 46px;
+  body{margin:0; padding:18px; background:var(--bg); color:var(--txt); font-family:var(--sans)}
+  h1{margin:.2rem 0 1rem; font-size:1.7rem}
+  .section{margin:18px 0}
+  .section-title{
+    font-weight:900; font-size:1rem; margin:0 0 .6rem;
+    color:#4a3828; letter-spacing:.2px
   }
-
-  header{padding: 18px 16px 8px; text-align:center; border-bottom: 1px solid var(--line)}
-  h1{margin:0; font-size:1.8rem; letter-spacing:.3px; color:#5a3b1c}
-  p.lead{margin:.4rem auto 1rem; max-width:880px; color:#6d5a49; font-size:.98rem}
-
-  .wrap{ max-width:1280px; margin:0 auto; padding:16px }
-  .grid{ display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) }
-
+  .grid{
+    display:grid; gap:14px;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  }
   .card{
-    background:var(--card); border:1px solid var(--line); border-radius:16px;
-    box-shadow: var(--shadow); overflow:hidden; display:flex; flex-direction:column
+    display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--card);
+    border:1.5px solid var(--bord); border-radius:14px; overflow:hidden;
+    box-shadow:0 6px 16px var(--shadow);
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
   }
-  .thumb{ width:100%; aspect-ratio:16/9; object-fit:cover; border-bottom:1px solid var(--line) }
-  .card-body{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:10px }
-  .title{ font-weight:800; letter-spacing:.2px; margin:0; font-size:1.05rem }
-  .desc{ margin:0; color:#6c6257; font-size:.9rem; min-height:2.2em }
-  .swatches{ display:flex; gap:6px; align-items:center; flex-wrap:wrap }
-  .swatch{ width:18px; height:18px; border-radius:50%; border:1px solid rgba(0,0,0,.15) }
-  .actions{ display:flex; gap:8px; margin-top:6px }
-  .btn{
-    appearance:none; border:1px solid #cdbda8; background:#fff; color:#5a3b1c;
-    padding:8px 12px; border-radius:12px; font-weight:700; font-size:.9rem;
-    text-decoration:none; display:inline-flex; align-items:center; gap:8px; justify-content:center; flex:1;
-    transition: transform .12s ease, background-color .2s ease, border-color .2s ease;
+  .card:hover{transform:translateY(-2px); border-color:var(--gold); box-shadow:0 10px 22px rgba(0,0,0,.12)}
+  .thumb{
+    width:100%; aspect-ratio: 16/10; object-fit:cover;
+    border-bottom:4px solid var(--gold);
   }
-  .btn:hover{ background:#fff6ea; transform: translateY(-1px); border-color:#bda58b }
-  .btn:active{ transform: translateY(0) }
-
-  /* realce por tema (borda do card) */
-  .t-app{ border-color:#582c0c }
-  .t-inter{ border-color:#00BFFF }
-  .t-ordinario{ border-color:#d6b25a }
-  .t-tempos{ border-color:#582c0c }
-  .t-quaresma{ border-color:#b8860b }
-  .t-paixao{ border-color:#b8860b }
-  .t-ressur{ border-color:#b8860b }
-  .t-qurbono{ border-color:#40E0D0 }
-  .t-test-horas{ border-color:#ff7a00 }
-  .t-test-index{ border-color:#8b0000 }
-  .t-liturgia-dia{ border-color:#0b2a4d }
-  .t-leituras{ border-color:#d6b25a }
-  .t-anafora{ border-color:#ff7a00 }
-  .t-synax{ border-color:#40E0D0 }
-
-  footer{
-    text-align:center; padding:16px; color:#7b6c5b; font-size:.85rem;
-    border-top:1px solid var(--line); margin-top:12px;
+  .thumb[hidden]{display:none!important}
+  .body{padding:12px 12px 14px}
+  .title{
+    font-weight:900; font-size:1.02rem; margin:0 0 4px; color:var(--accent);
+    text-shadow: -0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold),
+                 -0.5px  0.5px 0 var(--gold), 0.5px  0.5px 0 var(--gold);
+  }
+  .subtitle{margin:0; font-size:.9rem; color:#5a4634}
+  /* etiqueta pequena opcional */
+  .tag{
+    display:inline-block; margin-top:8px; font-size:.75rem; font-weight:700; color:#4a3828;
+    background:linear-gradient(#fff, #fff9ef); border:1px solid var(--gold);
+    box-shadow:inset 0 0 0 1px rgba(214,178,90,.6);
+    border-radius:999px; padding:4px 8px;
   }
 </style>
-<script>
-  // Fallback rápido: se um .jgp falhar, tenta .jpg
-  function jpgFallback(img, fallback){
-    if(!img.dataset.swapped){ img.dataset.swapped=1; img.src=fallback; } else { img.src=fallback; }
-  }
-</script>
 </head>
 <body>
-<header>
-  <h1>Mapa Litúrgico — Visuais & Navegação</h1>
-  <p class="lead">Acesse rapidamente todas as páginas do projeto para validar esquema de cores, ícones e navegação.</p>
-</header>
+<h1>Mapa Litúrgico</h1>
 
-<main class="wrap">
-  <section class="grid">
-
-    <!-- APP PRINCIPAL -->
-    <article class="card t-app">
-      <img class="thumb" src="https://i.imgur.com/CApQPnb.png" alt="App principal — cedro">
-      <div class="card-body">
+<!-- APP PRINCIPAL -->
+<section class="section">
+  <h2 class="section-title">App principal</h2>
+  <div class="grid">
+    <a class="card" href="index.html">
+      <img class="thumb" src="img/icone-app.jpg" alt="App" onerror="this.hidden=true">
+      <div class="body">
         <h3 class="title">App Principal</h3>
-        <p class="desc">Liturgia Diária (Google Sheets) com navegação por data.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#fdfaf6"></span>
-          <span class="swatch" style="background:#582c0c"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
-        </div>
-        <div class="actions"><a class="btn" href="index.html">Abrir</a></div>
+        <p class="subtitle">Liturgia diária via planilhas</p>
       </div>
-    </article>
+    </a>
+  </div>
+</section>
 
-    <!-- INTERMEDIÁRIA -->
-    <article class="card t-inter">
-      <img class="thumb" src="img/icone-oração.jpg" alt="Intermediária — Oração das Horas"
-           onerror="this.src='img/icone-horas.jpg'">
-      <div class="card-body">
-        <h3 class="title">Intermediária — Oração das Horas</h3>
-        <p class="desc">Menu: Oração do Dia, Ordinário, Comum dos Santos, Festas por Data, Biblioteca.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#4b5320"></span>
-          <span class="swatch" style="background:#add8e6"></span>
-          <span class="swatch" style="background:#00BFFF"></span>
-        </div>
-        <div class="actions"><a class="btn" href="oracao.html">Abrir</a></div>
+<!-- INTERMEDIÁRIAS / MENUS -->
+<section class="section">
+  <h2 class="section-title">Intermediárias / Menus</h2>
+  <div class="grid">
+    <a class="card" href="oracao.html">
+      <img class="thumb" src="img/icone-oração.jpg" alt="Oração das Horas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Oração das Horas</h3>
+        <p class="subtitle">Menu principal da Oração</p>
       </div>
-    </article>
+    </a>
 
-    <!-- LITURGIA EUCARÍSTICA DO DIA -->
-    <article class="card t-liturgia-dia">
-      <img class="thumb" src="img/icone-liturgiadia.jgp" alt="Liturgia do Dia"
-           onerror="jpgFallback(this,'img/icone-liturgiadia.jpg')">
-      <div class="card-body">
-        <h3 class="title">Liturgia Eucarística do Dia</h3>
-        <p class="desc">Data, dia da semana e setas Anterior/Próximo (fundo rosa claro).</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#ffe5f0"></span>
-          <span class="swatch" style="background:#0b2a4d"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
-        </div>
-        <div class="actions"><a class="btn" href="liturgia-dia.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- LEITURAS BÍBLICAS -->
-    <article class="card t-leituras">
-      <img class="thumb" src="img/icone-leituras.jgp" alt="Leituras Bíblicas"
-           onerror="jpgFallback(this,'img/icone-leituras.jpg')">
-      <div class="card-body">
-        <h3 class="title">Leituras Bíblicas</h3>
-        <p class="desc">Data, dia da semana e setas Anterior/Próximo (fundo azul bebê).</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#cfeefe"></span>
-          <span class="swatch" style="background:#0b2a4d"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
-        </div>
-        <div class="actions"><a class="btn" href="leituras.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- ANÁFORAS -->
-    <article class="card t-anafora">
-      <img class="thumb" src="img/icone-anafora.jgp" alt="Anáforas"
-           onerror="jpgFallback(this,'img/icone-anafora.jpg')">
-      <div class="card-body">
-        <h3 class="title">Anáforas</h3>
-        <p class="desc">Bege escuro com detalhes e letras laranja; bordas douradas + laranja.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#bfa57f"></span>
-          <span class="swatch" style="background:#ff7a00"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
-        </div>
-        <div class="actions"><a class="btn" href="anafora.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- SYNAXARION -->
-    <article class="card t-synax">
-      <img class="thumb" src="img/icone-sinaxarion.jgp" alt="Synaxarion"
-           onerror="jpgFallback(this,'img/icone-sinaxarion.jpg')">
-      <div class="card-body">
-        <h3 class="title">Synaxarion</h3>
-        <p class="desc">Datas específicas (sem dia da semana); ouro-velho + turquesa; borda dupla.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#b8860b"></span>
-          <span class="swatch" style="background:#40E0D0"></span>
-          <span class="swatch" style="background:#fff7e6"></span>
-        </div>
-        <div class="actions"><a class="btn" href="synaxarion.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- ORDINÁRIO -->
-    <article class="card t-ordinario">
-      <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário — ícone">
-      <div class="card-body">
-        <h3 class="title">Ordinário</h3>
-        <p class="desc">Verde claro; aro externo verde nos botões; dourado interno + cruz redonda.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#bfe3c2"></span>
-          <span class="swatch" style="background:#22552f"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
-        </div>
-        <div class="actions"><a class="btn" href="ordinario.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- TEMPOS -->
-    <article class="card t-tempos">
-      <img class="thumb" src="img/icone-tempos.jpg" alt="Tempos — ícone">
-      <div class="card-body">
-        <h3 class="title">Anúncio / Epifania / Pentecostes / Cruz</h3>
-        <p class="desc">Dourado + marrom; cruz arredondada; título -2 pts.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#d6b25a"></span>
-          <span class="swatch" style="background:#582c0c"></span>
-          <span class="swatch" style="background:#3e1f08"></span>
-        </div>
-        <div class="actions"><a class="btn" href="tempos.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- QUARESMA -->
-    <article class="card t-quaresma">
-      <img class="thumb" src="img/icone-quaresma.jpg" alt="Quaresma — ícone">
-      <div class="card-body">
-        <h3 class="title">Grande Quaresma</h3>
-        <p class="desc">Roxo + ouro-velho; cruz 18px redonda.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#4B0082"></span>
-          <span class="swatch" style="background:#b8860b"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
-        </div>
-        <div class="actions"><a class="btn" href="quaresma.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- SEMANA DA PAIXÃO -->
-    <article class="card t-paixao">
-      <img class="thumb" src="img/icone-paixao.jpg" alt="Semana da Paixão — ícone">
-      <div class="card-body">
-        <h3 class="title">Semana da Paixão</h3>
-        <p class="desc">Vermelho; ouro-velho; letras roxas; cruz 21px redonda.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#8B0000"></span>
-          <span class="swatch" style="background:#b8860b"></span>
-          <span class="swatch" style="background:#4B0082"></span>
-        </div>
-        <div class="actions"><a class="btn" href="paixao.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- RESSURREIÇÃO GLORIOSA -->
-    <article class="card t-ressur">
-      <img class="thumb" src="img/icone-ressurreicao.jpg" alt="Ressurreição — ícone">
-      <div class="card-body">
-        <h3 class="title">Ressurreição Gloriosa</h3>
-        <p class="desc">Bege pastel; ouro-velho; cruz 26px redonda (rotação 1°).</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#fdf5e6"></span>
-          <span class="swatch" style="background:#b8860b"></span>
-          <span class="swatch" style="background:#daa520"></span>
-        </div>
-        <div class="actions"><a class="btn" href="ressurreicao.html">Abrir</a></div>
-      </div>
-    </article>
-
-    <!-- QURBONO (teste) -->
-    <article class="card t-qurbono">
-      <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono — teste">
-      <div class="card-body">
+    <a class="card" href="qurbono-teste.html">
+      <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" onerror="this.hidden=true">
+      <div class="body">
         <h3 class="title">Qurbono (teste)</h3>
-        <p class="desc">Azul + diagonais; botões grandes; navegação temporária.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#1a2a40"></span>
-          <span class="swatch" style="background:#a00000"></span>
-          <span class="swatch" style="background:#40E0D0"></span>
-        </div>
-        <div class="actions"><a class="btn" href="qurbono-teste.html">Abrir</a></div>
+        <p class="subtitle">Acesso rápido a eucaristia</p>
       </div>
-    </article>
+    </a>
 
-    <!-- ORAÇÃO DO DIA (teste) -->
-    <article class="card t-test-horas">
-      <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia — teste">
-      <div class="card-body">
-        <h3 class="title">Oração do Dia (teste)</h3>
-        <p class="desc">Data, dia da semana e setas de navegação.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#f3e6cf"></span>
-          <span class="swatch" style="background:#ff7a00"></span>
-          <span class="swatch" style="background:#d6b25a"></span>
-        </div>
-        <div class="actions"><a class="btn" href="horas-teste.html">Abrir</a></div>
+    <a class="card" href="santos.html">
+      <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Comum dos Santos</h3>
+        <p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p>
+        <span class="tag">novo</span>
       </div>
-    </article>
+    </a>
 
-    <!-- INDEX (teste visual) -->
-    <article class="card t-test-index">
-      <img class="thumb" src="https://i.imgur.com/TZ1B9IL.png" alt="São Marun — imagem">
-      <div class="card-body">
-        <h3 class="title">Index (teste visual)</h3>
-        <p class="desc">Página de teste do layout, antes da consolidação.</p>
-        <div class="swatches">
-          <span class="swatch" style="background:#8b0000"></span>
-          <span class="swatch" style="background:#f1ede9"></span>
-          <span class="swatch" style="background:#582c0c"></span>
-        </div>
-        <div class="actions"><a class="btn" href="index-teste.html">Abrir</a></div>
+    <a class="card" href="festas.data.html">
+      <img class="thumb" src="img/icone-festadata.jpg" alt="Festas por Datas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Festas por Datas</h3>
+        <p class="subtitle">Navegação por datas especiais</p>
+        <span class="tag">novo</span>
       </div>
-    </article>
+    </a>
 
-  </section>
-</main>
+    <a class="card" href="biblos.html">
+      <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Biblioteca</h3>
+        <p class="subtitle">Tempos e coleções litúrgicas</p>
+        <span class="tag">novo</span>
+      </div>
+    </a>
+  </div>
+</section>
 
-<footer>
-  Mapa Litúrgico · revisão visual e acesso rápido a todas as páginas. |
-  <a href="index.html">App principal</a> |
-  <a href="oracao.html">Intermediária</a>
-</footer>
+<!-- PÁGINAS POR DATA -->
+<section class="section">
+  <h2 class="section-title">Páginas por data</h2>
+  <div class="grid">
+    <a class="card" href="horas-teste.html">
+      <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Oração do Dia</h3>
+        <p class="subtitle">Horas canônicas (visual)</p>
+      </div>
+    </a>
+
+    <a class="card" href="liturgia-dia.html">
+      <img class="thumb" src="img/icone-liturgiadia.jpg" alt="Liturgia Eucarística" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Liturgia Eucarística</h3>
+        <p class="subtitle">Data clicável + navegação</p>
+      </div>
+    </a>
+
+    <a class="card" href="leituras.html">
+      <img class="thumb" src="img/icone-leituras.png" alt="Leituras Bíblicas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Leituras Bíblicas</h3>
+        <p class="subtitle">Referências por dia</p>
+      </div>
+    </a>
+
+    <a class="card" href="synaxarion.html">
+      <img class="thumb" src="img/icone-synaxarion.jpg" alt="Synaxarion" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Synaxarion</h3>
+        <p class="subtitle">Datas, sem dia da semana</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ORDINÁRIO E CICLOS -->
+<section class="section">
+  <h2 class="section-title">Ordinário e ciclos</h2>
+  <div class="grid">
+    <a class="card" href="ordinario.html">
+      <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ordinário</h3>
+        <p class="subtitle">Seções por tempo</p>
+      </div>
+    </a>
+
+    <a class="card" href="tempos.html">
+      <img class="thumb" src="img/icone-tempos.jpg" alt="Anúncio / Epifania / Pentecostes / Cruz" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Anúncio · Epifania · Pentecostes · Cruz</h3>
+        <p class="subtitle">Dias da semana</p>
+      </div>
+    </a>
+
+    <a class="card" href="quaresma.html">
+      <img class="thumb" src="img/icone-quaresma.jpg" alt="Quaresma" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Quaresma</h3>
+        <p class="subtitle">Grande Quaresma</p>
+      </div>
+    </a>
+
+    <a class="card" href="paixao.html">
+      <img class="thumb" src="img/icone-paixão.jpg" alt="Semana da Paixão" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Semana da Paixão</h3>
+        <p class="subtitle">Ritos e dias</p>
+      </div>
+    </a>
+
+    <a class="card" href="ressurreicao.html">
+      <img class="thumb" src="img/icone-ressurreição.jpg" alt="Ressurreição" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ressurreição</h3>
+        <p class="subtitle">Semana da Glória</p>
+      </div>
+    </a>
+
+    <a class="card" href="anafora.html">
+      <img class="thumb" src="img/icone-anafora.jpg" alt="Anáforas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Anáforas</h3>
+        <p class="subtitle">Lista de anáforas</p>
+      </div>
+    </a>
+  </div>
+</section>
 </body>
 </html>
