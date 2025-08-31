@@ -63,7 +63,6 @@ body{
 .navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
 
 footer{text-align:center; margin:18px 0}
-footer a{color:#3b2a19;text-decoration:none;font-weight:700}
 
 /* Botão vermelho padrão (40% menor) */
 .voltar{
@@ -95,10 +94,7 @@ footer a{color:#3b2a19;text-decoration:none;font-weight:700}
   </main>
 
   <footer>
-    <a href="index-teste.html">Página Inicial</a> · <a href="mapa.html">Mapa</a>
-    <div style="margin-top:10px">
-      <a class="voltar" href="javascript:history.back()">&#8592; Voltar</a>
-    </div>
+    <a class="voltar" href="javascript:history.back()">&#8592; Voltar</a>
   </footer>
 
 <script>
@@ -119,7 +115,6 @@ function render(){
   nameBtn.textContent = autores[idx];
 }
 function linkDoAutor(nome){
-  // placeholder de rota; adapte para a página/âncora real deste autor
   const slug = nome.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
                .toLowerCase().replace(/[^\w]+/g,'-').replace(/^-+|-+$/g,'');
   return `#${slug}`;
