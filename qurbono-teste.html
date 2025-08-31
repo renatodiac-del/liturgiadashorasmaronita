@@ -1,56 +1,99 @@
+<!-- qurbone.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Qurbono — Teste (Estável)</title>
-<meta name="theme-color" content="#1a2a40">
-<style>
-:root{
---azul:#1a2a40; --vermelho:#a00000; --turquesa:#40E0D0; --dourado:#d6b25a; --sombra:rgba(0,0,0,.15);
---fonte: Arial, Helvetica, sans-serif;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-margin:0; font-family:var(--fonte); color:#1b1b1b;
-background: var(--azul);
-background-image:
-repeating-linear-gradient(45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px),
-repeating-linear-gradient(-45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px);
-background-size:40px 40px;
-display:flex; flex-direction:column; min-height:100vh;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qurbono — Menu</title>
+  <meta name="theme-color" content="#1a2a40">
+  <style>
+    :root{
+      --azul:#1a2a40;
+      --vermelho:#a00000;
+      --turquesa:#40E0D0;
+      --dourado:#d6b25a;
+      --sombra:rgba(0,0,0,.15);
+      --fonte: Arial, Helvetica, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--fonte); color:#1b1b1b;
+      background: var(--azul);
+      background-image:
+        repeating-linear-gradient(45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px);
+      background-size:40px 40px;
+      display:flex; flex-direction:column; min-height:100vh;
+    }
+    .top{display:flex; gap:.5rem; justify-content:flex-end; padding:10px}
+    .top a{
+      color:#fff; text-decoration:none; background:var(--vermelho);
+      border:1px solid #6f0000; padding:.45rem .75rem; border-radius:10px;
+      font-weight:bold; font-size:.9rem
+    }
+    .wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 24px}
+    .hero{
+      display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
+      border:6px solid var(--turquesa);
+      box-shadow:0 0 0 4px var(--dourado) inset;
+      border-radius:12px
+    }
+    .buttons{display:flex; flex-direction:column; gap:16px}
+    .btn{
+      position:relative; display:flex; align-items:center; justify-content:center; gap:8px;
+      cursor:pointer; background-color:rgba(255,255,255,0.95);
+      border:2.4px solid var(--turquesa);
+      box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
+      border-radius:18px; padding:12px 18px; width:77%; font-size:1rem; font-weight:bold;
+      color:var(--vermelho); transition:transform .15s ease, background-color .2s ease;
+      text-decoration:none; margin:0 auto
+    }
+    .btn:hover{transform:scale(1.02); background:#fff3da}
+    .btn img{position:absolute; left:12px; width:22px; height:22px}
+    footer{margin-top:auto; text-align:center; color:#eee; font-size:.8rem; padding:.5rem}
+    footer a{color:#fff}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <a href="index.html">App principal</a>
+    <a href="mapa.html">Mapa</a>
+  </div>
 
+  <main class="wrap">
+    <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
 
-/* removido: barra .top (conforme pedido) */
+    <section class="buttons" aria-label="Menu do Qurbono">
+      <a class="btn" href="liturgia-dia.html">
+        <img src="img/cruz2.jpg" alt="">
+        Liturgia Eucarística do Dia
+      </a>
 
+      <a class="btn" href="anafora.html">
+        <img src="img/cruz2.jpg" alt="">
+        Anáforas
+      </a>
 
-.wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 88px}
+      <a class="btn" href="synaxarion.html">
+        <img src="img/cruz2.jpg" alt="">
+        Synaxarion
+      </a>
 
+      <a class="btn" href="leituras.html">
+        <img src="img/cruz2.jpg" alt="">
+        Leituras bíblicas
+      </a>
 
-/* Ícone principal com borda turquesa + dourada interna */
-.hero{
-display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
-border:6px solid var(--turquesa); box-shadow:0 0 0 4px var(--dourado) inset, 0 6px 16px var(--sombra); border-radius:12px
-}
+      <a class="btn" href="#">
+        <img src="img/cruz2.jpg" alt="">
+        Biblioteca
+      </a>
+    </section>
+  </main>
 
-
-.buttons{display:flex; flex-direction:column; gap:16px}
-.btn{
-position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
-background-color:rgba(255,255,255,0.95);
-border:2.4px solid var(--turquesa); box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
-border-radius:18px; padding:12px 18px; width:77%; font-size:1rem; font-weight:bold; color:var(--vermelho);
-transition:transform .15s ease, background-color .2s ease; text-decoration:none; margin:0 auto
-}
-.btn:hover{transform:scale(1.02); background:#fff3da}
-.btn img{position:absolute; left:12px; width:22px; height:22px}
-
-
-/* Rodapé fixo com botão pequeno "Voltar" (sem ícone de cruz) */
-footer.footer{ position:sticky; bottom:0; width:100%; background:linear-gradient(to top, rgba(26,42,64,.96), rgba(26,42,64,.6), transparent); }
-.backwrap{ max-width:520px; margin:0 auto; padding:8px 16px 12px; display:flex; justify-content:flex-start; }
-.backbtn{
-appearance:none; border:none; background:var(--vermelho); color:#fff;
+  <footer>
+    Qurbono · Navegação temporária — <a href="mapa.html">Mapa</a>
+  </footer>
+</body>
 </html>
