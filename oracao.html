@@ -1,3 +1,4 @@
+<!-- oracao.html (com botão Voltar reduzido em 40%) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,8 +8,12 @@
   <meta name="theme-color" content="#556b2f">
   <style>
     :root{
-      --verde:#556b2f; --verde-claro:#7a9d54; --azul:#87ceeb;
-      --dourado:#d6b25a; --shadow:rgba(0,0,0,.15);
+      --verde:#556b2f;
+      --verde-claro:#7a9d54;
+      --azul:#87ceeb;
+      --dourado:#d6b25a;
+      --shadow:rgba(0,0,0,.15);
+      --vermelho:#a00000;
       --fonte: Arial, Helvetica, sans-serif;
     }
     *{box-sizing:border-box}
@@ -23,11 +28,10 @@
       display:flex; flex-direction:column; min-height:100vh;
     }
 
-    /* Título no topo (quase colado) */
-    header{ text-align:center; padding:1px 0 0 }
+    header{text-align:center; padding:1px 0 0}
     .title{
-      color:var(--azul); font-weight:900; font-size:2.2rem;
-      margin:0;
+      color:var(--azul);
+      font-weight:900; font-size:2.2rem; margin:0;
       text-shadow:
         -1px -1px 0 var(--dourado),
          1px -1px 0 var(--dourado),
@@ -36,62 +40,60 @@
     }
 
     .wrap{width:100%; max-width:620px; margin:0 auto; padding:2px 16px 12px}
-
-    /* Ícone encostado ao título, com pequeno respiro */
     .hero{
-      display:block;
-      margin:2px auto 6px;
-      max-width:100%;
-      height:auto;
-      max-height:420px;
+      display:block; margin:2px auto 6px; max-width:100%; height:auto; max-height:420px;
       border:6px solid var(--azul);
-      box-shadow:
-        0 0 0 4px var(--dourado),
-        0 0 0 4px var(--dourado) inset;
+      box-shadow: 0 0 0 4px var(--dourado), 0 0 0 4px var(--dourado) inset;
       border-radius:12px;
     }
 
-    /* Botões mais para baixo (separados do ícone) */
     .buttons{
-      display:flex; flex-direction:column; gap:10px;
-      margin-top:24px;  /* ↑ empurra os botões para mais perto da borda inferior */
+      display:flex; flex-direction:column; gap:10px; margin-top:24px;
     }
     .btn{
-      position:relative;
-      display:flex; align-items:center; justify-content:center;
+      position:relative; display:flex; align-items:center; justify-content:center;
       text-decoration:none; cursor:pointer;
-      background-color:#fff;
-      border:2.4px solid var(--azul);
+      background:#fff; border:2.4px solid var(--azul);
       box-shadow:0 0 0 2px var(--dourado) inset, 0 4px 10px var(--shadow);
-      border-radius:18px;
-      padding:9px 18px;        /* altura reduzida, como combinamos */
-      width:66%;
-      margin:0 auto;
+      border-radius:18px; padding:9px 18px;
+      width:66%; margin:0 auto;
       font-size:1rem; font-weight:bold; color:var(--azul);
       transition:transform .15s ease, background-color .2s ease;
     }
     .btn:hover{transform:scale(1.02); background:#f8faff}
-    .btn img{
-      position:absolute; left:14px;
-      width:26px; height:26px;
+    .btn img{position:absolute; left:14px; width:26px; height:26px}
+
+    footer{text-align:center; margin:18px 0}
+    .voltar{
+      background:var(--vermelho);
+      color:#fff; font-size:.65rem; font-weight:bold;
+      border:none; border-radius:6px;
+      padding:.3rem .55rem; cursor:pointer;
+      display:inline-flex; align-items:center; gap:.4rem;
+      text-decoration:none;
+      transform:scale(0.6);   /* 40% menor */
+      transform-origin:center;
     }
+    .voltar:hover{background:#c00000}
   </style>
 </head>
 <body>
-  <header>
-    <h1 class="title">Oração das Horas</h1>
-  </header>
-
+  <header><h1 class="title">Oração das Horas</h1></header>
   <main class="wrap">
     <img class="hero" src="img/icone-oração.jpg" alt="Ícone da Oração das Horas">
-
     <section class="buttons">
       <a class="btn" href="horas-teste.html"><img src="img/cedro.jpg" alt="">Oração do Dia</a>
       <a class="btn" href="ordinario.html"><img src="img/cedro.jpg" alt="">Ordinário</a>
-      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Comum dos Santos</a>
-      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Festas por Data</a>
-      <a class="btn" href="#"><img src="img/cedro.jpg" alt="">Biblioteca</a>
+      <a class="btn" href="santos.html"><img src="img/cedro.jpg" alt="">Comum dos Santos</a>
+      <a class="btn" href="festas-data.html"><img src="img/cedro.jpg" alt="">Festas por Data</a>
+      <a class="btn" href="biblos.html"><img src="img/cedro.jpg" alt="">Biblioteca</a>
     </section>
   </main>
+
+  <footer>
+    <a class="voltar" href="javascript:history.back()">
+      &#8592; Voltar
+    </a>
+  </footer>
 </body>
 </html>
