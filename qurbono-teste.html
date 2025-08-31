@@ -27,49 +27,56 @@
       display:flex; flex-direction:column; min-height:100vh;
     }
 
-    .wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 24px}
+    .wrap{
+      width:100%; max-width:520px; margin:0 auto;
+      padding:4px 12px 10px; /* bem próximo do topo */
+    }
 
     /* título acima do ícone */
     .title{
       text-align:center;
-      font-size:2rem;
+      font-size: calc(2rem + 2pt); /* +2pt */
       font-weight:900;
       color:var(--vermelho);
-      margin:12px 0 8px;
+      margin:4px 0 6px; /* aproxima do topo e do ícone */
+      line-height:1.05;
     }
 
     .hero{
-      display:block; margin:0 auto 14px; max-width:100%; height:auto; max-height:420px;
+      display:block; margin:0 auto 10px; max-width:100%; height:auto; max-height:420px;
       border:6px solid var(--turquesa);
       box-shadow:0 0 0 4px var(--dourado) inset;
       border-radius:12px
     }
 
-    .buttons{display:flex; flex-direction:column; gap:14px}
+    .buttons{
+      display:flex; flex-direction:column; gap:10px; /* compacto */
+      margin:0 0 6px 0; /* deixa espaço mínimo pro "Voltar" */
+    }
+
     .btn{
       position:relative; display:flex; align-items:center; justify-content:center; gap:8px;
       cursor:pointer; background-color:rgba(255,255,255,0.95);
       border:2.4px solid var(--turquesa);
       box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
       border-radius:18px;
-      padding:11px 18px; /* altura reduzida em ~5% */
+      padding:8.8px 18px; /* ~20% mais baixo (antes ~11px) */
       width:77%; font-size:1rem; font-weight:bold;
       color:var(--vermelho);
       transition:transform .15s ease, background-color .2s ease;
-      text-decoration:none; margin:0 auto
+      text-decoration:none; margin:0 auto;
     }
     .btn:hover{transform:scale(1.02); background:#fff3da}
 
-    /* Ícone da cruz — redondo e +20% maior */
+    /* Ícone da cruz — +20%, redondo */
     .btn img{
-      position:absolute; left:12px; 
-      width:26px; height:26px;   /* antes 22px → agora +20% */
+      position:absolute; left:12px;
+      width:26px; height:26px; /* 22px -> +20% */
       border-radius:50%; object-fit:cover;
     }
 
     footer{
-      margin-top:20px; /* aproxima mas sem colar nos botões */
-      text-align:center; padding:0.5rem;
+      margin-top:0; text-align:center; padding:0 0 10px;
     }
     .voltar{
       background:var(--vermelho);
@@ -83,7 +90,6 @@
   </style>
 </head>
 <body>
-
   <main class="wrap">
     <h1 class="title">Qurbono</h1>
 
@@ -115,12 +121,12 @@
         Biblioteca
       </a>
     </section>
-  </main>
 
-  <footer>
-    <a class="voltar" href="javascript:history.back()">
-      &#8592; Voltar
-    </a>
-  </footer>
+    <footer>
+      <a class="voltar" href="javascript:history.back()">
+        &#8592; Voltar
+      </a>
+    </footer>
+  </main>
 </body>
 </html>
