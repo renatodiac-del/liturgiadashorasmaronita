@@ -1,4 +1,4 @@
-<!-- calendario.html (atualizado) -->
+<!-- calendario.html (ajustes finais) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,8 +8,9 @@
 <style>
   :root{
     --azul:#0b1f3d;           /* azul marinho */
-    --bordo:#6b0010;          /* vermelho bordô do título e letras */
+    --bordo:#6b0010;          /* vermelho bordô (título/letras) */
     --ouro:#b4923a;           /* dourado ouro-velho */
+    --celeste:#87ceeb;        /* azul-celeste */
     --shadow:rgba(0,0,0,.18);
     --fonte: Arial, Helvetica, sans-serif;
   }
@@ -17,20 +18,19 @@
   html,body{height:100%}
   body{
     margin:0; font-family:var(--fonte); color:#fff;
-    /* Fundo azul com estrelas (densidade 4x e tamanho maior) */
+    /* Fundo azul com estrelas: densidade ~1/2 (background-size maior) */
     background:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,.9) 1.6px, transparent 2.2px) 0 0/22px 22px,
-      radial-gradient(circle at 70% 60%, rgba(255,255,255,.8) 1.6px, transparent 2.2px) 0 0/22px 22px,
-      radial-gradient(circle at 40% 80%, rgba(255,255,255,.65) 1.2px, transparent 2px) 0 0/18px 18px,
-      radial-gradient(circle at 85% 25%, rgba(255,255,255,.5) 1.2px, transparent 2px) 0 0/18px 18px,
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,.9) 1.6px, transparent 2.4px) 0 0/36px 36px,
+      radial-gradient(circle at 70% 60%, rgba(255,255,255,.8) 1.6px, transparent 2.4px) 0 0/36px 36px,
+      radial-gradient(circle at 40% 80%, rgba(255,255,255,.65) 1.2px, transparent 2.2px) 0 0/28px 28px,
+      radial-gradient(circle at 85% 25%, rgba(255,255,255,.5) 1.2px, transparent 2.2px) 0 0/28px 28px,
       var(--azul);
     display:flex; flex-direction:column; min-height:100vh;
   }
 
   header{text-align:center; padding:10px 12px 6px}
   .title{
-    /* +2pt sobre o tamanho usual (~0.167rem) */
-    font-size: calc(1.8rem + 2pt);
+    font-size: calc(1.8rem + 2pt); /* +2pt */
     font-weight:900; margin:0;
     color:var(--bordo);
     text-shadow:
@@ -42,31 +42,36 @@
 
   .wrap{max-width:640px; margin:0 auto; padding:8px 16px 20px; width:100%}
 
-  /* Ícone principal: +50% (altura máxima ampliada) */
+  /* Ícone principal: +50% já aplicado na versão anterior; agora com borda azul-celeste */
   .hero{
     display:block; margin:8px auto 14px; max-width:100%; height:auto;
-    max-height:630px;                   /* ampliado */
-    border:6px solid var(--bordo);
+    max-height:630px;
+    border:6px solid var(--celeste);                 /* borda celeste */
     box-shadow:0 0 0 4px var(--ouro) inset, 0 6px 16px var(--shadow);
     border-radius:14px;
   }
 
   .buttons{display:flex; flex-direction:column; gap:12px; margin-top:6px}
 
-  /* Botões: -10% largura, +20% altura */
+  /* Botões: largura -10%, altura +20% (padronizados) e aro externo celeste */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:center; text-align:center;
-    text-decoration:none; cursor:pointer;
-    background:#fff;
-    color:var(--bordo); font-weight:800;
-    border:3px solid var(--ouro);
-    box-shadow: inset 0 0 0 2.4px rgba(0,0,0,.06), 0 4px 10px var(--shadow);
+    text-decoration:none; cursor:pointer; background:#fff;
+    color:var(--bordo); font-weight:800; width:70%; margin:0 auto;
+
+    /* alturas padronizadas */
+    padding:14px 20px;     /* +20% vs. base (~11-12px) */
+    min-height:56px;       /* garante altura igual mesmo com quebras */
+
+    /* aros */
+    border:3px solid var(--ouro);                                /* aro dourado */
+    box-shadow:
+      0 0 0 3px var(--celeste),                                  /* aro externo celeste */
+      inset 0 0 0 2.4px rgba(0,0,0,.06),                         /* leve relevo interno */
+      0 4px 10px var(--shadow);                                  /* sombra */
     border-radius:18px;
 
-    width:70%;                 /* ~-10% vs. 78–80% */
-    margin:0 auto;
-    padding:14px 20px;         /* +20% altura (era ~11–12px) */
     transition:transform .15s ease, background-color .2s ease;
   }
   .btn:hover{transform:scale(1.02); background:#fffdf5}
@@ -80,8 +85,11 @@
     width:30px; height:30px; border-radius:50%; object-fit:cover;
   }
 
-  /* Botão "Voltar" no rodapé (padrão Qurbono) */
-  footer{margin-top:auto; padding:10px 0 14px; text-align:center}
+  /* Rodapé com botão voltar um pouco mais para cima */
+  footer{
+    margin-top:auto; padding:10px 0 34px; /* ↑ aumentamos o espaço inferior para “subir” o botão */
+    text-align:center
+  }
   .back{
     display:inline-flex; align-items:center; gap:8px;
     background:#a00000; color:#fff; text-decoration:none; font-weight:800;
@@ -89,8 +97,6 @@
     padding:.52rem .85rem; font-size:.92rem;
   }
   .back svg{width:16px; height:16px; fill:#fff}
-  /* manter próximo da borda inferior, mas sem colar nos botões grandes */
-  .footer-spacer{height:10px}
 </style>
 </head>
 <body>
@@ -109,7 +115,7 @@
 
       <a class="btn" href="#">
         <img class="icon" src="img/cruz.png" alt="">
-        <span class="label">2025<br><small style="font-weight:700; color:#7a0010">atual</small></span>
+        <span class="label">2025</span>
       </a>
 
       <a class="btn" href="#">
@@ -119,7 +125,6 @@
     </section>
   </main>
 
-  <div class="footer-spacer"></div>
   <footer>
     <a class="back" href="index.html" aria-label="Voltar">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
