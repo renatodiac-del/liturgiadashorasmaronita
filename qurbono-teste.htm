@@ -29,29 +29,47 @@
 
     .wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 24px}
 
+    /* título acima do ícone */
+    .title{
+      text-align:center;
+      font-size:2rem;
+      font-weight:900;
+      color:var(--vermelho);
+      margin:12px 0 8px;
+    }
+
     .hero{
-      display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
+      display:block; margin:0 auto 14px; max-width:100%; height:auto; max-height:420px;
       border:6px solid var(--turquesa);
       box-shadow:0 0 0 4px var(--dourado) inset;
       border-radius:12px
     }
 
-    .buttons{display:flex; flex-direction:column; gap:16px}
+    .buttons{display:flex; flex-direction:column; gap:14px}
     .btn{
       position:relative; display:flex; align-items:center; justify-content:center; gap:8px;
       cursor:pointer; background-color:rgba(255,255,255,0.95);
       border:2.4px solid var(--turquesa);
       box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
-      border-radius:18px; padding:12px 18px; width:77%; font-size:1rem; font-weight:bold;
-      color:var(--vermelho); transition:transform .15s ease, background-color .2s ease;
+      border-radius:18px;
+      padding:11px 18px; /* altura reduzida em ~5% */
+      width:77%; font-size:1rem; font-weight:bold;
+      color:var(--vermelho);
+      transition:transform .15s ease, background-color .2s ease;
       text-decoration:none; margin:0 auto
     }
     .btn:hover{transform:scale(1.02); background:#fff3da}
-    .btn img{position:absolute; left:12px; width:22px; height:22px}
+
+    /* Ícone da cruz — redondo e +20% maior */
+    .btn img{
+      position:absolute; left:12px; 
+      width:26px; height:26px;   /* antes 22px → agora +20% */
+      border-radius:50%; object-fit:cover;
+    }
 
     footer{
-      margin-top:auto; text-align:center; padding:1rem;
-      display:flex; justify-content:center;
+      margin-top:20px; /* aproxima mas sem colar nos botões */
+      text-align:center; padding:0.5rem;
     }
     .voltar{
       background:var(--vermelho);
@@ -67,6 +85,8 @@
 <body>
 
   <main class="wrap">
+    <h1 class="title">Qurbono</h1>
+
     <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
 
     <section class="buttons" aria-label="Menu do Qurbono">
