@@ -26,19 +26,16 @@
       background-size:40px 40px;
       display:flex; flex-direction:column; min-height:100vh;
     }
-    .top{display:flex; gap:.5rem; justify-content:flex-end; padding:10px}
-    .top a{
-      color:#fff; text-decoration:none; background:var(--vermelho);
-      border:1px solid #6f0000; padding:.45rem .75rem; border-radius:10px;
-      font-weight:bold; font-size:.9rem
-    }
+
     .wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 24px}
+
     .hero{
       display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
       border:6px solid var(--turquesa);
       box-shadow:0 0 0 4px var(--dourado) inset;
       border-radius:12px
     }
+
     .buttons{display:flex; flex-direction:column; gap:16px}
     .btn{
       position:relative; display:flex; align-items:center; justify-content:center; gap:8px;
@@ -51,15 +48,23 @@
     }
     .btn:hover{transform:scale(1.02); background:#fff3da}
     .btn img{position:absolute; left:12px; width:22px; height:22px}
-    footer{margin-top:auto; text-align:center; color:#eee; font-size:.8rem; padding:.5rem}
-    footer a{color:#fff}
+
+    footer{
+      margin-top:auto; text-align:center; padding:1rem;
+      display:flex; justify-content:center;
+    }
+    .voltar{
+      background:var(--vermelho);
+      color:#fff; font-size:.9rem; font-weight:bold;
+      border:none; border-radius:6px;
+      padding:.45rem .9rem; cursor:pointer;
+      display:inline-flex; align-items:center; gap:.4rem;
+      text-decoration:none;
+    }
+    .voltar:hover{background:#c00000}
   </style>
 </head>
 <body>
-  <div class="top">
-    <a href="index.html">App principal</a>
-    <a href="mapa.html">Mapa</a>
-  </div>
 
   <main class="wrap">
     <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
@@ -93,7 +98,9 @@
   </main>
 
   <footer>
-    Qurbono · Navegação temporária — <a href="mapa.html">Mapa</a>
+    <a class="voltar" href="javascript:history.back()">
+      &#8592; Voltar
+    </a>
   </footer>
 </body>
 </html>
