@@ -1,4 +1,4 @@
-<!-- qurbone.html -->
+<!-- qurbone.html (botão voltar reduzido em 40%) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -50,7 +50,7 @@
 
     .buttons{
       display:flex; flex-direction:column; gap:10px;
-      margin:0 0 14px 0; /* dá espaço pro botão Voltar */
+      margin:0 0 14px 0;
     }
 
     .btn{
@@ -59,8 +59,8 @@
       border:2.4px solid var(--turquesa);
       box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
       border-radius:18px;
-      padding:9.9px 18px; /* -10% de altura (antes ~11px) */
-      width:92%;          /* +20% largura (antes 77%) */
+      padding:9.9px 18px; /* altura ajustada */
+      width:92%;          
       font-size:1rem; font-weight:bold;
       color:var(--vermelho);
       transition:transform .15s ease, background-color .2s ease;
@@ -79,11 +79,13 @@
     }
     .voltar{
       background:var(--vermelho);
-      color:#fff; font-size:.9rem; font-weight:bold;
+      color:#fff; font-size:.65rem; font-weight:bold;
       border:none; border-radius:6px;
-      padding:.45rem .9rem; cursor:pointer;
+      padding:.3rem .55rem; cursor:pointer;
       display:inline-flex; align-items:center; gap:.4rem;
       text-decoration:none;
+      transform:scale(0.6);         /* 40% menor */
+      transform-origin:center;
     }
     .voltar:hover{background:#c00000}
   </style>
