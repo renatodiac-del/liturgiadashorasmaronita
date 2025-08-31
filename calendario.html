@@ -1,4 +1,4 @@
-<!-- calendario.html (ajuste de bordas e espaçamento) -->
+<!-- calendario.html (final com botão voltar menor) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -44,7 +44,7 @@
   .hero{
     display:block; margin:8px auto 14px; max-width:100%; height:auto;
     max-height:630px;
-    border:6px solid var(--bordo); /* borda bordô */
+    border:6px solid var(--bordo);
     box-shadow:
       0 0 0 4px var(--ouro),       /* aro dourado por fora */
       0 6px 16px var(--shadow);
@@ -60,21 +60,17 @@
     color:var(--bordo); font-weight:800; width:70%; margin:0 auto;
     padding:9px 18px; min-height:48px;
 
-    border:3px solid var(--bordo);          
+    border:3px solid var(--bordo);
     box-shadow:
-      0 0 0 3px var(--ouro),                
-      inset 0 0 0 2.4px rgba(0,0,0,.06),    
+      0 0 0 3px var(--ouro),
+      inset 0 0 0 2.4px rgba(0,0,0,.06),
       0 4px 10px var(--shadow);
     border-radius:18px;
 
     transition:transform .15s ease, background-color .2s ease;
   }
   .btn:hover{transform:scale(1.02); background:#fffdf5}
-
-  /* Botão 2024 com espaçamento extra em relação ao ícone */
   .btn--primeiro{margin-top:14px;}
-
-  .btn .label{pointer-events:none}
 
   .btn .icon{
     position:absolute; left:14px; top:50%; transform:translateY(-50%);
@@ -87,12 +83,14 @@
     text-align:center
   }
   .back{
-    display:inline-flex; align-items:center; gap:8px;
+    display:inline-flex; align-items:center; gap:6px;
     background:#a00000; color:#fff; text-decoration:none; font-weight:800;
-    border:1px solid #6f0000; border-radius:10px;
-    padding:.52rem .85rem; font-size:.92rem;
+    border:1px solid #6f0000; border-radius:8px;
+    padding:.3rem .55rem; font-size:.65rem;   /* ~40% menor */
+    transform:scale(0.6);                     /* reduz largura e altura */
+    transform-origin:center;
   }
-  .back svg{width:16px; height:16px; fill:#fff}
+  .back svg{width:12px; height:12px; fill:#fff}
 </style>
 </head>
 <body>
