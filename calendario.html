@@ -1,4 +1,4 @@
-<!-- calendario.html (ajustes finais) -->
+<!-- calendario.html (ajustado) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,9 +8,8 @@
 <style>
   :root{
     --azul:#0b1f3d;           /* azul marinho */
-    --bordo:#6b0010;          /* vermelho bordô (título/letras) */
+    --bordo:#6b0010;          /* vermelho bordô */
     --ouro:#b4923a;           /* dourado ouro-velho */
-    --celeste:#87ceeb;        /* azul-celeste */
     --shadow:rgba(0,0,0,.18);
     --fonte: Arial, Helvetica, sans-serif;
   }
@@ -18,7 +17,7 @@
   html,body{height:100%}
   body{
     margin:0; font-family:var(--fonte); color:#fff;
-    /* Fundo azul com estrelas: densidade ~1/2 (background-size maior) */
+    /* Fundo azul com estrelas (meio-termo de densidade) */
     background:
       radial-gradient(circle at 20% 30%, rgba(255,255,255,.9) 1.6px, transparent 2.4px) 0 0/36px 36px,
       radial-gradient(circle at 70% 60%, rgba(255,255,255,.8) 1.6px, transparent 2.4px) 0 0/36px 36px,
@@ -30,7 +29,7 @@
 
   header{text-align:center; padding:10px 12px 6px}
   .title{
-    font-size: calc(1.8rem + 2pt); /* +2pt */
+    font-size: calc(1.8rem + 4pt); /* aumentada em +2pt além da versão anterior */
     font-weight:900; margin:0;
     color:var(--bordo);
     text-shadow:
@@ -42,52 +41,51 @@
 
   .wrap{max-width:640px; margin:0 auto; padding:8px 16px 20px; width:100%}
 
-  /* Ícone principal: +50% já aplicado na versão anterior; agora com borda azul-celeste */
+  /* Ícone principal com borda bordô + aro interno dourado */
   .hero{
     display:block; margin:8px auto 14px; max-width:100%; height:auto;
     max-height:630px;
-    border:6px solid var(--celeste);                 /* borda celeste */
-    box-shadow:0 0 0 4px var(--ouro) inset, 0 6px 16px var(--shadow);
+    border:6px solid var(--bordo); /* borda bordô */
+    box-shadow:
+      0 0 0 4px var(--ouro) inset, /* aro interno dourado */
+      0 6px 16px var(--shadow);
     border-radius:14px;
   }
 
   .buttons{display:flex; flex-direction:column; gap:12px; margin-top:6px}
 
-  /* Botões: largura -10%, altura +20% (padronizados) e aro externo celeste */
+  /* Botões: largura ~70%, altura -20% */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:center; text-align:center;
     text-decoration:none; cursor:pointer; background:#fff;
     color:var(--bordo); font-weight:800; width:70%; margin:0 auto;
 
-    /* alturas padronizadas */
-    padding:14px 20px;     /* +20% vs. base (~11-12px) */
-    min-height:56px;       /* garante altura igual mesmo com quebras */
+    /* altura reduzida em 20% */
+    padding:9px 18px;  
+    min-height:48px;
 
-    /* aros */
-    border:3px solid var(--ouro);                                /* aro dourado */
+    border:3px solid var(--bordo);          /* borda bordô */
     box-shadow:
-      0 0 0 3px var(--celeste),                                  /* aro externo celeste */
-      inset 0 0 0 2.4px rgba(0,0,0,.06),                         /* leve relevo interno */
-      0 4px 10px var(--shadow);                                  /* sombra */
+      0 0 0 3px var(--ouro),                /* aro dourado externo */
+      inset 0 0 0 2.4px rgba(0,0,0,.06),    /* leve relevo */
+      0 4px 10px var(--shadow);
     border-radius:18px;
 
     transition:transform .15s ease, background-color .2s ease;
   }
   .btn:hover{transform:scale(1.02); background:#fffdf5}
 
-  /* Texto centralizado mesmo com ícone à esquerda */
   .btn .label{pointer-events:none}
 
-  /* Ícone de cruz: redondo e alinhado à esquerda */
   .btn .icon{
     position:absolute; left:14px; top:50%; transform:translateY(-50%);
     width:30px; height:30px; border-radius:50%; object-fit:cover;
   }
 
-  /* Rodapé com botão voltar um pouco mais para cima */
   footer{
-    margin-top:auto; padding:10px 0 34px; /* ↑ aumentamos o espaço inferior para “subir” o botão */
+    margin-top:20px; /* aproxima mais do último botão */
+    padding:10px 0 24px;
     text-align:center
   }
   .back{
