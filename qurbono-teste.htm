@@ -1,91 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qurbono — Teste (Estável)</title>
-  <meta name="theme-color" content="#1a2a40">
-  <style>
-    :root{
-      --azul:#1a2a40; --vermelho:#a00000; --turquesa:#40E0D0; --dourado:#d6b25a; --sombra:rgba(0,0,0,.15);
-      --fonte: Arial, Helvetica, sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:var(--fonte); color:#1b1b1b;
-      background: var(--azul);
-      background-image:
-        repeating-linear-gradient(45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px),
-        repeating-linear-gradient(-45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px);
-      background-size:40px 40px;
-      display:flex; flex-direction:column; min-height:100vh;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qurbono — Mosteiro Digital</title>
+<meta name="theme-color" content="#7a1b1b">
+<style>
+  :root{
+    --bg:#faf5ea; --card:#ffffff; --ink:#2b1a0f;
+    --vermelho:#7a1b1b; --ouro:#b4923a; --shadow:rgba(0,0,0,.14);
+    --fonte:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:var(--fonte); color:var(--ink); background:var(--bg);
+    display:flex; flex-direction:column; min-height:100vh;
+  }
+  header{padding:12px 14px 4px; text-align:center}
+  .title{margin:.2rem 0 .4rem; font-size:1.6rem; font-weight:900}
+  .wrap{max-width:760px; margin:0 auto; width:100%; padding:0 14px 18px; flex:1; display:flex; flex-direction:column}
+  .hero-box{width:100%; display:flex; justify-content:center; align-items:flex-end; margin:8px 0 12px}
+  .hero{
+    display:block; max-width:100%; height:auto; max-height:420px;
+    border:6px solid var(--ouro); box-shadow:0 8px 18px var(--shadow), inset 0 0 0 6px var(--ouro);
+    border-radius:16px; background:#fff;
+  }
 
-    .top{display:flex; gap:.5rem; justify-content:flex-end; padding:10px}
-    .top a{color:#fff; text-decoration:none; background:var(--vermelho); border:1px solid #6f0000; padding:.45rem .75rem; border-radius:10px; font-weight:bold; font-size:.9rem}
+  /* Conteúdo principal do Qurbono */
+  .content{
+    background:var(--card); border:1px solid #eadfcd; border-radius:14px;
+    box-shadow:0 6px 14px var(--shadow); padding:14px; min-height:180px;
+  }
+  .msg{padding:12px 10px; border-left:5px solid var(--ouro); background:#fff8e1; border-radius:8px}
 
-    .wrap{width:100%; max-width:520px; margin:0 auto; padding:10px 16px 24px}
-
-    /* Ícone principal com borda turquesa + dourada interna */
-    .hero{
-      display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid var(--turquesa); box-shadow:0 0 0 4px var(--dourado) inset; border-radius:12px
-    }
-
-    .buttons{display:flex; flex-direction:column; gap:16px}
-    .btn{
-      position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
-      background-color:rgba(255,255,255,0.95);
-      border:2.4px solid var(--turquesa); box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
-      border-radius:18px; padding:12px 18px; width:77%; font-size:1rem; font-weight:bold; color:var(--vermelho);
-      transition:transform .15s ease, background-color .2s ease; text-decoration:none; margin:0 auto
-    }
-    .btn:hover{transform:scale(1.02); background:#fff3da}
-    .btn img{position:absolute; left:12px; width:22px; height:22px}
-
-    footer{margin-top:auto; text-align:center; color:#eee; font-size:.8rem; padding:.5rem}
-    footer a{color:#fff}
-  </style>
+  /* Rodapé com botão "Voltar" (padrão) */
+  footer{
+    padding:12px 14px 18px; display:flex; justify-content:center;
+  }
+  .back-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--vermelho); color:#fff; font-weight:700;
+    text-decoration:none; border:none;
+    border-radius:10px; padding:6px 12px; cursor:pointer;
+    box-shadow:0 2px 6px var(--shadow);
+    font-size:.9rem;
+  }
+  .back-btn:hover{background:#5c1212}
+  .back-btn:focus{outline:3px solid #fff; outline-offset:2px}
+</style>
 </head>
 <body>
-  <div class="top">
-    <a href="index-teste.html">Voltar ao teste</a>
-    <a href="index.html">App principal</a>
-  </div>
+  <header>
+    <h1 class="title">Qurbono</h1>
+  </header>
 
   <main class="wrap">
-    <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
+    <section class="hero-box">
+      <!-- Troque a imagem abaixo pelo seu ícone específico do Qurbono, se desejar -->
+      <img class="hero" src="img/icone-home.png" alt="Ícone principal do Qurbono">
+    </section>
 
-    <section class="buttons" aria-label="Menu do Qurbono (teste)">
-      <button class="btn" data-action="eucaristia">
-        <img src="img/cruz2.jpg" alt="Cruz"> Liturgia Eucarística do Dia
-      </button>
-      <button class="btn" data-action="anaforas">
-        <img src="img/cruz2.jpg" alt="Cruz"> Anáforas
-      </button>
-      <button class="btn" data-action="synaxarion">
-        <img src="img/cruz2.jpg" alt="Cruz"> Synaxarion
-      </button>
-      <button class="btn" data-action="leituras">
-        <img src="img/cruz2.jpg" alt="Cruz"> Leituras bíblicas
-      </button>
-      <button class="btn" data-action="biblioteca">
-        <img src="img/cruz2.jpg" alt="Cruz"> Biblioteca
-      </button>
+    <section class="content" aria-live="polite">
+      <div class="msg">Conteúdo do Qurbono (em breve: lista de Anáforas, rubricas e links por celebração).</div>
     </section>
   </main>
 
-  <div id="toast" style="position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:.6rem .9rem; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s ease"></div>
-
   <footer>
-    Qurbono (teste) · Navegação temporária — <a href="index-teste.html">voltar</a>
+    <button class="back-btn" id="goBack">← Voltar</button>
   </footer>
 
   <script>
-    function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800)}
-    const routes={eucaristia:{msg:'Liturgia Eucarística do Dia — em breve'},anaforas:{msg:'Anáforas — em breve'},synaxarion:{msg:'Synaxarion — em breve'},leituras:{msg:'Leituras bíblicas — em breve'},biblioteca:{msg:'Biblioteca — em breve'}};
-    document.querySelectorAll('.btn[data-action]').forEach(b=>b.addEventListener('click',e=>{const a=e.currentTarget.getAttribute('data-action');toast(routes[a]?.msg||'Em breve')}));
+    // Voltar à página anterior com fallback (Home nova)
+    document.getElementById('goBack').addEventListener('click', ()=>{
+      if (history.length > 1) history.back();
+      else window.location.href = 'index-teste.html';
+    });
   </script>
 </body>
 </html>
