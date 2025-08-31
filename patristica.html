@@ -13,6 +13,7 @@
   --preto:#111;
   --shadow:rgba(0,0,0,.18);
   --sans: Arial, Helvetica, sans-serif;
+  --vermelho:#a00000;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -29,7 +30,7 @@ body{
 }
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 .title{
-  text-align:center; font-size:1.9rem; font-weight:900; color:var(--preto);
+  text-align:center; font-size:calc(1.9rem + 3pt); font-weight:900; color:var(--preto);
   text-shadow:
     -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
     -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro); /* borda dourada */
@@ -60,8 +61,22 @@ body{
   transition:background-color .2s, transform .12s;
 }
 .navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
-footer{margin-top:16px;text-align:center;color:#5b4b1c;font-size:.9rem;padding:.8rem}
+
+footer{text-align:center; margin:18px 0}
 footer a{color:#3b2a19;text-decoration:none;font-weight:700}
+
+/* Botão vermelho padrão (40% menor) */
+.voltar{
+  background:var(--vermelho);
+  color:#fff; font-size:.65rem; font-weight:bold;
+  border:none; border-radius:6px;
+  padding:.3rem .55rem; cursor:pointer;
+  display:inline-flex; align-items:center; gap:.4rem;
+  text-decoration:none;
+  transform:scale(0.6);   /* 40% menor */
+  transform-origin:center;
+}
+.voltar:hover{background:#c00000}
 </style>
 </head>
 <body>
@@ -81,12 +96,13 @@ footer a{color:#3b2a19;text-decoration:none;font-weight:700}
 
   <footer>
     <a href="index-teste.html">Página Inicial</a> · <a href="mapa.html">Mapa</a>
+    <div style="margin-top:10px">
+      <a class="voltar" href="javascript:history.back()">&#8592; Voltar</a>
+    </div>
   </footer>
 
 <script>
-/* Lista inicial (você pode expandir depois).
-   A ordenação pode ser ajustada para ignorar “Santo/São” se necessário,
-   mas aqui seguimos a ordem fornecida. */
+/* Lista inicial */
 const autores = [
   "Santo Efrém",
   "Narsai de Nisibis",
