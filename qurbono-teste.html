@@ -29,16 +29,15 @@
 
     .wrap{
       width:100%; max-width:520px; margin:0 auto;
-      padding:4px 12px 10px; /* bem próximo do topo */
+      padding:4px 12px 10px;
     }
 
-    /* título acima do ícone */
     .title{
       text-align:center;
-      font-size: calc(2rem + 2pt); /* +2pt */
+      font-size: calc(2rem + 2pt);
       font-weight:900;
       color:var(--vermelho);
-      margin:4px 0 6px; /* aproxima do topo e do ícone */
+      margin:4px 0 6px;
       line-height:1.05;
     }
 
@@ -50,8 +49,8 @@
     }
 
     .buttons{
-      display:flex; flex-direction:column; gap:10px; /* compacto */
-      margin:0 0 6px 0; /* deixa espaço mínimo pro "Voltar" */
+      display:flex; flex-direction:column; gap:10px;
+      margin:0 0 14px 0; /* dá espaço pro botão Voltar */
     }
 
     .btn{
@@ -60,23 +59,23 @@
       border:2.4px solid var(--turquesa);
       box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
       border-radius:18px;
-      padding:8.8px 18px; /* ~20% mais baixo (antes ~11px) */
-      width:77%; font-size:1rem; font-weight:bold;
+      padding:9.9px 18px; /* -10% de altura (antes ~11px) */
+      width:92%;          /* +20% largura (antes 77%) */
+      font-size:1rem; font-weight:bold;
       color:var(--vermelho);
       transition:transform .15s ease, background-color .2s ease;
       text-decoration:none; margin:0 auto;
     }
     .btn:hover{transform:scale(1.02); background:#fff3da}
 
-    /* Ícone da cruz — +20%, redondo */
     .btn img{
       position:absolute; left:12px;
-      width:26px; height:26px; /* 22px -> +20% */
+      width:26px; height:26px;
       border-radius:50%; object-fit:cover;
     }
 
     footer{
-      margin-top:0; text-align:center; padding:0 0 10px;
+      margin-top:4px; text-align:center; padding:0 0 14px;
     }
     .voltar{
       background:var(--vermelho);
