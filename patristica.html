@@ -1,4 +1,4 @@
-<!-- patristica.html (ajuste: botão Voltar um pouco mais alto) -->
+<!-- patristica.html (FINALIZADO, fundo degradê mais escuro na base) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,8 +6,9 @@
 <title>Patrística Siríaca</title>
 <style>
 :root{
-  --areia:#efe1c7;
-  --areia2:#e6d6b4;
+  --areia-clara:#efe1c7;   /* areia clara */
+  --areia-media:#e6d6b4;   /* areia média */
+  --areia-escura:#c2a772;  /* areia bem mais escura para o rodapé */
   --ouro:#b4923a;
   --preto:#111;
   --shadow:rgba(0,0,0,.18);
@@ -18,12 +19,13 @@
 html,body{height:100%}
 body{
   font-family:var(--sans); color:#2b2114;
+  /* fundo em degradê + estrelas */
   background:
     radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,.8), transparent 60%),
     radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,.75), transparent 60%),
     radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.7), transparent 60%),
     radial-gradient(1px 1px at 28% 58%, rgba(255,255,255,.8), transparent 60%),
-    linear-gradient(var(--areia), var(--areia2));
+    linear-gradient(to top, var(--areia-escura), var(--areia-media), var(--areia-clara));
   display:flex; flex-direction:column; min-height:100vh;
 }
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
@@ -64,8 +66,7 @@ body{
 .navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
 footer{
   margin-top:auto;
-  /* antes: padding:16px 0 24px;  -> subimos o botão um pouco */
-  padding:16px 0 40px;
+  padding:16px 0 36px; /* botão um pouco mais alto que o rodapé */
   text-align:center;
 }
 .voltar{
@@ -122,4 +123,3 @@ render();
 </script>
 </body>
 </html>
-
