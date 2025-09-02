@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -37,114 +38,59 @@
       letter-spacing: 0.3px;
       font-size: 2.15rem; /* +2 “pontos” aprox */
       margin: 0 0 6px 0;
-      /* “Borda” laranja nas letras */
-      -webkit-text-stroke: 1px #ff7a00;
+      -webkit-text-stroke: 1px #ff7a00; /* “borda” laranja */
       text-shadow: 0 0 1px #ff7a00, 0 0 1px #ff7a00, 0 0 1px #ff7a00;
     }
 
-    .wrap {
-      width: 100%;
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 8px 16px 24px;
-    }
+    .wrap { width: 100%; max-width: 620px; margin: 0 auto; padding: 8px 16px 24px; }
 
     .hero {
-      display: block;
-      margin: 6px auto 10px;
-      max-width: 100%;
-      height: auto;
-      max-height: 420px;
-      border: 6px solid #ff7a00;
-      box-shadow: 0 0 0 4px #d6b25a inset;
-      border-radius: 12px;
+      display: block; margin: 6px auto 10px; max-width: 100%; height: auto; max-height: 420px;
+      border: 6px solid #ff7a00; box-shadow: 0 0 0 4px #d6b25a inset; border-radius: 12px;
     }
     .hero[hidden] { display: none; }
 
     .chip {
-      display: inline-block;
-      margin: 8px 0 10px;
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.9);
-      border: 3px solid #ff7a00;
-      box-shadow: 0 0 0 2px #d6b25a inset;
-      border-radius: 14px;
-      font-weight: bold;
-      color: #a00000;
+      display: inline-block; margin: 8px 0 10px; padding: 10px 14px; background: rgba(255,255,255,0.9);
+      border: 3px solid #ff7a00; box-shadow: 0 0 0 2px #d6b25a inset; border-radius: 14px; font-weight: bold; color: #a00000;
     }
 
     /* Barra de data + navegação — central */
     .datebar {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin: 6px auto 14px;
-      font-family: Arial, Helvetica, sans-serif;
-      width: 100%;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      margin: 6px auto 14px; font-family: Arial, Helvetica, sans-serif; width: 100%;
     }
     .datebtn {
-      background: #ffffff;
-      border: 1px solid #e2cfae;
-      border-radius: 20px;
-      padding: 6px 12px;
-      font-size: 0.92rem;
-      color: #7a0000;
-      cursor: pointer;
-      transition: background-color .2s ease, transform .1s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      background: #ffffff; border: 1px solid #e2cfae; border-radius: 20px; padding: 6px 12px;
+      font-size: 0.92rem; color: #7a0000; cursor: pointer; transition: background-color .2s, transform .1s;
+      display: inline-flex; align-items: center; gap: 6px;
     }
     .datebtn:hover { background: #fff3da; transform: translateY(-1px); }
 
-    .datedisplay {
-      text-align: center;
-      color: #582c0c;
-      display: inline-flex;
-      flex-direction: column;
-      gap: 2px;
-      line-height: 1.2;
-      min-width: 156px;
-    }
+    .datedisplay { text-align: center; color: #582c0c; display: inline-flex; flex-direction: column; gap: 2px; line-height: 1.2; min-width: 156px; }
     .datedisplay .date { font-weight: 700; font-size: 1.05rem; }
     .datedisplay .weekday { font-size: 0.95rem; color: #7a5c3a; text-transform: lowercase; }
 
-    /* DUAS COLUNAS fixas */
-    .cols { display: flex; gap: 12px; align-items: flex-start; }
-    .col  { flex: 1 1 0; display: flex; flex-direction: column; gap: 12px; }
-    @media (max-width: 680px){ .cols { flex-direction: column; } }
+    /* DUAS COLUNAS fixas — mais próximas do centro */
+    .cols { display: flex; gap: 6px; align-items: flex-start; justify-content: center; }
+    .col  { flex: 0 0 calc(50% - 3px); display: flex; flex-direction: column; gap: 10px; }
+    @media (max-width: 680px){ .cols { flex-direction: column; } .col{ flex-basis: 100%; } }
 
-    /* Botões base (50% menores desde iteração anterior) */
+    /* Botões médios (base) — fonte -2pt aprox, altura +15% */
     .btn{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; text-decoration: none; cursor: pointer;
       background-color: rgba(255,255,255,0.97);
-      border: 1.35px solid #ff7a00;
-      box-shadow: 0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
+      border: 1.35px solid #ff7a00; box-shadow: 0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius: 18px;
-      padding: 6px 12px;
+      padding: 7px 14px;                 /* +15% vs. 6x12 */
       width: 100%;
-      font-size: 0.84rem;  /* -2 “pontos” */
-      font-weight: bold;
-      color: #a00000;
-      line-height: 1.25;
-      text-align: center;
-      position: relative;
+      font-size: 0.72rem;                /* menor que 0.84rem ~ -2pt */
+      font-weight: bold; color: #a00000; line-height: 1.25; text-align: center; position: relative;
       transition: transform 0.15s ease, background-color 0.2s ease;
     }
     .btn:hover { transform: scale(1.02); background: #fff3da; }
 
-    .btn img {
-      position: absolute;
-      left: 10px;
-      width: 20px;
-      height: 20px;
-      display: block;
-    }
+    .btn img { position: absolute; left: 10px; width: 20px; height: 20px; display: block; }
     .label { width: 100%; text-align: center; pointer-events: none; display: inline-block; }
     .sub   { display:block; font-size: 0.8em; color: #000; margin-top: 2px; } /* menor e PRETO */
 
@@ -154,14 +100,11 @@
     /* “Salmo do Dia” (manhã/tarde) 30% mais baixos */
     .compact { padding: 4px 10px; }
 
-    /* Botão "dupla largura" (Calendário) */
-    .wide-wrap { margin-top: 12px; }
+    /* Botão Calendário (abaixo das colunas) — 60% de largura com cruz */
+    .wide-wrap { margin-top: 12px; display: flex; justify-content: center; }
     .btn.wide {
-      display: block;
-      width: 100%;         /* mantém largura dupla (não sofre redução a 70%) */
-      max-width: none;
-      font-size: 0.9rem;   /* leve destaque */
-      padding: 9px 14px;
+      display: inline-flex; width: 60%; max-width: 480px; /* -40% */
+      font-size: 0.78rem; padding: 9px 14px; gap: 8px;
     }
 
     /* Rodapé + botão Voltar padrão */
@@ -170,45 +113,24 @@
       border:1px solid #6f0000; text-decoration:none; padding:.36rem .62rem; border-radius:9px;
       font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:left center;
     }
-    footer {
-      margin-top: auto;
-      text-align: center;
-      color: #7a6a55;
-      font-size: 0.85rem;
-      padding: 12px 8px 16px;
-    }
+    footer { margin-top: auto; text-align: center; color: #7a6a55; font-size: 0.85rem; padding: 12px 8px 16px; }
 
     #toast {
-      position: fixed;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #222;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
+      position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+      background: #222; color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 0.9rem;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
     }
   </style>
 </head>
 <body>
   <header class="top">
     <h1 class="title">Oração do Dia</h1>
-    <!-- sem os 2 botões vermelhos -->
   </header>
 
   <main class="wrap">
     <!-- Ícone principal -->
-    <img
-      class="hero"
-      id="hero"
-      src="img/icone-horas.jpg"
-      alt="Ícone"
-      onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';"
-    >
+    <img class="hero" id="hero" src="img/icone-horas.jpg" alt="Ícone"
+         onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';">
     <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
 
     <!-- Barra de data -->
@@ -223,18 +145,19 @@
 
     <!-- Fonte única (todos os botões) -->
     <div id="buttons-src" style="display:none">
-      <!-- note que todos têm a classe has-cross; os “Salmo do Dia” também têm compact -->
-      <a class="btn has-cross" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
+      <!-- ESQUERDA (exceto Nona que vai por último) -->
       <a class="btn has-cross" data-action="safro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Safro — Oração da Manhã</span></a>
       <a class="btn has-cross compact" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">manhã</span></span></a>
       <a class="btn has-cross" data-action="terca" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Terça — 9 horas</span></a>
       <a class="btn has-cross" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Sexta — 12 horas</span></a>
-
       <a class="btn has-cross" data-action="nona" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Nona — 15 horas</span></a>
+
+      <!-- DIREITA (Synaxarion entre Nona e Ramsho) -->
+      <a class="btn has-cross" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Synaxarion</span></a>
       <a class="btn has-cross" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
       <a class="btn has-cross compact" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">tarde</span></span></a>
       <a class="btn has-cross" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
-      <a class="btn has-cross" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Synaxarion</span></a>
+      <a class="btn has-cross" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
     </div>
 
     <!-- Duas colunas -->
@@ -243,7 +166,7 @@
       <div class="col" id="col-right"></div>
     </section>
 
-    <!-- Botão dupla largura (abaixo das colunas) -->
+    <!-- Botão Calendário (60% e com cruz) -->
     <div class="wide-wrap">
       <a class="btn wide has-cross" data-action="calendario" href="#">
         <img src="img/cruz3.png" alt="">
@@ -261,61 +184,46 @@
   <script>
     function toast(msg){
       var t = document.getElementById('toast');
-      t.textContent = msg;
-      t.style.opacity = 1;
+      t.textContent = msg; t.style.opacity = 1;
       clearTimeout(window.__tid);
       window.__tid = setTimeout(function(){ t.style.opacity = 0; }, 1800);
     }
 
-    // Garantia: se a imagem carregar, o chip não aparece
+    // some image fallback nicety
     document.getElementById('hero').addEventListener('load', function(){
       document.getElementById('hero-chip').style.display = 'none';
     });
 
     // ====== Navegação de datas ======
-    var currentDate = new Date(); // começa hoje
-    function formatDateBR(date){ return date.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' }); }
-    function weekdayBR(date){ return date.toLocaleDateString('pt-BR', { weekday: 'long' }); }
-
+    var currentDate = new Date();
+    function formatDateBR(d){ return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' }); }
+    function weekdayBR(d){ return d.toLocaleDateString('pt-BR', { weekday: 'long' }); }
     function updateDateBar(){
       document.getElementById('date-text').textContent = formatDateBR(currentDate);
       document.getElementById('weekday-text').textContent = weekdayBR(currentDate);
-      // Hook futuro: carregarOracoesDoDia(currentDate);
     }
-    document.getElementById('btn-prev').addEventListener('click', function(){
-      currentDate.setDate(currentDate.getDate() - 1);
-      updateDateBar();
-      toast('Carregar orações do dia anterior…');
-    });
-    document.getElementById('btn-next').addEventListener('click', function(){
-      currentDate.setDate(currentDate.getDate() + 1);
-      updateDateBar();
-      toast('Carregar orações do próximo dia…');
-    });
+    document.getElementById('btn-prev').addEventListener('click', function(){ currentDate.setDate(currentDate.getDate()-1); updateDateBar(); toast('Carregar orações do dia anterior…'); });
+    document.getElementById('btn-next').addEventListener('click', function(){ currentDate.setDate(currentDate.getDate()+1); updateDateBar(); toast('Carregar orações do próximo dia…'); });
     updateDateBar();
 
     // ====== Distribuição fixa por colunas ======
     (function distribuir(){
       var q = sel => document.querySelector('#buttons-src .btn[data-action="'+sel+'"]');
-
       var left  = document.getElementById('col-left');
       var right = document.getElementById('col-right');
 
-      /* TROCA de lugares: Synaxarion no topo ESQUERDO; Lilyo passa para o fim da DIREITA */
-      // ESQUERDA
-      ['sinaxarion','safro','manha-leituras','terca','sexta'].forEach(function(id){
+      // ESQUERDA (subiu tudo uma posição; Nona por último)
+      ['safro','manha-leituras','terca','sexta','nona'].forEach(function(id){
         var el = q(id); if(el) left.appendChild(el.cloneNode(true));
       });
 
-      // DIREITA
-      ['nona','ramsho','tarde-leituras','sutoro','lilyo'].forEach(function(id){
+      // DIREITA: Nona (globalmente acima), Synaxarion abaixo de Nona e acima de Ramsho
+      ['sinaxarion','ramsho','tarde-leituras','sutoro','lilyo'].forEach(function(id){
         var el = q(id); if(el) right.appendChild(el.cloneNode(true));
       });
-
-      // Calendário já está no botão wide abaixo
     })();
 
-    // ====== Mensagens dos botões ======
+    // ====== Mensagens ======
     var msgs = {
       'lilyo':'Lilyo (Vigílias) — em breve.',
       'safro':'Safro — em breve.',
@@ -329,7 +237,6 @@
       'sinaxarion':'Synaxarion — em breve.',
       'calendario':'Calendário Litúrgico — em breve.'
     };
-
     document.addEventListener('click', function(e){
       var a = e.target.closest('.btn[data-action]');
       if(!a) return;
