@@ -7,107 +7,79 @@
   <meta name="theme-color" content="#f3e6cf">
 
   <style>
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #1b1b1b;
-      background: #f3e6cf;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Arial,Helvetica,sans-serif;color:#1b1b1b;
+      background:#f3e6cf;
       background-image:
-        repeating-linear-gradient(45deg, rgba(160,0,0,0.22) 0, rgba(160,0,0,0.22) 2px, transparent 2px, transparent 40px),
-        repeating-linear-gradient(-45deg, rgba(160,0,0,0.22) 0, rgba(160,0,0,0.22) 2px, transparent 2px, transparent 40px);
-      background-size: 40px 40px;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+        repeating-linear-gradient(45deg,rgba(160,0,0,0.22) 0,rgba(160,0,0,0.22) 2px,transparent 2px,transparent 40px),
+        repeating-linear-gradient(-45deg,rgba(160,0,0,0.22) 0,rgba(160,0,0,0.22) 2px,transparent 2px,transparent 40px);
+      background-size:40px 40px;display:flex;flex-direction:column;min-height:100vh
     }
 
-    header.top { display:flex; flex-direction:column; align-items:center; padding:12px 12px 0; text-align:center; }
-    .title {
-      color:#d6b25a; font-weight:800; font-size:2.15rem; margin:0 0 6px;
-      -webkit-text-stroke:1px #ff7a00;
-      text-shadow:0 0 1px #ff7a00,0 0 1px #ff7a00;
+    header.top{display:flex;flex-direction:column;align-items:center;padding:12px 12px 0;text-align:center}
+    .title{
+      color:#d6b25a;font-weight:800;font-size:2.15rem;margin:0 0 6px;
+      -webkit-text-stroke:1px #ff7a00;text-shadow:0 0 1px #ff7a00,0 0 1px #ff7a00
     }
 
-    .wrap { width:100%; max-width:620px; margin:0 auto; padding:8px 16px 24px; }
+    .wrap{width:100%;max-width:620px;margin:0 auto;padding:8px 16px 24px}
 
-    /* Ícone principal */
-    .hero {
-      display:block; margin:6px auto 10px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid #ff7a00; box-shadow:0 0 0 4px #d6b25a inset; border-radius:12px;
-    }
-    .hero[hidden]{ display:none; }
-    .chip{
-      display:inline-block; margin:8px 0 10px; padding:10px 14px; background:rgba(255,255,255,0.9);
-      border:3px solid #ff7a00; box-shadow:0 0 0 2px #d6b25a inset; border-radius:14px;
-      font-weight:bold; color:#a00000;
-    }
+    .hero{display:block;margin:6px auto 10px;max-width:100%;height:auto;max-height:420px;
+      border:6px solid #ff7a00;box-shadow:0 0 0 4px #d6b25a inset;border-radius:12px}
+    .hero[hidden]{display:none}
+    .chip{display:inline-block;margin:8px 0 10px;padding:10px 14px;background:rgba(255,255,255,0.9);
+      border:3px solid #ff7a00;box-shadow:0 0 0 2px #d6b25a inset;border-radius:14px;font-weight:bold;color:#a00000}
 
-    /* Colunas — máximo de aproximação ao centro */
-    .cols { display:flex; gap:1px; justify-content:center; }
-    .col  { flex:0 0 calc(50% - 0.5px); display:flex; flex-direction:column; gap:10px; }
-    @media(max-width:680px){ .cols{flex-direction:column;} .col{flex-basis:100%;} }
+    /* colunas sem espaço */
+    .cols{display:flex;gap:0;justify-content:center}
+    .col{flex:0 0 50%;display:flex;flex-direction:column;gap:10px}
+    @media(max-width:680px){.cols{flex-direction:column}.col{flex-basis:100%}}
 
-    /* Botões médios */
     .btn{
-      display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
       background:rgba(255,255,255,0.97);
-      border:1.35px solid #ff7a00; box-shadow:0 0 0 0.9px #d6b25a inset,0 4px 10px rgba(0,0,0,0.15);
-      border-radius:18px;
-      padding:8px 16px; font-size:0.78rem; font-weight:bold; color:#a00000;
-      line-height:1.25; position:relative;
-      transition:transform .15s, background-color .2s;
+      border:1.35px solid #ff7a00;box-shadow:0 0 0 0.9px #d6b25a inset,0 4px 10px rgba(0,0,0,0.15);
+      border-radius:18px;padding:8px 16px;font-size:0.78rem;font-weight:bold;color:#a00000;
+      line-height:1.25;position:relative;transition:transform .15s,background-color .2s
     }
-    .btn:hover{ transform:scale(1.02); background:#fff3da; }
+    .btn:hover{transform:scale(1.02);background:#fff3da}
+    .btn img{position:absolute;left:10px;width:20px;height:20px}
+    .label{width:100%;text-align:center;pointer-events:none}
+    .sub{display:block;font-size:.8em;color:#000;margin-top:2px}
 
-    .btn img{ position:absolute; left:10px; width:20px; height:20px; }
-    .label{ width:100%; text-align:center; pointer-events:none; }
-    .sub{ display:block; font-size:0.8em; color:#000; margin-top:2px; }
+    .has-cross{width:80%;margin:0 auto}
+    .compact{padding:4px 10px}
 
-    /* Botões com cruz 80% (mais largos e centralizados em cada coluna) */
-    .has-cross{ width:80%; margin:0 auto; }
+    .wide-wrap{margin-top:12px;margin-bottom:4px;display:flex;justify-content:center}
+    .btn.wide{display:inline-flex;width:78%;max-width:624px;gap:8px;font-size:.82rem;padding:9px 14px}
 
-    /* “Salmo do Dia” (manhã/tarde) – agora 15% MAIS baixos em relação ao estado anterior */
-    .compact{ padding:4px 10px; }
-
-    /* Calendário — +30% de largura (de 60% para 78%), com cruz */
-    .wide-wrap{ margin-top:12px; margin-bottom:4px; display:flex; justify-content:center; }
-    .btn.wide{
-      display:inline-flex; width:78%; max-width:624px; gap:8px; font-size:0.82rem; padding:9px 14px;
-    }
-
-    /* Rodapé + botão Voltar (aproximado do Calendário e -15% no tamanho) */
+    /* botão voltar centralizado */
     .back{
-      display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
-      border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
-      font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:left center; text-decoration:none;
+      display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;
+      border:1px solid #6f0000;padding:.32rem .56rem;border-radius:9px;font-weight:bold;font-size:.9rem;
+      transform:scale(.51);transform-origin:center;text-decoration:none
     }
-    footer{ margin-top:6px; text-align:center; font-size:.85rem; color:#7a6a55; padding:6px 8px 10px; }
+    footer{margin-top:6px;text-align:center;font-size:.85rem;color:#7a6a55;padding:6px 8px 10px}
 
-    #toast{
-      position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
-      background:#222; color:#fff; padding:10px 14px; border-radius:10px; font-size:.9rem;
-      opacity:0; pointer-events:none; transition:opacity .2s;
-    }
+    #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#222;color:#fff;
+      padding:10px 14px;border-radius:10px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .2s}
   </style>
 </head>
 <body>
   <header class="top"><h1 class="title">Oração do Dia</h1></header>
 
   <main class="wrap">
-    <!-- Ícone -->
     <img class="hero" id="hero" src="img/icone-horas.jpg" alt="Ícone"
          onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
     <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
 
-    <!-- Colunas -->
     <section class="cols">
       <div class="col" id="col-left"></div>
       <div class="col" id="col-right"></div>
     </section>
 
-    <!-- Calendário (78% e com cruz) -->
     <div class="wide-wrap">
       <a class="btn wide has-cross" data-action="calendario" href="#">
         <img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span>
@@ -122,7 +94,7 @@
   </footer>
 
   <script>
-    const msgs={ safro:'Safro — em breve.','manha-leituras':'Salmo manhã — em breve.',
+    const msgs={safro:'Safro — em breve.','manha-leituras':'Salmo manhã — em breve.',
       terca:'Hora Terça — em breve.',sexta:'Hora Sexta — em breve.',nona:'Hora Nona — em breve.',
       sinaxarion:'Synaxarion — em breve.',ramsho:'Ramsho — em breve.',
       'tarde-leituras':'Salmo tarde — em breve.',sutoro:'Sutoro — em breve.',
@@ -131,7 +103,6 @@
       clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800);}
     document.addEventListener('click',e=>{const a=e.target.closest('.btn[data-action]');if(!a)return;e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
 
-    // Distribuição (coluna esquerda “subida” e Nona no fim; direita com Synaxarion acima de Ramsho)
     (function(){
       const left=document.getElementById('col-left'), right=document.getElementById('col-right');
       function mk(id,label,cls=''){const a=document.createElement('a');a.href='#';a.className='btn has-cross '+cls;a.dataset.action=id;a.innerHTML=`<img src="img/cruz3.png"><span class="label">${label}</span>`;return a;}
@@ -147,7 +118,6 @@
       right.append(mk('lilyo','Lilyo — Vigílias'));
     })();
 
-    // Oculta o chip se a imagem carregar
     document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
   </script>
 </body>
