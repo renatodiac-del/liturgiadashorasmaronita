@@ -32,7 +32,7 @@
 
     .wrap { width:100%; max-width:620px; margin:0 auto; padding:8px 16px 24px; }
 
-    /* Ícone principal restaurado */
+    /* Ícone principal */
     .hero {
       display:block; margin:6px auto 10px; max-width:100%; height:auto; max-height:420px;
       border:6px solid #ff7a00; box-shadow:0 0 0 4px #d6b25a inset; border-radius:12px;
@@ -44,9 +44,9 @@
       font-weight:bold; color:#a00000;
     }
 
-    /* Colunas — agora ainda mais próximas */
-    .cols { display:flex; gap:2px; justify-content:center; }
-    .col  { flex:0 0 calc(50% - 1px); display:flex; flex-direction:column; gap:10px; }
+    /* Colunas — máximo de aproximação ao centro */
+    .cols { display:flex; gap:1px; justify-content:center; }
+    .col  { flex:0 0 calc(50% - 0.5px); display:flex; flex-direction:column; gap:10px; }
     @media(max-width:680px){ .cols{flex-direction:column;} .col{flex-basis:100%;} }
 
     /* Botões médios */
@@ -65,31 +65,38 @@
     .label{ width:100%; text-align:center; pointer-events:none; }
     .sub{ display:block; font-size:0.8em; color:#000; margin-top:2px; }
 
-    /* Botões com cruz agora 80% */
+    /* Botões com cruz 80% (mais largos e centralizados em cada coluna) */
     .has-cross{ width:80%; margin:0 auto; }
 
-    /* Salmo manhã/tarde 30% mais baixos */
-    .compact{ padding:5px 12px; }
+    /* “Salmo do Dia” (manhã/tarde) – agora 15% MAIS baixos em relação ao estado anterior */
+    .compact{ padding:4px 10px; }
 
-    /* Calendário */
-    .wide-wrap{ margin-top:12px; display:flex; justify-content:center; }
-    .btn.wide{ width:60%; max-width:480px; gap:8px; font-size:0.82rem; }
+    /* Calendário — +30% de largura (de 60% para 78%), com cruz */
+    .wide-wrap{ margin-top:12px; margin-bottom:4px; display:flex; justify-content:center; }
+    .btn.wide{
+      display:inline-flex; width:78%; max-width:624px; gap:8px; font-size:0.82rem; padding:9px 14px;
+    }
 
-    .back{ display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
-      border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px;
-      font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:left center; text-decoration:none; }
-    footer{ margin-top:auto; text-align:center; font-size:.85rem; color:#7a6a55; padding:12px 8px 16px; }
+    /* Rodapé + botão Voltar (aproximado do Calendário e -15% no tamanho) */
+    .back{
+      display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
+      border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
+      font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:left center; text-decoration:none;
+    }
+    footer{ margin-top:6px; text-align:center; font-size:.85rem; color:#7a6a55; padding:6px 8px 10px; }
 
-    #toast{ position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+    #toast{
+      position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
       background:#222; color:#fff; padding:10px 14px; border-radius:10px; font-size:.9rem;
-      opacity:0; pointer-events:none; transition:opacity .2s; }
+      opacity:0; pointer-events:none; transition:opacity .2s;
+    }
   </style>
 </head>
 <body>
   <header class="top"><h1 class="title">Oração do Dia</h1></header>
 
   <main class="wrap">
-    <!-- Ícone restaurado -->
+    <!-- Ícone -->
     <img class="hero" id="hero" src="img/icone-horas.jpg" alt="Ícone"
          onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
     <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
@@ -100,7 +107,7 @@
       <div class="col" id="col-right"></div>
     </section>
 
-    <!-- Calendário -->
+    <!-- Calendário (78% e com cruz) -->
     <div class="wide-wrap">
       <a class="btn wide has-cross" data-action="calendario" href="#">
         <img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span>
@@ -109,7 +116,10 @@
   </main>
 
   <div id="toast"></div>
-  <footer><a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a></footer>
+
+  <footer>
+    <a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a>
+  </footer>
 
   <script>
     const msgs={ safro:'Safro — em breve.','manha-leituras':'Salmo manhã — em breve.',
@@ -121,7 +131,7 @@
       clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800);}
     document.addEventListener('click',e=>{const a=e.target.closest('.btn[data-action]');if(!a)return;e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
 
-    // Distribuição
+    // Distribuição (coluna esquerda “subida” e Nona no fim; direita com Synaxarion acima de Ramsho)
     (function(){
       const left=document.getElementById('col-left'), right=document.getElementById('col-right');
       function mk(id,label,cls=''){const a=document.createElement('a');a.href='#';a.className='btn has-cross '+cls;a.dataset.action=id;a.innerHTML=`<img src="img/cruz3.png"><span class="label">${label}</span>`;return a;}
@@ -136,6 +146,9 @@
       right.append(mk('sutoro','Sutoro — Oração da Noite'));
       right.append(mk('lilyo','Lilyo — Vigílias'));
     })();
+
+    // Oculta o chip se a imagem carregar
+    document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
   </script>
 </body>
 </html>
