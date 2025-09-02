@@ -35,8 +35,7 @@
       color: #d6b25a;
       font-weight: 800;
       letter-spacing: 0.3px;
-      /* +2 “pontos” (≈ +0.25rem) */
-      font-size: 2.15rem;
+      font-size: 2.15rem; /* +2 “pontos” aprox */
       margin: 0 0 6px 0;
       /* “Borda” laranja nas letras */
       -webkit-text-stroke: 1px #ff7a00;
@@ -116,7 +115,7 @@
     .col  { flex: 1 1 0; display: flex; flex-direction: column; gap: 12px; }
     @media (max-width: 680px){ .cols { flex-direction: column; } }
 
-    /* Botões 50% menores */
+    /* Botões base (50% menores desde iteração anterior) */
     .btn{
       display: inline-flex;
       align-items: center;
@@ -127,9 +126,9 @@
       border: 1.35px solid #ff7a00;
       box-shadow: 0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius: 18px;
-      padding: 6px 12px;             /* menor */
+      padding: 6px 12px;
       width: 100%;
-      font-size: 0.84rem;            /* -2 “pontos” */
+      font-size: 0.84rem;  /* -2 “pontos” */
       font-weight: bold;
       color: #a00000;
       line-height: 1.25;
@@ -149,13 +148,19 @@
     .label { width: 100%; text-align: center; pointer-events: none; display: inline-block; }
     .sub   { display:block; font-size: 0.8em; color: #000; margin-top: 2px; } /* menor e PRETO */
 
-    /* Botão "dupla largura" (spana as duas colunas) */
+    /* 30% mais estreitos para botões COM cruz */
+    .has-cross { width: 70%; margin-left: auto; margin-right: auto; }
+
+    /* “Salmo do Dia” (manhã/tarde) 30% mais baixos */
+    .compact { padding: 4px 10px; }
+
+    /* Botão "dupla largura" (Calendário) */
     .wide-wrap { margin-top: 12px; }
     .btn.wide {
       display: block;
-      width: 100%;
+      width: 100%;         /* mantém largura dupla (não sofre redução a 70%) */
       max-width: none;
-      font-size: 0.9rem;        /* levemente maior */
+      font-size: 0.9rem;   /* leve destaque */
       padding: 9px 14px;
     }
 
@@ -218,19 +223,18 @@
 
     <!-- Fonte única (todos os botões) -->
     <div id="buttons-src" style="display:none">
-      <a class="btn" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
-      <a class="btn" data-action="safro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Safro — Oração da Manhã</span></a>
-      <a class="btn" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">manhã</span></span></a>
-      <a class="btn" data-action="terca" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Terça — 9 horas</span></a>
-      <a class="btn" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Sexta — 12 horas</span></a>
+      <!-- note que todos têm a classe has-cross; os “Salmo do Dia” também têm compact -->
+      <a class="btn has-cross" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
+      <a class="btn has-cross" data-action="safro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Safro — Oração da Manhã</span></a>
+      <a class="btn has-cross compact" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">manhã</span></span></a>
+      <a class="btn has-cross" data-action="terca" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Terça — 9 horas</span></a>
+      <a class="btn has-cross" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Sexta — 12 horas</span></a>
 
-      <a class="btn" data-action="nona" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Nona — 15 horas</span></a>
-      <a class="btn" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
-      <a class="btn" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">tarde</span></span></a>
-      <a class="btn" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
-      <a class="btn" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Synaxarion</span></a>
-
-      <a class="btn" data-action="calendario" id="btn-calendario" href="#"><img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span></a>
+      <a class="btn has-cross" data-action="nona" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Nona — 15 horas</span></a>
+      <a class="btn has-cross" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
+      <a class="btn has-cross compact" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">tarde</span></span></a>
+      <a class="btn has-cross" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
+      <a class="btn has-cross" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Synaxarion</span></a>
     </div>
 
     <!-- Duas colunas -->
@@ -241,7 +245,10 @@
 
     <!-- Botão dupla largura (abaixo das colunas) -->
     <div class="wide-wrap">
-      <a class="btn wide" data-action="calendario" href="#"><span class="label">Calendário Litúrgico</span></a>
+      <a class="btn wide has-cross" data-action="calendario" href="#">
+        <img src="img/cruz3.png" alt="">
+        <span class="label">Calendário Litúrgico</span>
+      </a>
     </div>
   </main>
 
@@ -294,13 +301,14 @@
       var left  = document.getElementById('col-left');
       var right = document.getElementById('col-right');
 
+      /* TROCA de lugares: Synaxarion no topo ESQUERDO; Lilyo passa para o fim da DIREITA */
       // ESQUERDA
-      ['lilyo','safro','manha-leituras','terca','sexta'].forEach(function(id){
+      ['sinaxarion','safro','manha-leituras','terca','sexta'].forEach(function(id){
         var el = q(id); if(el) left.appendChild(el.cloneNode(true));
       });
 
-      // DIREITA (inclui Synaxarion abaixo de Sutoro)
-      ['nona','ramsho','tarde-leituras','sutoro','sinaxarion'].forEach(function(id){
+      // DIREITA
+      ['nona','ramsho','tarde-leituras','sutoro','lilyo'].forEach(function(id){
         var el = q(id); if(el) right.appendChild(el.cloneNode(true));
       });
 
