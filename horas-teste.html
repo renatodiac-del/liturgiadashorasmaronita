@@ -18,23 +18,36 @@
       background-size:40px 40px;display:flex;flex-direction:column;min-height:100vh
     }
 
-    header.top{text-align:center;padding:12px}
+    /* remover sublinhado azul de QUALQUER link */
+    a, a:visited, a:hover, a:active { text-decoration: none; color: inherit; }
+
+    /* topo: título o mais perto do topo possível */
+    header.top{
+      text-align:center; padding:4px 8px 0;  /* bem curto */
+    }
     .title{
-      color:#d6b25a;font-weight:800;font-size:2.15rem;margin:0 0 6px;
-      -webkit-text-stroke:1px #ff7a00;text-shadow:0 0 1px #ff7a00,0 0 1px #ff7a00
+      color:#d6b25a; font-weight:800; font-size:2.15rem;
+      margin:2px 0 4px;                   /* quase colado no topo */
+      -webkit-text-stroke:1px #ff7a00;
+      text-shadow:0 0 1px #ff7a00,0 0 1px #ff7a00
     }
 
-    .wrap{width:100%;max-width:620px;margin:0 auto;padding:8px 16px 20px}
+    .wrap{width:100%;max-width:620px;margin:0 auto;padding:4px 16px 16px}
 
-    /* Ícone principal */
-    .hero{display:block;margin:6px auto 10px;max-width:100%;height:auto;max-height:420px;
-      border:6px solid #ff7a00;box-shadow:0 0 0 4px #d6b25a inset;border-radius:12px}
+    /* Ícone principal – mais perto do título */
+    .hero{
+      display:block; margin:4px auto 8px; /* menor gap acima e abaixo */
+      max-width:100%; height:auto; max-height:420px;
+      border:6px solid #ff7a00; box-shadow:0 0 0 4px #d6b25a inset; border-radius:12px
+    }
     .hero[hidden]{display:none}
-    .chip{display:inline-block;margin:8px 0 10px;padding:10px 14px;background:rgba(255,255,255,0.9);
-      border:3px solid #ff7a00;box-shadow:0 0 0 2px #d6b25a inset;border-radius:14px;font-weight:bold;color:#a00000}
+    .chip{
+      display:inline-block;margin:6px 0 8px;padding:8px 12px;background:rgba(255,255,255,0.9);
+      border:3px solid #ff7a00; box-shadow:0 0 0 2px #d6b25a inset; border-radius:14px; font-weight:bold; color:#a00000
+    }
 
-    /* Barra de data e navegação */
-    .datebar{display:flex;align-items:center;justify-content:center;gap:8px;margin:6px auto 14px}
+    /* Barra de data e navegação (mantida) */
+    .datebar{display:flex;align-items:center;justify-content:center;gap:8px;margin:4px auto 10px}
     .datebtn{
       background:#fff;border:1px solid #e2cfae;border-radius:20px;padding:6px 12px;
       font-size:.9rem;color:#7a0000;cursor:pointer;transition:.2s
@@ -44,33 +57,41 @@
     .datedisplay .date{font-weight:700}
     .datedisplay .weekday{font-size:.95rem;color:#7a5c3a;text-transform:lowercase}
 
-    /* Coluna única de botões */
-    .col{display:flex;flex-direction:column;align-items:center;gap:10px}
+    /* Coluna única */
+    .col{display:flex;flex-direction:column;align-items:center;gap:8px}
 
-    /* Botões — todos no mesmo tamanho do Calendário, fonte +2pt */
+    /* Botões (todos do mesmo tamanho) – ALTURA -20% */
+    /* (antes padding 12px 16px; agora ~9-10px 13-14px) */
     .btn{
-      display:inline-flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-      background:rgba(255,255,255,0.97);border:1.35px solid #ff7a00;
-      box-shadow:0 0 0 0.9px #d6b25a inset,0 4px 10px rgba(0,0,0,0.15);
-      border-radius:18px;padding:12px 16px;font-size:.86rem;font-weight:bold;
-      width:48%;max-width:624px;text-align:center;position:relative;transition:.2s
+      display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
+      background:rgba(255,255,255,0.97); border:1.35px solid #ff7a00;
+      box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
+      border-radius:18px; padding:9px 14px; font-size:.86rem; font-weight:bold;
+      width:48%; max-width:624px; text-align:center; position:relative; transition:.2s;
+      color:#a00000;  /* mantém vermelho na linha 1 */
     }
-    .btn:hover{transform:scale(1.02);background:#fff3da}
-    .btn img{position:absolute;left:10px;width:20px;height:20px}
-    .label{width:100%;text-align:center;pointer-events:none}
-    .line1{display:block;color:#a00000}
-    .line2{display:block;color:#000;font-size:.9em}
+    .btn:hover{ transform:scale(1.02); background:#fff3da }
+    .btn img{ position:absolute; left:10px; width:20px; height:20px }
+    .label{ width:100%; text-align:center; pointer-events:none }
+    .line1{ display:block; color:#a00000 }          /* linha de cima vermelha */
+    .line2{ display:block; color:#000; font-size:.9em } /* linha de baixo preta, ~1pt menor */
 
-    /* botão voltar */
+    /* Calendário – mesmo tamanho dos demais (já herdado de .btn) */
+    .wide-wrap{ margin-top:8px; margin-bottom:2px; display:flex; justify-content:center }
+
+    /* Botão voltar – MUITO próximo do calendário */
     .back{
-      display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;
-      border:1px solid #6f0000;padding:.32rem .56rem;border-radius:9px;font-weight:bold;font-size:.9rem;
-      transform:scale(.51);transform-origin:center;text-decoration:none
+      display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
+      border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
+      font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none
     }
-    footer{text-align:center;margin-top:6px;padding:6px 8px 10px;color:#7a6a55;font-size:.85rem}
+    footer{ margin-top:2px; text-align:center; font-size:.85rem; color:#7a6a55; padding:2px 8px 8px }
 
-    #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#222;color:#fff;
-      padding:10px 14px;border-radius:10px;font-size:.9rem;opacity:0;pointer-events:none;transition:.2s}
+    #toast{
+      position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+      background:#222; color:#fff; padding:10px 14px; border-radius:10px; font-size:.9rem;
+      opacity:0; pointer-events:none; transition:.2s
+    }
   </style>
 </head>
 <body>
@@ -92,12 +113,23 @@
       <button class="datebtn" id="btn-next">Próximo ▶</button>
     </div>
 
-    <!-- Coluna única -->
+    <!-- Coluna única de botões -->
     <div class="col" id="col"></div>
+
+    <!-- Calendário (linha única, mesmo tamanho dos outros) -->
+    <div class="wide-wrap">
+      <a class="btn" data-action="calendario" href="#">
+        <img src="img/cruz3.png" alt="">
+        <span class="label"><span class="line1">Calendário Litúrgico</span></span>
+      </a>
+    </div>
   </main>
 
   <div id="toast"></div>
-  <footer><a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a></footer>
+
+  <footer>
+    <a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a>
+  </footer>
 
   <script>
     const msgs={
@@ -130,7 +162,6 @@
       c.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde'));
       c.append(mk('sutoro','Sutoro','oração da noite'));
       c.append(mk('lilyo','Lilyo','vigílias'));
-      c.append(mk('calendario','Calendário Litúrgico'));
     })();
 
     // barra de data
@@ -145,6 +176,7 @@
     document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();toast('Carregar orações do próximo dia…')});
     updateDateBar();
 
+    // esconder chip quando a imagem carrega
     document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
   </script>
 </body>
