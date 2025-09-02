@@ -8,7 +8,7 @@
 
   <style>
     :root{
-      --gap: 8px;            /* distância vertical uniforme entre botões grandes e voltar */
+      --gap: 8px;
       --btn-wide: 77.3%;     /* largura dos botões grandes */
       --btn-pad-v: 6px;      /* altura base dos botões grandes */
       --btn-pad-h: 11px;
@@ -49,8 +49,8 @@
     .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
       background:#fff; border:2px solid #ff7a00; border-radius:20px;
-      padding:6px 22px;                  /* +40% na largura (era ~16px) */
-      font-size:0.58rem;                 /* ~2pt menor que antes */
+      padding:3px 22px;                  /* altura -50%, largura mantida */
+      font-size:0.58rem;                 /* fonte pequena */
       color:#7a0000; cursor:pointer; transition:.2s
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
@@ -68,7 +68,7 @@
       box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius:18px; font-size:.86rem; font-weight:bold;
       text-align:center; position:relative; transition:.2s; color:#a00000;
-      margin: var(--gap) 0;          /* mesma distância entre todos os botões grandes e o voltar */
+      margin: var(--gap) 0;
     }
     .btn:hover{ transform:scale(1.02); background:#fff3da }
     .btn img{ position:absolute; left:10px; width:20px; height:20px }
@@ -76,7 +76,7 @@
     .line1{ display:block; color:#a00000 }
     .line2{ display:block; color:#000; font-size:.9em }
 
-    /* Botões grandes (horas canônicas padronizados) */
+    /* Botões grandes padrão */
     .tall{
       width: var(--btn-wide);
       max-width: 780px;
@@ -86,21 +86,21 @@
     /* Synaxarion com +40% de altura */
     .btn.sinaxarion{ padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
-    /* Calendário: mesma largura, +40% de altura e CENTRALIZADO; bem perto do Lilyo */
+    /* Calendário com +40% de altura */
     .wide-wrap{
-      margin-top: 10px;       /* proximidade com Lilyo */
-      margin-bottom: 0;       /* não cria espaço extra antes do voltar */
+      margin-top: 10px;
+      margin-bottom: 0;
       display:flex; justify-content:center; align-items:center;
     }
     .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
-    /* Botão vermelho (colado ao Calendário, centralizado) */
+    /* Botão vermelho (encostado ao Calendário) */
     footer{ margin-top: 0; text-align:center; font-size:.85rem; color:#7a6a55; padding:0 8px 8px }
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
       font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none;
-      margin: 2px auto 0;   /* o mais próximo possível do calendário */
+      margin: 2px auto 0;   /* bem próximo do calendário */
     }
 
     #toast{
