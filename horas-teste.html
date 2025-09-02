@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -24,7 +23,6 @@
       min-height: 100vh;
     }
 
-    /* topo */
     header.top {
       display: flex;
       flex-direction: column;
@@ -35,215 +33,115 @@
     .title {
       color: #d6b25a;
       font-weight: 800;
-      letter-spacing: 0.3px;
-      font-size: 2.15rem; /* +2 “pontos” aprox */
+      font-size: 2.15rem;
       margin: 0 0 6px 0;
-      -webkit-text-stroke: 1px #ff7a00; /* “borda” laranja */
-      text-shadow: 0 0 1px #ff7a00, 0 0 1px #ff7a00, 0 0 1px #ff7a00;
+      -webkit-text-stroke: 1px #ff7a00;
+      text-shadow: 0 0 1px #ff7a00,0 0 1px #ff7a00;
     }
 
     .wrap { width: 100%; max-width: 620px; margin: 0 auto; padding: 8px 16px 24px; }
 
-    .hero {
-      display: block; margin: 6px auto 10px; max-width: 100%; height: auto; max-height: 420px;
-      border: 6px solid #ff7a00; box-shadow: 0 0 0 4px #d6b25a inset; border-radius: 12px;
-    }
-    .hero[hidden] { display: none; }
-
-    .chip {
-      display: inline-block; margin: 8px 0 10px; padding: 10px 14px; background: rgba(255,255,255,0.9);
-      border: 3px solid #ff7a00; box-shadow: 0 0 0 2px #d6b25a inset; border-radius: 14px; font-weight: bold; color: #a00000;
-    }
-
-    /* Barra de data + navegação — central */
-    .datebar {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      margin: 6px auto 14px; font-family: Arial, Helvetica, sans-serif; width: 100%;
-    }
-    .datebtn {
-      background: #ffffff; border: 1px solid #e2cfae; border-radius: 20px; padding: 6px 12px;
-      font-size: 0.92rem; color: #7a0000; cursor: pointer; transition: background-color .2s, transform .1s;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .datebtn:hover { background: #fff3da; transform: translateY(-1px); }
-
-    .datedisplay { text-align: center; color: #582c0c; display: inline-flex; flex-direction: column; gap: 2px; line-height: 1.2; min-width: 156px; }
-    .datedisplay .date { font-weight: 700; font-size: 1.05rem; }
-    .datedisplay .weekday { font-size: 0.95rem; color: #7a5c3a; text-transform: lowercase; }
-
-    /* DUAS COLUNAS fixas — mais próximas do centro */
-    .cols { display: flex; gap: 6px; align-items: flex-start; justify-content: center; }
-    .col  { flex: 0 0 calc(50% - 3px); display: flex; flex-direction: column; gap: 10px; }
+    /* Duas colunas mais próximas do centro */
+    .cols { display: flex; gap: 4px; justify-content: center; }
+    .col  { flex: 0 0 calc(50% - 2px); display: flex; flex-direction: column; gap: 10px; }
     @media (max-width: 680px){ .cols { flex-direction: column; } .col{ flex-basis: 100%; } }
 
-    /* Botões médios (base) — fonte -2pt aprox, altura +15% */
+    /* Botões médios */
     .btn{
-      display: inline-flex; align-items: center; justify-content: center; text-decoration: none; cursor: pointer;
-      background-color: rgba(255,255,255,0.97);
-      border: 1.35px solid #ff7a00; box-shadow: 0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.97);
+      border: 1.35px solid #ff7a00;
+      box-shadow: 0 0 0 0.9px #d6b25a inset,0 4px 10px rgba(0,0,0,0.15);
       border-radius: 18px;
-      padding: 7px 14px;                 /* +15% vs. 6x12 */
-      width: 100%;
-      font-size: 0.72rem;                /* menor que 0.84rem ~ -2pt */
-      font-weight: bold; color: #a00000; line-height: 1.25; text-align: center; position: relative;
-      transition: transform 0.15s ease, background-color 0.2s ease;
+      padding: 8px 16px;                /* +15% altura */
+      font-size: 0.78rem;               /* -2pt em relação ao anterior */
+      font-weight: bold;
+      color: #a00000;
+      line-height: 1.25;
+      position: relative;
+      transition: transform .15s, background-color .2s;
     }
-    .btn:hover { transform: scale(1.02); background: #fff3da; }
+    .btn:hover{ transform: scale(1.02); background:#fff3da; }
 
-    .btn img { position: absolute; left: 10px; width: 20px; height: 20px; display: block; }
-    .label { width: 100%; text-align: center; pointer-events: none; display: inline-block; }
-    .sub   { display:block; font-size: 0.8em; color: #000; margin-top: 2px; } /* menor e PRETO */
+    .btn img{ position: absolute; left: 10px; width: 20px; height: 20px; }
+    .label{ width:100%; text-align:center; pointer-events:none; }
+    .sub{ display:block; font-size:0.8em; color:#000; margin-top:2px; }
 
-    /* 30% mais estreitos para botões COM cruz */
-    .has-cross { width: 70%; margin-left: auto; margin-right: auto; }
+    /* Botões com cruz agora 80% (antes 70%) */
+    .has-cross{ width: 80%; margin: 0 auto; }
 
-    /* “Salmo do Dia” (manhã/tarde) 30% mais baixos */
-    .compact { padding: 4px 10px; }
+    /* Salmo manhã/tarde 30% mais baixos */
+    .compact{ padding: 5px 12px; }
 
-    /* Botão Calendário (abaixo das colunas) — 60% de largura com cruz */
-    .wide-wrap { margin-top: 12px; display: flex; justify-content: center; }
-    .btn.wide {
-      display: inline-flex; width: 60%; max-width: 480px; /* -40% */
-      font-size: 0.78rem; padding: 9px 14px; gap: 8px;
-    }
+    /* Calendário 60% largura */
+    .wide-wrap{ margin-top:12px; display:flex; justify-content:center; }
+    .btn.wide{ width:60%; max-width:480px; gap:8px; font-size:0.82rem; }
 
-    /* Rodapé + botão Voltar padrão */
     .back{
-      display:inline-flex; align-items:center; gap:8px; color:#fff; background:#a00000;
-      border:1px solid #6f0000; text-decoration:none; padding:.36rem .62rem; border-radius:9px;
-      font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:left center;
+      display:inline-flex; align-items:center; gap:8px;
+      background:#a00000; color:#fff; border:1px solid #6f0000;
+      padding:.36rem .62rem; border-radius:9px; font-weight:bold;
+      font-size:.9rem; transform:scale(.6); transform-origin:left center;
+      text-decoration:none;
     }
-    footer { margin-top: auto; text-align: center; color: #7a6a55; font-size: 0.85rem; padding: 12px 8px 16px; }
+    footer{ margin-top:auto; text-align:center; font-size:.85rem; color:#7a6a55; padding:12px 8px 16px; }
 
-    #toast {
-      position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
-      background: #222; color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 0.9rem;
-      opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+    #toast{
+      position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+      background:#222; color:#fff; padding:10px 14px; border-radius:10px;
+      font-size:0.9rem; opacity:0; pointer-events:none; transition:opacity .2s;
     }
   </style>
 </head>
 <body>
-  <header class="top">
-    <h1 class="title">Oração do Dia</h1>
-  </header>
-
+  <header class="top"><h1 class="title">Oração do Dia</h1></header>
   <main class="wrap">
-    <!-- Ícone principal -->
-    <img class="hero" id="hero" src="img/icone-horas.jpg" alt="Ícone"
-         onerror="this.hidden=true; document.getElementById('hero-chip').style.display='inline-block';">
-    <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
-
-    <!-- Barra de data -->
-    <div class="datebar" id="datebar" aria-label="Navegar por datas">
-      <button class="datebtn prev" id="btn-prev" type="button">◀ Anterior</button>
-      <div class="datedisplay">
-        <div class="date" id="date-text">--/--/----</div>
-        <div class="weekday" id="weekday-text">--</div>
-      </div>
-      <button class="datebtn next" id="btn-next" type="button">Próximo ▶</button>
-    </div>
-
-    <!-- Fonte única (todos os botões) -->
-    <div id="buttons-src" style="display:none">
-      <!-- ESQUERDA (exceto Nona que vai por último) -->
-      <a class="btn has-cross" data-action="safro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Safro — Oração da Manhã</span></a>
-      <a class="btn has-cross compact" data-action="manha-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">manhã</span></span></a>
-      <a class="btn has-cross" data-action="terca" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Terça — 9 horas</span></a>
-      <a class="btn has-cross" data-action="sexta" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Sexta — 12 horas</span></a>
-      <a class="btn has-cross" data-action="nona" href="#"><img src="img/cruz3.png" alt=""><span class="label">Hora Nona — 15 horas</span></a>
-
-      <!-- DIREITA (Synaxarion entre Nona e Ramsho) -->
-      <a class="btn has-cross" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Synaxarion</span></a>
-      <a class="btn has-cross" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
-      <a class="btn has-cross compact" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">tarde</span></span></a>
-      <a class="btn has-cross" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
-      <a class="btn has-cross" data-action="lilyo" href="#"><img src="img/cruz3.png" alt=""><span class="label">Lilyo — Vigílias</span></a>
-    </div>
-
-    <!-- Duas colunas -->
-    <section class="cols" aria-label="Ações — Oração do Dia (teste)">
+    <!-- Colunas -->
+    <section class="cols">
       <div class="col" id="col-left"></div>
       <div class="col" id="col-right"></div>
     </section>
-
-    <!-- Botão Calendário (60% e com cruz) -->
+    <!-- Calendário -->
     <div class="wide-wrap">
       <a class="btn wide has-cross" data-action="calendario" href="#">
-        <img src="img/cruz3.png" alt="">
-        <span class="label">Calendário Litúrgico</span>
+        <img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span>
       </a>
     </div>
   </main>
-
   <div id="toast"></div>
-
-  <footer>
-    <a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a>
-  </footer>
+  <footer><a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a></footer>
 
   <script>
-    function toast(msg){
-      var t = document.getElementById('toast');
-      t.textContent = msg; t.style.opacity = 1;
-      clearTimeout(window.__tid);
-      window.__tid = setTimeout(function(){ t.style.opacity = 0; }, 1800);
-    }
-
-    // some image fallback nicety
-    document.getElementById('hero').addEventListener('load', function(){
-      document.getElementById('hero-chip').style.display = 'none';
-    });
-
-    // ====== Navegação de datas ======
-    var currentDate = new Date();
-    function formatDateBR(d){ return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' }); }
-    function weekdayBR(d){ return d.toLocaleDateString('pt-BR', { weekday: 'long' }); }
-    function updateDateBar(){
-      document.getElementById('date-text').textContent = formatDateBR(currentDate);
-      document.getElementById('weekday-text').textContent = weekdayBR(currentDate);
-    }
-    document.getElementById('btn-prev').addEventListener('click', function(){ currentDate.setDate(currentDate.getDate()-1); updateDateBar(); toast('Carregar orações do dia anterior…'); });
-    document.getElementById('btn-next').addEventListener('click', function(){ currentDate.setDate(currentDate.getDate()+1); updateDateBar(); toast('Carregar orações do próximo dia…'); });
-    updateDateBar();
-
-    // ====== Distribuição fixa por colunas ======
-    (function distribuir(){
-      var q = sel => document.querySelector('#buttons-src .btn[data-action="'+sel+'"]');
-      var left  = document.getElementById('col-left');
-      var right = document.getElementById('col-right');
-
-      // ESQUERDA (subiu tudo uma posição; Nona por último)
-      ['safro','manha-leituras','terca','sexta','nona'].forEach(function(id){
-        var el = q(id); if(el) left.appendChild(el.cloneNode(true));
-      });
-
-      // DIREITA: Nona (globalmente acima), Synaxarion abaixo de Nona e acima de Ramsho
-      ['sinaxarion','ramsho','tarde-leituras','sutoro','lilyo'].forEach(function(id){
-        var el = q(id); if(el) right.appendChild(el.cloneNode(true));
-      });
-    })();
-
-    // ====== Mensagens ======
-    var msgs = {
-      'lilyo':'Lilyo (Vigílias) — em breve.',
-      'safro':'Safro — em breve.',
-      'manha-leituras':'Salmo do Dia e Leitura (manhã) — em breve.',
-      'terca':'Hora Terça — em breve.',
-      'sexta':'Hora Sexta — em breve.',
-      'nona':'Hora Nona — em breve.',
-      'ramsho':'Ramsho — em breve.',
-      'tarde-leituras':'Salmo do Dia e Leitura (tarde) — em breve.',
-      'sutoro':'Sutoro — em breve.',
-      'sinaxarion':'Synaxarion — em breve.',
-      'calendario':'Calendário Litúrgico — em breve.'
+    const msgs={
+      safro:'Safro — em breve.', 'manha-leituras':'Salmo manhã — em breve.',
+      terca:'Hora Terça — em breve.', sexta:'Hora Sexta — em breve.',
+      nona:'Hora Nona — em breve.', sinaxarion:'Synaxarion — em breve.',
+      ramsho:'Ramsho — em breve.', 'tarde-leituras':'Salmo tarde — em breve.',
+      sutoro:'Sutoro — em breve.', lilyo:'Lilyo — em breve.',
+      calendario:'Calendário Litúrgico — em breve.'
     };
-    document.addEventListener('click', function(e){
-      var a = e.target.closest('.btn[data-action]');
-      if(!a) return;
-      e.preventDefault();
-      var ac = a.getAttribute('data-action');
-      toast(msgs[ac] || 'Em breve');
-    });
+    function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800);}
+    document.addEventListener('click',e=>{const a=e.target.closest('.btn[data-action]');if(!a)return;e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
+
+    // Distribuição fixa
+    (function distribuir(){
+      const left=document.getElementById('col-left'), right=document.getElementById('col-right');
+      function mk(id,label,cls=''){const a=document.createElement('a');a.href='#';a.className='btn has-cross '+cls;a.dataset.action=id;a.innerHTML=`<img src="img/cruz3.png"><span class="label">${label}</span>`;return a;}
+      left.append(mk('safro','Safro — Oração da Manhã'));
+      left.append(mk('manha-leituras','Salmo do Dia e Leitura<span class="sub">manhã</span>','compact'));
+      left.append(mk('terca','Hora Terça — 9 horas'));
+      left.append(mk('sexta','Hora Sexta — 12 horas'));
+      left.append(mk('nona','Hora Nona — 15 horas'));
+      right.append(mk('sinaxarion','Synaxarion'));
+      right.append(mk('ramsho','Ramsho — Oração da Tarde'));
+      right.append(mk('tarde-leituras','Salmo do Dia e Leitura<span class="sub">tarde</span>','compact'));
+      right.append(mk('sutoro','Sutoro — Oração da Noite'));
+      right.append(mk('lilyo','Lilyo — Vigílias'));
+    })();
   </script>
 </body>
 </html>
