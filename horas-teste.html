@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,9 +9,9 @@
 
   <style>
     :root{
-      --gap: 8px;               /* distância vertical uniforme entre botões */
-      --btn-wide: 77.3%;        /* 67.2% * 1.15 ≈ 77.3% (largura +15%) */
-      --btn-pad-v: 6px;         /* altura -10% (antes ~6.6px) */
+      --gap: 8px;            /* distância vertical uniforme entre botões grandes e voltar */
+      --btn-wide: 77.3%;     /* largura dos botões grandes (ajustada previamente) */
+      --btn-pad-v: 6px;      /* ALTURA dos botões grandes = mesma do Safro */
       --btn-pad-h: 11px;
     }
 
@@ -50,7 +51,8 @@
     .datebtn{
       background:#fff; border:2px solid #ff7a00; border-radius:20px;
       padding:6px 16px;
-      font-size:0.82rem; color:#7a0000; cursor:pointer; transition:.2s
+      font-size:0.70rem;            /* -2pt aprox. */
+      color:#7a0000; cursor:pointer; transition:.2s
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
     .datedisplay{ min-width:156px; text-align:center; color:#582c0c; line-height:1.2 }
@@ -67,7 +69,7 @@
       box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius:18px; font-size:.86rem; font-weight:bold;
       text-align:center; position:relative; transition:.2s; color:#a00000;
-      margin: var(--gap) 0;                         /* mesma distância para todos */
+      margin: var(--gap) 0;          /* mesma distância entre todos os botões grandes e o voltar */
     }
     .btn:hover{ transform:scale(1.02); background:#fff3da }
     .btn img{ position:absolute; left:10px; width:20px; height:20px }
@@ -75,27 +77,28 @@
     .line1{ display:block; color:#a00000 }
     .line2{ display:block; color:#000; font-size:.9em }
 
-    /* Botões grandes (horas canônicas padronizados) */
+    /* Botões grandes (horas canônicas padronizados) — mesma altura do Safro */
     .tall{
       width: var(--btn-wide);
       max-width: 780px;
-      padding: var(--btn-pad-v) var(--btn-pad-h);    /* altura -10% */
+      padding: var(--btn-pad-v) var(--btn-pad-h);
     }
 
-    /* Calendário: mesma largura/altura e centralizado */
+    /* Calendário: mesma largura/altura e CENTRALIZADO, mais perto do Lilyo */
     .wide-wrap{
-      margin-top:20px; margin-bottom:0;
+      margin-top: 10px;     /* aproximado do Lilyo */
+      margin-bottom: 0;
       display:flex; justify-content:center; align-items:center;
     }
     .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: var(--btn-pad-v) var(--btn-pad-h); }
 
-    /* Botão vermelho (mesmo espaçamento e centralizado) */
-    footer{ margin-top:0; text-align:center; font-size:.85rem; color:#7a6a55; padding:2px 8px 8px }
+    /* Botão vermelho (mesmo espaçamento e centralizado), mais perto do Calendário */
+    footer{ margin-top: 4px; text-align:center; font-size:.85rem; color:#7a6a55; padding:2px 8px 8px }
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
       font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none;
-      margin: var(--gap) auto;                       /* mesma distância e centralizado */
+      margin: var(--gap) auto;  /* igual aos grandes e centralizado */
     }
 
     #toast{
