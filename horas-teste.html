@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,7 +18,7 @@
       background-size:40px 40px;display:flex;flex-direction:column;min-height:100vh
     }
 
-    header.top{display:flex;flex-direction:column;align-items:center;padding:12px 12px 0;text-align:center}
+    header.top{text-align:center;padding:12px}
     .title{
       color:#d6b25a;font-weight:800;font-size:2.15rem;margin:0 0 6px;
       -webkit-text-stroke:1px #ff7a00;text-shadow:0 0 1px #ff7a00,0 0 1px #ff7a00
@@ -35,58 +34,43 @@
       border:3px solid #ff7a00;box-shadow:0 0 0 2px #d6b25a inset;border-radius:14px;font-weight:bold;color:#a00000}
 
     /* Barra de data e navegação */
-    .datebar{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      margin:6px auto 12px;width:100%
-    }
+    .datebar{display:flex;align-items:center;justify-content:center;gap:8px;margin:6px auto 14px}
     .datebtn{
       background:#fff;border:1px solid #e2cfae;border-radius:20px;padding:6px 12px;
-      font-size:.9rem;color:#7a0000;cursor:pointer;transition:background-color .2s,transform .1s;
-      display:inline-flex;align-items:center;gap:6px
+      font-size:.9rem;color:#7a0000;cursor:pointer;transition:.2s
     }
     .datebtn:hover{background:#fff3da;transform:translateY(-1px)}
     .datedisplay{min-width:156px;text-align:center;color:#582c0c;line-height:1.2}
     .datedisplay .date{font-weight:700}
     .datedisplay .weekday{font-size:.95rem;color:#7a5c3a;text-transform:lowercase}
 
-    /* colunas encostadas no centro (exagero com gap 0) */
-    .cols{display:flex;gap:0;justify-content:center}
-    .col{flex:0 0 50%;display:flex;flex-direction:column;gap:10px}
-    @media(max-width:680px){.cols{flex-direction:column}.col{flex-basis:100%}}
+    /* Coluna única de botões */
+    .col{display:flex;flex-direction:column;align-items:center;gap:10px}
 
-    /* Botões médios — largura -40% (48% da coluna), fonte -1pt aprox */
+    /* Botões — todos no mesmo tamanho do Calendário, fonte +2pt */
     .btn{
-      display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
-      background:rgba(255,255,255,0.97);
-      border:1.35px solid #ff7a00;box-shadow:0 0 0 0.9px #d6b25a inset,0 4px 10px rgba(0,0,0,0.15);
-      border-radius:18px;padding:8px 16px;font-size:0.70rem;font-weight:bold;color:#a00000;
-      line-height:1.25;position:relative;transition:transform .15s,background-color .2s;
-      width:48%;margin:0 auto;text-align:center
+      display:inline-flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+      background:rgba(255,255,255,0.97);border:1.35px solid #ff7a00;
+      box-shadow:0 0 0 0.9px #d6b25a inset,0 4px 10px rgba(0,0,0,0.15);
+      border-radius:18px;padding:12px 16px;font-size:.86rem;font-weight:bold;
+      width:48%;max-width:624px;text-align:center;position:relative;transition:.2s
     }
     .btn:hover{transform:scale(1.02);background:#fff3da}
-
     .btn img{position:absolute;left:10px;width:20px;height:20px}
-    .label{width:100%;text-align:center;pointer-events:none;display:inline-block}
-    .line1{display:block;color:#a00000}              /* linha de cima (ou única) vermelha */
-    .line2{display:block;color:#000;font-size:.9em}  /* linha de baixo preta, ~1pt menor */
+    .label{width:100%;text-align:center;pointer-events:none}
+    .line1{display:block;color:#a00000}
+    .line2{display:block;color:#000;font-size:.9em}
 
-    /* “Salmo do Dia” (manhã/tarde) mais baixos */
-    .compact{padding:4px 10px}
-
-    /* Calendário (botão “grande”) — fonte -1pt aprox e mesma largura 48% */
-    .wide-wrap{margin-top:10px;margin-bottom:0;display:flex;justify-content:center}
-    .btn.wide{width:48%;max-width:624px;gap:8px;font-size:.74rem;padding:9px 14px}
-
-    /* botão voltar centralizado e próximo do calendário */
+    /* botão voltar */
     .back{
       display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;
       border:1px solid #6f0000;padding:.32rem .56rem;border-radius:9px;font-weight:bold;font-size:.9rem;
       transform:scale(.51);transform-origin:center;text-decoration:none
     }
-    footer{margin-top:4px;text-align:center;font-size:.85rem;color:#7a6a55;padding:4px 8px 10px}
+    footer{text-align:center;margin-top:6px;padding:6px 8px 10px;color:#7a6a55;font-size:.85rem}
 
     #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#222;color:#fff;
-      padding:10px 14px;border-radius:10px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .2s}
+      padding:10px 14px;border-radius:10px;font-size:.9rem;opacity:0;pointer-events:none;transition:.2s}
   </style>
 </head>
 <body>
@@ -98,96 +82,69 @@
          onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
     <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
 
-    <!-- Barra de data + navegação -->
-    <div class="datebar" id="datebar" aria-label="Navegar por datas">
-      <button class="datebtn prev" id="btn-prev" type="button">◀ Anterior</button>
+    <!-- Barra de data -->
+    <div class="datebar">
+      <button class="datebtn" id="btn-prev">◀ Anterior</button>
       <div class="datedisplay">
         <div class="date" id="date-text">--/--/----</div>
         <div class="weekday" id="weekday-text">--</div>
       </div>
-      <button class="datebtn next" id="btn-next" type="button">Próximo ▶</button>
+      <button class="datebtn" id="btn-next">Próximo ▶</button>
     </div>
 
-    <!-- Duas colunas encostadas -->
-    <section class="cols">
-      <div class="col" id="col-left"></div>
-      <div class="col" id="col-right"></div>
-    </section>
-
-    <!-- Calendário (linha única) -->
-    <div class="wide-wrap">
-      <a class="btn wide" data-action="calendario" href="#">
-        <img src="img/cruz3.png" alt="">
-        <span class="label"><span class="line1">Calendário Litúrgico</span></span>
-      </a>
-    </div>
+    <!-- Coluna única -->
+    <div class="col" id="col"></div>
   </main>
 
   <div id="toast"></div>
-
-  <footer>
-    <a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a>
-  </footer>
+  <footer><a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a></footer>
 
   <script>
     const msgs={
-      safro:'Safro — em breve.','manha-leituras':'Salmo manhã — em breve.',
-      terca:'Hora Terça — em breve.',sexta:'Hora Sexta — em breve.',nona:'Hora Nona — em breve.',
-      sinaxarion:'Synaxarion — em breve.',ramsho:'Ramsho — em breve.',
-      'tarde-leituras':'Salmo tarde — em breve.',sutoro:'Sutoro — em breve.',
-      lilyo:'Lilyo — em breve.',calendario:'Calendário Litúrgico — em breve.'
+      safro:'Safro — em breve.','manha-leituras':'Salmo manhã — em breve.','terca':'Hora Terça — em breve.',
+      sexta:'Hora Sexta — em breve.','nona':'Hora Nona — em breve.','sinaxarion':'Synaxarion — em breve.',
+      ramsho:'Ramsho — em breve.','tarde-leituras':'Salmo tarde — em breve.','sutoro':'Sutoro — em breve.',
+      lilyo:'Lilyo — em breve.','calendario':'Calendário Litúrgico — em breve.'
     };
     function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;
       clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800);}
-    document.addEventListener('click',e=>{const a=e.target.closest('.btn[data-action]');if(!a)return;e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
+    document.addEventListener('click',e=>{const a=e.target.closest('.btn[data-action]');if(!a)return;
+      e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
 
-    // helper para criar botão com 1 ou 2 linhas
-    function mk(id, l1, l2, cls=''){
-      const a=document.createElement('a');
-      a.href='#'; a.className='btn '+cls; a.dataset.action=id;
-      const twoLines = l2 && l2.trim().length>0;
-      a.innerHTML = `<img src="img/cruz3.png" alt="">
-        <span class="label">
-          <span class="line1">${l1}</span>
-          ${twoLines ? `<span class="line2">${l2}</span>` : ``}
-        </span>`;
+    function mk(id,l1,l2=''){
+      const a=document.createElement('a');a.href='#';a.className='btn';a.dataset.action=id;
+      a.innerHTML=`<img src="img/cruz3.png"><span class="label">
+        <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}</span>`;
       return a;
     }
 
-    // Distribuição (esquerda “subida”; Nona por último. Direita com Synaxarion entre Nona e Ramsho)
     (function(){
-      const left = document.getElementById('col-left');
-      const right= document.getElementById('col-right');
-
-      /* ESQUERDA */
-      left.append(mk('safro','Safro','oração da manhã'));
-      left.append(mk('manha-leituras','Salmo do Dia e Leitura','manhã','compact'));
-      left.append(mk('terca','Hora Terça','9 horas'));
-      left.append(mk('sexta','Hora Sexta','12 horas'));
-      left.append(mk('nona','Hora Nona','15 horas'));
-
-      /* DIREITA */
-      right.append(mk('sinaxarion','Synaxarion',''));
-      right.append(mk('ramsho','Ramsho','oração da tarde'));
-      right.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde','compact'));
-      right.append(mk('sutoro','Sutoro','oração da noite'));
-      right.append(mk('lilyo','Lilyo','vigílias'));
+      const c=document.getElementById('col');
+      c.append(mk('safro','Safro','oração da manhã'));
+      c.append(mk('manha-leituras','Salmo do Dia e Leitura','manhã'));
+      c.append(mk('terca','Hora Terça','9 horas'));
+      c.append(mk('sexta','Hora Sexta','12 horas'));
+      c.append(mk('nona','Hora Nona','15 horas'));
+      c.append(mk('sinaxarion','Synaxarion'));
+      c.append(mk('ramsho','Ramsho','oração da tarde'));
+      c.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde'));
+      c.append(mk('sutoro','Sutoro','oração da noite'));
+      c.append(mk('lilyo','Lilyo','vigílias'));
+      c.append(mk('calendario','Calendário Litúrgico'));
     })();
 
-    // Barra de data — navegação entre os dias
+    // barra de data
     let currentDate=new Date();
     function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
     function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
     function updateDateBar(){
       document.getElementById('date-text').textContent=formatDateBR(currentDate);
       document.getElementById('weekday-text').textContent=weekdayBR(currentDate);
-      // Hook futuro: carregarOracoesDoDia(currentDate);
     }
     document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();toast('Carregar orações do dia anterior…')});
     document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();toast('Carregar orações do próximo dia…')});
     updateDateBar();
 
-    // Oculta o chip se a imagem carregar
     document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
   </script>
 </body>
