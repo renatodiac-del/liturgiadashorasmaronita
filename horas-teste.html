@@ -55,35 +55,35 @@
     /* Coluna única de botões */
     .col{ display:flex; flex-direction:column; align-items:center; gap:8px }
 
-    /* BASE dos botões canônicos (medida “padrão” dos baixos / compact) */
+    /* BASE dos botões canônicos */
     .btn{
       display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
       background:rgba(255,255,255,0.97); border:1.35px solid #ff7a00;
       box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
-      border-radius:18px; padding:9px 14px; font-size:.86rem; font-weight:bold;
-      width:48%; max-width:624px; text-align:center; position:relative; transition:.2s; color:#a00000;
+      border-radius:18px; font-size:.86rem; font-weight:bold;
+      text-align:center; position:relative; transition:.2s; color:#a00000;
     }
     .btn:hover{ transform:scale(1.02); background:#fff3da }
     .btn img{ position:absolute; left:10px; width:20px; height:20px }
     .label{ width:100%; text-align:center; pointer-events:none }
-    .line1{ display:block; color:#a00000 }   /* linha de cima vermelha */
+    .line1{ display:block; color:#a00000 }              /* linha de cima vermelha */
     .line2{ display:block; color:#000; font-size:.9em } /* linha de baixo preta (~1pt menor) */
 
-    /* Botões “mais baixos” (Salmo do Dia...) — ficam como estão (compact) */
-    .compact{ /* mantém a altura mais baixa */ padding:8px 12px }
-
-    /* Botões “mais altos” (Safro, Terça, Sexta, Nona, Synaxarion, Ramsho, Sutoro, Lilyo)
-       → 40% MAIS LARGOS e 20% MAIS BAIXOS que a base */
+    /* PADRÃO único para TODAS as horas canônicas:
+       mesma largura da Safro e mesma altura da Hora Nona */
     .tall{
-      width:67.2%;              /* 48% * 1.4 ≈ 67.2% */
-      padding:7px 11px;         /* ~20% a menos que 9px 14px */
+      width:67.2%;      /* igual à Safro que já estava 48% * 1.4 */
+      padding:7px 11px; /* igual à Nona (20% mais baixo que base anterior) */
+      max-width:700px;
     }
 
-    /* Calendário: NÃO é navegação de dia nem “voltar”.
-       Mantém a base (48%) — se quiser igual aos “altos”, troque por .tall também. */
+    /* Calendário: mantém largura/altura “base” separada das horas canônicas */
     .wide-wrap{ margin-top:8px; margin-bottom:2px; display:flex; justify-content:center }
+    .btn.calendar{
+      width:48%; max-width:624px; padding:9px 14px; font-size:.86rem;
+    }
 
-    /* Botão voltar (inalterado, apenas próximo do calendário) */
+    /* Botão voltar (inalterado) */
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
@@ -117,12 +117,12 @@
       <button class="datebtn" id="btn-next">Próximo ▶</button>
     </div>
 
-    <!-- Coluna única -->
+    <!-- Coluna única: TODAS as horas canônicas com .tall -->
     <div class="col" id="col"></div>
 
-    <!-- Calendário (base .btn, não navegação, pode ficar na largura base) -->
+    <!-- Calendário (separado) -->
     <div class="wide-wrap">
-      <a class="btn" data-action="calendario" href="#">
+      <a class="btn calendar" data-action="calendario" href="#">
         <img src="img/cruz3.png" alt="">
         <span class="label"><span class="line1">Calendário Litúrgico</span></span>
       </a>
@@ -148,26 +148,26 @@
       e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
 
     /* cria botão com 1 ou 2 linhas + classes extras */
-    function mk(id,l1,l2='',extraClass=''){
-      const a=document.createElement('a');a.href='#';a.className=`btn ${extraClass}`.trim();a.dataset.action=id;
+    function mk(id,l1,l2=''){
+      const a=document.createElement('a');a.href='#';a.className='btn tall';a.dataset.action=id;
       a.innerHTML=`<img src="img/cruz3.png"><span class="label">
         <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}</span>`;
       return a;
     }
 
-    /* Distribuição: “compact” = baixos (mantidos); “tall” = altos (largura +40%, altura -20%) */
+    /* TODAS as horas canônicas padronizadas para .tall */
     (function(){
       const c=document.getElementById('col');
-      c.append(mk('safro','Safro','oração da manhã','tall'));                 // alto
-      c.append(mk('manha-leituras','Salmo do Dia e Leitura','manhã','compact')); // baixo
-      c.append(mk('terca','Hora Terça','9 horas','tall'));                    // alto
-      c.append(mk('sexta','Hora Sexta','12 horas','tall'));                   // alto
-      c.append(mk('nona','Hora Nona','15 horas','tall'));                     // alto
-      c.append(mk('sinaxarion','Synaxarion','', 'tall'));                     // alto (linha única)
-      c.append(mk('ramsho','Ramsho','oração da tarde','tall'));               // alto
-      c.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde','compact')); // baixo
-      c.append(mk('sutoro','Sutoro','oração da noite','tall'));               // alto
-      c.append(mk('lilyo','Lilyo','vigílias','tall'));                        // alto
+      c.append(mk('safro','Safro','oração da manhã'));
+      c.append(mk('manha-leituras','Salmo do Dia e Leitura','manhã'));
+      c.append(mk('terca','Hora Terça','9 horas'));
+      c.append(mk('sexta','Hora Sexta','12 horas'));
+      c.append(mk('nona','Hora Nona','15 horas'));
+      c.append(mk('sinaxarion','Synaxarion',''));
+      c.append(mk('ramsho','Ramsho','oração da tarde'));
+      c.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde'));
+      c.append(mk('sutoro','Sutoro','oração da noite'));
+      c.append(mk('lilyo','Lilyo','vigílias'));
     })();
 
     // barra de data
