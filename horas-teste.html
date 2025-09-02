@@ -35,7 +35,8 @@
       color: #d6b25a;
       font-weight: 800;
       letter-spacing: 0.3px;
-      font-size: 2.15rem; /* +2 “pontos” aprox */
+      /* +2 “pontos” (≈ +0.25rem) */
+      font-size: 2.15rem;
       margin: 0 0 6px 0;
       /* “Borda” laranja nas letras */
       -webkit-text-stroke: 1px #ff7a00;
@@ -154,7 +155,7 @@
       display: block;
       width: 100%;
       max-width: none;
-      font-size: 0.9rem;        /* um pouquinho maior para destaque */
+      font-size: 0.9rem;        /* levemente maior */
       padding: 9px 14px;
     }
 
@@ -191,7 +192,7 @@
 <body>
   <header class="top">
     <h1 class="title">Oração do Dia</h1>
-    <!-- sem aqueles 2 botões vermelhos -->
+    <!-- sem os 2 botões vermelhos -->
   </header>
 
   <main class="wrap">
@@ -227,8 +228,8 @@
       <a class="btn" data-action="ramsho" href="#"><img src="img/cruz3.png" alt=""><span class="label">Ramsho — Oração da Tarde</span></a>
       <a class="btn" data-action="tarde-leituras" href="#"><img src="img/cruz3.png" alt=""><span class="label">Salmo do Dia e Leitura<span class="sub">tarde</span></span></a>
       <a class="btn" data-action="sutoro" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sutoro — Oração da Noite</span></a>
-
       <a class="btn" data-action="sinaxarion" href="#"><img src="img/cruz3.png" alt=""><span class="label">Synaxarion</span></a>
+
       <a class="btn" data-action="calendario" id="btn-calendario" href="#"><img src="img/cruz3.png" alt=""><span class="label">Calendário Litúrgico</span></a>
     </div>
 
@@ -286,24 +287,24 @@
     });
     updateDateBar();
 
-    // ====== Distribuição fixa por colunas (conforme pedido) ======
+    // ====== Distribuição fixa por colunas ======
     (function distribuir(){
       var q = sel => document.querySelector('#buttons-src .btn[data-action="'+sel+'"]');
 
       var left  = document.getElementById('col-left');
       var right = document.getElementById('col-right');
 
-      // ESQUERDA (ordem original que sobrou)
-      ['lilyo','safro','manha-leituras','terca','sexta','sinaxarion'].forEach(function(id){
+      // ESQUERDA
+      ['lilyo','safro','manha-leituras','terca','sexta'].forEach(function(id){
         var el = q(id); if(el) left.appendChild(el.cloneNode(true));
       });
 
-      // DIREITA (ordem pedida)
-      ['nona','ramsho','tarde-leituras','sutoro'].forEach(function(id){
+      // DIREITA (inclui Synaxarion abaixo de Sutoro)
+      ['nona','ramsho','tarde-leituras','sutoro','sinaxarion'].forEach(function(id){
         var el = q(id); if(el) right.appendChild(el.cloneNode(true));
       });
 
-      // Calendário fica só na versão "wide" abaixo (dupla largura)
+      // Calendário já está no botão wide abaixo
     })();
 
     // ====== Mensagens dos botões ======
