@@ -9,8 +9,8 @@
   <style>
     :root{
       --gap: 8px;            /* distância vertical uniforme entre botões grandes e voltar */
-      --btn-wide: 77.3%;     /* largura dos botões grandes (ajustada previamente) */
-      --btn-pad-v: 6px;      /* ALTURA dos botões grandes = mesma do Safro */
+      --btn-wide: 77.3%;     /* largura dos botões grandes */
+      --btn-pad-v: 6px;      /* altura base dos botões grandes */
       --btn-pad-h: 11px;
     }
 
@@ -25,7 +25,7 @@
       background-size:40px 40px;display:flex;flex-direction:column;min-height:100vh
     }
 
-    a, a:visited, a:hover, a:active { text-decoration:none; color:inherit; }
+    a,a:visited,a:hover,a:active{ text-decoration:none; color:inherit; }
 
     header.top{ text-align:center; padding:4px 8px 0 }
     .title{
@@ -49,8 +49,8 @@
     .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
       background:#fff; border:2px solid #ff7a00; border-radius:20px;
-      padding:6px 16px;
-      font-size:0.70rem;            /* -2pt aprox. */
+      padding:6px 22px;                  /* +40% na largura (era ~16px) */
+      font-size:0.58rem;                 /* ~2pt menor que antes */
       color:#7a0000; cursor:pointer; transition:.2s
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
@@ -76,28 +76,31 @@
     .line1{ display:block; color:#a00000 }
     .line2{ display:block; color:#000; font-size:.9em }
 
-    /* Botões grandes (horas canônicas padronizados) — mesma altura do Safro */
+    /* Botões grandes (horas canônicas padronizados) */
     .tall{
       width: var(--btn-wide);
       max-width: 780px;
       padding: var(--btn-pad-v) var(--btn-pad-h);
     }
 
-    /* Calendário: mesma largura/altura e CENTRALIZADO, mais perto do Lilyo */
+    /* Synaxarion com +40% de altura */
+    .btn.sinaxarion{ padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
+
+    /* Calendário: mesma largura, +40% de altura e CENTRALIZADO; bem perto do Lilyo */
     .wide-wrap{
-      margin-top: 10px;     /* aproximado do Lilyo */
-      margin-bottom: 0;
+      margin-top: 10px;       /* proximidade com Lilyo */
+      margin-bottom: 0;       /* não cria espaço extra antes do voltar */
       display:flex; justify-content:center; align-items:center;
     }
-    .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: var(--btn-pad-v) var(--btn-pad-h); }
+    .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
-    /* Botão vermelho (mesmo espaçamento e centralizado), mais perto do Calendário */
-    footer{ margin-top: 4px; text-align:center; font-size:.85rem; color:#7a6a55; padding:2px 8px 8px }
+    /* Botão vermelho (colado ao Calendário, centralizado) */
+    footer{ margin-top: 0; text-align:center; font-size:.85rem; color:#7a6a55; padding:0 8px 8px }
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
       font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none;
-      margin: var(--gap) auto;  /* igual aos grandes e centralizado */
+      margin: 2px auto 0;   /* o mais próximo possível do calendário */
     }
 
     #toast{
@@ -153,7 +156,7 @@
       e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
 
     function mk(id,l1,l2=''){
-      const a=document.createElement('a');a.href='#';a.className='btn tall';a.dataset.action=id;
+      const a=document.createElement('a');a.href='#';a.className='btn tall '+id;a.dataset.action=id;
       a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
         <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}</span>`;
       return a;
@@ -166,7 +169,7 @@
       c.append(mk('terca','Hora Terça','9 horas'));
       c.append(mk('sexta','Hora Sexta','12 horas'));
       c.append(mk('nona','Hora Nona','15 horas'));
-      c.append(mk('sinaxarion','Synaxarion'));
+      c.append(mk('sinaxarion','Synaxarion')); // altura +40% via CSS (.btn.sinaxarion)
       c.append(mk('ramsho','Ramsho','oração da tarde'));
       c.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde'));
       c.append(mk('sutoro','Sutoro','oração da noite'));
