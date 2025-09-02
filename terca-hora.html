@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hora Terça</title>
+<meta name="theme-color" content="#ffe17a">
+<style>
+  :root{ --top:#ffe17a; --bottom:#ffffff; --gold:#a9842b; --title:#fff7bf }
+  *{box-sizing:border-box} html,body{height:100%}
+  body{
+    margin:0;font-family:Arial,Helvetica,sans-serif;
+    background: linear-gradient(to bottom, var(--top) 0%, #fff7d6 35%, var(--bottom) 100%);
+    min-height:100vh; position:relative;
+  }
+  .sun{position:absolute; top:26px; right:22px; width:52px; height:52px; border-radius:50%;
+       background:radial-gradient(circle at 30% 30%, #fff9d1 0 40%, #ffe17a 41% 65%, rgba(255,225,122,.0) 66%);
+       box-shadow:0 0 18px 6px rgba(255,225,122,.7)}
+  header{padding:8px 10px 0;text-align:center}
+  h1{margin:4px 0 10px;color:var(--title);-webkit-text-stroke:1.1px var(--gold);text-shadow:0 0 2px var(--gold);font-weight:900;font-size:2rem}
+  .wrap{max-width:620px;margin:0 auto;padding:8px 16px 20px}
+  .hero{display:block;margin:6px auto 10px;max-width:100%;height:auto;max-height:420px;border:4px solid var(--gold);box-shadow:0 0 0 4px var(--gold) inset,0 6px 16px rgba(0,0,0,.15);border-radius:12px}
+  .chip{display:inline-block;margin:6px 0 8px;padding:8px 12px;background:rgba(255,255,255,.9);border:3px solid var(--gold);box-shadow:0 0 0 2px var(--gold) inset;border-radius:14px;font-weight:bold;color:#7a5a00}
+  .col{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .btn{
+    display:inline-flex; flex-direction:column; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
+    width:76%; max-width:780px; padding:12px 14px; background:#fffbe6; color:var(--title);
+    border:2px solid var(--gold); box-shadow:0 0 0 3px var(--gold) inset, 0 6px 16px rgba(0,0,0,.15);
+    border-radius:18px; transition:.2s; text-align:center; font-weight:800; -webkit-text-stroke:.6px var(--gold); text-shadow:0 0 1px var(--gold);
+  }
+  .btn:hover{transform:scale(1.02)}
+  .btn img{position:absolute; left:10px; width:24px; height:24px; object-fit:cover; border-radius:3px}
+  .label{width:100%; text-align:center}
+  .line1{display:block}
+  .line2{display:block;color:#000;font-size:.92em;-webkit-text-stroke:0}
+  .links-top{display:flex;gap:8px;justify-content:center;margin:6px 0 8px}
+  .links-top a{background:#a00000;color:#fff;border:1px solid #6f0000;padding:.38rem .6rem;border-radius:10px;text-decoration:none;font-weight:bold;font-size:.9rem}
+  footer{margin-top:auto;text-align:center;color:#6b5a2f;font-size:.85rem;padding:10px}
+  .back{display:inline-block;background:#a00000;color:#fff;border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:bold;text-decoration:none}
+</style>
+</head>
+<body>
+  <div class="sun" aria-hidden="true"></div>
+
+  <header>
+    <h1>Hora Terça</h1>
+    <nav class="links-top">
+      <a href="horas-teste.html">← Voltar (Horas)</a>
+      <a href="index.html">App principal</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <img class="hero" src="img/icone-terca.hora.jpg" alt="Ícone Terça"
+         onerror="this.remove();document.getElementById('chip').hidden=false;">
+    <div id="chip" class="chip" hidden>Terça</div>
+
+    <section class="col" aria-label="Ações — Terça">
+      <a class="btn" href="#" id="terca-oracao">
+        <img src="img/cedro.jpg" alt="">
+        <span class="label"><span class="line1">Oração</span></span>
+      </a>
+
+      <a class="btn" href="docs/terca-hinos.doc" target="_blank" rel="noopener">
+        <img src="img/cedro.jpg" alt="">
+        <span class="label"><span class="line1">Hinos e Melodias</span></span>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="back" href="horas-teste.html">← Voltar às Horas</a>
+  </footer>
+
+  <script>
+    // document.getElementById('terca-oracao').href = 'docs/terca-oracao.docx';
+  </script>
+</body>
+</html>
