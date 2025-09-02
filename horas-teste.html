@@ -34,36 +34,50 @@
     .chip{display:inline-block;margin:8px 0 10px;padding:10px 14px;background:rgba(255,255,255,0.9);
       border:3px solid #ff7a00;box-shadow:0 0 0 2px #d6b25a inset;border-radius:14px;font-weight:bold;color:#a00000}
 
-    /* colunas encostadas no centro */
+    /* Barra de data e navegação */
+    .datebar{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      margin:6px auto 12px;width:100%
+    }
+    .datebtn{
+      background:#fff;border:1px solid #e2cfae;border-radius:20px;padding:6px 12px;
+      font-size:.9rem;color:#7a0000;cursor:pointer;transition:background-color .2s,transform .1s;
+      display:inline-flex;align-items:center;gap:6px
+    }
+    .datebtn:hover{background:#fff3da;transform:translateY(-1px)}
+    .datedisplay{min-width:156px;text-align:center;color:#582c0c;line-height:1.2}
+    .datedisplay .date{font-weight:700}
+    .datedisplay .weekday{font-size:.95rem;color:#7a5c3a;text-transform:lowercase}
+
+    /* colunas encostadas no centro (exagero com gap 0) */
     .cols{display:flex;gap:0;justify-content:center}
     .col{flex:0 0 50%;display:flex;flex-direction:column;gap:10px}
     @media(max-width:680px){.cols{flex-direction:column}.col{flex-basis:100%}}
 
-    /* Botões médios — largura -40% (48% da coluna), 2 linhas no texto */
+    /* Botões médios — largura -40% (48% da coluna), fonte -1pt aprox */
     .btn{
       display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
       background:rgba(255,255,255,0.97);
       border:1.35px solid #ff7a00;box-shadow:0 0 0 0.9px #d6b25a inset,0 4px 10px rgba(0,0,0,0.15);
-      border-radius:18px;padding:8px 16px;font-size:0.78rem;font-weight:bold;color:#a00000;
+      border-radius:18px;padding:8px 16px;font-size:0.70rem;font-weight:bold;color:#a00000;
       line-height:1.25;position:relative;transition:transform .15s,background-color .2s;
-      width:48%; margin:0 auto;  /* <-- largura -40% e centralizado */
-      text-align:center;
+      width:48%;margin:0 auto;text-align:center
     }
     .btn:hover{transform:scale(1.02);background:#fff3da}
 
     .btn img{position:absolute;left:10px;width:20px;height:20px}
     .label{width:100%;text-align:center;pointer-events:none;display:inline-block}
     .line1{display:block;color:#a00000}              /* linha de cima (ou única) vermelha */
-    .line2{display:block;color:#000;font-size:.9em}  /* linha de baixo preta, 1pt menor aprox */
+    .line2{display:block;color:#000;font-size:.9em}  /* linha de baixo preta, ~1pt menor */
 
-    /* Versões compactas para “Salmo do Dia” (manhã/tarde) */
+    /* “Salmo do Dia” (manhã/tarde) mais baixos */
     .compact{padding:4px 10px}
 
-    /* Calendário segue a mesma regra de largura (-40%) e centralizado */
-    .wide-wrap{margin-top:10px;margin-bottom:2px;display:flex;justify-content:center}
-    .btn.wide{width:48%;max-width:624px;gap:8px;font-size:.82rem;padding:9px 14px}
+    /* Calendário (botão “grande”) — fonte -1pt aprox e mesma largura 48% */
+    .wide-wrap{margin-top:10px;margin-bottom:0;display:flex;justify-content:center}
+    .btn.wide{width:48%;max-width:624px;gap:8px;font-size:.74rem;padding:9px 14px}
 
-    /* botão voltar centralizado e mais próximo do calendário */
+    /* botão voltar centralizado e próximo do calendário */
     .back{
       display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;
       border:1px solid #6f0000;padding:.32rem .56rem;border-radius:9px;font-weight:bold;font-size:.9rem;
@@ -83,6 +97,16 @@
     <img class="hero" id="hero" src="img/icone-horas.jpg" alt="Ícone"
          onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
     <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
+
+    <!-- Barra de data + navegação -->
+    <div class="datebar" id="datebar" aria-label="Navegar por datas">
+      <button class="datebtn prev" id="btn-prev" type="button">◀ Anterior</button>
+      <div class="datedisplay">
+        <div class="date" id="date-text">--/--/----</div>
+        <div class="weekday" id="weekday-text">--</div>
+      </div>
+      <button class="datebtn next" id="btn-next" type="button">Próximo ▶</button>
+    </div>
 
     <!-- Duas colunas encostadas -->
     <section class="cols">
@@ -130,7 +154,7 @@
       return a;
     }
 
-    // Distribuição (coluna esquerda “subida”; Nona por último)
+    // Distribuição (esquerda “subida”; Nona por último. Direita com Synaxarion entre Nona e Ramsho)
     (function(){
       const left = document.getElementById('col-left');
       const right= document.getElementById('col-right');
@@ -142,13 +166,26 @@
       left.append(mk('sexta','Hora Sexta','12 horas'));
       left.append(mk('nona','Hora Nona','15 horas'));
 
-      /* DIREITA (Synaxarion com linha única) */
+      /* DIREITA */
       right.append(mk('sinaxarion','Synaxarion',''));
       right.append(mk('ramsho','Ramsho','oração da tarde'));
       right.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde','compact'));
       right.append(mk('sutoro','Sutoro','oração da noite'));
       right.append(mk('lilyo','Lilyo','vigílias'));
     })();
+
+    // Barra de data — navegação entre os dias
+    let currentDate=new Date();
+    function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
+    function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
+    function updateDateBar(){
+      document.getElementById('date-text').textContent=formatDateBR(currentDate);
+      document.getElementById('weekday-text').textContent=weekdayBR(currentDate);
+      // Hook futuro: carregarOracoesDoDia(currentDate);
+    }
+    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();toast('Carregar orações do dia anterior…')});
+    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();toast('Carregar orações do próximo dia…')});
+    updateDateBar();
 
     // Oculta o chip se a imagem carregar
     document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
