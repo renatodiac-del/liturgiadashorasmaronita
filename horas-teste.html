@@ -39,11 +39,11 @@
     }
 
     /* Barra de data e navegação */
-    .datebar{ display:flex; align-items:center; justify-content:center; gap:8px; margin:4px auto 10px }
+    .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
       background:#fff; border:2px solid #ff7a00; border-radius:20px;
-      padding:6px 14px;                 /* + ~15% na largura (mais padding horizontal) */
-      font-size:.9rem; color:#7a0000; cursor:pointer; transition:.2s
+      padding:6px 16px;               /* ~20% mais largo */
+      font-size:.95rem; color:#7a0000; cursor:pointer; transition:.2s
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
     .datedisplay{ min-width:156px; text-align:center; color:#582c0c; line-height:1.2 }
@@ -51,7 +51,7 @@
     .datedisplay .weekday{ font-size:.95rem; color:#7a5c3a; text-transform:lowercase }
 
     /* Coluna única de botões */
-    .col{ display:flex; flex-direction:column; align-items:center; gap:8px }
+    .col{ display:flex; flex-direction:column; align-items:center }
 
     .btn{
       display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
@@ -59,6 +59,7 @@
       box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius:18px; font-size:.86rem; font-weight:bold;
       text-align:center; position:relative; transition:.2s; color:#a00000;
+      margin:6px 0;                  /* distância uniforme entre TODOS os botões */
     }
     .btn:hover{ transform:scale(1.02); background:#fff3da }
     .btn img{ position:absolute; left:10px; width:20px; height:20px }
@@ -68,24 +69,20 @@
 
     /* Todas as horas canônicas padronizadas */
     .tall{
-      width:67.2%;      /* largura igual à Safro */
-      padding:6.6px 11px; /* ~5% MAIS baixo que 7px 11px */
+      width:67.2%;      
+      padding:6.6px 11px; /* altura ~5% menor */
       max-width:700px;
     }
 
-    /* Calendário com MESMA largura do Lilyo (ou seja, .tall) e centralizado */
-    .wide-wrap{
-      margin-top:20px;              /* MAIS espaço entre Lilyo e Calendário */
-      margin-bottom:0;              /* para aproximar o "Voltar" */
-      display:flex; justify-content:center
-    }
-    .btn.calendar{ width:67.2%; padding:6.6px 11px; max-width:700px; }
+    /* Calendário com mesma largura do Lilyo (tall) */
+    .calendar{ width:67.2%; padding:6.6px 11px; max-width:700px; }
 
-    /* Botão voltar mais próximo do calendário */
+    /* Botão voltar com mesma margem vertical */
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
-      font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none
+      font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none;
+      margin:6px 0;                  /* mesma distância que os botões grandes */
     }
     footer{ margin-top:0; text-align:center; font-size:.85rem; color:#7a6a55; padding:2px 8px 8px }
 
