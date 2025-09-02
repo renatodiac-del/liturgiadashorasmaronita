@@ -41,7 +41,8 @@
     /* Barra de data e navegação */
     .datebar{ display:flex; align-items:center; justify-content:center; gap:8px; margin:4px auto 10px }
     .datebtn{
-      background:#fff; border:2px solid #ff7a00; border-radius:20px; padding:6px 12px;
+      background:#fff; border:2px solid #ff7a00; border-radius:20px;
+      padding:6px 14px;                 /* + ~15% na largura (mais padding horizontal) */
       font-size:.9rem; color:#7a0000; cursor:pointer; transition:.2s
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
@@ -65,22 +66,28 @@
     .line1{ display:block; color:#a00000 }
     .line2{ display:block; color:#000; font-size:.9em }
 
-    /* Todos os botões canônicos padronizados */
+    /* Todas as horas canônicas padronizadas */
     .tall{
       width:67.2%;      /* largura igual à Safro */
-      padding:7px 11px; /* altura igual à Nona */
+      padding:6.6px 11px; /* ~5% MAIS baixo que 7px 11px */
       max-width:700px;
     }
 
-    /* Calendário agora também usa .tall */
-    .calendar{ width:67.2%; padding:7px 11px; max-width:700px; }
+    /* Calendário com MESMA largura do Lilyo (ou seja, .tall) e centralizado */
+    .wide-wrap{
+      margin-top:20px;              /* MAIS espaço entre Lilyo e Calendário */
+      margin-bottom:0;              /* para aproximar o "Voltar" */
+      display:flex; justify-content:center
+    }
+    .btn.calendar{ width:67.2%; padding:6.6px 11px; max-width:700px; }
 
+    /* Botão voltar mais próximo do calendário */
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
       font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none
     }
-    footer{ margin-top:2px; text-align:center; font-size:.85rem; color:#7a6a55; padding:2px 8px 8px }
+    footer{ margin-top:0; text-align:center; font-size:.85rem; color:#7a6a55; padding:2px 8px 8px }
 
     #toast{
       position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
