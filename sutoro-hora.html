@@ -5,40 +5,55 @@
 <title>Sutoro — Oração da Noite</title>
 <style>
   /* --- ESTILO ORIGINAL (fundo/paleta mantidos) --- */
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#001a33,#fff);color:#fff}
+  body{
+    margin:0;font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(#001a33,#fff);color:#fff;
+  }
 
-  /* Utilitários */
   :root{
     --dourado:#a9842b;
     --vermelho:#a00000;
     --sombra:rgba(0,0,0,.18);
   }
 
-  /* Cabeçalho e títulos */
-  header{ text-align:center; padding:12px 12px 0 }
-  /* Título: mesma cor/contorno do original, +7pt */
+  /* Lua cheia (só 1/4 visível no canto superior direito) */
+  body::after{
+    content:"";
+    position:fixed;
+    top:-120px;          /* empurra para cima para mostrar ~¼ */
+    right:-120px;        /* empurra para a direita para mostrar ~¼ */
+    width:260px; height:260px;  /* tamanho da lua */
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 35% 35%, #ffffff 0%, #fef3d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%);
+    box-shadow:0 0 20px 6px rgba(255,255,255,.35), 0 0 60px 18px rgba(255,255,255,.15) inset;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  /* Cabeçalho e títulos (mantém ajustes anteriores: título +7pt, subtítulo degradê) */
+  header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px;               /* +7pt aprox (sobre ~32px padrão) */
-    color:#fff;                    /* mantém cor original do h1 */
+    font-size:39px;               /* +7pt */
+    color:#fff;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-  /* Subtítulo: 10pt menor que o título, degradê cinza-azulado → branco */
   .subtitulo{
     margin:6px 0 8px;
-    font-size:29px;               /* 39px - 10pt ≈ 29px */
-    font-weight:700;
-    line-height:1.1;
+    font-size:29px;               /* 10pt menor que o título */
+    font-weight:700; line-height:1.1;
     background:linear-gradient(180deg,#7a8da6 0%, #b9c4d2 55%, #ffffff 100%);
     -webkit-background-clip:text; background-clip:text;
     -webkit-text-fill-color:transparent; color:transparent;
   }
 
-  /* Ícone principal (formato original, sem cortes) */
+  /* Ícone principal: +15% e próximo do título/subtítulo */
   .hero-icon{
     display:block; margin:8px auto 8px;
-    max-width:clamp(288px,80vw,512px); /* pode ajustar se quiser maior/menor */
+    /* antes ~ clamp(288px,80vw,512px) → +15% */
+    max-width:clamp(332px, 92vw, 590px);
     width:100%; height:auto;
     object-fit:contain; object-position:center;
     border:0; border-radius:0;
@@ -48,12 +63,13 @@
 
   /* Área dos botões */
   .wrap{
-    max-width:600px; margin:0 auto; padding:16px 20px 4px;
-    display:flex; flex-direction:column; gap:12px;   /* espaço entre botões */
-    align-items:center;                               /* centraliza */
+    position:relative; z-index:1;
+    max-width:600px; margin:0 auto; padding:16px 20px 6px;
+    display:flex; flex-direction:column; gap:12px;  /* espaço entre botões */
+    align-items:center;                              /* centraliza */
   }
 
-  /* Botões grandes centralizados: altura -30% (de ~51px → ~36px) */
+  /* Botões grandes centralizados: altura -30% (≈36px) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
@@ -89,13 +105,12 @@
   }
   .btn .sub{
     font-size:14px; line-height:1.06; font-weight:700;
-    -webkit-text-stroke:0;
-    color:#000;                     /* linha de baixo PRETA (pedida) */
+    -webkit-text-stroke:0; color:#000; /* linha de baixo PRETA */
   }
 
-  /* Aproximar o botão Voltar do último botão grande */
-  .wrap .btn:last-of-type{ margin-bottom:2px; }
-  footer{ text-align:center; margin:0 0 20px }
+  /* Espaço entre último botão grande e o Voltar (mais distante) */
+  .wrap .btn:last-of-type{ margin-bottom:12px; }  /* ↑ afastado */
+  footer{ text-align:center; margin:10px 0 22px } /* botão vermelho mais abaixo */
 
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
@@ -119,7 +134,7 @@
   </header>
 
   <main class="wrap">
-    <!-- Botão 1: Sutoro / versão curta (linha de baixo PRETA) -->
+    <!-- Botão 1: Sutoro / versão curta -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
@@ -128,7 +143,7 @@
       </span>
     </a>
 
-    <!-- Botão 2: Sutoro / versão longa (linha de baixo PRETA) -->
+    <!-- Botão 2: Sutoro / versão longa -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
