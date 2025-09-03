@@ -59,23 +59,22 @@
   }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:36px;                 /* SAFRO: +2pt aprox */
+    font-size:36px;                 /* SAFRO (mantido +2pt da versão anterior) */
     color:#ffe680;                   /* amarelo claro */
     -webkit-text-stroke:1.5px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.12);
   }
   .sub{
-    margin-top:6px; font-size:19px; color:#fff; font-weight:600; /* +2pt aprox */
+    margin-top:6px; font-size:19px; color:#fff; font-weight:600; /* +2pt */
   }
 
-  /* Ícone principal: +60% (tamanho), formato original, sem cortes/cantos */
+  /* Ícone principal: grande, formato original, sem cortes/cantos */
   .hero-icon{
     display:block; margin:14px auto 8px;
-    max-width:clamp(288px, 80vw, 512px);  /* antes máx ~320px → agora ~+60% */
+    max-width:clamp(288px, 80vw, 512px);
     width:100%; height:auto;
-    object-fit:contain;                    /* preserva proporção e evita cortes */
-    object-position:center;
-    border:0; border-radius:0;             /* formato original */
+    object-fit:contain; object-position:center;
+    border:0; border-radius:0;
     box-shadow:0 6px 18px var(--sombra);
     background:transparent;
   }
@@ -83,21 +82,25 @@
   .wrap{
     position:relative; z-index:1;
     max-width:620px;
-    margin:40px auto 24px;   /* ↓ desce os botões, aproximando da borda inferior */
+    margin:40px auto 24px;   /* botões mais baixos na página */
     padding:0 16px;
     display:flex; flex-direction:column; gap:8px; align-items:center;
   }
 
-  /* BOTÕES (configuração atual com centralização absoluta do rótulo) */
+  /* BOTÕES
+     - largura +40% → ~55% do container
+     - altura +15% (min-height 51px)
+     - rótulo centralizado (H e V) absoluto
+  */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:39%;
-    min-width:240px;
-    padding:3px 10px;                /* altura enxuta */
-    min-height:44px;
+    width:55%;
+    min-width:280px;
+    padding:5px 12px;                /* ligeiro aumento de altura */
+    min-height:51px;                 /* ~+15% vs 44px */
     box-shadow:0 4px 10px var(--sombra);
     color:#101010; font-weight:800;
     text-align:center;
@@ -106,36 +109,41 @@
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Cedro +40% (antes 18px → ~25px) */
+  /* Cedro +30% (25px → ~32px) */
   .btn .icon-round{
-    width:25px; height:25px; border-radius:50%;
+    width:32px; height:32px; border-radius:50%;
     object-fit:cover;
     border:2px solid var(--dourado);
     box-shadow:0 0 0 2px #fff inset; background:#fff;
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Label ocupa 100% e centraliza na H e V; textos +2pt */
+  /* Label ocupa 100% e centraliza; tipografia dos botões +2pt */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:2px;
+    flex-direction:column; gap:2px;  /* espaçamento padrão entre linhas */
     pointer-events:none;
   }
   .btn .main{
-    font-size:19px; line-height:1.1;             /* era 16px → +2pt aprox */
+    font-size:21px; line-height:1.06;            /* +2pt sobre 19px */
     -webkit-text-stroke:.8px var(--dourado);
   }
   .btn .sub{
-    font-size:13px; line-height:1.1;             /* era 10px → +2pt aprox */
+    font-size:15px; line-height:1.04;            /* +2pt sobre 13px */
     font-weight:700; color:var(--azul-topo);
     -webkit-text-stroke:0;
   }
 
-  /* Último botão com margem menor embaixo para ficar perto do Voltar */
-  .wrap .btn:last-of-type{ margin-bottom:6px; }
+  /* Aproximar linhas (botões 1 e 2): reduzir gap e line-height */
+  .wrap .btn:nth-of-type(-n+2) .label{ gap:0 }
+  .wrap .btn:nth-of-type(-n+2) .main{ line-height:1.02 }
+  .wrap .btn:nth-of-type(-n+2) .sub{ line-height:1.02 }
 
-  footer{ text-align:center; margin:12px 0 28px }
+  /* Último botão quase colado no Voltar */
+  .wrap .btn:last-of-type{ margin-bottom:4px; }
+
+  footer{ text-align:center; margin:8px 0 28px } /* um pouco mais perto */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
