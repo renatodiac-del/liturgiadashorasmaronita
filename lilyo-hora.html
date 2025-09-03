@@ -5,24 +5,24 @@
 <title>Lilyo — Vigílias</title>
 <style>
   :root{
-    --fundo:#020814;      /* azul bem escuro, quase preto */
-    --dourado:#d6b25a;    /* ouro-velho das bordas/títulos */
+    --fundo:#020814;      /* azul bem escuro (quase preto) */
+    --dourado:#d6b25a;    /* ouro-velho para contornos/bordas */
+    --bege:#f5e6c8;       /* bege do subtítulo */
     --vermelho:#a00000;   /* botão voltar */
     --sombra:rgba(0,0,0,.22);
   }
 
-  /* Céu base + stars (pontilhado) */
+  /* Céu base */
   body{
     margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff;
     background:var(--fundo);
     position:relative; overflow-x:hidden;
   }
 
-  /* Campo de estrelas finas (muitas) espalhadas */
+  /* Campo de estrelas finas (muitas) */
   body::after{
     content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
-      /* camada 1 - estrelas bem pequenas e numerosas */
       radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 15% 28%, rgba(255,255,255,.75) 99%, transparent 100%),
       radial-gradient(1px 1px at 23% 6%, rgba(255,255,255,.85) 99%, transparent 100%),
@@ -35,8 +35,6 @@
       radial-gradient(1px 1px at 72% 27%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,.75) 99%, transparent 100%),
       radial-gradient(1px 1px at 88% 20%, rgba(255,255,255,.85) 99%, transparent 100%),
-
-      /* camada 2 - espalha mais pelo meio/baixo */
       radial-gradient(1px 1px at 10% 58%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 18% 76%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 26% 64%, rgba(255,255,255,.7) 99%, transparent 100%),
@@ -47,15 +45,13 @@
       radial-gradient(1px 1px at 66% 78%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 74% 66%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 82% 82%, rgba(255,255,255,.85) 99%, transparent 100%),
-
-      /* leve poeira de estrelas (brilho suave) */
       radial-gradient(450px 450px at 50% 40%, rgba(255,255,255,.04), transparent 70%),
       radial-gradient(300px 300px at 20% 60%, rgba(255,255,255,.03), transparent 70%),
       radial-gradient(300px 300px at 80% 70%, rgba(255,255,255,.03), transparent 70%),
       transparent;
   }
 
-  /* Estrelas maiores/brilhantes nas bordas (cantos e meios das bordas) */
+  /* Estrelas maiores/brilhantes nas bordas */
   .sky-border{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
@@ -70,7 +66,7 @@
     filter:drop-shadow(0 0 8px rgba(255,255,255,.9)) drop-shadow(0 0 16px rgba(255,255,255,.5));
   }
 
-  /* Lua cheia no meio superior, só metade visível (resto fora da tela) */
+  /* Lua cheia no topo central (metade visível) */
   .moon{
     position:fixed; top:-35vh; left:50%; transform:translateX(-50%);
     width:80vh; height:80vh; border-radius:50%; pointer-events:none; z-index:0;
@@ -82,25 +78,36 @@
     box-shadow:0 0 40px 16px rgba(255,255,255,.28), inset 0 0 80px rgba(255,255,255,.18);
   }
 
-  /* Título */
+  /* Cabeçalho/títulos */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
-  h1{
-    margin:0; padding:12px 0; text-align:center; color:#fff;
-    -webkit-text-stroke:1px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25);
-    font-size:32px; font-weight:900; letter-spacing:.6px;
+  .titulo{
+    margin:0; padding:6px 0 0; line-height:1.05; font-weight:900; letter-spacing:.6px;
+    font-size:37px;                    /* 32px + 5pt aprox. */
+    color:#fff;
+    -webkit-text-stroke:3px var(--dourado); /* 3× mais espesso */
+    text-shadow:0 1px 0 rgba(0,0,0,.25);
+  }
+  .subtitulo{
+    margin:6px 0 6px; line-height:1.08;
+    font-size:27px;                    /* 10pt menor que o título */
+    color:var(--bege);
+    font-weight:800; text-transform:none;
   }
 
-  /* Ícone principal (se desejar exibir algum para Lilyo) */
+  /* Ícone principal: abaixo do 1/4 superior da tela */
   .hero-icon{
-    display:block; margin:8px auto 8px; max-width:clamp(288px,80vw,512px);
+    display:block;
+    margin:clamp(12px, 25vh, 240px) auto 10px;  /* empurra para baixo do ¼ */
+    max-width:clamp(288px,80vw,512px);
     width:100%; height:auto; object-fit:contain; object-position:center;
-    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra); background:transparent;
+    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
+    background:transparent; position:relative; z-index:1;
   }
 
-  /* Botões grandes (apenas 2), centralizados */
+  /* Botões grandes (2) centralizados */
   .wrap{
     position:relative; z-index:1;
-    max-width:600px; margin:0 auto; padding:20px 20px 10px;
+    max-width:600px; margin:0 auto; padding:14px 20px 10px;
     display:flex; flex-direction:column; align-items:center; gap:10px;
   }
   .btn{
@@ -115,26 +122,20 @@
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Ícone do cedro nos botões (redondo com borda dourada) */
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado);
-    box-shadow:0 0 0 2px #fff inset; background:#fff;
+    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
     margin-right:10px; flex:0 0 auto;
   }
-
-  /* Texto centralizado absoluto (ignora o ícone) */
   .btn .label{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     pointer-events:none;
   }
   .btn .main{
-    font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado);
+    font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado);
   }
 
-  /* Botão Voltar (padrão) */
+  /* Voltar */
   footer{ text-align:center; margin:16px 0 22px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
@@ -147,12 +148,15 @@
 </head>
 <body>
 
-  <!-- Estrelas grandes nas bordas e lua no topo -->
+  <!-- estrelas grandes nas bordas e lua no topo -->
   <div class="sky-border" aria-hidden="true"></div>
   <div class="moon" aria-hidden="true"></div>
 
   <header>
-    <h1>Lilyo — Vigílias</h1>
+    <h1 class="titulo">Lilyo</h1>
+    <div class="subtitulo">meia noite e vigílias</div>
+    <!-- ÍCONE PRINCIPAL reintroduzido -->
+    <img class="hero-icon" src="img/icone-lilyo.horas.jpg" alt="Ícone principal Lilyo">
   </header>
 
   <main class="wrap">
