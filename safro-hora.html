@@ -1,130 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Safro — Oração da Manhã</title>
-<meta name="theme-color" content="#0c1f3f">
 <style>
   :root{
-    --bg-base:#071732; --bg-mid:#0f2e6b; --bg-top:#87b6ff; --bg-dawn:#ffe17a;
-    --title-stroke:#06224a; --title-fill:#ff7a00;
-    --btn-text:#0b1f3e; --btn-border:#0b1f3e; --btn-border-outer:#a9842b; --btn-fill:#e8f3ff;
+    --azul-escuro:#001a33;          /* noite (topo) */
+    --amarelo-sol:#ffd700;          /* sol (rodapé) */
+    --dourado:#b08d3b;              /* ouro-velho */
+    --vermelho:#a00000;             /* botão Voltar padrão do projeto */
+    --sombra:rgba(0,0,0,.18);
+    --fonte: Arial, Helvetica, sans-serif;
   }
-  *{box-sizing:border-box} html,body{height:100%}
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body{
-    margin:0;font-family:Arial,Helvetica,sans-serif;color:#111;
+    margin:0; font-family:var(--fonte); color:#1b1b1b;
+    /* inversão do fundo: azul/noite em cima → amarelo/sol embaixo */
     background:
-      radial-gradient(1000px 600px at 15% 85%, rgba(255,255,255,.35) 0 1px, transparent 2px) repeat,
-      linear-gradient(to top, var(--bg-base) 0 40%, var(--bg-mid) 55%, var(--bg-top) 75%, var(--bg-dawn) 100%);
-    background-size:140px 140px, auto; position:relative; min-height:100vh; overflow-x:hidden;
+      linear-gradient(to bottom, var(--azul-escuro) 0%, var(--amarelo-sol) 100%);
   }
-  body::before{
-    content:""; position:absolute; inset:0; pointer-events:none;
-    background:
-      radial-gradient(2px 2px at 10% 20%, #fff 40%, transparent 45%),
-      radial-gradient(2px 2px at 25% 35%, #fff 40%, transparent 45%),
-      radial-gradient(2.5px 2.5px at 38% 15%, #fff 45%, transparent 48%),
-      radial-gradient(2px 2px at 55% 30%, #fff 40%, transparent 45%),
-      radial-gradient(2px 2px at 70% 22%, #fff 40%, transparent 45%),
-      radial-gradient(2.5px 2.5px at 80% 40%, #fff 45%, transparent 48%),
-      radial-gradient(2px 2px at 85% 18%, #fff 40%, transparent 45%),
-      radial-gradient(2px 2px at 65% 12%, #fff 40%, transparent 45%);
-    opacity:.9;
-  }
-  .sun{position:absolute; top:28px; right:24px; width:56px; height:56px; border-radius:50%;
-       background:radial-gradient(circle at 30% 30%, #fff9d1 0 35%, #ffe17a 36% 60%, rgba(255,225,122,.0) 61%);
-       box-shadow:0 0 20px 6px rgba(255,225,122,.65)}
-  .moon{position:absolute; left:24px; bottom:40px; width:38px; height:38px; border-radius:50%;
-        background: radial-gradient(circle at 65% 40%, #fff 0 60%, rgba(255,255,255,0) 62%); box-shadow: inset -12px 0 0 0 #071732}
-  header{padding:8px 10px 0; text-align:center; position:relative}
-  h1{
-    margin:2px 0 8px; color:var(--title-fill);
-    -webkit-text-stroke:1.2px var(--title-stroke); text-shadow:0 0 4px rgba(6,34,74,.35),0 0 1px var(--title-stroke);
-    font-size:2.05rem; font-weight:900; letter-spacing:.3px;
-  }
-  .wrap{max-width:620px;margin:0 auto;padding:8px 16px 20px;width:100%}
-  .hero{display:block;margin:6px auto 10px;max-width:100%;height:auto;max-height:420px;
-        border:4px solid var(--btn-border); box-shadow:0 0 0 4px var(--btn-border-outer) inset, 0 6px 16px rgba(0,0,0,.25);
-        border-radius:12px}
-  .chip{display:inline-block;margin:6px 0 8px;padding:8px 12px;background:rgba(255,255,255,.9);
-        border:3px solid var(--btn-border); box-shadow:0 0 0 2px var(--btn-border-outer) inset; border-radius:14px; font-weight:bold; color:var(--btn-text)}
-  .col{display:flex;flex-direction:column;align-items:center;gap:10px}
 
+  /* Cabeçalho: degradê amarelo claro (em cima) → azul marinho (embaixo) c/ borda ouro-velho */
+  header{
+    margin:0; padding:18px 12px; text-align:center;
+    background: linear-gradient(to bottom, #ffe680 0%, #0b2244 100%);
+    color:#fff; border-bottom:3px solid var(--dourado);
+    box-shadow: 0 2px 10px var(--sombra);
+  }
+  header .titulo{
+    margin:0; line-height:1.05;
+    font-weight:800; letter-spacing:.5px;
+    /* +4pt ≈ +5.3px sobre ~28px → 33px */
+    font-size:33px; /* SAFRO */
+  }
+  header .sub{
+    margin-top:6px; line-height:1.1;
+    /* “Oração da Manhã” 5pt menor que antes (≈ −6.6px) → 16px */
+    font-size:16px; color:#fff; font-weight:600;
+    -webkit-text-stroke: 0 transparent; /* sem contorno */
+  }
+
+  /* Container principal */
+  .wrap{
+    max-width:620px; margin:18px auto 24px; padding:0 16px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+
+  /* Botões principais: 50% mais compactos, borda dourada, sombra leve */
   .btn{
-    position:relative; display:inline-flex; flex-direction:column; align-items:center; justify-content:center;
-    text-decoration:none; cursor:pointer; width:76%; max-width:780px;
-    background: var(--btn-fill);
-    border: 2px solid var(--btn-border);
-    box-shadow: 0 0 0 3px var(--btn-border-outer) inset, 0 6px 16px rgba(0,0,0,.25);
-    border-radius:18px; padding:12px 14px; transition:.2s; text-align:center;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    text-decoration:none; background:#fff;
+    border:2px solid var(--dourado); border-radius:14px;
+    padding:10px 12px; box-shadow:0 4px 10px var(--sombra);
+    color:#101010; font-weight:800;
+    /* +3pt ≈ +4px sobre ~16px → 20px */
+    font-size:20px; text-align:center;
+    transition:transform .08s ease-in-out, box-shadow .12s;
   }
-  .btn:hover{transform:scale(1.02)}
-  /* Ícone cedro à esquerda; texto centralizado */
-  .btn img{position:absolute; left:10px; width:24px; height:24px; object-fit:cover; border-radius:3px}
-  .label{width:100%; text-align:center}
-  .line1{display:block; color:var(--btn-text); -webkit-text-stroke:.7px #d2a949; text-shadow:0 0 1px #d2a949; font-weight:800}
-  .line2{display:block; color:#000; font-size:.9em}
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  .links-top{display:flex;gap:8px;justify-content:center;margin:6px 0 8px}
-  .links-top a{background:#a00000;color:#fff;border:1px solid #6f0000;padding:.38rem .6rem;border-radius:10px;text-decoration:none;font-weight:bold;font-size:.9rem}
-  footer{margin-top:auto;text-align:center;color:#e6e6e6;font-size:.85rem;padding:10px}
-  .back{display:inline-block;background:#a00000;color:#fff;border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:bold;text-decoration:none}
-
-  .top-starfield{position:absolute; inset:0 0 65% 0; pointer-events:none;
-    background:
-      radial-gradient(2px 2px at 12% 10%, #fff 45%, transparent 48%),
-      radial-gradient(2px 2px at 36% 18%, #fff 45%, transparent 48%),
-      radial-gradient(2.5px 2.5px at 62% 9%, #fff 50%, transparent 53%),
-      radial-gradient(2px 2px at 78% 14%, #fff 45%, transparent 48%),
-      radial-gradient(2px 2px at 90% 6%, #fff 45%, transparent 48%);
-    opacity:.5;
+  /* Ícone cedro +80% e redondo (24px → ~43px) */
+  .btn .icon-round{
+    width:43px; height:43px; border-radius:50%;
+    object-fit:cover; border:2px solid var(--dourado);
+    box-shadow:0 0 0 2px #fff inset;
+    background:#fff;
   }
+
+  /* Rótulos com linha secundária quando precisar */
+  .btn .label{ display:block; line-height:1.15 }
+  .btn .sub{ display:block; font-size:.85em; color:#333; font-weight:700 }
+
+  /* Rodapé com botão Voltar padrão do projeto, 80% menor, minimalista */
+  footer{ text-align:center; margin:22px 0 28px }
+  .btn-voltar{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px;
+    font-weight:800; font-size:12px;      /* ~80% menor */
+    box-shadow:0 3px 8px var(--sombra);
+  }
+  .btn-voltar .seta{ font-weight:900 }
 </style>
 </head>
 <body>
-  <div class="sun" aria-hidden="true"></div>
-  <div class="moon" aria-hidden="true"></div>
-  <div class="top-starfield" aria-hidden="true"></div>
 
+  <!-- Cabeçalho revisado -->
   <header>
-    <h1>Safro — Oração da Manhã</h1>
-    <nav class="links-top">
-      <a href="horas-teste.html">← Voltar (Horas)</a>
-      <a href="index.html">App principal</a>
-    </nav>
+    <h1 class="titulo">SAFRO</h1>
+    <div class="sub">Oração da Manhã</div>
   </header>
 
   <main class="wrap">
-    <img class="hero" src="img/icone-safro.hora.jpg" alt="Ícone Safro"
-         onerror="this.remove();document.getElementById('chip').hidden=false;">
-    <div id="chip" class="chip" hidden>Safro</div>
+    <!-- Mantidos APENAS os botões necessários; removidos “dois vermelhos” sob o título -->
+    <a href="#" class="btn">
+      <!-- tenta icone-safro.horas.jpg; se falhar, cai no cedro.jpg -->
+      <img class="icon-round"
+           src="img/icone-safro.horas.jpg"
+           onerror="this.onerror=null;this.src='img/cedro.jpg';"
+           alt="Ícone Safro">
+      <span class="label">Safro <span class="sub">versão curta</span></span>
+    </a>
 
-    <section class="col" aria-label="Ações — Safro">
-      <a class="btn" href="#" id="safro-curta">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
-      </a>
+    <a href="#" class="btn">
+      <img class="icon-round"
+           src="img/icone-safro.horas.jpg"
+           onerror="this.onerror=null;this.src='img/cedro.jpg';"
+           alt="Ícone Safro">
+      <span class="label">Safro <span class="sub">versão longa</span></span>
+    </a>
 
-      <a class="btn" href="#" id="safro-longa">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label"><span class="line1">Safro</span><span class="line2" style="font-size:.85em">versão longa</span></span>
-      </a>
-
-      <a class="btn" id="doc-safro" href="docs/safro-hinos-salmo.doc" target="_blank" rel="noopener">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label"><span class="line1">Hinos e Melodias</span><span class="line2">Salmo do dia e Leitura (Tarde e Manhã)</span></span>
-      </a>
-    </section>
+    <a href="#" class="btn">
+      <img class="icon-round"
+           src="img/icone-safro.horas.jpg"
+           onerror="this.onerror=null;this.src='img/cedro.jpg';"
+           alt="Ícone Safro">
+      <span class="label">Hinos e Melodias</span>
+    </a>
+    <!-- OBS: Nenhum botão “Salmo do dia e Leitura (Tarde e Manhã)” foi incluído, como solicitado -->
   </main>
 
   <footer>
-    <a class="back" href="horas-teste.html">← Voltar às Horas</a>
+    <!-- Botão padrão Voltar minimalista (somente seta + “voltar”), 80% menor -->
+    <a class="btn-voltar" href="mapa-liturgico.html"><span class="seta">←</span>voltar</a>
   </footer>
 
-  <script>
-    // document.getElementById('safro-curta').href = 'docs/safro-curta.docx';
-    // document.getElementById('safro-longa').href = 'docs/safro-longa.docx';
-  </script>
 </body>
 </html>
