@@ -21,28 +21,23 @@
   body{
     margin:0; font-family:var(--fonte); color:#111;
 
-    /* Camadas do fundo:
-       1) estrelas (duas camadas)
-       2) sol inferior esquerdo
-       3) sol inferior direito (NOVO)
-       4) degradê amanhecer contínuo (sem “faixa” no meio)
-    */
+    /* Camadas do fundo (da frente para trás): estrelas 1, estrelas 2, sol (abaixo/esq),
+       degradê amanhecer (amarelo → azul) — o gradiente fica por último para evitar cortes. */
     background-image:
-      radial-gradient(#ffffff 1px, transparent 1.8px),                              /* estrelas miúdas */
-      radial-gradient(rgba(255,255,255,.85) 1.2px, transparent 2px),                /* estrelas médias */
-      radial-gradient(circle at 15% 82%, #fff9b8 0%, var(--sol) 32%, rgba(255,228,94,0) 62%), /* sol ESQ */
-      radial-gradient(circle at 85% 84%, #fff9b8 0%, var(--sol) 33%, rgba(255,228,94,0) 63%), /* sol DIR (novo) */
+      radial-gradient(#ffffff 1px, transparent 1.8px),                             /* estrelas miúdas */
+      radial-gradient(rgba(255,255,255,.85) 1.2px, transparent 2px),               /* estrelas médias */
+      radial-gradient(circle at 15% 82%, #fff9b8 0%, var(--sol) 32%, rgba(255,228,94,0) 62%), /* sol inferior esquerdo */
       linear-gradient(to top,
         var(--amarelo-base) 0%,
-        var(--amarelo-brilho) 24%,
-        #2b4f86 50%,
-        var(--azul-meio) 70%,
+        var(--amarelo-brilho) 22%,
+        #325a93 55%,
+        var(--azul-meio) 72%,
         var(--azul-topo) 100%);
     background-size:
-      160px 160px, 220px 220px, cover, cover, 100% 100%;
+      160px 160px, 220px 220px, cover, 100% 100%;
     background-position:
-      0 0, 60px 80px, center, center, center;
-    background-attachment: fixed, fixed, scroll, scroll, scroll;
+      0 0, 60px 80px, center, center;
+    background-attachment: fixed, fixed, scroll, scroll;
   }
 
   /* Lua crescente (topo direito) */
@@ -61,6 +56,7 @@
   header{
     position:relative; z-index:1;
     text-align:center; padding:20px 12px 10px;
+    /* sem linha dourada abaixo do título; apenas um leve gradiente de topo */
     background: linear-gradient(to bottom, rgba(255,234,166,.35) 0%, rgba(10,29,61,0) 100%);
   }
   .titulo{
@@ -74,11 +70,11 @@
     margin-top:6px; font-size:16px; color:#fff; font-weight:600;
   }
 
-  /* Ícone principal (200%) */
+  /* Ícone principal (200% do anterior: usa clamp para responsividade) */
   .hero-icon{
     display:block; margin:14px auto 8px;
-    width:clamp(200px, 48vw, 300px);
-    height:clamp(200px, 48vw, 300px);
+    width:clamp(180px, 45vw, 280px);
+    height:clamp(180px, 45vw, 280px);
     object-fit:cover; border-radius:24px;
     border:3px solid var(--dourado);
     box-shadow:0 6px 18px var(--sombra), 0 0 0 4px rgba(255,255,255,.65) inset;
@@ -86,55 +82,56 @@
 
   .wrap{
     position:relative; z-index:1;
-    max-width:620px; margin:8px auto 28px; padding:0 16px;
+    max-width:620px; margin:8px auto 26px; padding:0 16px;
     display:flex; flex-direction:column; gap:10px; align-items:center;
   }
 
-  /* BOTÕES com grid para manter o TÍTULO CENTRALIZADO
-     - 3 colunas: [ícone cedro] [título centrado] [spacer do tamanho do ícone]
-     - largura ~40% do container (redução de 60%)
-     - altura ~50% (padding menor)
+  /* BOTÕES
+     - largura reduzida em 60% (ficam ~40% da largura do container)
+     - altura reduzida em 40% (≈ 60% da anterior)
+     - cedro redondo alinhado à esquerda
+     - título centralizado independente do ícone
   */
   .btn{
-    display:grid; grid-template-columns: 34px 1fr 34px;
-    align-items:center; justify-items:center;
+    position:relative;
+    display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:40%; min-width:260px;
-    padding:3px 8px;                      /* altura ~50% */
+    width:40%;                       /* 40% da largura do container (~redução de 60%) */
+    min-width:260px;                 /* garante usabilidade em telas pequenas */
+    padding:6px 10px;                /* altura ~60% do anterior */
     box-shadow:0 4px 10px var(--sombra);
     color:#101010; font-weight:800;
-    font-size:18px;                        /* +3 pt sobre o anterior */
+    font-size:18px;                  /* +3 pt sobre o anterior (~14px→18px) */
+    text-align:center;
     transition:transform .08s ease-in-out, box-shadow .12s;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
+  /* Borda dourada no texto dos títulos dos botões */
+  .btn .label{
+    flex:1; text-align:center; line-height:1.15;
+    -webkit-text-stroke:.8px var(--dourado);
+  }
+  .btn .sub{ display:block; font-size:.9em; color:#333; font-weight:700; -webkit-text-stroke:0 }
+
+  /* Ícone do CEDRO redondo, alinhado à esquerda */
   .btn .icon-round{
-    grid-column:1; justify-self:start;
     width:34px; height:34px; border-radius:50%;
     object-fit:cover; border:2px solid var(--dourado);
     box-shadow:0 0 0 2px #fff inset; background:#fff;
+    margin-right:10px;
   }
-  .btn .label{
-    grid-column:1 / -1;                   /* ocupa as 3 colunas → centralizado de verdade */
-    text-align:center; line-height:1.15;
-    -webkit-text-stroke:.8px var(--dourado); /* borda dourada no texto do rótulo */
-  }
-  .btn .sub{
-    display:block; color:#333; font-weight:700; -webkit-text-stroke:0;
-    font-size:12px;                        /* 4 pt ↓ (≈ −5.3px) → ~12px */
-  }
-  .btn .spacer{ grid-column:3; width:34px; height:1px } /* equilibra a grade à direita */
 
-  footer{ text-align:center; margin:24px 0 34px }
-  /* Botão Voltar — redução ~40% mantendo proporções */
+  footer{ text-align:center; margin:22px 0 32px }
+  /* Botão Voltar — redução global de ~40% com scale para manter proporções */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
     border:none; border-radius:999px; padding:6px 12px;
     font-weight:800; font-size:12px;
     box-shadow:0 3px 8px var(--sombra);
-    transform:scale(.6);             /* ~40% menor */
+    transform:scale(.6);             /* 60% do tamanho anterior (redução ~40%) */
     transform-origin:center;
   }
   .btn-voltar .seta{ font-weight:900 }
@@ -153,23 +150,20 @@
   </header>
 
   <main class="wrap">
-    <!-- Botões: TÍTULOS centralizados de verdade; cedro à esquerda -->
+    <!-- Botões com CEDRO redondo (títulos centralizados, ícone à esquerda) -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Safro <span class="sub">versão curta</span></span>
-      <span class="spacer" aria-hidden="true"></span>
     </a>
 
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Safro <span class="sub">versão longa</span></span>
-      <span class="spacer" aria-hidden="true"></span>
     </a>
 
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Hinos e Melodias</span>
-      <span class="spacer" aria-hidden="true"></span>
     </a>
   </main>
 
