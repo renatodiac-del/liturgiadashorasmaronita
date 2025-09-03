@@ -6,30 +6,53 @@
 <title>Hora Nona</title>
 <style>
   /* --- ESTILO ORIGINAL (fundo e paleta mantidos) --- */
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#ffd9b3,#cc5200);color:#333}
+  body{
+    margin:0;font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(#ffd9b3,#cc5200);color:#333;
+    position:relative;
+  }
+
+  /* SOL LARANJA (¼ visível, canto superior ESQUERDO) */
+  body::before{
+    content:"";
+    position:fixed;
+    top:-140px;           /* empurra para cima para mostrar ~¼ */
+    left:-140px;          /* empurra para a esquerda para mostrar ~¼ */
+    width:320px; height:320px;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 55% 55%,
+        #fff4da 0%,
+        #ffd48f 35%,
+        #ffae3f 58%,
+        rgba(255,174,63,0) 62%);
+    box-shadow:
+      0 0 30px 10px rgba(255,220,150,.55),
+      0 0 80px 30px rgba(255,174,63,.35);
+    z-index:0; pointer-events:none;
+  }
+
   footer{text-align:center;margin:20px 0}
 
-  /* Utilitários (não alteram a paleta original) */
   :root{
     --dourado:#a9842b;
     --vermelho:#a00000;
     --sombra:rgba(0,0,0,.18);
   }
 
-  /* Título: +4pt, mantendo cor e contorno originais */
-  header{ text-align:center; padding:12px 12px 0 }
+  /* Título +4pt, mantendo cor/contorno originais */
+  header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px;                 /* aumento ~+4pt sobre ~36px padrão */
+    font-size:40px;
     color:#d6b25a;
-    -webkit-text-stroke:1px #fff;   /* contorno branco do original */
+    -webkit-text-stroke:1px #fff;
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
 
-  /* Ícone principal: +30% de tamanho, formato original */
+  /* Ícone principal: +30%, formato original */
   .hero-icon{
     display:block; margin:10px auto 8px;
-    /* antes: clamp(288px,80vw,512px); agora ~+30% */
     max-width:clamp(374px, 104vw, 665px);
     width:100%; height:auto;
     object-fit:contain; object-position:center;
@@ -40,11 +63,12 @@
 
   /* Área dos botões */
   .wrap{
+    position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:20px;
     display:flex; flex-direction:column; gap:8px; align-items:center; /* centraliza */
   }
 
-  /* Botões grandes padronizados (centro) */
+  /* Botões grandes */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
@@ -52,14 +76,12 @@
     border:2px solid var(--dourado); border-radius:14px;
     width:55%; min-width:280px; min-height:51px; padding:5px 12px;
     box-shadow:0 4px 10px var(--sombra);
-    color:#d6b25a;                 /* segue a cor do título original */
-    text-align:center; font-weight:800;
+    color:#d6b25a; text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
-    overflow:hidden; margin:0 auto; /* centraliza horizontalmente */
+    overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Ícone do cedro (nos botões) — mantido como estava no padrão */
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
     border:2px solid var(--dourado);
@@ -67,7 +89,6 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Rótulo central absoluto (ignora o espaço do ícone) */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
@@ -75,7 +96,7 @@
   }
   .btn .main{
     font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado);  /* contorno dourado no texto */
+    -webkit-text-stroke:.8px var(--dourado);
     color:currentColor;
   }
 
@@ -95,7 +116,6 @@
   <header>
     <h1 class="titulo">Hora Nona</h1>
 
-    <!-- ÍCONE PRINCIPAL (arquivo padrão da Nona) -->
     <img class="hero-icon"
          src="img/icone-nona.horas.jpg"
          alt="Ícone principal Nona">
