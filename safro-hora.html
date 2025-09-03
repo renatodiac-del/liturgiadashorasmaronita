@@ -59,39 +59,36 @@
   }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:33px;                 /* SAFRO (+4pt) */
+    font-size:36px;                 /* SAFRO: +2pt aprox */
     color:#ffe680;                   /* amarelo claro */
     -webkit-text-stroke:1.5px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.12);
   }
   .sub{
-    margin-top:6px; font-size:16px; color:#fff; font-weight:600;
+    margin-top:6px; font-size:19px; color:#fff; font-weight:600; /* +2pt aprox */
   }
 
-  /* Ícone principal: formato original, sem cortes e sem cantos arredondados */
+  /* Ícone principal: +60% (tamanho), formato original, sem cortes/cantos */
   .hero-icon{
-    display:block; margin:12px auto 6px;
-    max-width:clamp(180px, 60vw, 320px);
+    display:block; margin:14px auto 8px;
+    max-width:clamp(288px, 80vw, 512px);  /* antes máx ~320px → agora ~+60% */
     width:100%; height:auto;
-    object-fit:contain;              /* preserva proporção e evita cortes */
+    object-fit:contain;                    /* preserva proporção e evita cortes */
     object-position:center;
-    border:0;                        /* sem borda dourada */
-    border-radius:0;                 /* sem arredondar cantos */
+    border:0; border-radius:0;             /* formato original */
     box-shadow:0 6px 18px var(--sombra);
-    background:#fff;                 /* moldura neutra atrás se a imagem tiver transparência */
+    background:transparent;
   }
 
   .wrap{
     position:relative; z-index:1;
-    max-width:620px; margin:0 auto 18px; padding:0 16px;
-    display:flex; flex-direction:column; gap:6px; align-items:center;
+    max-width:620px;
+    margin:40px auto 24px;   /* ↓ desce os botões, aproximando da borda inferior */
+    padding:0 16px;
+    display:flex; flex-direction:column; gap:8px; align-items:center;
   }
 
-  /* BOTÕES (reduções já aplicadas anteriormente)
-     - largura ~39% do container
-     - altura reduzida
-     - label central absoluto (H e V), ignorando o cedro
-  */
+  /* BOTÕES (configuração atual com centralização absoluta do rótulo) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
@@ -99,7 +96,7 @@
     border:2px solid var(--dourado); border-radius:14px;
     width:39%;
     min-width:240px;
-    padding:3px 10px;
+    padding:3px 10px;                /* altura enxuta */
     min-height:44px;
     box-shadow:0 4px 10px var(--sombra);
     color:#101010; font-weight:800;
@@ -109,38 +106,36 @@
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Cedro pequeno à esquerda */
+  /* Cedro +40% (antes 18px → ~25px) */
   .btn .icon-round{
-    width:18px; height:18px; border-radius:50%;
+    width:25px; height:25px; border-radius:50%;
     object-fit:cover;
     border:2px solid var(--dourado);
     box-shadow:0 0 0 2px #fff inset; background:#fff;
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Label ocupa 100% e centraliza na horizontal e vertical */
+  /* Label ocupa 100% e centraliza na H e V; textos +2pt */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:2px;
     pointer-events:none;
   }
-  /* Linha de cima com borda dourada (como antes), 16px */
   .btn .main{
-    font-size:16px; line-height:1.1;
+    font-size:19px; line-height:1.1;             /* era 16px → +2pt aprox */
     -webkit-text-stroke:.8px var(--dourado);
   }
-  /* Linha de baixo ~5pt menor (≈10px), azul-marinho e sem borda */
   .btn .sub{
-    font-size:10px; line-height:1.1;
+    font-size:13px; line-height:1.1;             /* era 10px → +2pt aprox */
     font-weight:700; color:var(--azul-topo);
     -webkit-text-stroke:0;
   }
 
-  /* Último botão colado no Voltar */
-  .wrap .btn:last-of-type{ margin-bottom:4px; }
+  /* Último botão com margem menor embaixo para ficar perto do Voltar */
+  .wrap .btn:last-of-type{ margin-bottom:6px; }
 
-  footer{ text-align:center; margin:6px 0 22px }
+  footer{ text-align:center; margin:12px 0 28px }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -165,7 +160,7 @@
   </header>
 
   <main class="wrap">
-    <!-- Botão 1: “versão curta” 5pt menor, azul-marinho, sem borda -->
+    <!-- Botão 1 -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
@@ -174,7 +169,7 @@
       </span>
     </a>
 
-    <!-- Botão 2: “versão longa” idem -->
+    <!-- Botão 2 -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
@@ -183,7 +178,7 @@
       </span>
     </a>
 
-    <!-- Botão 3: Hinos -->
+    <!-- Botão 3 -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
