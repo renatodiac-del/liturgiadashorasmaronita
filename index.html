@@ -96,9 +96,11 @@
   </footer>
 
   <script>
-    // --- FONTES DE DADOS (mantém o link que voltou a funcionar) ---
-    const dailyLiturgyUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
-    const comumUrl        = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
+    // --- FONTES DE DADOS ---
+    const dailyLiturgyUrl    = 'dados/folha1.csv';
+    const comumUrl           = 'dados/folha2.csv';
+    const dailyLiturgyRemote = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=0&single=true&output=csv';
+    const comumRemote        = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaYltImPmgdtHoJbz3ce82BdepGLIYM0J3jXGednNbTxtHkn7BhouHUnaKXgtDT1gvBUvY9iJSjDid/pub?gid=893557401&single=true&output=csv';
 
     // --- ELEMENTOS DO DOM ---
     const mainContent   = document.getElementById('liturgy-content');
@@ -107,7 +109,7 @@
 
     // --- BOTÕES ---
     const btnPrev      = document.getElementById('btn-prev-day');
-    const btnNext      = document.getElementById('btn-next-day');
+    the btnNext      = document.getElementById('btn-next-day');
     const btnDaily     = document.getElementById('btn-daily');
     const btnOrdinario = document.getElementById('btn-ordinario');
     const btnComum     = document.getElementById('btn-comum');
@@ -118,16 +120,21 @@
     // --- UTILITÁRIOS ROBUSTOS ---
     const proxied = (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`;
 
-    async function fetchCSV(url) {
+    async function fetchCSV(url, fallbackUrl) {
       const bust = url + (url.includes('?') ? '&' : '?') + 'cb=' + Date.now();
       try {
         const r = await fetch(bust, { cache: 'no-store' });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return await r.text();
       } catch (e) {
-        const r2 = await fetch(proxied(url), { cache: 'no-store' });
-        if (!r2.ok) throw new Error(`Proxy HTTP ${r2.status}`);
-        return await r2.text();
+        if (fallbackUrl) {
+          const r2 = await fetch(proxied(fallbackUrl), { cache: 'no-store' });
+          if (!r2.ok) throw new Error(`Proxy HTTP ${r2.status}`);
+          return await r2.text();
+        }
+        const r3 = await fetch(proxied(url), { cache: 'no-store' });
+        if (!r3.ok) throw new Error(`Proxy HTTP ${r3.status}`);
+        return await r3.text();
       }
     }
 
@@ -185,7 +192,7 @@
         exibirMensagem(mainContent, 'Buscando orações…');
 
         const { ymd, dmy } = formatarDataParaBusca(date);
-        const csv  = await fetchCSV(dailyLiturgyUrl);
+        const csv  = await fetchCSV(dailyLiturgyUrl, dailyLiturgyRemote);
         const rows = parseCSV(csv);
 
         const start = rows[0] && normalize(rows[0][0]).includes('data') ? 1 : 1;
@@ -220,7 +227,7 @@
         mainContent.style.display = 'block';
         exibirMensagem(mainContent, 'Buscando Ordinário…');
 
-        const csv  = await fetchCSV(dailyLiturgyUrl);
+        const csv  = await fetchCSV(dailyLiturgyUrl, dailyLiturgyRemote);
         const rows = parseCSV(csv);
 
         const itens = [];
@@ -257,7 +264,7 @@
         exibirMensagem(mainContent, 'Carregando categorias…');
 
         if (!comumDataCache) {
-          comumDataCache = await fetchCSV(comumUrl);
+          comumDataCache = await fetchCSV(comumUrl, comumRemote);
         }
 
         const rows = parseCSV(comumDataCache);
