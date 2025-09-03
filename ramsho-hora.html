@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ramsho — Oração da Tarde</title>
 <style>
-  /* --- ESTILO ORIGINAL (fundo e paleta mantidos) --- */
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;
-       background:linear-gradient(#993300,#001a33);color:#fff}
+  /* --- ESTILO ORIGINAL (fundo/paleta mantidos) --- */
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#993300,#001a33);color:#fff}
   footer{text-align:center;margin:0 0 20px;color:#fff}
 
-  /* Variáveis utilitárias (não alteram a paleta) */
   :root{
-    --dourado:#d6b25a;    /* ouro-velho do tema Ramsho */
-    --vermelho:#a00000;   /* botão voltar */
+    --dourado:#d6b25a;   /* ouro-velho do tema Ramsho */
+    --vermelho:#a00000;  /* botão voltar */
     --sombra:rgba(0,0,0,.18);
   }
 
   /* Cabeçalho */
   header{ text-align:center; padding:12px 12px 0 }
-  /* Título 1ª linha: +5pt, mantendo cor e contorno */
+  /* Título: +2 pt */
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:37px;                 /* +5pt aprox */
+    font-size:39px;                 /* era ~37px → +2pt aprox */
     color:#ff7a00;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-  /* Subtítulo 2ª linha: 9pt menor, branco, sem hífen */
+  /* Subtítulo: -2 pt, branco, sem hífen */
   .subtitulo{
-    margin:4px 0 6px;               /* bem próximo do título */
+    margin:4px 0 6px;
     color:#fff;
-    font-size:28px;                  /* 37px - 9pt ≈ 28px */
+    font-size:26px;                 /* era ~28px → -2pt */
     font-weight:700;
   }
 
-  /* Ícone principal: aproximado do subtítulo/título */
+  /* Ícone principal: próximo do subtítulo/título */
   .hero-icon{
-    display:block; margin:6px auto 6px; /* aprox. do subtítulo */
+    display:block; margin:6px auto 6px;
     max-width:clamp(288px,80vw,512px);
     width:100%; height:auto;
     object-fit:contain; object-position:center;
@@ -47,11 +46,11 @@
 
   /* Área dos botões */
   .wrap{
-    max-width:600px; margin:0 auto; padding:16px 20px 4px; /* ↑ e cola no footer */
+    max-width:600px; margin:0 auto; padding:16px 20px 4px;
     display:flex; flex-direction:column; gap:8px; align-items:center; /* centraliza */
   }
 
-  /* Botões grandes: altura -20% (51px → 41px) e centralizados */
+  /* Botões grandes (altura -20% conforme ajuste anterior) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
@@ -62,11 +61,11 @@
     color:#001a33;                  /* cor original dos botões em Ramsho */
     text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
-    overflow:hidden; margin:0 auto; /* centraliza horizontalmente */
+    overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Ícone do cedro (nos botões) – padrão do projeto */
+  /* Ícone do cedro nos botões */
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
     border:2px solid var(--dourado);
@@ -74,7 +73,7 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Rótulo central absoluto (ignora o espaço do ícone) */
+  /* Label central (H e V) em 2 linhas */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
@@ -82,14 +81,19 @@
   }
   .btn .main{
     font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado);
+    -webkit-text-stroke:.8px var(--dourado); /* contorno dourado */
     color:currentColor;
   }
+  .btn .sub{
+    font-size:14px; line-height:1.06;        /* mantém tamanho que usava antes */
+    font-weight:700; color:#001a33;          /* sem contorno, como antes */
+    -webkit-text-stroke:0;
+  }
 
-  /* Ultimo botão sem respiro extra para colar no Voltar */
+  /* Último botão sem respiro extra para colar no Voltar */
   .wrap .btn:last-of-type{ margin-bottom:0; }
 
-  /* Botão Voltar – o mais próximo possível do último botão */
+  /* Botão Voltar colado */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -106,24 +110,29 @@
     <h1 class="titulo">Ramsho</h1>
     <div class="subtitulo">Oração da Tarde</div>
 
-    <!-- Ícone principal (formato original) -->
-    <img class="hero-icon"
-         src="img/icone-ramsho.horas.jpg"
-         alt="Ícone principal Ramsho">
+    <img class="hero-icon" src="img/icone-ramsho.horas.jpg" alt="Ícone principal Ramsho">
   </header>
 
   <main class="wrap">
-    <!-- Mantendo 3 botões desta página (centralizados) -->
+    <!-- Botão 1: Ramsho / versão curta -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Ramsho <span style="-webkit-text-stroke:0;color:#001a33;font-weight:700;font-size:14px">versão curta</span></span></span>
+      <span class="label">
+        <span class="main">Ramsho</span>
+        <span class="sub">versão curta</span>
+      </span>
     </a>
 
+    <!-- Botão 2: Ramsho / versão longa -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Ramsho <span style="-webkit-text-stroke:0;color:#001a33;font-weight:700;font-size:14px">versão longa</span></span></span>
+      <span class="label">
+        <span class="main">Ramsho</span>
+        <span class="sub">versão longa</span>
+      </span>
     </a>
 
+    <!-- Botão 3: Hinos e Melodias (permanece) -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Hinos e Melodias</span></span>
