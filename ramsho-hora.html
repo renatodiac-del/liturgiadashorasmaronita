@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -15,28 +16,27 @@
     --sombra:rgba(0,0,0,.18);
   }
 
-  /* Cabeçalho */
+  /* Cabeçalho (mantidos ajustes anteriores: +2pt título, -2pt subtítulo) */
   header{ text-align:center; padding:12px 12px 0 }
-  /* Título: +2 pt */
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px;                 /* era ~37px → +2pt aprox */
+    font-size:39px;                 /* +2 pt já aplicado antes */
     color:#ff7a00;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-  /* Subtítulo: -2 pt, branco, sem hífen */
   .subtitulo{
     margin:4px 0 6px;
     color:#fff;
-    font-size:26px;                 /* era ~28px → -2pt */
+    font-size:26px;                 /* -2 pt já aplicado antes */
     font-weight:700;
   }
 
-  /* Ícone principal: próximo do subtítulo/título */
+  /* Ícone principal: +20% de tamanho e próximo do título/subtítulo */
   .hero-icon{
-    display:block; margin:6px auto 6px;
-    max-width:clamp(288px,80vw,512px);
+    display:block; margin:6px auto 6px;  /* próximo do subtítulo */
+    /* antes ~ clamp(288px,80vw,512px) → +20% */
+    max-width:clamp(346px, 96vw, 614px);
     width:100%; height:auto;
     object-fit:contain; object-position:center;
     border:0; border-radius:0;
@@ -46,8 +46,10 @@
 
   /* Área dos botões */
   .wrap{
-    max-width:600px; margin:0 auto; padding:16px 20px 4px;
-    display:flex; flex-direction:column; gap:8px; align-items:center; /* centraliza */
+    max-width:600px; margin:0 auto; padding:16px 20px 6px;
+    display:flex; flex-direction:column;
+    gap:16px;                       /* ↑ mais espaço entre os 3 botões */
+    align-items:center;             /* centraliza */
   }
 
   /* Botões grandes (altura -20% conforme ajuste anterior) */
@@ -73,7 +75,7 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Label central (H e V) em 2 linhas */
+  /* Label central (H e V) em 2 linhas para os 2 primeiros; 1 linha para Hinos */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
@@ -85,15 +87,14 @@
     color:currentColor;
   }
   .btn .sub{
-    font-size:14px; line-height:1.06;        /* mantém tamanho que usava antes */
-    font-weight:700; color:#001a33;          /* sem contorno, como antes */
-    -webkit-text-stroke:0;
+    font-size:14px; line-height:1.06; font-weight:700; color:#001a33; -webkit-text-stroke:0;
   }
 
-  /* Último botão sem respiro extra para colar no Voltar */
-  .wrap .btn:last-of-type{ margin-bottom:0; }
+  /* Deixar um pequeno respiro antes do Voltar */
+  .wrap .btn:last-of-type{ margin-bottom:10px; }  /* ↑ separa do footer */
 
-  /* Botão Voltar colado */
+  /* Botão Voltar: um pouco mais separado */
+  footer{ margin-top:6px; }  /* dá um espacinho do último botão */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -132,7 +133,7 @@
       </span>
     </a>
 
-    <!-- Botão 3: Hinos e Melodias (permanece) -->
+    <!-- Botão 3: Hinos e Melodias -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Hinos e Melodias</span></span>
