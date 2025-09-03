@@ -1,85 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lilyo — Vigílias</title>
-<meta name="theme-color" content="#050a14">
 <style>
-  :root{ --deep:#050a14; --gold:#a9842b; --star:#fff }
-  *{box-sizing:border-box} html,body{height:100%}
-  body{
-    margin:0;font-family:Arial,Helvetica,sans-serif;color:#fff;
-    background:
-      radial-gradient(2.2px 2.2px at 22% 38%, var(--star) 45%, transparent 50%),
-      radial-gradient(2.4px 2.4px at 44% 62%, var(--star) 45%, transparent 50%),
-      radial-gradient(2px 2px at 68% 28%, var(--star) 45%, transparent 50%),
-      radial-gradient(3.6px 3.6px at 78% 48%, var(--star) 45%, transparent 50%),
-      radial-gradient(2.8px 2.8px at 12% 76%, var(--star) 45%, transparent 50%),
-      radial-gradient(5.6px 5.6px at 64% 18%, var(--star) 45%, transparent 50%),
-      linear-gradient(#050a14, #0a1326 40%, #101d38 100%);
-    min-height:100vh; position:relative;
+  /* ORIGINAL */
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#000;color:#fff}
+  h1{text-align:center;padding:12px;color:#fff;-webkit-text-stroke:1px #d6b25a}
+  .wrap{max-width:600px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+       background:#fff;border:2px solid #d6b25a;border-radius:14px;padding:14px;font-weight:bold;color:#000}
+  .btn img{width:24px;height:24px}
+  footer{text-align:center;margin:20px 0;color:#fff}
+
+  /* PADRÃO (sem alterar cores) */
+  :root{ --dourado:#d6b25a; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
+  .hero-icon{
+    display:block; margin:14px auto 8px; max-width:clamp(288px,80vw,512px);
+    width:100%; height:auto; object-fit:contain; border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
   }
-  .moon{position:absolute; top:26px; left:24px; width:60px; height:60px; border-radius:50%;
-        background: radial-gradient(circle at 50% 50%, #fff 0 65%, rgba(255,255,255,.0) 67%);
-        box-shadow:0 0 20px 8px rgba(255,255,255,.7)}
-  header{padding:8px 10px 0;text-align:center}
-  h1{margin:4px 0 10px;color:#ffffff;-webkit-text-stroke:1.1px var(--gold);text-shadow:0 0 2px var(--gold);font-weight:900;font-size:2rem}
-  .wrap{max-width:620px;margin:0 auto;padding:8px 16px 20px}
-  .hero{display:block;margin:6px auto 10px;max-width:100%;height:auto;max-height:420px;border:4px solid #ffffff;box-shadow:0 0 0 3px var(--gold) inset,0 6px 16px rgba(0,0,0,.5);border-radius:12px}
-  .chip{display:inline-block;margin:6px 0 8px;padding:8px 12px;background:rgba(255,255,255,.08);border:3px solid #fff;box-shadow:0 0 0 2px var(--gold) inset;border-radius:14px;font-weight:bold;color:#fff}
-  .col{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .wrap{ gap:8px; }
   .btn{
-    display:inline-flex; flex-direction:column; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
-    width:76%; max-width:780px; padding:12px 14px; background:#ffffff; color:#ffffff;
-    border:2px solid var(--gold); box-shadow:0 0 0 3px var(--gold) inset, 0 6px 16px rgba(0,0,0,.5);
-    border-radius:18px; transition:.2s; text-align:center; font-weight:800; -webkit-text-stroke:.6px var(--gold); text-shadow:0 0 1px var(--gold);
+    position:relative; justify-content:flex-start; width:55%; min-width:280px; min-height:51px; padding:5px 12px;
+    box-shadow:0 4px 10px var(--sombra);
   }
-  .btn:hover{transform:scale(1.02)}
-  .btn img{position:absolute; left:10px; width:24px; height:24px; object-fit:cover; border-radius:3px}
-  .label{width:100%; text-align:center}
-  .line1{display:block; color:#ffffff}
-  .links-top{display:flex;gap:8px;justify-content:center;margin:6px 0 8px}
-  .links-top a{background:#a00000;color:#fff;border:1px solid #6f0000;padding:.38rem .6rem;border-radius:10px;text-decoration:none;font-weight:bold;font-size:.9rem}
-  footer{margin-top:auto;text-align:center;color:#cfd6ff;font-size:.85rem;padding:10px}
-  .back{display:inline-block;background:#a00000;color:#fff;border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:bold;text-decoration:none}
+  .btn .icon-round{
+    width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--dourado);
+    box-shadow:0 0 0 2px #fff inset;background:#fff;margin-right:10px;flex:0 0 auto;
+  }
+  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
+  .btn .main{ font-size:21px; line-height:1.06; }
+  .btn .sub{ font-size:15px; line-height:1.04; font-weight:700; }
+  .btn-voltar{
+    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
+    transform:scale(.6); transform-origin:center;
+  }
 </style>
 </head>
 <body>
-  <div class="moon" aria-hidden="true"></div>
-
-  <header>
-    <h1>Lilyo — Vigílias</h1>
-    <nav class="links-top">
-      <a href="horas-teste.html">← Voltar (Horas)</a>
-      <a href="index.html">App principal</a>
-    </nav>
-  </header>
+  <h1>Lilyo — Vigílias</h1>
+  <img class="hero-icon" src="img/icone-lilyo.horas.jpg" onerror="this.onerror=null;this.src='img/cedro.jpg';" alt="Ícone principal Lilyo">
 
   <main class="wrap">
-    <img class="hero" src="img/icone-lilyo.hora.jpg" alt="Ícone Lilyo"
-         onerror="this.remove();document.getElementById('chip').hidden=false;">
-    <div id="chip" class="chip" hidden>Lilyo</div>
-
-    <section class="col" aria-label="Ações — Lilyo">
-      <a class="btn" href="#" id="lilyo-oracao">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label"><span class="line1">Oração</span></span>
-      </a>
-
-      <a class="btn" href="docs/lilyo-hinos.doc" target="_blank" rel="noopener">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label"><span class="line1">Hinos e Melodias</span></span>
-      </a>
-    </section>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Lilyo</span><span class="sub">versão curta</span></span></a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Lilyo</span><span class="sub">versão longa</span></span></a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Hinos e Melodias</span></span></a>
   </main>
 
-  <footer>
-    <a class="back" href="horas-teste.html">← Voltar às Horas</a>
-  </footer>
-
-  <script>
-    // document.getElementById('lilyo-oracao').href = 'docs/lilyo-oracao.docx';
-  </script>
+  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
 </body>
 </html>
