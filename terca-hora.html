@@ -4,39 +4,59 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Terça</title>
 <style>
-  /* --- ESTILO ORIGINAL (fundo e cores mantidos) --- */
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#ffd700,#fff);color:#333}
-  .wrap{max-width:600px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px}
-  footer{text-align:center;margin:20px 0}
-
-  /* --- Variáveis e utilitários --- */
+  /* --- FUNDO: branco → laranja pastel bem clarinho --- */
   :root{
-    --dourado:#a9842b;      /* ouro-velho */
+    --dourado:#a9842b;      /* ouro-velho (bordas/contornos) */
     --bordo:#7a1b1b;        /* vermelho bordô do título */
+    --pastel:#ffe5c7;       /* laranja pastel clarinho */
+    --pastel2:#ffedd6;      /* tom ainda mais claro para transição */
     --vermelho:#a00000;     /* botão voltar */
     --sombra:rgba(0,0,0,.18);
   }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Arial,Helvetica,sans-serif; color:#333;
+    background:linear-gradient(to bottom, #ffffff 0%, var(--pastel2) 50%, var(--pastel) 100%);
+    position:relative;
+  }
 
-  /* --- Título --- */
-  header{ text-align:center; padding:12px 12px 0 }
+  /* SOL no canto superior direito — só 1/4 visível */
+  body::after{
+    content:"";
+    position:fixed;
+    top:-140px; right:-140px;      /* empurra pra fora pra aparecer ~¼ */
+    width:320px; height:320px;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 45% 45%,
+        #fffef2 0%,
+        #fff6c7 35%,
+        #ffe88a 55%,
+        rgba(255,232,138,0.0) 60%);
+    box-shadow:
+      0 0 30px 10px rgba(255,248,200,.6),
+      0 0 80px 30px rgba(255,232,138,.35);
+    pointer-events:none; z-index:0;
+  }
+
+  /* --- Cabeçalho (mantém título e subtítulo anteriores) --- */
+  header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px;                     /* era 37px → ~+3pt */
+    font-size:40px;                     /* já estava +3pt: mantido */
     color:var(--bordo);
     -webkit-text-stroke:2.2px var(--dourado); /* contorno mais espesso */
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-
-  /* Subtítulo: “9 horas” — só texto branco, itálico, sem moldura */
   .subtitulo{
     margin:6px 0 10px;
     color:#fff;
     font-style:italic;
     font-weight:400;
-    font-size:27px;   /* 7pt menor que a 1ª linha (mantido da versão anterior) */
+    font-size:27px;   /* 7pt menor que a 1ª linha (mantido) */
   }
 
-  /* Ícone principal: formato original, sem cortes, borda dourada 6px (mantido) */
+  /* Ícone principal (formato original, sem cortes; borda 6px dourada) */
   .hero-icon{
     display:block; margin:10px auto 8px;
     max-width:clamp(288px, 80vw, 512px); width:100%; height:auto;
@@ -47,16 +67,17 @@
     background:transparent;
   }
 
-  /* --- Botões (padronizados) --- */
-  .wrap{ gap:8px; align-items:center; }   /* centraliza os botões */
+  /* --- Botões (centralizados) --- */
+  .wrap{ max-width:600px; margin:0 auto; padding:20px; display:flex; flex-direction:column; gap:8px; align-items:center; }
+
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
-    border:2px solid var(--dourado); border-radius:14px; /* moldura dourada */
+    border:2px solid var(--dourado); border-radius:14px;
     width:55%; min-width:280px; min-height:51px; padding:5px 12px;
     box-shadow:0 4px 10px var(--sombra);
-    color:#ffd700;                 /* cor do texto principal (dourado do tema) */
+    color:#ffd700;                 /* mantém tom dourado do tema nos botões */
     text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto;
@@ -71,19 +92,21 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Rótulo central absoluto (ignora o espaço do ícone) */
+  /* Texto dos botões centralizado absoluto */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:0; pointer-events:none;
   }
+  /* AUMENTO pedid0: +3pt na fonte dos botões (21px → 24px aprox.) */
   .btn .main{
-    font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado);  /* contorno dourado no texto */
+    font-size:24px; line-height:1.06;
+    -webkit-text-stroke:.8px var(--dourado);  /* borda dourada no texto */
     color:currentColor;
   }
 
-  /* Botão Voltar (mantido como estava) */
+  /* Botão Voltar (mantido) */
+  footer{ text-align:center; margin:20px 0 }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -99,10 +122,7 @@
   <header>
     <h1 class="titulo">Hora Terça</h1>
     <div class="subtitulo">9 horas</div>
-    <img class="hero-icon"
-         src="img/icone-terca.horas.jpg"
-         onerror="this.onerror=null;this.src='img/cedro.jpg';"
-         alt="Ícone principal Terça">
+    <img class="hero-icon" src="img/icone-terca.horas.jpg" alt="Ícone principal Terça">
   </header>
 
   <main class="wrap">
