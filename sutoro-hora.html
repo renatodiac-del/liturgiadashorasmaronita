@@ -4,53 +4,151 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sutoro — Oração da Noite</title>
 <style>
-  /* ORIGINAL */
+  /* --- ESTILO ORIGINAL (fundo/paleta mantidos) --- */
   body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#001a33,#fff);color:#fff}
-  h1{text-align:center;padding:12px;color:#fff;-webkit-text-stroke:1px #a9842b}
-  .wrap{max-width:600px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px}
-  .btn{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
-       background:#fff;border:2px solid #a9842b;border-radius:14px;padding:14px;font-weight:bold;color:#001a33}
-  .btn img{width:24px;height:24px}
-  footer{text-align:center;margin:20px 0;color:#000}
 
-  /* PADRÃO (sem alterar cores) */
-  :root{ --dourado:#a9842b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
+  /* Utilitários */
+  :root{
+    --dourado:#a9842b;
+    --vermelho:#a00000;
+    --sombra:rgba(0,0,0,.18);
+  }
+
+  /* Cabeçalho e títulos */
+  header{ text-align:center; padding:12px 12px 0 }
+  /* Título: mesma cor/contorno do original, +7pt */
+  .titulo{
+    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
+    font-size:39px;               /* +7pt aprox (sobre ~32px padrão) */
+    color:#fff;                    /* mantém cor original do h1 */
+    -webkit-text-stroke:1px var(--dourado);
+    text-shadow:0 1px 0 rgba(0,0,0,.10);
+  }
+  /* Subtítulo: 10pt menor que o título, degradê cinza-azulado → branco */
+  .subtitulo{
+    margin:6px 0 8px;
+    font-size:29px;               /* 39px - 10pt ≈ 29px */
+    font-weight:700;
+    line-height:1.1;
+    background:linear-gradient(180deg,#7a8da6 0%, #b9c4d2 55%, #ffffff 100%);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+  }
+
+  /* Ícone principal (formato original, sem cortes) */
   .hero-icon{
-    display:block; margin:14px auto 8px; max-width:clamp(288px,80vw,512px);
-    width:100%; height:auto; object-fit:contain; border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
+    display:block; margin:8px auto 8px;
+    max-width:clamp(288px,80vw,512px); /* pode ajustar se quiser maior/menor */
+    width:100%; height:auto;
+    object-fit:contain; object-position:center;
+    border:0; border-radius:0;
+    box-shadow:0 6px 18px var(--sombra);
+    background:transparent;
   }
-  .wrap{ gap:8px; }
+
+  /* Área dos botões */
+  .wrap{
+    max-width:600px; margin:0 auto; padding:16px 20px 4px;
+    display:flex; flex-direction:column; gap:12px;   /* espaço entre botões */
+    align-items:center;                               /* centraliza */
+  }
+
+  /* Botões grandes centralizados: altura -30% (de ~51px → ~36px) */
   .btn{
-    position:relative; justify-content:flex-start; width:55%; min-width:280px; min-height:51px; padding:5px 12px;
+    position:relative;
+    display:flex; align-items:center; justify-content:flex-start;
+    text-decoration:none; background:#fff;
+    border:2px solid var(--dourado); border-radius:14px;
+    width:55%; min-width:280px; min-height:36px; padding:4px 12px;
     box-shadow:0 4px 10px var(--sombra);
+    color:#001a33;                 /* mantém cor do tema Sutoro nos botões */
+    text-align:center; font-weight:800;
+    transition:transform .08s ease-in-out, box-shadow .12s;
+    overflow:hidden; margin:0 auto;
   }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
+
+  /* Ícone do cedro (redondo com borda dourada) */
   .btn .icon-round{
-    width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--dourado);
-    box-shadow:0 0 0 2px #fff inset;background:#fff;margin-right:10px;flex:0 0 auto;
+    width:32px; height:32px; border-radius:50%; object-fit:cover;
+    border:2px solid var(--dourado);
+    box-shadow:0 0 0 2px #fff inset; background:#fff;
+    margin-right:10px; flex:0 0 auto;
   }
-  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
-  .btn .main{ font-size:21px; line-height:1.06; }
-  .btn .sub{ font-size:15px; line-height:1.04; font-weight:700; }
+
+  /* Rótulo central absoluto (ignora o espaço do ícone) */
+  .btn .label{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:0; pointer-events:none;
+  }
+  .btn .main{
+    font-size:21px; line-height:1.06;
+    -webkit-text-stroke:.8px var(--dourado);
+    color:currentColor;
+  }
+  .btn .sub{
+    font-size:14px; line-height:1.06; font-weight:700;
+    -webkit-text-stroke:0;
+    color:#000;                     /* linha de baixo PRETA (pedida) */
+  }
+
+  /* Aproximar o botão Voltar do último botão grande */
+  .wrap .btn:last-of-type{ margin-bottom:2px; }
+  footer{ text-align:center; margin:0 0 20px }
+
   .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px;
+    font-weight:800; font-size:12px;
+    box-shadow:0 3px 8px var(--sombra);
     transform:scale(.6); transform-origin:center;
   }
 </style>
 </head>
 <body>
-  <h1>Sutoro — Oração da Noite</h1>
-  <img class="hero-icon" src="img/icone-sutoro.horas.jpg" onerror="this.onerror=null;this.src='img/cedro.jpg';" alt="Ícone principal Sutoro">
+
+  <header>
+    <h1 class="titulo">Sutoro</h1>
+    <div class="subtitulo">Oração da Noite</div>
+
+    <img class="hero-icon"
+         src="img/icone-sutoro.horas.jpg"
+         alt="Ícone principal Sutoro">
+  </header>
 
   <main class="wrap">
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Sutoro</span><span class="sub">versão curta</span></span></a>
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Sutoro</span><span class="sub">versão longa</span></span></a>
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Hinos e Melodias</span></span></a>
+    <!-- Botão 1: Sutoro / versão curta (linha de baixo PRETA) -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label">
+        <span class="main">Sutoro</span>
+        <span class="sub">versão curta</span>
+      </span>
+    </a>
+
+    <!-- Botão 2: Sutoro / versão longa (linha de baixo PRETA) -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label">
+        <span class="main">Sutoro</span>
+        <span class="sub">versão longa</span>
+      </span>
+    </a>
+
+    <!-- Botão 3: Hinos e Melodias -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label">
+        <span class="main">Hinos e Melodias</span>
+      </span>
+    </a>
   </main>
 
-  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
+  <footer>
+    <a class="btn-voltar" href="mapa-liturgico.html">← voltar</a>
+  </footer>
+
 </body>
 </html>
