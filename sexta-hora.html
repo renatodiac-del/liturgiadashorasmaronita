@@ -6,7 +6,6 @@
 <style>
   /* --- ESTILO ORIGINAL (fundo e paleta mantidos) --- */
   body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#fff6d1,#ffa94d);color:#333}
-  footer{text-align:center;margin:20px 0}
 
   :root{
     --dourado:#a9842b;
@@ -18,42 +17,34 @@
   header{ text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px;                 /* +3pt já aplicado */
-    color:#d6b25a;
-    -webkit-text-stroke:1px var(--dourado);
+    font-size:40px; color:#d6b25a; -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-  .subtitulo{
-    margin:6px 0 10px;
-    color:var(--musgo);
-    font-size:30px;                 /* era 33px → -3pt */
-    font-weight:700;
-  }
+  .subtitulo{ margin:6px 0 10px; color:var(--musgo); font-size:30px; font-weight:700; }
 
-  /* Ícone principal: reduzido em ~20% */
   .hero-icon{
     display:block; margin:10px auto 8px;
-    max-width:clamp(230px, 64vw, 410px); /* era clamp(288px,80vw,512px) */
-    width:100%; height:auto;
+    max-width:clamp(230px, 64vw, 410px); width:100%; height:auto;
     object-fit:contain; object-position:center;
-    border:0; border-radius:0;
-    box-shadow:0 6px 18px var(--sombra);
+    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
     background:transparent;
   }
 
+  /* --- Área dos botões --- */
   .wrap{
-    max-width:600px; margin:0 auto; padding:20px;
+    max-width:600px; margin:0 auto; padding:20px 20px 4px; /* ↓ aproxima do footer */
     display:flex; flex-direction:column; gap:8px; align-items:center;
   }
+
+  /* Botões grandes: altura -20% (51px → 41px) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; min-height:51px; padding:5px 12px;
+    width:55%; min-width:280px; min-height:41px; padding:4px 12px; /* ↓ */
     box-shadow:0 4px 10px var(--sombra);
-    color:#d6b25a;
-    text-align:center; font-weight:800;
+    color:#d6b25a; text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto;
   }
@@ -66,16 +57,16 @@
     margin-right:10px; flex:0 0 auto;
   }
   .btn .label{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:0; pointer-events:none;
   }
-  .btn .main{
-    font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado);
-    color:currentColor;
-  }
+  .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
 
+  /* remove qualquer respiro antes do footer */
+  .wrap .btn:last-of-type{ margin-bottom:0; }
+
+  /* Footer colado nos botões */
+  footer{ text-align:center; margin:0 0 20px; }  /* topo 0 */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -91,10 +82,7 @@
   <header>
     <h1 class="titulo">Hora Sexta</h1>
     <div class="subtitulo">12 horas</div>
-
-    <img class="hero-icon"
-         src="img/icone-sexta.horas.jpg"
-         alt="Ícone principal Sexta">
+    <img class="hero-icon" src="img/icone-sexta.horas.jpg" alt="Ícone principal Sexta">
   </header>
 
   <main class="wrap">
