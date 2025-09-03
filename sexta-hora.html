@@ -4,52 +4,87 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Sexta</title>
 <style>
-  /* --- ESTILO ORIGINAL (fundo e paleta mantidos) --- */
-  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#fff6d1,#ffa94d);color:#333}
-
+  /* --- ESTILO ORIGINAL (mantido) + sol no topo --- */
   :root{
     --dourado:#a9842b;
     --musgo:#556B2F;
     --vermelho:#a00000;
     --sombra:rgba(0,0,0,.18);
   }
+  body{
+    margin:0;font-family:Arial,Helvetica,sans-serif;color:#333;
+    background:linear-gradient(#fff6d1,#ffa94d);
+    position:relative;
+  }
+  /* SOL (metade visível no topo central) */
+  body::before{
+    content:"";
+    position:fixed;
+    top:-35vh;                /* empurra pra cima → só metade aparece */
+    left:50%;
+    transform:translateX(-50%);
+    width:80vh; height:80vh;  /* tamanho do sol (escala com viewport) */
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 50% 50%,
+        #fff9db 0%,
+        #ffe89a 38%,
+        #ffd161 62%,
+        rgba(255,209,97,0) 63%);
+    box-shadow:
+      0 0 40px 18px rgba(255,236,170,.6),
+      0 0 120px 40px rgba(255,193,61,.25);
+    z-index:0;
+    pointer-events:none;
+  }
 
-  header{ text-align:center; padding:12px 12px 0 }
+  /* ---------- Cabeçalho ---------- */
+  header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px; color:#d6b25a; -webkit-text-stroke:1px var(--dourado);
+    font-size:40px;                 /* +3pt aplicado antes */
+    color:#d6b25a;
+    -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-  .subtitulo{ margin:6px 0 10px; color:var(--musgo); font-size:30px; font-weight:700; }
+  .subtitulo{
+    margin:6px 0 10px;
+    color:var(--musgo);
+    font-size:30px;                 /* 7pt menor que o título (ajuste anterior) */
+    font-weight:700;
+  }
 
+  /* Ícone principal (mantido com redução de ~20%) */
   .hero-icon{
     display:block; margin:10px auto 8px;
-    max-width:clamp(230px, 64vw, 410px); width:100%; height:auto;
+    max-width:clamp(230px, 64vw, 410px);
+    width:100%; height:auto;
     object-fit:contain; object-position:center;
-    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
+    border:0; border-radius:0;
+    box-shadow:0 6px 18px var(--sombra);
     background:transparent;
+    position:relative; z-index:1;
   }
 
-  /* --- Área dos botões --- */
+  /* ---------- Botões ---------- */
   .wrap{
-    max-width:600px; margin:0 auto; padding:20px 20px 4px; /* ↓ aproxima do footer */
+    max-width:600px; margin:0 auto; padding:20px 20px 4px;
     display:flex; flex-direction:column; gap:8px; align-items:center;
+    position:relative; z-index:1;
   }
-
-  /* Botões grandes: altura -20% (51px → 41px) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; min-height:41px; padding:4px 12px; /* ↓ */
+    width:55%; min-width:280px; min-height:41px; padding:4px 12px; /* -20% altura já aplicado */
     box-shadow:0 4px 10px var(--sombra);
-    color:#d6b25a; text-align:center; font-weight:800;
+    color:#d6b25a;
+    text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
     border:2px solid var(--dourado);
@@ -57,16 +92,18 @@
     margin-right:10px; flex:0 0 auto;
   }
   .btn .label{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:0; pointer-events:none;
   }
-  .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
+  .btn .main{
+    font-size:21px; line-height:1.06;
+    -webkit-text-stroke:.8px var(--dourado);
+    color:currentColor;
+  }
 
-  /* remove qualquer respiro antes do footer */
-  .wrap .btn:last-of-type{ margin-bottom:0; }
-
-  /* Footer colado nos botões */
-  footer{ text-align:center; margin:0 0 20px; }  /* topo 0 */
+  /* ---------- Voltar ---------- */
+  footer{ text-align:center; margin:0 0 20px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
