@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,90 +10,70 @@
   footer{text-align:center;margin:0 0 20px;color:#fff}
 
   :root{
-    --dourado:#d6b25a;   /* ouro-velho do tema Ramsho */
-    --vermelho:#a00000;  /* botão voltar */
+    --dourado:#d6b25a;
+    --vermelho:#a00000;
     --sombra:rgba(0,0,0,.18);
   }
 
-  /* Cabeçalho (mantidos ajustes anteriores: +2pt título, -2pt subtítulo) */
   header{ text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px;                 /* +2 pt já aplicado antes */
-    color:#ff7a00;
-    -webkit-text-stroke:1px var(--dourado);
+    font-size:39px; color:#ff7a00; -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
   .subtitulo{
-    margin:4px 0 6px;
-    color:#fff;
-    font-size:26px;                 /* -2 pt já aplicado antes */
-    font-weight:700;
+    margin:4px 0 6px; color:#fff; font-size:26px; font-weight:700;
   }
 
-  /* Ícone principal: +20% de tamanho e próximo do título/subtítulo */
+  /* Ícone principal (mantido +20%) */
   .hero-icon{
-    display:block; margin:6px auto 6px;  /* próximo do subtítulo */
-    /* antes ~ clamp(288px,80vw,512px) → +20% */
+    display:block; margin:6px auto 6px;
     max-width:clamp(346px, 96vw, 614px);
-    width:100%; height:auto;
-    object-fit:contain; object-position:center;
-    border:0; border-radius:0;
-    box-shadow:0 6px 18px var(--sombra);
+    width:100%; height:auto; object-fit:contain; object-position:center;
+    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
     background:transparent;
   }
 
-  /* Área dos botões */
+  /* Área dos botões (mantém espaçamento maior entre eles) */
   .wrap{
-    max-width:600px; margin:0 auto; padding:16px 20px 6px;
-    display:flex; flex-direction:column;
-    gap:16px;                       /* ↑ mais espaço entre os 3 botões */
-    align-items:center;             /* centraliza */
+    max-width:600px; margin:0 auto; padding:16px 20px 4px;
+    display:flex; flex-direction:column; gap:16px; align-items:center;
   }
 
-  /* Botões grandes (altura -20% conforme ajuste anterior) */
+  /* Botões grandes: altura -7% (41px → 38px) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; min-height:41px; padding:4px 12px;
+    width:55%; min-width:280px; min-height:38px; padding:4px 12px;
     box-shadow:0 4px 10px var(--sombra);
-    color:#001a33;                  /* cor original dos botões em Ramsho */
-    text-align:center; font-weight:800;
+    color:#001a33; text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Ícone do cedro nos botões */
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado);
-    box-shadow:0 0 0 2px #fff inset; background:#fff;
+    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
     margin-right:10px; flex:0 0 auto;
   }
-
-  /* Label central (H e V) em 2 linhas para os 2 primeiros; 1 linha para Hinos */
   .btn .label{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:0; pointer-events:none;
   }
   .btn .main{
-    font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado); /* contorno dourado */
-    color:currentColor;
+    font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor;
   }
   .btn .sub{
     font-size:14px; line-height:1.06; font-weight:700; color:#001a33; -webkit-text-stroke:0;
   }
 
-  /* Deixar um pequeno respiro antes do Voltar */
-  .wrap .btn:last-of-type{ margin-bottom:10px; }  /* ↑ separa do footer */
+  /* Aproxima o Voltar do último botão */
+  .wrap .btn:last-of-type{ margin-bottom:2px; }
+  footer{ margin-top:0; } /* fica bem próximo */
 
-  /* Botão Voltar: um pouco mais separado */
-  footer{ margin-top:6px; }  /* dá um espacinho do último botão */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
