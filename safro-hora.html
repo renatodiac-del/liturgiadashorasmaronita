@@ -1,1 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safro — Oração da Manhã</title>
+<style>
+  :root{
+    --azul-topo:#0a1d3d;     /* azul marinho bem escuro no topo */
+    --azul-meio:#243e6b;
+    --amarelo-base:#ffe680;  /* horizonte/amanhecer */
+    --amarelo-brilho:#ffd23a;
+    --sol:#ffe45e;
+    --dourado:#b08d3b;       /* ouro-velho */
+    --vermelho:#a00000;      /* botão voltar padrão */
+    --sombra:rgba(0,0,0,.18);
+    --fonte: Arial, Helvetica, sans-serif;
+  }
 
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:var(--fonte); color:#111;
+
+    /* Estrelas (2 camadas) + sol inferior ESQ + degradê contínuo amarelo→azul */
+    background-image:
+      radial-gradient(#ffffff 1px, transparent 1.8px),
+      radial-gradient(rgba(255,255,255,.85) 1.2px, transparent 2px),
+      radial-gradient(circle at 15% 82%, #fff9b8 0%, var(--sol) 32%, rgba(255,228,94,0) 62%),
+      linear-gradient(to top,
+        var(--amarelo-base) 0%,
+        var(--amarelo-brilho) 24%,
+        #2e518b 50%,
+        var(--azul-meio) 70%,
+        var(--azul-topo) 100%);
+    background-size:
+      160px 160px, 220px 220px, cover, 100% 100%;
+    background-position:
+      0 0, 60px 80px, center, center;
+    background-attachment: fixed, fixed, scroll, scroll;
+  }
+
+  /* Lua crescente (topo direito) */
+  body::after{
+    content:"";
+    position:fixed;
+    top:18px; right:18px; width:52px; height:52px;
+    border-radius:50%;
+    background: radial-gradient(circle at 40% 40%, #fff 60%, rgba(255,255,255,0.92) 70%, rgba(255,255,255,0) 71%);
+    box-shadow:0 0 12px 3px rgba(255,255,255,.35);
+    -webkit-mask: radial-gradient(circle at 60% 40%, transparent 62%, black 63%);
+            mask: radial-gradient(circle at 60% 40%, transparent 62%, black 63%);
+    z-index:0; pointer-events:none;
+  }
+
+  header{
+    position:relative; z-index:1;
+    text-align:center; padding:20px 12px 8px;
+    background: linear-gradient(to bottom, rgba(255,234,166,.35) 0%, rgba(10,29,61,0) 100%);
+  }
+  .titulo{
+    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
+    font-size:36px;                 /* SAFRO: +2pt aprox */
+    color:#ffe680;                   /* amarelo claro */
+    -webkit-text-stroke:1.5px var(--dourado);
+    text-shadow:0 1px 0 rgba(0,0,0,.12);
+  }
+  .sub{
+    margin-top:6px; font-size:19px; color:#fff; font-weight:600; /* +2pt aprox */
+  }
+
+  /* Ícone principal: +60% (tamanho), formato original, sem cortes/cantos */
+  .hero-icon{
+    display:block; margin:14px auto 8px;
+    max-width:clamp(288px, 80vw, 512px);  /* antes máx ~320px → agora ~+60% */
+    width:100%; height:auto;
+    object-fit:contain;                    /* preserva proporção e evita cortes */
+    object-position:center;
+    border:0; border-radius:0;             /* formato original */
+    box-shadow:0 6px 18px var(--sombra);
+    background:transparent;
+  }
+
+  .wrap{
+    position:relative; z-index:1;
+    max-width:620px;
+    margin:40px auto 24px;   /* ↓ desce os botões, aproximando da borda inferior */
+    padding:0 16px;
+    display:flex; flex-direction:column; gap:8px; align-items:center;
+  }
+
+  /* BOTÕES (configuração atual com centralização absoluta do rótulo) */
+  .btn{
+    position:relative;
+    display:flex; align-items:center; justify-content:flex-start;
+    text-decoration:none; background:#fff;
+    border:2px solid var(--dourado); border-radius:14px;
+    width:39%;
+    min-width:240px;
+    padding:3px 10px;                /* altura enxuta */
+    min-height:44px;
+    box-shadow:0 4px 10px var(--sombra);
+    color:#101010; font-weight:800;
+    text-align:center;
+    transition:transform .08s ease-in-out, box-shadow .12s;
+    overflow:hidden;
+  }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
+
+  /* Cedro +40% (antes 18px → ~25px) */
+  .btn .icon-round{
+    width:25px; height:25px; border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--dourado);
+    box-shadow:0 0 0 2px #fff inset; background:#fff;
+    margin-right:10px; flex:0 0 auto;
+  }
+
+  /* Label ocupa 100% e centraliza na H e V; textos +2pt */
+  .btn .label{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:2px;
+    pointer-events:none;
+  }
+  .btn .main{
+    font-size:19px; line-height:1.1;             /* era 16px → +2pt aprox */
+    -webkit-text-stroke:.8px var(--dourado);
+  }
+  .btn .sub{
+    font-size:13px; line-height:1.1;             /* era 10px → +2pt aprox */
+    font-weight:700; color:var(--azul-topo);
+    -webkit-text-stroke:0;
+  }
+
+  /* Último botão com margem menor embaixo para ficar perto do Voltar */
+  .wrap .btn:last-of-type{ margin-bottom:6px; }
+
+  footer{ text-align:center; margin:12px 0 28px }
+  .btn-voltar{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px;
+    font-weight:800; font-size:12px;
+    box-shadow:0 3px 8px var(--sombra);
+    transform:scale(.6);
+    transform-origin:center;
+  }
+  .btn-voltar .seta{ font-weight:900 }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1 class="titulo">SAFRO</h1>
+    <div class="sub">Oração da Manhã</div>
+    <img class="hero-icon"
+         src="img/icone-safro.horas.jpg"
+         onerror="this.onerror=null;this.src='img/cedro.jpg';"
+         alt="Ícone principal de Safro">
+  </header>
+
+  <main class="wrap">
+    <!-- Botão 1 -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label">
+        <span class="main">Safro</span>
+        <span class="sub">versão curta</span>
+      </span>
+    </a>
+
+    <!-- Botão 2 -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label">
+        <span class="main">Safro</span>
+        <span class="sub">versão longa</span>
+      </span>
+    </a>
+
+    <!-- Botão 3 -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label">
+        <span class="main">Hinos e Melodias</span>
+      </span>
+    </a>
+  </main>
+
+  <footer>
+    <a class="btn-voltar" href="mapa-liturgico.html"><span class="seta">←</span>voltar</a>
+  </footer>
+
+</body>
+</html>
