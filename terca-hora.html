@@ -9,45 +9,45 @@
   .wrap{max-width:600px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px}
   footer{text-align:center;margin:20px 0}
 
+  /* --- Variáveis e utilitários --- */
   :root{
-    --dourado:#a9842b;
-    --bordo:#7a1b1b;     /* vermelho bordô */
-    --vermelho:#a00000;  /* botão voltar padrão */
+    --dourado:#a9842b;      /* ouro-velho */
+    --bordo:#7a1b1b;        /* vermelho bordô do título */
+    --vermelho:#a00000;     /* botão voltar */
     --sombra:rgba(0,0,0,.18);
   }
 
+  /* --- Título --- */
   header{ text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:37px;                 /* +5pt aplicado antes */
+    font-size:40px;                     /* era 37px → ~+3pt */
     color:var(--bordo);
-    -webkit-text-stroke:1.5px var(--dourado);
+    -webkit-text-stroke:2.2px var(--dourado); /* contorno mais espesso */
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
 
-  /* SUBTÍTULO: somente o texto (sem moldura, sem fundo) */
+  /* Subtítulo: “9 horas” — só texto branco, itálico, sem moldura */
   .subtitulo{
-    display:block;
     margin:6px 0 10px;
     color:#fff;
     font-style:italic;
-    font-weight:400;                /* sem negrito */
-    font-size:27px;                 /* ~1pt menor que antes */
-    border:none; padding:0; background:transparent;
+    font-weight:400;
+    font-size:27px;   /* 7pt menor que a 1ª linha (mantido da versão anterior) */
   }
 
-  /* Ícone principal: formato original + borda dourada 6px (dobrada) */
+  /* Ícone principal: formato original, sem cortes, borda dourada 6px (mantido) */
   .hero-icon{
     display:block; margin:10px auto 8px;
     max-width:clamp(288px, 80vw, 512px); width:100%; height:auto;
     object-fit:contain; object-position:center;
-    border:6px solid var(--dourado);   /* << dobrado */
-    border-radius:0;                   /* sem cantos arredondados */
+    border:6px solid var(--dourado);
+    border-radius:0;
     box-shadow:0 6px 18px var(--sombra);
     background:transparent;
   }
 
-  /* --- Padronização dos botões (mantendo cores do tema) --- */
+  /* --- Botões (padronizados) --- */
   .wrap{ gap:8px; align-items:center; }   /* centraliza os botões */
   .btn{
     position:relative;
@@ -56,10 +56,10 @@
     border:2px solid var(--dourado); border-radius:14px; /* moldura dourada */
     width:55%; min-width:280px; min-height:51px; padding:5px 12px;
     box-shadow:0 4px 10px var(--sombra);
-    color:#ffd700;                 /* mantém dourado do tema no MAIN */
+    color:#ffd700;                 /* cor do texto principal (dourado do tema) */
     text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
-    overflow:hidden; margin:0 auto; /* centraliza horizontal */
+    overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
@@ -71,28 +71,19 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Rótulo central absoluto (ignora o cedro) */
+  /* Rótulo central absoluto (ignora o espaço do ícone) */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:0; pointer-events:none;
   }
-
-  /* Bordas douradas nas fontes dos botões */
   .btn .main{
     font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado);
+    -webkit-text-stroke:.8px var(--dourado);  /* contorno dourado no texto */
     color:currentColor;
   }
-  .btn .sub{
-    font-size:15px; line-height:1.04; font-weight:700;
-    color:currentColor; -webkit-text-stroke:.8px var(--dourado);
-  }
-  /* Linha de baixo dos botões 1 e 2: preta com borda dourada */
-  .wrap .btn:nth-of-type(-n+2) .sub{
-    color:#000; -webkit-text-stroke:.8px var(--dourado);
-  }
 
+  /* Botão Voltar (mantido como estava) */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -115,27 +106,16 @@
   </header>
 
   <main class="wrap">
+    <!-- Botão 1: Oração -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label">
-        <span class="main">Terça</span>
-        <span class="sub">versão curta</span>
-      </span>
+      <span class="label"><span class="main">Oração</span></span>
     </a>
 
+    <!-- Botão 2: Hinos e Melodias -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label">
-        <span class="main">Terça</span>
-        <span class="sub">versão longa</span>
-      </span>
-    </a>
-
-    <a href="#" class="btn">
-      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label">
-        <span class="main">Hinos e Melodias</span>
-      </span>
+      <span class="label"><span class="main">Hinos e Melodias</span></span>
     </a>
   </main>
 
