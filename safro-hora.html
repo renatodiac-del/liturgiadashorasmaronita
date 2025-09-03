@@ -5,12 +5,13 @@
 <title>Safro — Oração da Manhã</title>
 <style>
   :root{
-    --azul-topo:#0b2244;     /* azul marinho no topo (céu) */
-    --azul-meio:#274472;
-    --amarelo-base:#ffe680;  /* horizonte/solo */
-    --sol:#ffe45e;           /* sol/brilho */
+    --azul-topo:#0a1d3d;     /* azul marinho bem escuro no topo */
+    --azul-meio:#243e6b;
+    --amarelo-base:#ffe680;  /* horizonte/amanhecer */
+    --amarelo-brilho:#ffd23a;
+    --sol:#ffe45e;
     --dourado:#b08d3b;       /* ouro-velho */
-    --vermelho:#a00000;      /* botão voltar padrão do projeto */
+    --vermelho:#a00000;      /* botão voltar padrão */
     --sombra:rgba(0,0,0,.18);
     --fonte: Arial, Helvetica, sans-serif;
   }
@@ -19,110 +20,119 @@
   html,body{height:100%}
   body{
     margin:0; font-family:var(--fonte); color:#111;
-    /* CAMADAS:
-       1) estrelas (duas camadas para variação)
-       2) sol (radial à direita, baixo)
-       3) degradê amanhecer (amarelo -> azul)
-    */
+
+    /* Camadas do fundo (da frente para trás): estrelas 1, estrelas 2, sol (abaixo/esq),
+       degradê amanhecer (amarelo → azul) — o gradiente fica por último para evitar cortes. */
     background-image:
-      radial-gradient(#ffffff 1px, transparent 1.8px),
-      radial-gradient(rgba(255,255,255,.9) 1.2px, transparent 2px),
-      radial-gradient(circle at 85% 78%, #fff6a3 0%, var(--sol) 35%, rgba(255,228,94,0.0) 60%),
-      linear-gradient(to top, var(--amarelo-base) 0%, #ffd23a 24%, var(--azul-meio) 68%, var(--azul-topo) 100%);
+      radial-gradient(#ffffff 1px, transparent 1.8px),                             /* estrelas miúdas */
+      radial-gradient(rgba(255,255,255,.85) 1.2px, transparent 2px),               /* estrelas médias */
+      radial-gradient(circle at 15% 82%, #fff9b8 0%, var(--sol) 32%, rgba(255,228,94,0) 62%), /* sol inferior esquerdo */
+      linear-gradient(to top,
+        var(--amarelo-base) 0%,
+        var(--amarelo-brilho) 22%,
+        #325a93 55%,
+        var(--azul-meio) 72%,
+        var(--azul-topo) 100%);
     background-size:
-      160px 160px,          /* estrelas camada 1 */
-      220px 220px,          /* estrelas camada 2 (mais dispersas) */
-      cover,                /* “sol” */
-      100% 100%;            /* degradê geral */
+      160px 160px, 220px 220px, cover, 100% 100%;
     background-position:
-      0 0,
-      40px 80px,
-      center,
-      center;
+      0 0, 60px 80px, center, center;
     background-attachment: fixed, fixed, scroll, scroll;
   }
 
-  /* Lua crescente (topo esquerdo), igual ao conceito anterior, desenhada em CSS */
-  body::before{
+  /* Lua crescente (topo direito) */
+  body::after{
     content:"";
     position:fixed;
-    top:18px; left:18px; width:46px; height:46px;
+    top:18px; right:18px; width:52px; height:52px;
     border-radius:50%;
-    background: radial-gradient(circle at 40% 40%, #fff 60%, rgba(255,255,255,0.92) 70%, rgba(255,255,255,0.0) 71%);
-    box-shadow:0 0 10px 2px rgba(255,255,255,.35);
-    /* recorta para formato crescente com “sombra” azul do céu */
-    -webkit-mask:
-      radial-gradient(circle at 55% 40%, transparent 62%, black 63%);
-            mask:
-      radial-gradient(circle at 55% 40%, transparent 62%, black 63%);
-    z-index:0;
-    pointer-events:none;
+    background: radial-gradient(circle at 40% 40%, #fff 60%, rgba(255,255,255,0.92) 70%, rgba(255,255,255,0) 71%);
+    box-shadow:0 0 12px 3px rgba(255,255,255,.35);
+    -webkit-mask: radial-gradient(circle at 60% 40%, transparent 62%, black 63%);
+            mask: radial-gradient(circle at 60% 40%, transparent 62%, black 63%);
+    z-index:0; pointer-events:none;
   }
 
   header{
     position:relative; z-index:1;
-    text-align:center; padding:20px 12px 12px;
-    /* sem linha/borda inferior */
-    background: linear-gradient(to bottom, #ffeaa6 0%, var(--azul-topo) 100%);
+    text-align:center; padding:20px 12px 10px;
+    /* sem linha dourada abaixo do título; apenas um leve gradiente de topo */
+    background: linear-gradient(to bottom, rgba(255,234,166,.35) 0%, rgba(10,29,61,0) 100%);
   }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    /* a pedido: SAFRO +4pt (base ~28px → 33px) */
-    font-size:33px; color:#ffe680;
-    /* bordas douradas no texto */
-    -webkit-text-stroke:1.5px var(--dourado);
-    text-shadow:
-      0 1px 0 rgba(0,0,0,.12),
-      0 0 0 var(--dourado); /* fallback visual p/ navegadores sem stroke */
+    font-size:33px;                 /* +4 pt vs base ~28 */
+    color:#ffe680;                   /* amarelo claro */
+    -webkit-text-stroke:1.5px var(--dourado);  /* borda dourada */
+    text-shadow:0 1px 0 rgba(0,0,0,.12);
   }
   .sub{
     margin-top:6px; font-size:16px; color:#fff; font-weight:600;
   }
 
-  /* Ícone principal (grande) logo abaixo do título */
+  /* Ícone principal (200% do anterior: usa clamp para responsividade) */
   .hero-icon{
-    display:block; margin:12px auto 8px; width:140px; height:140px;
-    object-fit:cover; border-radius:22px;
+    display:block; margin:14px auto 8px;
+    width:clamp(180px, 45vw, 280px);
+    height:clamp(180px, 45vw, 280px);
+    object-fit:cover; border-radius:24px;
     border:3px solid var(--dourado);
     box-shadow:0 6px 18px var(--sombra), 0 0 0 4px rgba(255,255,255,.65) inset;
   }
 
   .wrap{
     position:relative; z-index:1;
-    max-width:620px; margin:8px auto 24px; padding:0 16px;
-    display:flex; flex-direction:column; gap:10px;
+    max-width:620px; margin:8px auto 26px; padding:0 16px;
+    display:flex; flex-direction:column; gap:10px; align-items:center;
   }
 
-  /* Botões reduzidos em ~70% do tamanho anterior */
+  /* BOTÕES
+     - largura reduzida em 60% (ficam ~40% da largura do container)
+     - altura reduzida em 40% (≈ 60% da anterior)
+     - cedro redondo alinhado à esquerda
+     - título centralizado independente do ícone
+  */
   .btn{
-    display:flex; align-items:center; justify-content:center; gap:10px;
+    position:relative;
+    display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    padding:7px 8px; box-shadow:0 4px 10px var(--sombra);
+    width:40%;                       /* 40% da largura do container (~redução de 60%) */
+    min-width:260px;                 /* garante usabilidade em telas pequenas */
+    padding:6px 10px;                /* altura ~60% do anterior */
+    box-shadow:0 4px 10px var(--sombra);
     color:#101010; font-weight:800;
-    font-size:14px; /* ~70% do 20px anterior */
+    font-size:18px;                  /* +3 pt sobre o anterior (~14px→18px) */
     text-align:center;
     transition:transform .08s ease-in-out, box-shadow .12s;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Ícone do CEDRO redondo e grande, proporcional ao novo tamanho */
+  /* Borda dourada no texto dos títulos dos botões */
+  .btn .label{
+    flex:1; text-align:center; line-height:1.15;
+    -webkit-text-stroke:.8px var(--dourado);
+  }
+  .btn .sub{ display:block; font-size:.9em; color:#333; font-weight:700; -webkit-text-stroke:0 }
+
+  /* Ícone do CEDRO redondo, alinhado à esquerda */
   .btn .icon-round{
-    width:30px; height:30px; border-radius:50%;
+    width:34px; height:34px; border-radius:50%;
     object-fit:cover; border:2px solid var(--dourado);
     box-shadow:0 0 0 2px #fff inset; background:#fff;
+    margin-right:10px;
   }
-  .btn .label{ display:block; line-height:1.15 }
-  .btn .sub{ display:block; font-size:.9em; color:#333; font-weight:700 }
 
-  footer{ text-align:center; margin:22px 0 28px }
-  /* Botão Voltar – agora 50% do tamanho que estava antes */
+  footer{ text-align:center; margin:22px 0 32px }
+  /* Botão Voltar — redução global de ~40% com scale para manter proporções */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:4px 10px;
-    font-weight:800; font-size:10px; /* menor que 12px anterior (~−50%) */
+    border:none; border-radius:999px; padding:6px 12px;
+    font-weight:800; font-size:12px;
     box-shadow:0 3px 8px var(--sombra);
+    transform:scale(.6);             /* 60% do tamanho anterior (redução ~40%) */
+    transform-origin:center;
   }
   .btn-voltar .seta{ font-weight:900 }
 </style>
@@ -132,7 +142,7 @@
   <header>
     <h1 class="titulo">SAFRO</h1>
     <div class="sub">Oração da Manhã</div>
-    <!-- ÍCONE PRINCIPAL (logo abaixo do título) -->
+    <!-- ÍCONE PRINCIPAL (200%) -->
     <img class="hero-icon"
          src="img/icone-safro.horas.jpg"
          onerror="this.onerror=null;this.src='img/cedro.jpg';"
@@ -140,7 +150,7 @@
   </header>
 
   <main class="wrap">
-    <!-- Botões com CEDRO redondo (NÃO usar o ícone principal aqui) -->
+    <!-- Botões com CEDRO redondo (títulos centralizados, ícone à esquerda) -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Safro <span class="sub">versão curta</span></span>
@@ -155,7 +165,6 @@
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Hinos e Melodias</span>
     </a>
-    <!-- OBS: Nenhum botão “Salmo do dia e Leitura …” -->
   </main>
 
   <footer>
