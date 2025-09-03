@@ -5,10 +5,12 @@
 <title>Safro — Oração da Manhã</title>
 <style>
   :root{
-    --azul-escuro:#001a33;          /* noite (topo) */
-    --amarelo-sol:#ffd700;          /* sol (rodapé) */
-    --dourado:#b08d3b;              /* ouro-velho */
-    --vermelho:#a00000;             /* botão Voltar padrão do projeto */
+    --azul-topo:#0b2244;     /* azul marinho no topo (céu) */
+    --azul-meio:#274472;
+    --amarelo-base:#ffe680;  /* horizonte/solo */
+    --sol:#ffe45e;           /* sol/brilho */
+    --dourado:#b08d3b;       /* ouro-velho */
+    --vermelho:#a00000;      /* botão voltar padrão do projeto */
     --sombra:rgba(0,0,0,.18);
     --fonte: Arial, Helvetica, sans-serif;
   }
@@ -16,70 +18,110 @@
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0; font-family:var(--fonte); color:#1b1b1b;
-    /* inversão do fundo: azul/noite em cima → amarelo/sol embaixo */
-    background:
-      linear-gradient(to bottom, var(--azul-escuro) 0%, var(--amarelo-sol) 100%);
+    margin:0; font-family:var(--fonte); color:#111;
+    /* CAMADAS:
+       1) estrelas (duas camadas para variação)
+       2) sol (radial à direita, baixo)
+       3) degradê amanhecer (amarelo -> azul)
+    */
+    background-image:
+      radial-gradient(#ffffff 1px, transparent 1.8px),
+      radial-gradient(rgba(255,255,255,.9) 1.2px, transparent 2px),
+      radial-gradient(circle at 85% 78%, #fff6a3 0%, var(--sol) 35%, rgba(255,228,94,0.0) 60%),
+      linear-gradient(to top, var(--amarelo-base) 0%, #ffd23a 24%, var(--azul-meio) 68%, var(--azul-topo) 100%);
+    background-size:
+      160px 160px,          /* estrelas camada 1 */
+      220px 220px,          /* estrelas camada 2 (mais dispersas) */
+      cover,                /* “sol” */
+      100% 100%;            /* degradê geral */
+    background-position:
+      0 0,
+      40px 80px,
+      center,
+      center;
+    background-attachment: fixed, fixed, scroll, scroll;
   }
 
-  /* Cabeçalho: degradê amarelo claro (em cima) → azul marinho (embaixo) c/ borda ouro-velho */
+  /* Lua crescente (topo esquerdo), igual ao conceito anterior, desenhada em CSS */
+  body::before{
+    content:"";
+    position:fixed;
+    top:18px; left:18px; width:46px; height:46px;
+    border-radius:50%;
+    background: radial-gradient(circle at 40% 40%, #fff 60%, rgba(255,255,255,0.92) 70%, rgba(255,255,255,0.0) 71%);
+    box-shadow:0 0 10px 2px rgba(255,255,255,.35);
+    /* recorta para formato crescente com “sombra” azul do céu */
+    -webkit-mask:
+      radial-gradient(circle at 55% 40%, transparent 62%, black 63%);
+            mask:
+      radial-gradient(circle at 55% 40%, transparent 62%, black 63%);
+    z-index:0;
+    pointer-events:none;
+  }
+
   header{
-    margin:0; padding:18px 12px; text-align:center;
-    background: linear-gradient(to bottom, #ffe680 0%, #0b2244 100%);
-    color:#fff; border-bottom:3px solid var(--dourado);
-    box-shadow: 0 2px 10px var(--sombra);
+    position:relative; z-index:1;
+    text-align:center; padding:20px 12px 12px;
+    /* sem linha/borda inferior */
+    background: linear-gradient(to bottom, #ffeaa6 0%, var(--azul-topo) 100%);
   }
-  header .titulo{
-    margin:0; line-height:1.05;
-    font-weight:800; letter-spacing:.5px;
-    /* +4pt ≈ +5.3px sobre ~28px → 33px */
-    font-size:33px; /* SAFRO */
+  .titulo{
+    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
+    /* a pedido: SAFRO +4pt (base ~28px → 33px) */
+    font-size:33px; color:#ffe680;
+    /* bordas douradas no texto */
+    -webkit-text-stroke:1.5px var(--dourado);
+    text-shadow:
+      0 1px 0 rgba(0,0,0,.12),
+      0 0 0 var(--dourado); /* fallback visual p/ navegadores sem stroke */
   }
-  header .sub{
-    margin-top:6px; line-height:1.1;
-    /* “Oração da Manhã” 5pt menor que antes (≈ −6.6px) → 16px */
-    font-size:16px; color:#fff; font-weight:600;
-    -webkit-text-stroke: 0 transparent; /* sem contorno */
+  .sub{
+    margin-top:6px; font-size:16px; color:#fff; font-weight:600;
   }
 
-  /* Container principal */
+  /* Ícone principal (grande) logo abaixo do título */
+  .hero-icon{
+    display:block; margin:12px auto 8px; width:140px; height:140px;
+    object-fit:cover; border-radius:22px;
+    border:3px solid var(--dourado);
+    box-shadow:0 6px 18px var(--sombra), 0 0 0 4px rgba(255,255,255,.65) inset;
+  }
+
   .wrap{
-    max-width:620px; margin:18px auto 24px; padding:0 16px;
-    display:flex; flex-direction:column; gap:12px;
+    position:relative; z-index:1;
+    max-width:620px; margin:8px auto 24px; padding:0 16px;
+    display:flex; flex-direction:column; gap:10px;
   }
 
-  /* Botões principais: 50% mais compactos, borda dourada, sombra leve */
+  /* Botões reduzidos em ~70% do tamanho anterior */
   .btn{
     display:flex; align-items:center; justify-content:center; gap:10px;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    padding:10px 12px; box-shadow:0 4px 10px var(--sombra);
+    padding:7px 8px; box-shadow:0 4px 10px var(--sombra);
     color:#101010; font-weight:800;
-    /* +3pt ≈ +4px sobre ~16px → 20px */
-    font-size:20px; text-align:center;
+    font-size:14px; /* ~70% do 20px anterior */
+    text-align:center;
     transition:transform .08s ease-in-out, box-shadow .12s;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Ícone cedro +80% e redondo (24px → ~43px) */
+  /* Ícone do CEDRO redondo e grande, proporcional ao novo tamanho */
   .btn .icon-round{
-    width:43px; height:43px; border-radius:50%;
+    width:30px; height:30px; border-radius:50%;
     object-fit:cover; border:2px solid var(--dourado);
-    box-shadow:0 0 0 2px #fff inset;
-    background:#fff;
+    box-shadow:0 0 0 2px #fff inset; background:#fff;
   }
-
-  /* Rótulos com linha secundária quando precisar */
   .btn .label{ display:block; line-height:1.15 }
-  .btn .sub{ display:block; font-size:.85em; color:#333; font-weight:700 }
+  .btn .sub{ display:block; font-size:.9em; color:#333; font-weight:700 }
 
-  /* Rodapé com botão Voltar padrão do projeto, 80% menor, minimalista */
   footer{ text-align:center; margin:22px 0 28px }
+  /* Botão Voltar – agora 50% do tamanho que estava antes */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px;
-    font-weight:800; font-size:12px;      /* ~80% menor */
+    border:none; border-radius:999px; padding:4px 10px;
+    font-weight:800; font-size:10px; /* menor que 12px anterior (~−50%) */
     box-shadow:0 3px 8px var(--sombra);
   }
   .btn-voltar .seta{ font-weight:900 }
@@ -87,43 +129,36 @@
 </head>
 <body>
 
-  <!-- Cabeçalho revisado -->
   <header>
     <h1 class="titulo">SAFRO</h1>
     <div class="sub">Oração da Manhã</div>
+    <!-- ÍCONE PRINCIPAL (logo abaixo do título) -->
+    <img class="hero-icon"
+         src="img/icone-safro.horas.jpg"
+         onerror="this.onerror=null;this.src='img/cedro.jpg';"
+         alt="Ícone principal de Safro">
   </header>
 
   <main class="wrap">
-    <!-- Mantidos APENAS os botões necessários; removidos “dois vermelhos” sob o título -->
+    <!-- Botões com CEDRO redondo (NÃO usar o ícone principal aqui) -->
     <a href="#" class="btn">
-      <!-- tenta icone-safro.horas.jpg; se falhar, cai no cedro.jpg -->
-      <img class="icon-round"
-           src="img/icone-safro.horas.jpg"
-           onerror="this.onerror=null;this.src='img/cedro.jpg';"
-           alt="Ícone Safro">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Safro <span class="sub">versão curta</span></span>
     </a>
 
     <a href="#" class="btn">
-      <img class="icon-round"
-           src="img/icone-safro.horas.jpg"
-           onerror="this.onerror=null;this.src='img/cedro.jpg';"
-           alt="Ícone Safro">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Safro <span class="sub">versão longa</span></span>
     </a>
 
     <a href="#" class="btn">
-      <img class="icon-round"
-           src="img/icone-safro.horas.jpg"
-           onerror="this.onerror=null;this.src='img/cedro.jpg';"
-           alt="Ícone Safro">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">Hinos e Melodias</span>
     </a>
-    <!-- OBS: Nenhum botão “Salmo do dia e Leitura (Tarde e Manhã)” foi incluído, como solicitado -->
+    <!-- OBS: Nenhum botão “Salmo do dia e Leitura …” -->
   </main>
 
   <footer>
-    <!-- Botão padrão Voltar minimalista (somente seta + “voltar”), 80% menor -->
     <a class="btn-voltar" href="mapa-liturgico.html"><span class="seta">←</span>voltar</a>
   </footer>
 
