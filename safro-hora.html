@@ -68,30 +68,30 @@
     margin-top:6px; font-size:16px; color:#fff; font-weight:600;
   }
 
-  /* Ícone principal: borda encostando na imagem (sem “anel” branco) */
+  /* Ícone principal: sem borda dourada e sem folgas */
   .hero-icon{
     display:block; margin:12px auto 6px;
     width:clamp(144px, 36vw, 224px);   /* 20% menor do grandão anterior */
     height:clamp(144px, 36vw, 224px);
-    object-fit:cover;                  /* preenche sem folgas */
+    object-fit:cover;                  /* preenche sem “vazios” */
     object-position:center 55%;
     border-radius:24px;
-    border:3px solid var(--dourado);
+    border:0;                          /* << removida a borda dourada */
     box-shadow:0 6px 18px var(--sombra);
+    background:#fff;                   /* mantém contraste da moldura */
   }
 
   .wrap{
     position:relative; z-index:1;
-    max-width:620px; margin:0 auto 18px; padding:0 16px; /* subimos o bloco */
-    display:flex; flex-direction:column; gap:6px; align-items:center; /* menos espaço entre botões */
+    max-width:620px; margin:0 auto 18px; padding:0 16px; /* bloco mais próximo do ícone */
+    display:flex; flex-direction:column; gap:6px; align-items:center;
   }
 
-  /* BOTÕES
-     - largura reduzida em 30% (56% → 39%)
-     - altura reduzida em 30% (menos altos)
-     - label central absoluto (ignora o cedro)
-     - cedro 50% menor
-     - todo o grupo mais perto do ícone principal
+  /* BOTÕES (mantidas reduções já pedidas antes)
+     - largura ~39% do container
+     - altura ~−30%
+     - label central absoluto (horizontal e vertical)
+     - cedro menor à esquerda
   */
   .btn{
     position:relative;
@@ -100,7 +100,8 @@
     border:2px solid var(--dourado); border-radius:14px;
     width:39%;
     min-width:240px;
-    padding:3px 10px;                /* ~−30% da altura anterior */
+    padding:3px 10px;                /* altura baixa */
+    min-height:44px;                 /* garante centragem vertical do label (2 linhas) */
     box-shadow:0 4px 10px var(--sombra);
     color:#101010; font-weight:800;
     text-align:center;
@@ -109,29 +110,31 @@
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Cedro 50% menor (de ~34px → ~17/18px) alinhado à esquerda */
+  /* Cedro 50% menor, à esquerda */
   .btn .icon-round{
     width:18px; height:18px; border-radius:50%;
-    object-fit:cover; border:2px solid var(--dourado);
+    object-fit:cover;
+    border:2px solid var(--dourado);
     box-shadow:0 0 0 2px #fff inset; background:#fff;
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Label ocupa 100% e centraliza ignorando o ícone */
+  /* Label ocupa 100% e centraliza na H e V, ignorando o ícone */
   .btn .label{
-    position:absolute; left:0; right:0; top:50%;
-    transform:translateY(-50%);
-    line-height:1.05; text-align:center; pointer-events:none;
+    position:absolute; inset:0;       /* left/right/top/bottom = 0 */
+    display:flex; align-items:center;  /* centraliza VERTICAL */
+    justify-content:center;            /* centraliza HORIZONTAL */
+    flex-direction:column; gap:2px;
+    pointer-events:none;
     -webkit-text-stroke:.8px var(--dourado); /* borda dourada no texto */
-    z-index:1;
   }
-  .btn .main{ font-size:16px; display:block; }     /* linha de cima: −2 pt */
-  .btn .sub{ font-size:11px; font-weight:700; display:block; -webkit-text-stroke:0 } /* linha de baixo: −4 pt */
+  .btn .main{ font-size:16px; line-height:1.1 }   /* linha de cima: −2 pt */
+  .btn .sub{ font-size:11px; font-weight:700; -webkit-text-stroke:0; line-height:1.1 } /* linha de baixo: −4 pt */
 
   /* Último botão com margem menor embaixo para colar no Voltar */
   .wrap .btn:last-of-type{ margin-bottom:4px; }
 
-  footer{ text-align:center; margin:6px 0 22px }   /* aproximamos o Voltar dos botões */
+  footer{ text-align:center; margin:6px 0 22px }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -158,17 +161,25 @@
   <main class="wrap">
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Safro</span><span class="sub">versão curta</span></span>
+      <span class="label">
+        <span class="main">Safro</span>
+        <span class="sub">versão curta</span>
+      </span>
     </a>
 
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Safro</span><span class="sub">versão longa</span></span>
+      <span class="label">
+        <span class="main">Safro</span>
+        <span class="sub">versão longa</span>
+      </span>
     </a>
 
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Hinos e Melodias</span></span>
+      <span class="label">
+        <span class="main">Hinos e Melodias</span>
+      </span>
     </a>
   </main>
 
