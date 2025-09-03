@@ -1,73 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Sexta</title>
-<meta name="theme-color" content="#ffb45e">
 <style>
-  :root{ --gold:#a9842b; --title:#d6b25a }
-  *{box-sizing:border-box} html,body{height:100%}
-  body{
-    margin:0;font-family:Arial,Helvetica,sans-serif;
-    background: linear-gradient(to top, #fff0b3 0%, #ffd280 55%, #ffc06a 78%, #ffb45e 100%);
-    min-height:100vh;
+  /* ORIGINAL */
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#fff6d1,#ffa94d);color:#333}
+  h1{text-align:center;padding:12px;color:#d6b25a;-webkit-text-stroke:1px #a9842b}
+  .wrap{max-width:600px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+       background:#fff;border:2px solid #a9842b;border-radius:14px;padding:14px;font-weight:bold;color:#d6b25a}
+  .btn img{width:24px;height:24px}
+  footer{text-align:center;margin:20px 0}
+
+  /* PADRÃO (sem alterar cores) */
+  :root{ --dourado:#a9842b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
+  .hero-icon{
+    display:block; margin:14px auto 8px; max-width:clamp(288px,80vw,512px);
+    width:100%; height:auto; object-fit:contain; border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
   }
-  header{padding:8px 10px 0;text-align:center}
-  h1{margin:4px 0 10px;color:var(--title);-webkit-text-stroke:1.1px var(--gold);text-shadow:0 0 2px var(--gold);font-weight:900;font-size:2rem}
-  .wrap{max-width:620px;margin:0 auto;padding:8px 16px 20px}
-  .hero{display:block;margin:6px auto 10px;max-width:100%;height:auto;max-height:420px;border:4px solid var(--gold);box-shadow:0 0 0 4px var(--gold) inset,0 6px 16px rgba(0,0,0,.15);border-radius:12px}
-  .chip{display:inline-block;margin:6px 0 8px;padding:8px 12px;background:rgba(255,255,255,.9);border:3px solid var(--gold);box-shadow:0 0 0 2px var(--gold) inset;border-radius:14px;font-weight:bold;color:#7a5a00}
-  .col{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .wrap{ gap:8px; }
   .btn{
-    display:inline-flex; flex-direction:column; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
-    width:76%; max-width:780px; padding:12px 14px; background:#fff7e0; color:var(--title);
-    border:2px solid var(--gold); box-shadow:0 0 0 3px var(--gold) inset, 0 6px 16px rgba(0,0,0,.15);
-    border-radius:18px; transition:.2s; text-align:center; font-weight:800; -webkit-text-stroke:.6px var(--gold); text-shadow:0 0 1px var(--gold);
+    position:relative; justify-content:flex-start; width:55%; min-width:280px; min-height:51px; padding:5px 12px;
+    box-shadow:0 4px 10px var(--sombra);
   }
-  .btn:hover{transform:scale(1.02)}
-  .btn img{position:absolute; left:10px; width:24px; height:24px; object-fit:cover; border-radius:3px}
-  .label{width:100%; text-align:center}
-  .line1{display:block}
-  .links-top{display:flex;gap:8px;justify-content:center;margin:6px 0 8px}
-  .links-top a{background:#a00000;color:#fff;border:1px solid #6f0000;padding:.38rem .6rem;border-radius:10px;text-decoration:none;font-weight:bold;font-size:.9rem}
-  footer{margin-top:auto;text-align:center;color:#6b5a2f;font-size:.85rem;padding:10px}
-  .back{display:inline-block;background:#a00000;color:#fff;border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:bold;text-decoration:none}
+  .btn .icon-round{
+    width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--dourado);
+    box-shadow:0 0 0 2px #fff inset;background:#fff;margin-right:10px;flex:0 0 auto;
+  }
+  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
+  .btn .main{ font-size:21px; line-height:1.06; }
+  .btn .sub{ font-size:15px; line-height:1.04; font-weight:700; }
+  .btn-voltar{
+    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
+    transform:scale(.6); transform-origin:center;
+  }
 </style>
 </head>
 <body>
-  <header>
-    <h1>Hora Sexta</h1>
-    <nav class="links-top">
-      <a href="horas-teste.html">← Voltar (Horas)</a>
-      <a href="index.html">App principal</a>
-    </nav>
-  </header>
+  <h1>Hora Sexta</h1>
+  <img class="hero-icon" src="img/icone-sexta.horas.jpg" onerror="this.onerror=null;this.src='img/cedro.jpg';" alt="Ícone principal Sexta">
 
   <main class="wrap">
-    <img class="hero" src="img/icone-sexta.hora.jpg" alt="Ícone Sexta"
-         onerror="this.remove();document.getElementById('chip').hidden=false;">
-    <div id="chip" class="chip" hidden>Sexta</div>
-
-    <section class="col" aria-label="Ações — Sexta">
-      <a class="btn" href="#" id="sexta-oracao">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label"><span class="line1">Oração</span></span>
-      </a>
-
-      <a class="btn" href="docs/sexta-hinos.doc" target="_blank" rel="noopener">
-        <img src="img/cedro.jpg" alt="">
-        <span class="label"><span class="line1">Hinos e Melodias</span></span>
-      </a>
-    </section>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Sexta</span><span class="sub">versão curta</span></span></a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Sexta</span><span class="sub">versão longa</span></span></a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Hinos e Melodias</span></span></a>
   </main>
 
-  <footer>
-    <a class="back" href="horas-teste.html">← Voltar às Horas</a>
-  </footer>
-
-  <script>
-    // document.getElementById('sexta-oracao').href = 'docs/sexta-oracao.docx';
-  </script>
+  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
 </body>
 </html>
