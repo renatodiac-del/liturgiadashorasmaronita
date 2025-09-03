@@ -8,44 +8,42 @@
   body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#fff6d1,#ffa94d);color:#333}
   footer{text-align:center;margin:20px 0}
 
-  /* --- Variáveis utilitárias (não alteram a paleta original) --- */
   :root{
-    --dourado:#a9842b;      /* ouro-velho para contornos/bordas */
-    --musgo:#556B2F;        /* verde musgo para o subtítulo */
-    --vermelho:#a00000;     /* botão voltar */
+    --dourado:#a9842b;
+    --musgo:#556B2F;
+    --vermelho:#a00000;
     --sombra:rgba(0,0,0,.18);
   }
 
-  /* --- Cabeçalho e títulos --- */
   header{ text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px;                 /* ~+3pt sobre ~37px */
-    color:#d6b25a;                  /* mesma cor do original */
+    font-size:40px;                 /* +3pt já aplicado */
+    color:#d6b25a;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
   .subtitulo{
     margin:6px 0 10px;
     color:var(--musgo);
-    font-size:33px;                 /* ~7pt menor que 40px */
+    font-size:30px;                 /* era 33px → -3pt */
     font-weight:700;
   }
 
-  /* Ícone principal (arquivo correto) */
+  /* Ícone principal: reduzido em ~20% */
   .hero-icon{
     display:block; margin:10px auto 8px;
-    max-width:clamp(288px,80vw,512px); width:100%; height:auto;
+    max-width:clamp(230px, 64vw, 410px); /* era clamp(288px,80vw,512px) */
+    width:100%; height:auto;
     object-fit:contain; object-position:center;
     border:0; border-radius:0;
     box-shadow:0 6px 18px var(--sombra);
     background:transparent;
   }
 
-  /* --- Área dos botões --- */
   .wrap{
     max-width:600px; margin:0 auto; padding:20px;
-    display:flex; flex-direction:column; gap:8px; align-items:center; /* centraliza */
+    display:flex; flex-direction:column; gap:8px; align-items:center;
   }
   .btn{
     position:relative;
@@ -67,7 +65,6 @@
     box-shadow:0 0 0 2px #fff inset; background:#fff;
     margin-right:10px; flex:0 0 auto;
   }
-
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
@@ -95,7 +92,6 @@
     <h1 class="titulo">Hora Sexta</h1>
     <div class="subtitulo">12 horas</div>
 
-    <!-- ÍCONE PRINCIPAL: nome correto com 's' -->
     <img class="hero-icon"
          src="img/icone-sexta.horas.jpg"
          alt="Ícone principal Sexta">
