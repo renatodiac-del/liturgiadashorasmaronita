@@ -68,30 +68,29 @@
     margin-top:6px; font-size:16px; color:#fff; font-weight:600;
   }
 
-  /* Ícone principal: sem borda dourada e sem folgas */
+  /* Ícone principal: formato original, sem cortes e sem cantos arredondados */
   .hero-icon{
     display:block; margin:12px auto 6px;
-    width:clamp(144px, 36vw, 224px);   /* 20% menor do grandão anterior */
-    height:clamp(144px, 36vw, 224px);
-    object-fit:cover;                  /* preenche sem “vazios” */
-    object-position:center 55%;
-    border-radius:24px;
-    border:0;                          /* << removida a borda dourada */
+    max-width:clamp(180px, 60vw, 320px);
+    width:100%; height:auto;
+    object-fit:contain;              /* preserva proporção e evita cortes */
+    object-position:center;
+    border:0;                        /* sem borda dourada */
+    border-radius:0;                 /* sem arredondar cantos */
     box-shadow:0 6px 18px var(--sombra);
-    background:#fff;                   /* mantém contraste da moldura */
+    background:#fff;                 /* moldura neutra atrás se a imagem tiver transparência */
   }
 
   .wrap{
     position:relative; z-index:1;
-    max-width:620px; margin:0 auto 18px; padding:0 16px; /* bloco mais próximo do ícone */
+    max-width:620px; margin:0 auto 18px; padding:0 16px;
     display:flex; flex-direction:column; gap:6px; align-items:center;
   }
 
-  /* BOTÕES (mantidas reduções já pedidas antes)
+  /* BOTÕES (reduções já aplicadas anteriormente)
      - largura ~39% do container
-     - altura ~−30%
-     - label central absoluto (horizontal e vertical)
-     - cedro menor à esquerda
+     - altura reduzida
+     - label central absoluto (H e V), ignorando o cedro
   */
   .btn{
     position:relative;
@@ -100,8 +99,8 @@
     border:2px solid var(--dourado); border-radius:14px;
     width:39%;
     min-width:240px;
-    padding:3px 10px;                /* altura baixa */
-    min-height:44px;                 /* garante centragem vertical do label (2 linhas) */
+    padding:3px 10px;
+    min-height:44px;
     box-shadow:0 4px 10px var(--sombra);
     color:#101010; font-weight:800;
     text-align:center;
@@ -110,7 +109,7 @@
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Cedro 50% menor, à esquerda */
+  /* Cedro pequeno à esquerda */
   .btn .icon-round{
     width:18px; height:18px; border-radius:50%;
     object-fit:cover;
@@ -119,19 +118,26 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Label ocupa 100% e centraliza na H e V, ignorando o ícone */
+  /* Label ocupa 100% e centraliza na horizontal e vertical */
   .btn .label{
-    position:absolute; inset:0;       /* left/right/top/bottom = 0 */
-    display:flex; align-items:center;  /* centraliza VERTICAL */
-    justify-content:center;            /* centraliza HORIZONTAL */
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:2px;
     pointer-events:none;
-    -webkit-text-stroke:.8px var(--dourado); /* borda dourada no texto */
   }
-  .btn .main{ font-size:16px; line-height:1.1 }   /* linha de cima: −2 pt */
-  .btn .sub{ font-size:11px; font-weight:700; -webkit-text-stroke:0; line-height:1.1 } /* linha de baixo: −4 pt */
+  /* Linha de cima com borda dourada (como antes), 16px */
+  .btn .main{
+    font-size:16px; line-height:1.1;
+    -webkit-text-stroke:.8px var(--dourado);
+  }
+  /* Linha de baixo ~5pt menor (≈10px), azul-marinho e sem borda */
+  .btn .sub{
+    font-size:10px; line-height:1.1;
+    font-weight:700; color:var(--azul-topo);
+    -webkit-text-stroke:0;
+  }
 
-  /* Último botão com margem menor embaixo para colar no Voltar */
+  /* Último botão colado no Voltar */
   .wrap .btn:last-of-type{ margin-bottom:4px; }
 
   footer{ text-align:center; margin:6px 0 22px }
@@ -141,7 +147,7 @@
     border:none; border-radius:999px; padding:6px 12px;
     font-weight:800; font-size:12px;
     box-shadow:0 3px 8px var(--sombra);
-    transform:scale(.6);            /* ~40% menor que o tamanho base */
+    transform:scale(.6);
     transform-origin:center;
   }
   .btn-voltar .seta{ font-weight:900 }
@@ -159,6 +165,7 @@
   </header>
 
   <main class="wrap">
+    <!-- Botão 1: “versão curta” 5pt menor, azul-marinho, sem borda -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
@@ -167,6 +174,7 @@
       </span>
     </a>
 
+    <!-- Botão 2: “versão longa” idem -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
@@ -175,6 +183,7 @@
       </span>
     </a>
 
+    <!-- Botão 3: Hinos -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label">
