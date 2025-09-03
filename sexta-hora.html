@@ -4,53 +4,125 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Sexta</title>
 <style>
-  /* ORIGINAL */
+  /* --- ESTILO ORIGINAL (fundo e paleta mantidos) --- */
   body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#fff6d1,#ffa94d);color:#333}
-  h1{text-align:center;padding:12px;color:#d6b25a;-webkit-text-stroke:1px #a9842b}
-  .wrap{max-width:600px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px}
-  .btn{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
-       background:#fff;border:2px solid #a9842b;border-radius:14px;padding:14px;font-weight:bold;color:#d6b25a}
-  .btn img{width:24px;height:24px}
   footer{text-align:center;margin:20px 0}
 
-  /* PADRÃO (sem alterar cores) */
-  :root{ --dourado:#a9842b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
+  /* --- Variáveis utilitárias (não alteram a paleta original) --- */
+  :root{
+    --dourado:#a9842b;      /* ouro-velho para contornos/bordas */
+    --musgo:#556B2F;        /* verde musgo para o subtítulo */
+    --vermelho:#a00000;     /* botão voltar */
+    --sombra:rgba(0,0,0,.18);
+  }
+
+  /* --- Cabeçalho e títulos --- */
+  header{ text-align:center; padding:12px 12px 0 }
+  /* Título principal: +3pt e mantém cor/contorno do original */
+  .titulo{
+    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
+    font-size:40px;                 /* ~+3pt sobre ~37px */
+    color:#d6b25a;                  /* mesma cor do original */
+    -webkit-text-stroke:1px var(--dourado); /* contorno dourado como no original */
+    text-shadow:0 1px 0 rgba(0,0,0,.10);
+  }
+  /* Subtítulo: 7pt menor que a primeira linha, verde musgo */
+  .subtitulo{
+    margin:6px 0 10px;
+    color:var(--musgo);
+    font-size:33px;                 /* ~7pt menor que 40px */
+    font-weight:700;
+  }
+
+  /* Ícone principal: usar o arquivo correto; sem fallback para cedro */
   .hero-icon{
-    display:block; margin:14px auto 8px; max-width:clamp(288px,80vw,512px);
-    width:100%; height:auto; object-fit:contain; border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
+    display:block; margin:10px auto 8px;
+    max-width:clamp(288px,80vw,512px); width:100%; height:auto;
+    object-fit:contain; object-position:center;
+    border:0; border-radius:0;      /* formato original, sem cantos arredondados */
+    box-shadow:0 6px 18px var(--sombra);
+    background:transparent;
   }
-  .wrap{ gap:8px; }
+
+  /* --- Área dos botões --- */
+  .wrap{
+    max-width:600px; margin:0 auto; padding:20px;
+    display:flex; flex-direction:column; gap:8px; align-items:center; /* centraliza */
+  }
   .btn{
-    position:relative; justify-content:flex-start; width:55%; min-width:280px; min-height:51px; padding:5px 12px;
+    position:relative;
+    display:flex; align-items:center; justify-content:flex-start;
+    text-decoration:none; background:#fff;
+    border:2px solid var(--dourado); border-radius:14px;
+    width:55%; min-width:280px; min-height:51px; padding:5px 12px;
     box-shadow:0 4px 10px var(--sombra);
+    color:#d6b25a;                 /* mantém o tom do título como cor do texto */
+    text-align:center; font-weight:800;
+    transition:transform .08s ease-in-out, box-shadow .12s;
+    overflow:hidden; margin:0 auto; /* centraliza horizontalmente */
   }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
+
+  /* Ícone do cedro (para os botões) — mantido como estava */
   .btn .icon-round{
-    width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--dourado);
-    box-shadow:0 0 0 2px #fff inset;background:#fff;margin-right:10px;flex:0 0 auto;
+    width:32px; height:32px; border-radius:50%; object-fit:cover;
+    border:2px solid var(--dourado);
+    box-shadow:0 0 0 2px #fff inset; background:#fff;
+    margin-right:10px; flex:0 0 auto;
   }
-  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
-  .btn .main{ font-size:21px; line-height:1.06; }
-  .btn .sub{ font-size:15px; line-height:1.04; font-weight:700; }
+
+  /* Rótulo central absoluto (ignora o espaço do ícone) */
+  .btn .label{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:0; pointer-events:none;
+  }
+  .btn .main{
+    font-size:21px; line-height:1.06;
+    -webkit-text-stroke:.8px var(--dourado);  /* contorno dourado no texto */
+    color:currentColor;
+  }
+
+  /* Botão Voltar (mantido) */
   .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px;
+    font-weight:800; font-size:12px;
+    box-shadow:0 3px 8px var(--sombra);
     transform:scale(.6); transform-origin:center;
   }
 </style>
 </head>
 <body>
-  <h1>Hora Sexta</h1>
-  <img class="hero-icon" src="img/icone-sexta.horas.jpg" onerror="this.onerror=null;this.src='img/cedro.jpg';" alt="Ícone principal Sexta">
+
+  <header>
+    <h1 class="titulo">Hora Sexta</h1>
+    <div class="subtitulo">12 horas</div>
+
+    <!-- ÍCONE PRINCIPAL: arquivo correto, sem fallback para o cedro -->
+    <img class="hero-icon"
+         src="img/icone-sexta.hora.jpg"
+         alt="Ícone principal Sexta">
+  </header>
 
   <main class="wrap">
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Sexta</span><span class="sub">versão curta</span></span></a>
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Sexta</span><span class="sub">versão longa</span></span></a>
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Hinos e Melodias</span></span></a>
+    <!-- Botão 1: Oração -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Oração</span></span>
+    </a>
+
+    <!-- Botão 2: Hinos e Melodias -->
+    <a href="#" class="btn">
+      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
+      <span class="label"><span class="main">Hinos e Melodias</span></span>
+    </a>
   </main>
 
-  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
+  <footer>
+    <a class="btn-voltar" href="mapa-liturgico.html">← voltar</a>
+  </footer>
+
 </body>
 </html>
