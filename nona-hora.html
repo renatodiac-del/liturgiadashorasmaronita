@@ -5,109 +5,73 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Hora Nona</title>
 <style>
-  /* --- ESTILO ORIGINAL (fundo e paleta mantidos) --- */
+  /* Fundo e paleta originais + sol no topo esquerdo mantidos */
   body{
     margin:0;font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(#ffd9b3,#cc5200);color:#333;
-    position:relative;
+    background:linear-gradient(#ffd9b3,#cc5200);color:#333; position:relative;
   }
-
-  /* SOL LARANJA (¼ visível, canto superior ESQUERDO) */
+  /* Sol laranja (¼ visível, já aplicado antes) */
   body::before{
-    content:"";
-    position:fixed;
-    top:-140px;           /* empurra para cima para mostrar ~¼ */
-    left:-140px;          /* empurra para a esquerda para mostrar ~¼ */
-    width:320px; height:320px;
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 55% 55%,
-        #fff4da 0%,
-        #ffd48f 35%,
-        #ffae3f 58%,
-        rgba(255,174,63,0) 62%);
-    box-shadow:
-      0 0 30px 10px rgba(255,220,150,.55),
-      0 0 80px 30px rgba(255,174,63,.35);
+    content:""; position:fixed; top:-140px; left:-140px; width:320px; height:320px; border-radius:50%;
+    background:radial-gradient(circle at 55% 55%, #fff4da 0%, #ffd48f 35%, #ffae3f 58%, rgba(255,174,63,0) 62%);
+    box-shadow:0 0 30px 10px rgba(255,220,150,.55), 0 0 80px 30px rgba(255,174,63,.35);
     z-index:0; pointer-events:none;
   }
 
   footer{text-align:center;margin:20px 0}
 
-  :root{
-    --dourado:#a9842b;
-    --vermelho:#a00000;
-    --sombra:rgba(0,0,0,.18);
-  }
+  :root{ --dourado:#a9842b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
 
-  /* Título +4pt, mantendo cor/contorno originais */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
+
+  /* Título: +3pt sobre o valor anterior (agora ~43px) */
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px;
-    color:#d6b25a;
-    -webkit-text-stroke:1px #fff;
-    text-shadow:0 1px 0 rgba(0,0,0,.10);
+    font-size:43px;
+    color:#d6b25a; -webkit-text-stroke:1px #fff; text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
 
-  /* Ícone principal: +30%, formato original */
+  /* Subtítulo: 10pt menor que o título (43 → 33px), preto */
+  .subtitulo{
+    margin:6px 0 6px;
+    font-size:33px; color:#000; font-weight:700; line-height:1.05;
+  }
+
+  /* Ícone principal: mover para baixo do 1/4 superior da tela */
   .hero-icon{
-    display:block; margin:10px auto 8px;
-    max-width:clamp(374px, 104vw, 665px);
-    width:100%; height:auto;
-    object-fit:contain; object-position:center;
-    border:0; border-radius:0;
-    box-shadow:0 6px 18px var(--sombra);
-    background:transparent;
+    display:block;
+    margin:clamp(12px, 25vh, 240px) auto 8px;  /* empurra para baixo (~abaixo de 25vh) */
+    max-width:clamp(374px, 104vw, 665px);      /* tamanho ampliado (+30%) mantido */
+    width:100%; height:auto; object-fit:contain; object-position:center;
+    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra); background:transparent;
   }
 
-  /* Área dos botões */
+  /* Área dos botões (2 grandes, centralizados) */
   .wrap{
     position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:20px;
-    display:flex; flex-direction:column; gap:8px; align-items:center; /* centraliza */
+    display:flex; flex-direction:column; gap:8px; align-items:center;
   }
-
-  /* Botões grandes */
   .btn{
-    position:relative;
-    display:flex; align-items:center; justify-content:flex-start;
-    text-decoration:none; background:#fff;
-    border:2px solid var(--dourado); border-radius:14px;
+    position:relative; display:flex; align-items:center; justify-content:flex-start;
+    text-decoration:none; background:#fff; border:2px solid var(--dourado); border-radius:14px;
     width:55%; min-width:280px; min-height:51px; padding:5px 12px;
-    box-shadow:0 4px 10px var(--sombra);
-    color:#d6b25a; text-align:center; font-weight:800;
-    transition:transform .08s ease-in-out, box-shadow .12s;
-    overflow:hidden; margin:0 auto;
+    box-shadow:0 4px 10px var(--sombra); color:#d6b25a; text-align:center; font-weight:800;
+    transition:transform .08s ease-in-out, box-shadow .12s; overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado);
-    box-shadow:0 0 0 2px #fff inset; background:#fff;
-    margin-right:10px; flex:0 0 auto;
+    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto;
   }
+  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
+  .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
 
-  .btn .label{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:0; pointer-events:none;
-  }
-  .btn .main{
-    font-size:21px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado);
-    color:currentColor;
-  }
-
-  /* Botão Voltar (mantido) */
+  /* Voltar (mantido) */
   .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px;
-    font-weight:800; font-size:12px;
-    box-shadow:0 3px 8px var(--sombra);
-    transform:scale(.6); transform-origin:center;
+    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px;
+    box-shadow:0 3px 8px var(--sombra); transform:scale(.6); transform-origin:center;
   }
 </style>
 </head>
@@ -115,20 +79,17 @@
 
   <header>
     <h1 class="titulo">Hora Nona</h1>
+    <div class="subtitulo">15 horas</div>
 
-    <img class="hero-icon"
-         src="img/icone-nona.horas.jpg"
-         alt="Ícone principal Nona">
+    <img class="hero-icon" src="img/icone-nona.horas.jpg" alt="Ícone principal Nona">
   </header>
 
   <main class="wrap">
-    <!-- Botão 1: Oração -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Oração</span></span>
     </a>
 
-    <!-- Botão 2: Hinos e Melodias -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Hinos e Melodias</span></span>
