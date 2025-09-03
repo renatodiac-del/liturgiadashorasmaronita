@@ -9,41 +9,40 @@
   .wrap{max-width:600px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px}
   footer{text-align:center;margin:20px 0}
 
-  /* --- Título: ajustes prévios mantidos --- */
   :root{
     --dourado:#a9842b;
     --bordo:#7a1b1b;     /* vermelho bordô */
     --vermelho:#a00000;  /* botão voltar padrão */
     --sombra:rgba(0,0,0,.18);
   }
+
   header{ text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:37px;                     /* +5pt (mantido) */
+    font-size:37px;                 /* +5pt aplicado antes */
     color:var(--bordo);
     -webkit-text-stroke:1.5px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
 
-  /* SUBTÍTULO: borda 3px ouro-velho, sem negrito, 1pt menor, itálico, branco */
+  /* SUBTÍTULO: somente o texto (sem moldura, sem fundo) */
   .subtitulo{
-    display:inline-block;
+    display:block;
     margin:6px 0 10px;
-    padding:4px 12px;
-    color:#fff; font-style:italic;
-    font-weight:400;                    /* sem negrito */
-    font-size:27px;                     /* era 28px → -1pt aprox */
-    border:3px solid var(--dourado);    /* moldura dourada */
-    border-radius:12px;                 /* leve arredondado da “plaquinha” */
+    color:#fff;
+    font-style:italic;
+    font-weight:400;                /* sem negrito */
+    font-size:27px;                 /* ~1pt menor que antes */
+    border:none; padding:0; background:transparent;
   }
 
-  /* Ícone principal: formato original, sem cortes/cantos + borda 3px dourada */
+  /* Ícone principal: formato original + borda dourada 6px (dobrada) */
   .hero-icon{
     display:block; margin:10px auto 8px;
     max-width:clamp(288px, 80vw, 512px); width:100%; height:auto;
     object-fit:contain; object-position:center;
-    border:3px solid var(--dourado);    /* << borda dourada 3px */
-    border-radius:0;                    /* sem cantos arredondados */
+    border:6px solid var(--dourado);   /* << dobrado */
+    border-radius:0;                   /* sem cantos arredondados */
     box-shadow:0 6px 18px var(--sombra);
     background:transparent;
   }
@@ -57,7 +56,7 @@
     border:2px solid var(--dourado); border-radius:14px; /* moldura dourada */
     width:55%; min-width:280px; min-height:51px; padding:5px 12px;
     box-shadow:0 4px 10px var(--sombra);
-    color:#ffd700;                 /* mantém tom dourado do tema para o MAIN */
+    color:#ffd700;                 /* mantém dourado do tema no MAIN */
     text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto; /* centraliza horizontal */
@@ -72,7 +71,7 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Rótulo central absoluto (ignora o espaço do ícone) */
+  /* Rótulo central absoluto (ignora o cedro) */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
@@ -83,20 +82,17 @@
   .btn .main{
     font-size:21px; line-height:1.06;
     -webkit-text-stroke:.8px var(--dourado);
-    color:currentColor;  /* usa a cor do botão (dourado do tema) */
+    color:currentColor;
   }
   .btn .sub{
     font-size:15px; line-height:1.04; font-weight:700;
-    color:currentColor;
-    -webkit-text-stroke:.8px var(--dourado);
+    color:currentColor; -webkit-text-stroke:.8px var(--dourado);
   }
   /* Linha de baixo dos botões 1 e 2: preta com borda dourada */
   .wrap .btn:nth-of-type(-n+2) .sub{
-    color:#000;
-    -webkit-text-stroke:.8px var(--dourado);
+    color:#000; -webkit-text-stroke:.8px var(--dourado);
   }
 
-  /* Botão Voltar (compacto padrão do projeto) */
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
