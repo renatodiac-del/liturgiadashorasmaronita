@@ -77,10 +77,23 @@
     filter:drop-shadow(0 0 11px rgba(255,255,255,1)) drop-shadow(0 0 24px rgba(255,255,255,.7));
   }
 
-  /* LUA no topo meio — 32vh (≈ +10% sobre 29vh) */
+  /* Estrelas EXTRA bem grandes e brilhantes nas laterais */
+  .stars-sides{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(5px 5px at 1% 38%,  #fff, transparent 60%),
+      radial-gradient(5px 5px at 1% 62%,  #fff, transparent 60%),
+      radial-gradient(5px 5px at 99% 30%, #fff, transparent 60%),
+      radial-gradient(5px 5px at 99% 70%, #fff, transparent 60%),
+      radial-gradient(4px 4px at 3% 80%,  #fff, transparent 60%),
+      radial-gradient(4px 4px at 97% 20%, #fff, transparent 60%);
+    filter:drop-shadow(0 0 14px rgba(255,255,255,1)) drop-shadow(0 0 28px rgba(255,255,255,.8));
+  }
+
+  /* LUA no topo meio — 32vh → 27vh (−15%), metade fora da tela */
   .moon{
-    position:fixed; top:-16vh; left:50%; transform:translateX(-50%);
-    width:32vh; height:32vh; border-radius:50%; pointer-events:none; z-index:0;
+    position:fixed; top:-13.5vh; left:50%; transform:translateX(-50%);
+    width:27vh; height:27vh; border-radius:50%; pointer-events:none; z-index:0;
     background:
       radial-gradient(circle at 35% 35%, #ffffff 0%, #f7f0d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%),
       radial-gradient(6px 6px at 42% 38%, rgba(0,0,0,.16), rgba(0,0,0,0) 60%),
@@ -89,24 +102,25 @@
     box-shadow:0 0 22px 9px rgba(255,255,255,.26), inset 0 0 46px rgba(255,255,255,.16);
   }
 
-  /* Títulos */
-  header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
+  /* Títulos perto do topo */
+  header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0 } /* ↓ padding */
   .titulo{
-    margin:0; padding:6px 0 0; line-height:1.05; font-weight:900; letter-spacing:.6px;
+    margin:0; padding:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
     font-size:37px; color:#fff; -webkit-text-stroke:3px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25);
   }
   .subtitulo{
-    margin:6px 0 6px; line-height:1.08;
-    font-size:24px;                   /* 27px → 24px (−3 pt) */
+    margin:2px 0 4px; line-height:1.08;
+    font-size:22px;                   /* 24px → 22px (−2 pt) */
     color:var(--bege-escuro); font-weight:800;
   }
 
-  /* Ícone principal OVAL VERTICAL — subir para 12vh (mais perto do topo) */
+  /* Ícone principal OVAL VERTICAL — subir UM POUCO (12vh → 10vh) + borda dourada */
   .hero-oval{
     display:block;
-    margin:clamp(10px, 12vh, 140px) auto 10px;  /* ← era 16vh */
+    margin:clamp(8px, 10vh, 140px) auto 10px;  /* mais perto do topo */
     width:min(85vw, 544px);
     aspect-ratio:3/4; border-radius:38% / 50%;
+    border:6px solid var(--dourado);          /* <<< borda dourada pedida */
     overflow:hidden; box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1; background:#000;
   }
@@ -116,7 +130,7 @@
     display:block; border:0;
   }
 
-  /* Botões (2) centralizados — altura reduzida */
+  /* Botões (2) centralizados — altura já reduzida */
   .wrap{
     position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:14px 20px 10px;
@@ -156,6 +170,7 @@
 <body>
 
   <div class="sky-border" aria-hidden="true"></div>
+  <div class="stars-sides" aria-hidden="true"></div>
   <div class="moon" aria-hidden="true"></div>
 
   <header>
