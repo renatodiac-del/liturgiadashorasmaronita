@@ -1,4 +1,4 @@
-<!-- nona-hora.html (AJUSTE: "voltar" um pouco mais baixo, sem encostar no rodapé) -->
+<!-- nona-hora.html (AJUSTE: "voltar" um pouco mais baixo, sem se aproximar do rodapé) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -51,11 +51,11 @@
   .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
   .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
 
-  /* "Voltar" um pouco mais baixo */
-  .wrap .btn:last-of-type{ margin-bottom:8px; }
+  /* "Voltar" um pouco mais baixo em relação ao último botão grande */
+  .wrap .btn:last-of-type{ margin-bottom:16px; }
 
-  /* Footer com respiro do topo e da borda inferior */
-  footer{ text-align:center; margin:12px 0 26px; position:relative; z-index:1; }
+  /* Footer com bom respiro até a borda inferior */
+  footer{ text-align:center; margin:18px 0 36px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
     border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra); transform:scale(.6);
