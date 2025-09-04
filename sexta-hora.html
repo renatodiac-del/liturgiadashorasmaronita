@@ -1,4 +1,4 @@
-<!-- sexta-hora.html (AJUSTE: sol -15%; ícone um pouco mais alto; botões sobem junto) -->
+<!-- sexta-hora.html (AJUSTE: sol -5% adicional; ícone mais alto; botões sobem junto) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,10 +13,10 @@
     position:relative; overflow-x:hidden; min-height:100vh; display:flex; flex-direction:column;
   }
 
-  /* Sol 1/2 no topo central — 15% MENOR (48vh → 40.8vh) e metade fora da tela */
+  /* Sol 1/2 no topo central — agora 38.76vh (−5% sobre 40.8vh) e metade fora */
   body::before{
-    content:""; position:fixed; top:-20.4vh; left:50%; transform:translateX(-50%);
-    width:40.8vh; height:40.8vh; border-radius:50%;
+    content:""; position:fixed; top:-19.38vh; left:50%; transform:translateX(-50%);
+    width:38.76vh; height:38.76vh; border-radius:50%;
     background:radial-gradient(circle at 50% 50%, #fff9db 0%, #ffe89a 38%, #ffd161 62%, rgba(255,209,97,0) 63%);
     box-shadow:0 0 40px 18px rgba(255,236,170,.6), 0 0 120px 40px rgba(255,193,61,.25);
     z-index:0; pointer-events:none;
@@ -29,10 +29,10 @@
   }
   .subtitulo{ margin:6px 0 10px; color:var(--musgo); font-size:25px; font-weight:700; }
 
-  /* Ícone OVAL VERTICAL — um pouco mais alto (de 16.6vh → 12vh) */
+  /* Ícone OVAL VERTICAL — mais alto (12vh → 10vh) */
   .hero-oval{
     display:block;
-    margin:clamp(10px, 12vh, 160px) auto 8px;
+    margin:clamp(8px, 10vh, 140px) auto 8px;
     width:min(90vw, 517px); /* versão ampliada anterior (+20%) mantida */
     aspect-ratio:3/4; border-radius:38% / 50%;
     border:6px solid var(--dourado); overflow:hidden; box-shadow:0 6px 18px var(--sombra);
@@ -42,7 +42,7 @@
 
   /* Área dos botões — sobem junto (menos respiro acima) */
   .wrap{
-    max-width:600px; margin:0 auto; padding:8px 20px 4px; /* antes 12px no topo */
+    max-width:600px; margin:0 auto; padding:6px 20px 4px; /* antes 8px no topo */
     display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1;
   }
   .btn{
