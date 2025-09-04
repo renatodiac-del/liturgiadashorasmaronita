@@ -8,6 +8,7 @@
   body{
     margin:0;font-family:Arial,Helvetica,sans-serif;
     background:linear-gradient(#001a33,#fff);color:#fff;
+    position:relative; overflow-x:hidden;
   }
 
   :root{
@@ -16,26 +17,23 @@
     --sombra:rgba(0,0,0,.18);
   }
 
-  /* Lua cheia (só 1/4 visível no canto superior direito) */
+  /* Lua cheia (só ~1/4 visível no canto superior direito) */
   body::after{
     content:"";
     position:fixed;
-    top:-120px;          /* empurra para cima para mostrar ~¼ */
-    right:-120px;        /* empurra para a direita para mostrar ~¼ */
-    width:260px; height:260px;  /* tamanho da lua */
-    border-radius:50%;
+    top:-120px; right:-120px;
+    width:260px; height:260px; border-radius:50%;
     background:
       radial-gradient(circle at 35% 35%, #ffffff 0%, #fef3d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%);
-    box-shadow:0 0 20px 6px rgba(255,255,255,.35), 0 0 60px 18px rgba(255,255,255,.15) inset;
-    z-index:0;
-    pointer-events:none;
+    box-shadow:0 0 20px 6px rgba(255,255,255,.35), inset 0 0 60px rgba(255,255,255,.15);
+    z-index:0; pointer-events:none;
   }
 
-  /* Cabeçalho e títulos (mantém ajustes anteriores: título +7pt, subtítulo degradê) */
+  /* Cabeçalho e títulos (mantidos: título +7pt, subtítulo 10pt menor com degradê) */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px;               /* +7pt */
+    font-size:39px;               /* +7pt aprox */
     color:#fff;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
@@ -49,27 +47,32 @@
     -webkit-text-fill-color:transparent; color:transparent;
   }
 
-  /* Ícone principal: +15% e próximo do título/subtítulo */
-  .hero-icon{
-    display:block; margin:8px auto 8px;
-    /* antes ~ clamp(288px,80vw,512px) → +15% */
-    max-width:clamp(332px, 92vw, 590px);
-    width:100%; height:auto;
-    object-fit:contain; object-position:center;
-    border:0; border-radius:0;
+  /* Ícone principal OVALADO: -25% e sem cortes importantes */
+  .hero-oval{
+    display:block;
+    margin:8px auto 8px;
+    width:min(60vw, 444px);         /* ~-25% do tamanho anterior (~590px) */
+    aspect-ratio:4/3;               /* oval horizontal */
+    border-radius:50% / 40%;        /* forma oval */
+    overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
-    background:transparent;
+    position:relative; z-index:1;
+    background:#000;                /* segurança para bordas */
+  }
+  .hero-oval .hero-img{
+    width:100%; height:100%;
+    object-fit:cover; object-position:center;
+    display:block; border:0;
   }
 
   /* Área dos botões */
   .wrap{
+    max-width:600px; margin:0 auto; padding:16px 20px 4px;
+    display:flex; flex-direction:column; gap:12px; align-items:center;
     position:relative; z-index:1;
-    max-width:600px; margin:0 auto; padding:16px 20px 6px;
-    display:flex; flex-direction:column; gap:12px;  /* espaço entre botões */
-    align-items:center;                              /* centraliza */
   }
 
-  /* Botões grandes centralizados: altura -30% (≈36px) */
+  /* Botões grandes centralizados: altura -30% (~36px) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
@@ -77,8 +80,7 @@
     border:2px solid var(--dourado); border-radius:14px;
     width:55%; min-width:280px; min-height:36px; padding:4px 12px;
     box-shadow:0 4px 10px var(--sombra);
-    color:#001a33;                 /* mantém cor do tema Sutoro nos botões */
-    text-align:center; font-weight:800;
+    color:#001a33; text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto;
   }
@@ -92,7 +94,7 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Rótulo central absoluto (ignora o espaço do ícone) */
+  /* Rótulo central absoluto (duas linhas nos 2 primeiros) */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
@@ -108,10 +110,9 @@
     -webkit-text-stroke:0; color:#000; /* linha de baixo PRETA */
   }
 
-  /* Espaço entre último botão grande e o Voltar (mais distante) */
-  .wrap .btn:last-of-type{ margin-bottom:12px; }  /* ↑ afastado */
-  footer{ text-align:center; margin:10px 0 22px } /* botão vermelho mais abaixo */
-
+  /* Botão Voltar (mantido) */
+  .wrap .btn:last-of-type{ margin-bottom:2px; }
+  footer{ text-align:center; margin:10px 0 22px }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
@@ -128,9 +129,10 @@
     <h1 class="titulo">Sutoro</h1>
     <div class="subtitulo">Oração da Noite</div>
 
-    <img class="hero-icon"
-         src="img/icone-sutoro.horas.jpg"
-         alt="Ícone principal Sutoro">
+    <!-- Ícone principal OVAL (-25%) -->
+    <figure class="hero-oval">
+      <img class="hero-img" src="img/icone-sutoro.horas.jpg" alt="Ícone principal Sutoro">
+    </figure>
   </header>
 
   <main class="wrap">
@@ -155,9 +157,7 @@
     <!-- Botão 3: Hinos e Melodias -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label">
-        <span class="main">Hinos e Melodias</span>
-      </span>
+      <span class="label"><span class="main">Hinos e Melodias</span></span>
     </a>
   </main>
 
