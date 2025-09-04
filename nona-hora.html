@@ -1,4 +1,4 @@
-<!-- nona-hora.html (AJUSTE: "voltar" o mais próximo possível dos botões) -->
+<!-- nona-hora.html (AJUSTE: ícone no máx. até 1/7 do topo + header mais compacto) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -18,12 +18,20 @@
     box-shadow:0 0 30px 10px rgba(255,220,150,.55), 0 0 80px 30px rgba(255,174,63,.35);
     z-index:0; pointer-events:none;
   }
-  header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
-  .titulo{ margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px; font-size:43px; color:#d6b25a; -webkit-text-stroke:1px #fff; text-shadow:0 1px 0 rgba(0,0,0,.10); }
-  .subtitulo{ margin:6px 0 6px; font-size:33px; color:#000; font-weight:700; line-height:1.05; }
 
+  /* Header mais enxuto para "ganhar" altura útil */
+  header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0 }
+  .titulo{
+    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
+    font-size:43px; color:#d6b25a; -webkit-text-stroke:1px #fff; text-shadow:0 1px 0 rgba(0,0,0,.10);
+  }
+  .subtitulo{
+    margin:2px 0 4px; font-size:33px; color:#000; font-weight:700; line-height:1.05;
+  }
+
+  /* Ícone no topo: no máx. até 1/7 da tela */
   .hero-icon{
-    display:block; margin:clamp(10px, 16vh, 200px) auto 8px;
+    display:block; margin:clamp(6px, calc(100vh/7), 180px) auto 8px;
     max-width:clamp(374px, 104vw, 665px); width:100%; height:auto; object-fit:contain; object-position:center;
     border:0; border-radius:18px; box-shadow:0 6px 18px var(--sombra);
   }
@@ -39,10 +47,8 @@
   .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
   .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
 
-  /* COLAR "voltar" no último botão */
+  /* "Voltar" colado nos botões */
   .wrap .btn:last-of-type{ margin-bottom:0; }
-
-  /* Footer imediatamente após os botões, com só 2px de respiro acima */
   footer{ text-align:center; margin:2px 0 14px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
