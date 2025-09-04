@@ -77,7 +77,7 @@
     filter:drop-shadow(0 0 11px rgba(255,255,255,1)) drop-shadow(0 0 24px rgba(255,255,255,.7));
   }
 
-  /* LUA no topo meio — AUMENTADA em ~10% (29vh → 32vh) */
+  /* LUA no topo meio — 32vh (≈ +10% sobre 29vh) */
   .moon{
     position:fixed; top:-16vh; left:50%; transform:translateX(-50%);
     width:32vh; height:32vh; border-radius:50%; pointer-events:none; z-index:0;
@@ -101,10 +101,10 @@
     color:var(--bege-escuro); font-weight:800;
   }
 
-  /* Ícone principal OVAL VERTICAL: subir um pouco (mais perto do topo) */
+  /* Ícone principal OVAL VERTICAL — subir para 16vh */
   .hero-oval{
     display:block;
-    margin:clamp(10px, 18vh, 140px) auto 10px;  /* estava 22vh → agora 18vh */
+    margin:clamp(10px, 16vh, 140px) auto 10px;  /* ← atualizado para 16vh */
     width:min(85vw, 544px);
     aspect-ratio:3/4; border-radius:38% / 50%;
     overflow:hidden; box-shadow:0 6px 18px var(--sombra);
@@ -116,7 +116,7 @@
     display:block; border:0;
   }
 
-  /* Botões (2) centralizados — altura já reduzida anteriormente */
+  /* Botões (2) centralizados — altura reduzida */
   .wrap{
     position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:14px 20px 10px;
