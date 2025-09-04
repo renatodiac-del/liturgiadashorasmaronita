@@ -1,3 +1,4 @@
+<!-- lilyo-hora.html (AJUSTES: subtítulo -2pt e hífen; lua com bordas branca espessa + prateada fina) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -90,37 +91,47 @@
     filter:drop-shadow(0 0 14px rgba(255,255,255,1)) drop-shadow(0 0 28px rgba(255,255,255,.8));
   }
 
-  /* LUA no topo meio — 32vh → 27vh (−15%), metade fora da tela */
+  /* LUA no topo meio — 27vh, metade fora, com bordas: branca espessa + prateada fina */
   .moon{
     position:fixed; top:-13.5vh; left:50%; transform:translateX(-50%);
     width:27vh; height:27vh; border-radius:50%; pointer-events:none; z-index:0;
+
+    /* Anel interno (borda) branco espesso */
+    border:10px solid #ffffff;
+
+    /* Disco lunar */
     background:
       radial-gradient(circle at 35% 35%, #ffffff 0%, #f7f0d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%),
       radial-gradient(6px 6px at 42% 38%, rgba(0,0,0,.16), rgba(0,0,0,0) 60%),
       radial-gradient(4px 4px at 30% 48%, rgba(0,0,0,.12), rgba(0,0,0,0) 60%),
       radial-gradient(5px 5px at 52% 30%, rgba(0,0,0,.10), rgba(0,0,0,0) 60%);
-    box-shadow:0 0 22px 9px rgba(255,255,255,.26), inset 0 0 46px rgba(255,255,255,.16);
+
+    /* Anel externo prateado fino + brilho e relevo existentes */
+    box-shadow:
+      0 0 0 2px #c0c0c0,                    /* anel prateado fino por fora */
+      0 0 22px 9px rgba(255,255,255,.26),    /* brilho externo */
+      inset 0 0 46px rgba(255,255,255,.16);  /* relevo interno */
   }
 
   /* Títulos perto do topo */
-  header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0 } /* ↓ padding */
+  header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0 }
   .titulo{
     margin:0; padding:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
     font-size:37px; color:#fff; -webkit-text-stroke:3px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25);
   }
   .subtitulo{
     margin:2px 0 4px; line-height:1.08;
-    font-size:22px;                   /* 24px → 22px (−2 pt) */
+    font-size:20px;                   /* 22px → 20px (−2 pt) */
     color:var(--bege-escuro); font-weight:800;
   }
 
-  /* Ícone principal OVAL VERTICAL — subir UM POUCO (12vh → 10vh) + borda dourada */
+  /* Ícone principal OVAL VERTICAL — 10vh do topo + borda dourada */
   .hero-oval{
     display:block;
-    margin:clamp(8px, 10vh, 140px) auto 10px;  /* mais perto do topo */
+    margin:clamp(8px, 10vh, 140px) auto 10px;
     width:min(85vw, 544px);
     aspect-ratio:3/4; border-radius:38% / 50%;
-    border:6px solid var(--dourado);          /* <<< borda dourada pedida */
+    border:6px solid var(--dourado);
     overflow:hidden; box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1; background:#000;
   }
@@ -130,7 +141,7 @@
     display:block; border:0;
   }
 
-  /* Botões (2) centralizados — altura já reduzida */
+  /* Botões (2) centralizados — altura reduzida */
   .wrap{
     position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:14px 20px 10px;
@@ -175,7 +186,7 @@
 
   <header>
     <h1 class="titulo">Lilyo</h1>
-    <div class="subtitulo">meia noite e vigílias</div>
+    <div class="subtitulo">meia-noite e vigílias</div>
 
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-lilyo.horas.jpg" alt="Ícone principal Lilyo">
