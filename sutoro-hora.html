@@ -47,13 +47,13 @@
   }
 
   /* Ícone principal OVAL VERTICAL:
-     - posição abaixo de 1/5 da tela (≈20vh)
+     - posição em 16vh (mais perto do topo)
      - tamanho +40% (de 444px → ~622px; 60vw → 84vw) */
   .hero-oval{
     display:block;
-    margin:clamp(12px, 22vh, 200px) auto 10px;  /* empurra para baixo do 1/5 superior */
+    margin:clamp(10px, 16vh, 180px) auto 10px;  /* ← atualizado para 16vh */
     width:min(84vw, 622px);
-    aspect-ratio:3/4;               /* <<< vertical agora */
+    aspect-ratio:3/4;               /* vertical */
     border-radius:38% / 50%;        /* oval “em pé” */
     overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
@@ -131,7 +131,7 @@
     <h1 class="titulo">Sutoro</h1>
     <div class="subtitulo">Oração da Noite</div>
 
-    <!-- Ícone principal OVAL VERTICAL (+40%) -->
+    <!-- Ícone principal OVAL VERTICAL (16vh) -->
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-sutoro.horas.jpg" alt="Ícone principal Sutoro">
     </figure>
