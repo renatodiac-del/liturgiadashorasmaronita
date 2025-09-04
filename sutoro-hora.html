@@ -1,4 +1,4 @@
-<!-- sutoro-hora.html (AJUSTE: ícone bem próximo do topo; ultrapassa limite anterior) -->
+<!-- sutoro-hora.html (AJUSTE: ícone um pouco mais alto ~3.5vh) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,7 +12,7 @@
   }
   :root{ --dourado:#a9842b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
 
-  /* Lua 1/4 no canto superior direito (mantida) */
+  /* Lua 1/4 no canto superior direito */
   body::after{
     content:""; position:fixed; top:-120px; right:-120px;
     width:260px; height:260px; border-radius:50%;
@@ -21,7 +21,7 @@
     z-index:0; pointer-events:none;
   }
 
-  /* Cabeçalho mais enxuto para ganhar altura */
+  /* Cabeçalho compacto */
   header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0; }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
@@ -34,10 +34,10 @@
     -webkit-text-fill-color:transparent; color:transparent;
   }
 
-  /* Ícone OVAL VERTICAL: bem próximo do topo (~5vh) */
+  /* Ícone OVAL VERTICAL — ainda mais alto (~3.5vh) */
   .hero-oval{
     display:block;
-    margin:clamp(4px, 5vh, 80px) auto 10px; /* ANTES: max(10px, 1/7vh) */
+    margin:clamp(2px, 3.5vh, 60px) auto 10px; /* antes: clamp(4px, 5vh, 80px) */
     width:min(84vw, 622px);
     aspect-ratio:3/4; border-radius:38% / 50%;
     overflow:hidden; box-shadow:0 6px 18px var(--sombra);
@@ -90,12 +90,20 @@
   <main class="wrap">
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Sutoro</span><span class="sub">versão curta</span></span>
+      <span class="label">
+        <span class="main">Sutoro</span>
+        <span class="sub">versão curta</span>
+      </span>
     </a>
+
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Sutoro</span><span class="sub">versão longa</span></span>
+      <span class="label">
+        <span class="main">Sutoro</span>
+        <span class="sub">versão longa</span>
+      </span>
     </a>
+
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Hinos e Melodias</span></span>
