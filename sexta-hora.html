@@ -1,4 +1,4 @@
-<!-- sexta-hora.html (AJUSTE FINO: ícone +20%; topo ≤ 1/6 da tela; botões mais altos) -->
+<!-- sexta-hora.html (AJUSTE: sol -15%; ícone um pouco mais alto; botões sobem junto) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,12 +13,13 @@
     position:relative; overflow-x:hidden; min-height:100vh; display:flex; flex-direction:column;
   }
 
-  /* Sol 1/2 no topo central (mantido) */
+  /* Sol 1/2 no topo central — 15% MENOR (48vh → 40.8vh) e metade fora da tela */
   body::before{
-    content:""; position:fixed; top:-24vh; left:50%; transform:translateX(-50%);
-    width:48vh; height:48vh; border-radius:50%;
+    content:""; position:fixed; top:-20.4vh; left:50%; transform:translateX(-50%);
+    width:40.8vh; height:40.8vh; border-radius:50%;
     background:radial-gradient(circle at 50% 50%, #fff9db 0%, #ffe89a 38%, #ffd161 62%, rgba(255,209,97,0) 63%);
-    box-shadow:0 0 40px 18px rgba(255,236,170,.6), 0 0 120px 40px rgba(255,193,61,.25); z-index:0; pointer-events:none;
+    box-shadow:0 0 40px 18px rgba(255,236,170,.6), 0 0 120px 40px rgba(255,193,61,.25);
+    z-index:0; pointer-events:none;
   }
 
   header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
@@ -28,20 +29,20 @@
   }
   .subtitulo{ margin:6px 0 10px; color:var(--musgo); font-size:25px; font-weight:700; }
 
-  /* Ícone OVAL VERTICAL — +20% e no máx. até 1/6 da tela (16.6vh) */
+  /* Ícone OVAL VERTICAL — um pouco mais alto (de 16.6vh → 12vh) */
   .hero-oval{
     display:block;
-    margin:clamp(12px, 16.6vh, 200px) auto 8px; /* sobe (antes 26vh) e respeita limite de 1/6 */
-    width:min(90vw, 517px);                     /* antes ~431px → +20% = ~517px */
+    margin:clamp(10px, 12vh, 160px) auto 8px;
+    width:min(90vw, 517px); /* versão ampliada anterior (+20%) mantida */
     aspect-ratio:3/4; border-radius:38% / 50%;
     border:6px solid var(--dourado); overflow:hidden; box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1; background:#000;
   }
   .hero-oval .hero-img{ width:100%; height:100%; object-fit:cover; object-position:50% 45%; display:block; border:0; }
 
-  /* Área dos botões — subimos junto (menos espaçamento acima) */
+  /* Área dos botões — sobem junto (menos respiro acima) */
   .wrap{
-    max-width:600px; margin:0 auto; padding:12px 20px 4px; /* antes 20px no topo */
+    max-width:600px; margin:0 auto; padding:8px 20px 4px; /* antes 12px no topo */
     display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1;
   }
   .btn{
