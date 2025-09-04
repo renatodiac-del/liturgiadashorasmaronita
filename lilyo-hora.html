@@ -1,4 +1,4 @@
-<!-- lilyo-hora.html (AJUSTES: subtítulo -2pt e hífen; lua com bordas branca espessa + prateada fina) -->
+<!-- lilyo-hora.html (AJUSTE: borda branca da lua dobrada para dentro, mantendo anel prateado) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,19 +8,17 @@
   :root{
     --fundo:#020814;          /* azul quase preto */
     --dourado:#d6b25a;        /* ouro-velho */
-    --bege:#f5e6c8;           /* bege claro (ref) */
-    --bege-escuro:#e8d6ad;    /* subtítulo (mais escuro) */
+    --bege-escuro:#e8d6ad;    /* subtítulo */
     --vermelho:#a00000;       /* voltar */
     --sombra:rgba(0,0,0,.22);
   }
-
   body{
     margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff;
     background:var(--fundo);
     position:relative; overflow-x:hidden;
   }
 
-  /* Estrelas finas (densidade alta) */
+  /* Estrelas de fundo (mantidas) */
   body::after{
     content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
@@ -57,7 +55,6 @@
       transparent;
   }
 
-  /* Estrelas maiores nas bordas (laterais reforçadas) */
   .sky-border{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
@@ -77,8 +74,6 @@
       radial-gradient(3px 3px at 98% 98%, #fff, transparent 60%);
     filter:drop-shadow(0 0 11px rgba(255,255,255,1)) drop-shadow(0 0 24px rgba(255,255,255,.7));
   }
-
-  /* Estrelas EXTRA bem grandes e brilhantes nas laterais */
   .stars-sides{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
@@ -91,29 +86,32 @@
     filter:drop-shadow(0 0 14px rgba(255,255,255,1)) drop-shadow(0 0 28px rgba(255,255,255,.8));
   }
 
-  /* LUA no topo meio — 27vh, metade fora, com bordas: branca espessa + prateada fina */
+  /* LUA — borda branca dobrada para DENTRO + anel prateado externo fino */
   .moon{
     position:fixed; top:-13.5vh; left:50%; transform:translateX(-50%);
     width:27vh; height:27vh; border-radius:50%; pointer-events:none; z-index:0;
 
-    /* Anel interno (borda) branco espesso */
-    border:10px solid #ffffff;
+    /* Mantém diâmetro externo fixo ao usar padding como "borda interna" */
+    box-sizing:border-box;
+    padding:20px; /* era 10px; dobrado e para DENTRO (encolhe o disco visível) */
 
-    /* Disco lunar */
+    /* Camadas: 1-4 = disco/crateras (clip no content-box), 5 = anel branco (padding-box) */
     background:
       radial-gradient(circle at 35% 35%, #ffffff 0%, #f7f0d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%),
       radial-gradient(6px 6px at 42% 38%, rgba(0,0,0,.16), rgba(0,0,0,0) 60%),
       radial-gradient(4px 4px at 30% 48%, rgba(0,0,0,.12), rgba(0,0,0,0) 60%),
-      radial-gradient(5px 5px at 52% 30%, rgba(0,0,0,.10), rgba(0,0,0,0) 60%);
+      radial-gradient(5px 5px at 52% 30%, rgba(0,0,0,.10), rgba(0,0,0,0) 60%),
+      linear-gradient(#ffffff, #ffffff); /* anel branco interno */
+    background-clip: content-box, content-box, content-box, content-box, padding-box;
 
-    /* Anel externo prateado fino + brilho e relevo existentes */
+    /* Anel prateado fino externo + brilho e relevo */
     box-shadow:
-      0 0 0 2px #c0c0c0,                    /* anel prateado fino por fora */
+      0 0 0 2px #c0c0c0,                    /* anel prateado externo fino */
       0 0 22px 9px rgba(255,255,255,.26),    /* brilho externo */
       inset 0 0 46px rgba(255,255,255,.16);  /* relevo interno */
   }
 
-  /* Títulos perto do topo */
+  /* Cabeçalho e conteúdos (mantidos da versão anterior) */
   header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0 }
   .titulo{
     margin:0; padding:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
@@ -121,41 +119,25 @@
   }
   .subtitulo{
     margin:2px 0 4px; line-height:1.08;
-    font-size:20px;                   /* 22px → 20px (−2 pt) */
-    color:var(--bege-escuro); font-weight:800;
+    font-size:20px; color:var(--bege-escuro); font-weight:800;
   }
-
-  /* Ícone principal OVAL VERTICAL — 10vh do topo + borda dourada */
   .hero-oval{
-    display:block;
-    margin:clamp(8px, 10vh, 140px) auto 10px;
-    width:min(85vw, 544px);
-    aspect-ratio:3/4; border-radius:38% / 50%;
-    border:6px solid var(--dourado);
-    overflow:hidden; box-shadow:0 6px 18px var(--sombra);
+    display:block; margin:clamp(8px, 10vh, 140px) auto 10px;
+    width:min(85vw, 544px); aspect-ratio:3/4; border-radius:38% / 50%;
+    border:6px solid var(--dourado); overflow:hidden; box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1; background:#000;
   }
-  .hero-oval .hero-img{
-    width:100%; height:100%;
-    object-fit:cover; object-position:50% 45%;
-    display:block; border:0;
-  }
+  .hero-oval .hero-img{ width:100%; height:100%; object-fit:cover; object-position:50% 45%; display:block; border:0; }
 
-  /* Botões (2) centralizados — altura reduzida */
   .wrap{
-    position:relative; z-index:1;
-    max-width:600px; margin:0 auto; padding:14px 20px 10px;
+    position:relative; z-index:1; max-width:600px; margin:0 auto; padding:14px 20px 10px;
     display:flex; flex-direction:column; align-items:center; gap:8px;
   }
   .btn{
-    position:relative; display:flex; align-items:center; justify-content:flex-start;
-    text-decoration:none; background:#fff;
-    border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; min-height:31px; padding:3px 12px;
-    box-shadow:0 4px 10px var(--sombra);
-    color:#000; text-align:center; font-weight:800;
-    transition:transform .08s ease-in-out, box-shadow .12s;
-    overflow:hidden; margin:0 auto;
+    position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
+    border:2px solid var(--dourado); border-radius:14px; width:55%; min-width:280px; min-height:31px; padding:3px 12px;
+    box-shadow:0 4px 10px var(--sombra); color:#000; text-align:center; font-weight:800;
+    transition:transform .08s ease-in-out, box-shadow .12s; overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
   .btn .icon-round{
@@ -166,14 +148,11 @@
   .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
   .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); }
 
-  /* Voltar próximo do último botão */
   .wrap .btn:last-of-type{ margin-bottom:0; }
   footer{ text-align:center; margin:4px 0 20px; position:relative; z-index:1; }
   .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px;
-    font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
+    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
     transform:scale(.6); transform-origin:center;
   }
 </style>
