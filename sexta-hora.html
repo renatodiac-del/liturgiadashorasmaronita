@@ -4,7 +4,6 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Sexta</title>
 <style>
-  /* --- ESTILO ORIGINAL (mantido) + sol no topo --- */
   :root{
     --dourado:#a9842b;
     --musgo:#556B2F;
@@ -14,16 +13,17 @@
   body{
     margin:0;font-family:Arial,Helvetica,sans-serif;color:#333;
     background:linear-gradient(#fff6d1,#ffa94d);
-    position:relative;
+    position:relative; overflow-x:hidden;
   }
-  /* SOL (metade visível no topo central) */
+
+  /* SOL (metade visível no topo central) — tamanho -40% (80vh → 48vh) */
   body::before{
     content:"";
     position:fixed;
-    top:-35vh;                /* empurra pra cima → só metade aparece */
+    top:-24vh;                   /* metade negativa do novo tamanho (48vh) */
     left:50%;
     transform:translateX(-50%);
-    width:80vh; height:80vh;  /* tamanho do sol (escala com viewport) */
+    width:48vh; height:48vh;     /* 80vh → 48vh */
     border-radius:50%;
     background:
       radial-gradient(circle at 50% 50%,
@@ -34,15 +34,14 @@
     box-shadow:
       0 0 40px 18px rgba(255,236,170,.6),
       0 0 120px 40px rgba(255,193,61,.25);
-    z-index:0;
-    pointer-events:none;
+    z-index:0; pointer-events:none;
   }
 
   /* ---------- Cabeçalho ---------- */
   header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px;                 /* +3pt aplicado antes */
+    font-size:40px;                 /* +3pt aplicado anteriormente */
     color:#d6b25a;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
@@ -50,20 +49,25 @@
   .subtitulo{
     margin:6px 0 10px;
     color:var(--musgo);
-    font-size:30px;                 /* 7pt menor que o título (ajuste anterior) */
+    font-size:27px;                 /* 30px → 27px (−3pt) */
     font-weight:700;
   }
 
-  /* Ícone principal (mantido com redução de ~20%) */
-  .hero-icon{
+  /* Ícone principal: OVAL VERTICAL e −25% de tamanho */
+  .hero-oval{
     display:block; margin:10px auto 8px;
-    max-width:clamp(230px, 64vw, 410px);
-    width:100%; height:auto;
-    object-fit:contain; object-position:center;
-    border:0; border-radius:0;
+    width:min(60vw, 308px);         /* ~410px → ~308px (−25%) */
+    aspect-ratio:3/4;               /* vertical */
+    border-radius:38% / 50%;        /* oval em pé */
+    overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
-    background:transparent;
     position:relative; z-index:1;
+    background:#000;                /* segurança */
+  }
+  .hero-oval .hero-img{
+    width:100%; height:100%;
+    object-fit:cover; object-position:50% 45%;  /* minimiza cortes */
+    display:block; border:0;
   }
 
   /* ---------- Botões ---------- */
@@ -77,7 +81,8 @@
     display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; min-height:41px; padding:4px 12px; /* -20% altura já aplicado */
+    width:55%; min-width:280px;
+    min-height:33px; padding:4px 12px; /* 41px → ~33px (−20%) */
     box-shadow:0 4px 10px var(--sombra);
     color:#d6b25a;
     text-align:center; font-weight:800;
@@ -119,7 +124,11 @@
   <header>
     <h1 class="titulo">Hora Sexta</h1>
     <div class="subtitulo">12 horas</div>
-    <img class="hero-icon" src="img/icone-sexta.horas.jpg" alt="Ícone principal Sexta">
+
+    <!-- Ícone principal OVAL VERTICAL (−25%) -->
+    <figure class="hero-oval">
+      <img class="hero-img" src="img/icone-sexta.horas.jpg" alt="Ícone principal Sexta">
+    </figure>
   </header>
 
   <main class="wrap">
