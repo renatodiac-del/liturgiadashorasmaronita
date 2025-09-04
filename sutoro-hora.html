@@ -4,13 +4,12 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sutoro — Oração da Noite</title>
 <style>
-  /* --- ESTILO ORIGINAL (fundo/paleta mantidos) --- */
+  /* --- FUNDO/PALETA (mantidos) --- */
   body{
     margin:0;font-family:Arial,Helvetica,sans-serif;
     background:linear-gradient(#001a33,#fff);color:#fff;
     position:relative; overflow-x:hidden;
   }
-
   :root{
     --dourado:#a9842b;
     --vermelho:#a00000;
@@ -29,11 +28,11 @@
     z-index:0; pointer-events:none;
   }
 
-  /* Cabeçalho e títulos (mantidos: título +7pt, subtítulo 10pt menor com degradê) */
+  /* Cabeçalho e títulos (mantidos) */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px;               /* +7pt aprox */
+    font-size:39px;               /* +7pt aprox (mantido) */
     color:#fff;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
@@ -47,32 +46,35 @@
     -webkit-text-fill-color:transparent; color:transparent;
   }
 
-  /* Ícone principal OVALADO: -25% e sem cortes importantes */
+  /* Ícone principal OVAL VERTICAL:
+     - posição abaixo de 1/5 da tela (≈20vh)
+     - tamanho +40% (de 444px → ~622px; 60vw → 84vw) */
   .hero-oval{
     display:block;
-    margin:8px auto 8px;
-    width:min(60vw, 444px);         /* ~-25% do tamanho anterior (~590px) */
-    aspect-ratio:4/3;               /* oval horizontal */
-    border-radius:50% / 40%;        /* forma oval */
+    margin:clamp(12px, 22vh, 200px) auto 10px;  /* empurra para baixo do 1/5 superior */
+    width:min(84vw, 622px);
+    aspect-ratio:3/4;               /* <<< vertical agora */
+    border-radius:38% / 50%;        /* oval “em pé” */
     overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1;
-    background:#000;                /* segurança para bordas */
+    background:#000;                /* segurança */
   }
   .hero-oval .hero-img{
     width:100%; height:100%;
-    object-fit:cover; object-position:center;
+    object-fit:cover;               /* corta o mínimo possível mantendo preenchimento */
+    object-position:50% 45%;
     display:block; border:0;
   }
 
-  /* Área dos botões */
+  /* Área dos botões (centralizados) */
   .wrap{
     max-width:600px; margin:0 auto; padding:16px 20px 4px;
     display:flex; flex-direction:column; gap:12px; align-items:center;
     position:relative; z-index:1;
   }
 
-  /* Botões grandes centralizados: altura -30% (~36px) */
+  /* Botões grandes (altura -30% mantida) */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
@@ -86,7 +88,7 @@
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
 
-  /* Ícone do cedro (redondo com borda dourada) */
+  /* Ícone do cedro nos botões */
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
     border:2px solid var(--dourado);
@@ -94,7 +96,7 @@
     margin-right:10px; flex:0 0 auto;
   }
 
-  /* Rótulo central absoluto (duas linhas nos 2 primeiros) */
+  /* Texto central absoluto (duas linhas nos 2 primeiros) */
   .btn .label{
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
@@ -129,7 +131,7 @@
     <h1 class="titulo">Sutoro</h1>
     <div class="subtitulo">Oração da Noite</div>
 
-    <!-- Ícone principal OVAL (-25%) -->
+    <!-- Ícone principal OVAL VERTICAL (+40%) -->
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-sutoro.horas.jpg" alt="Ícone principal Sutoro">
     </figure>
