@@ -1,29 +1,22 @@
+<!-- terca-hora.html (AJUSTE FINO: ícone +15%, mais alto; "voltar" bem próximo) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Terça</title>
 <style>
-  /* --- FUNDO: branco → laranja pastel --- */
   :root{
-    --dourado:#a9842b;
-    --bordo:#7a1b1b;
-    --pastel:#ffe5c7;
-    --pastel2:#ffedd6;
-    --laranja:#ff8c00;      /* subtítulo "9 horas" */
-    --vermelho:#a00000;     /* voltar */
-    --sombra:rgba(0,0,0,.18);
+    --dourado:#a9842b; --bordo:#7a1b1b;
+    --pastel:#ffe5c7; --pastel2:#ffedd6;
+    --laranja:#ff8c00; --vermelho:#a00000; --sombra:rgba(0,0,0,.18);
   }
   *{box-sizing:border-box}
   body{
     margin:0; font-family:Arial,Helvetica,sans-serif; color:#333;
     background:linear-gradient(to bottom, #ffffff 0%, var(--pastel2) 50%, var(--pastel) 100%);
-    position:relative;
-    /* empurra o footer para a base sem colar demais */
-    min-height:100vh; display:flex; flex-direction:column;
+    position:relative; min-height:100vh; display:flex; flex-direction:column;
   }
-
-  /* Sol (¼ visível) canto superior direito */
+  /* Sol 1/4 no topo direito */
   body::after{
     content:""; position:fixed; top:-140px; right:-140px; width:320px; height:320px; border-radius:50%;
     background:radial-gradient(circle at 45% 45%, #fffef2 0%, #fff6c7 35%, #ffe88a 55%, rgba(255,232,138,0) 60%);
@@ -31,99 +24,56 @@
     pointer-events:none; z-index:0;
   }
 
-  /* Cabeçalho */
   header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px; color:var(--bordo);
-    -webkit-text-stroke:2.2px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10);
+    font-size:40px; color:var(--bordo); -webkit-text-stroke:2.2px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-  .subtitulo{
-    margin:6px 0 10px;
-    color:var(--laranja);
-    font-style:italic; font-weight:400; font-size:27px;  /* 7pt menor */
-  }
+  .subtitulo{ margin:6px 0 10px; color:var(--laranja); font-style:italic; font-weight:400; font-size:27px; }
 
-  /* Ícone principal: +15% e um pouco MAIS alto (abaixo de ~1/6 = 16vh → 15.6vh) */
+  /* Ícone principal: +15% e um pouco mais alto (12vh) */
   .hero-icon{
-    display:block;
-    margin:clamp(8px, 15.6vh, 180px) auto 8px;   /* ↑ subido levemente */
-    max-width:clamp(265px, 74vw, 472px);         /* +15% do tamanho aprovado */
-    width:100%; height:auto;
-    object-fit:contain; object-position:center;
-    border:6px solid var(--dourado); border-radius:0;
-    box-shadow:0 6px 18px var(--sombra);
-    background:transparent;
+    display:block; margin:clamp(6px, 12vh, 160px) auto 8px;
+    max-width:clamp(305px, 85vw, 543px);
+    width:100%; height:auto; object-fit:contain; object-position:center;
+    border:6px solid var(--dourado); border-radius:0; box-shadow:0 6px 18px var(--sombra);
   }
 
-  /* Botões (2) — centralizados */
   .wrap{
-    max-width:600px; margin:0 auto; padding:20px;
+    max-width:600px; margin:0 auto; padding:20px 20px 0;
     display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1;
   }
   .btn{
-    position:relative; display:flex; align-items:center; justify-content:flex-start;
-    text-decoration:none; background:#fff;
-    border:2px solid var(--dourado); border-radius:14px;
-    width:66%; min-width:280px;
-    min-height:36px;                   /* altura reduzida anteriormente */
-    padding:4px 12px;
-    box-shadow:0 4px 10px var(--sombra);
-    color:#ffd700; text-align:center; font-weight:800;
-    transition:transform .08s, box-shadow .12s; overflow:hidden; margin:0 auto;
+    position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
+    border:2px solid var(--dourado); border-radius:14px; width:66%; min-width:280px; min-height:36px; padding:4px 12px;
+    box-shadow:0 4px 10px var(--sombra); color:#ffd700; text-align:center; font-weight:800; transition:transform .08s, box-shadow .12s; overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-  .btn .icon-round{
-    width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
-    margin-right:10px; flex:0 0 auto;
-  }
-  .btn .label{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none;
-  }
-  .btn .main{
-    font-size:24px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor;
-  }
+  .btn .icon-round{ width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto; }
+  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
+  .btn .main{ font-size:24px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
 
-  /* Espaço maior entre último botão grande e o botão vermelho */
-  .wrap .btn:last-of-type{ margin-bottom:24px; }
-
-  /* Footer desce perto da borda inferior, sem colar */
-  footer{ text-align:center; margin:8px 0 28px; margin-top:auto; position:relative; z-index:1; }
+  /* Deixar o "voltar" o mais próximo possível dos botões grandes */
+  .wrap .btn:last-of-type{ margin-bottom:0; }
+  footer{ text-align:center; margin:4px 0 18px; margin-top:4px; position:relative; z-index:1; }
   .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px;
-    font-weight:800; font-size:12px;
-    box-shadow:0 3px 8px var(--sombra);
-    transform:scale(.6); transform-origin:center;
+    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra); transform:scale(.6);
   }
 </style>
 </head>
 <body>
-
   <header>
     <h1 class="titulo">Hora Terça</h1>
     <div class="subtitulo">9 horas</div>
-
     <img class="hero-icon" src="img/icone-terca.horas.jpg" alt="Ícone principal Terça">
   </header>
 
   <main class="wrap">
-    <a href="#" class="btn">
-      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Oração</span></span>
-    </a>
-
-    <a href="#" class="btn">
-      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Hinos e Melodias</span></span>
-    </a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Oração</span></span></a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
   </main>
 
-  <footer>
-    <a class="btn-voltar" href="mapa-liturgico.html">← voltar</a>
-  </footer>
-
+  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
 </body>
 </html>
