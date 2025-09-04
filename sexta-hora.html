@@ -16,15 +16,12 @@
     position:relative; overflow-x:hidden;
   }
 
-  /* SOL (metade visível no topo central) — tamanho -40% (80vh → 48vh) */
+  /* SOL (metade visível no topo central) — já aplicado */
   body::before{
     content:"";
     position:fixed;
-    top:-24vh;                   /* metade negativa do novo tamanho (48vh) */
-    left:50%;
-    transform:translateX(-50%);
-    width:48vh; height:48vh;     /* 80vh → 48vh */
-    border-radius:50%;
+    top:-24vh; left:50%; transform:translateX(-50%);
+    width:48vh; height:48vh; border-radius:50%;
     background:
       radial-gradient(circle at 50% 50%,
         #fff9db 0%,
@@ -49,24 +46,26 @@
   .subtitulo{
     margin:6px 0 10px;
     color:var(--musgo);
-    font-size:27px;                 /* 30px → 27px (−3pt) */
+    font-size:25px;                 /* 27px → 25px (−2pt) */
     font-weight:700;
   }
 
-  /* Ícone principal: OVAL VERTICAL e −25% de tamanho */
+  /* Ícone principal: OVAL VERTICAL, +40% e ABAIXO do 1/4 superior (~26vh) */
   .hero-oval{
-    display:block; margin:10px auto 8px;
-    width:min(60vw, 308px);         /* ~410px → ~308px (−25%) */
-    aspect-ratio:3/4;               /* vertical */
-    border-radius:38% / 50%;        /* oval em pé */
+    display:block;
+    margin:clamp(18px, 26vh, 260px) auto 10px; /* garante que não ultrapasse o ¼ superior */
+    width:min(84vw, 431px);                    /* 308px → ~431px (+40%) */
+    aspect-ratio:3/4;                          /* vertical */
+    border-radius:38% / 50%;                   /* oval em pé */
+    border:6px solid var(--dourado);           /* borda dourada ouro-velho */
     overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1;
-    background:#000;                /* segurança */
+    background:#000;                           /* segurança */
   }
   .hero-oval .hero-img{
     width:100%; height:100%;
-    object-fit:cover; object-position:50% 45%;  /* minimiza cortes */
+    object-fit:cover; object-position:50% 45%; /* minimiza cortes */
     display:block; border:0;
   }
 
@@ -82,10 +81,9 @@
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
     width:55%; min-width:280px;
-    min-height:33px; padding:4px 12px; /* 41px → ~33px (−20%) */
+    min-height:33px; padding:4px 12px; /* −20% já aplicado */
     box-shadow:0 4px 10px var(--sombra);
-    color:#d6b25a;
-    text-align:center; font-weight:800;
+    color:#d6b25a; text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto;
   }
@@ -125,7 +123,7 @@
     <h1 class="titulo">Hora Sexta</h1>
     <div class="subtitulo">12 horas</div>
 
-    <!-- Ícone principal OVAL VERTICAL (−25%) -->
+    <!-- Ícone principal OVAL VERTICAL (+40%, com borda, abaixo do ¼ superior) -->
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-sexta.horas.jpg" alt="Ícone principal Sexta">
     </figure>
