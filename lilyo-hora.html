@@ -5,106 +5,130 @@
 <title>Lilyo — Vigílias</title>
 <style>
   :root{
-    --fundo:#020814;      /* azul bem escuro (quase preto) */
-    --dourado:#d6b25a;    /* ouro-velho para contornos/bordas */
-    --bege:#f5e6c8;       /* bege do subtítulo */
-    --vermelho:#a00000;   /* botão voltar */
+    --fundo:#020814;          /* azul quase preto */
+    --dourado:#d6b25a;        /* ouro-velho */
+    --bege:#f5e6c8;           /* bege claro (referência) */
+    --bege-escuro:#e8d6ad;    /* bege um pouco mais escuro (subtítulo) */
+    --vermelho:#a00000;       /* voltar */
     --sombra:rgba(0,0,0,.22);
   }
 
-  /* Céu base */
   body{
     margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff;
     background:var(--fundo);
     position:relative; overflow-x:hidden;
   }
 
-  /* Campo de estrelas finas (muitas) */
+  /* Estrelas miúdas: densidade aumentada */
   body::after{
     content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
-      radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,.9) 99%, transparent 100%),
-      radial-gradient(1px 1px at 15% 28%, rgba(255,255,255,.75) 99%, transparent 100%),
-      radial-gradient(1px 1px at 23% 6%, rgba(255,255,255,.85) 99%, transparent 100%),
-      radial-gradient(1px 1px at 30% 18%, rgba(255,255,255,.9) 99%, transparent 100%),
-      radial-gradient(1px 1px at 38% 32%, rgba(255,255,255,.7) 99%, transparent 100%),
-      radial-gradient(1px 1px at 44% 8%, rgba(255,255,255,.8) 99%, transparent 100%),
-      radial-gradient(1px 1px at 52% 22%, rgba(255,255,255,.9) 99%, transparent 100%),
-      radial-gradient(1px 1px at 58% 5%, rgba(255,255,255,.8) 99%, transparent 100%),
-      radial-gradient(1px 1px at 66% 16%, rgba(255,255,255,.85) 99%, transparent 100%),
-      radial-gradient(1px 1px at 72% 27%, rgba(255,255,255,.9) 99%, transparent 100%),
-      radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,.75) 99%, transparent 100%),
-      radial-gradient(1px 1px at 88% 20%, rgba(255,255,255,.85) 99%, transparent 100%),
-      radial-gradient(1px 1px at 10% 58%, rgba(255,255,255,.8) 99%, transparent 100%),
-      radial-gradient(1px 1px at 18% 76%, rgba(255,255,255,.9) 99%, transparent 100%),
-      radial-gradient(1px 1px at 26% 64%, rgba(255,255,255,.7) 99%, transparent 100%),
-      radial-gradient(1px 1px at 34% 84%, rgba(255,255,255,.85) 99%, transparent 100%),
-      radial-gradient(1px 1px at 42% 72%, rgba(255,255,255,.9) 99%, transparent 100%),
-      radial-gradient(1px 1px at 50% 88%, rgba(255,255,255,.75) 99%, transparent 100%),
-      radial-gradient(1px 1px at 58% 62%, rgba(255,255,255,.8) 99%, transparent 100%),
-      radial-gradient(1px 1px at 66% 78%, rgba(255,255,255,.9) 99%, transparent 100%),
-      radial-gradient(1px 1px at 74% 66%, rgba(255,255,255,.8) 99%, transparent 100%),
-      radial-gradient(1px 1px at 82% 82%, rgba(255,255,255,.85) 99%, transparent 100%),
-      radial-gradient(450px 450px at 50% 40%, rgba(255,255,255,.04), transparent 70%),
-      radial-gradient(300px 300px at 20% 60%, rgba(255,255,255,.03), transparent 70%),
-      radial-gradient(300px 300px at 80% 70%, rgba(255,255,255,.03), transparent 70%),
+      /* camada 1 (topo/meio) */
+      radial-gradient(1px 1px at 6% 8%,   rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 14% 28%, rgba(255,255,255,.75)99%, transparent 100%),
+      radial-gradient(1px 1px at 18% 10%, rgba(255,255,255,.85)99%, transparent 100%),
+      radial-gradient(1px 1px at 22% 22%, rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 26% 6%,  rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 30% 16%, rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 34% 30%, rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 40% 12%, rgba(255,255,255,.85)99%, transparent 100%),
+      radial-gradient(1px 1px at 46% 24%, rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 52% 18%, rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 58% 8%,  rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 64% 22%, rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 70% 14%, rgba(255,255,255,.75)99%, transparent 100%),
+      radial-gradient(1px 1px at 76% 28%, rgba(255,255,255,.85)99%, transparent 100%),
+      radial-gradient(1px 1px at 82% 10%, rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 88% 20%, rgba(255,255,255,.85)99%, transparent 100%),
+
+      /* camada 2 (meio/baixo) */
+      radial-gradient(1px 1px at 8% 58%,  rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 16% 72%, rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 24% 86%, rgba(255,255,255,.75)99%, transparent 100%),
+      radial-gradient(1px 1px at 32% 64%, rgba(255,255,255,.85)99%, transparent 100%),
+      radial-gradient(1px 1px at 40% 78%, rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 48% 90%, rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 56% 68%, rgba(255,255,255,.85)99%, transparent 100%),
+      radial-gradient(1px 1px at 64% 82%, rgba(255,255,255,.8) 99%, transparent 100%),
+      radial-gradient(1px 1px at 72% 70%, rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 80% 86%, rgba(255,255,255,.8) 99%, transparent 100%),
+
+      /* poeira de brilho */
+      radial-gradient(450px 450px at 50% 40%, rgba(255,255,255,.05), transparent 70%),
+      radial-gradient(300px 300px at 20% 60%, rgba(255,255,255,.04), transparent 70%),
+      radial-gradient(300px 300px at 80% 70%, rgba(255,255,255,.04), transparent 70%),
       transparent;
   }
 
-  /* Estrelas maiores/brilhantes nas bordas */
+  /* Estrelas grandes e mais brilhantes nas bordas (quantidade reforçada) */
   .sky-border{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
-      radial-gradient(3px 3px at 2% 2%, #fff, transparent 60%),
-      radial-gradient(3px 3px at 50% 2%, #fff, transparent 60%),
-      radial-gradient(3px 3px at 98% 2%, #fff, transparent 60%),
-      radial-gradient(3px 3px at 2% 50%, #fff, transparent 60%),
+      radial-gradient(3px 3px at 2% 2%,   #fff, transparent 60%),
+      radial-gradient(3px 3px at 15% 2%,  #fff, transparent 60%),
+      radial-gradient(3px 3px at 50% 2%,  #fff, transparent 60%),
+      radial-gradient(3px 3px at 85% 2%,  #fff, transparent 60%),
+      radial-gradient(3px 3px at 98% 2%,  #fff, transparent 60%),
+
+      radial-gradient(3px 3px at 2% 50%,  #fff, transparent 60%),
       radial-gradient(3px 3px at 98% 50%, #fff, transparent 60%),
-      radial-gradient(3px 3px at 2% 98%, #fff, transparent 60%),
+
+      radial-gradient(3px 3px at 2% 98%,  #fff, transparent 60%),
+      radial-gradient(3px 3px at 15% 98%, #fff, transparent 60%),
       radial-gradient(3px 3px at 50% 98%, #fff, transparent 60%),
+      radial-gradient(3px 3px at 85% 98%, #fff, transparent 60%),
       radial-gradient(3px 3px at 98% 98%, #fff, transparent 60%);
-    filter:drop-shadow(0 0 8px rgba(255,255,255,.9)) drop-shadow(0 0 16px rgba(255,255,255,.5));
+    filter:
+      drop-shadow(0 0 10px rgba(255,255,255,1))
+      drop-shadow(0 0 22px rgba(255,255,255,.7));
   }
 
-  /* Lua cheia no topo central (metade visível) */
+  /* Lua no topo meio: −40% (80vh → 48vh) e metade visível (top = −metade) */
   .moon{
-    position:fixed; top:-35vh; left:50%; transform:translateX(-50%);
-    width:80vh; height:80vh; border-radius:50%; pointer-events:none; z-index:0;
+    position:fixed; top:-24vh; left:50%; transform:translateX(-50%);
+    width:48vh; height:48vh; border-radius:50%; pointer-events:none; z-index:0;
     background:
       radial-gradient(circle at 35% 35%, #ffffff 0%, #f7f0d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%),
       radial-gradient(6px 6px at 42% 38%, rgba(0,0,0,.16), rgba(0,0,0,0) 60%),
       radial-gradient(4px 4px at 30% 48%, rgba(0,0,0,.12), rgba(0,0,0,0) 60%),
       radial-gradient(5px 5px at 52% 30%, rgba(0,0,0,.10), rgba(0,0,0,0) 60%);
-    box-shadow:0 0 40px 16px rgba(255,255,255,.28), inset 0 0 80px rgba(255,255,255,.18);
+    box-shadow:0 0 28px 12px rgba(255,255,255,.26), inset 0 0 60px rgba(255,255,255,.16);
   }
 
-  /* Cabeçalho/títulos */
+  /* Cabeçalho e títulos */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; padding:6px 0 0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:37px;                    /* 32px + 5pt aprox. */
-    color:#fff;
-    -webkit-text-stroke:3px var(--dourado); /* 3× mais espesso */
-    text-shadow:0 1px 0 rgba(0,0,0,.25);
+    font-size:37px;                      /* 32px + 5pt aprox. (mantido) */
+    color:#fff; -webkit-text-stroke:3px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25);
   }
   .subtitulo{
     margin:6px 0 6px; line-height:1.08;
-    font-size:27px;                    /* 10pt menor que o título */
-    color:var(--bege);
-    font-weight:800; text-transform:none;
+    font-size:27px;                      /* 10pt menor que o título */
+    color:var(--bege-escuro);            /* bege mais escuro */
+    font-weight:800;
   }
 
-  /* Ícone principal: abaixo do 1/4 superior da tela */
-  .hero-icon{
+  /* Ícone principal OVAL: −15% e mais próximo do topo */
+  .hero-oval{
     display:block;
-    margin:clamp(12px, 25vh, 240px) auto 10px;  /* empurra para baixo do ¼ */
-    max-width:clamp(288px,80vw,512px);
-    width:100%; height:auto; object-fit:contain; object-position:center;
-    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra);
-    background:transparent; position:relative; z-index:1;
+    margin:clamp(8px, 12vh, 120px) auto 10px; /* mais perto da borda superior */
+    width:min(68vw, 435px);                   /* ~−15% do limite superior */
+    aspect-ratio:4/3;                         /* forma base do oval */
+    border-radius:50% / 38%;                  /* OVAL */
+    overflow:hidden;
+    box-shadow:0 6px 18px var(--sombra);
+    position:relative; z-index:1;
+    background:#000;                          /* fundo de segurança */
+  }
+  .hero-oval .hero-img{
+    width:100%; height:100%;
+    object-fit:cover; object-position:center;
+    display:block; border:0;
   }
 
-  /* Botões grandes (2) centralizados */
+  /* Área dos botões (2) */
   .wrap{
     position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:14px 20px 10px;
@@ -128,14 +152,12 @@
     margin-right:10px; flex:0 0 auto;
   }
   .btn .label{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    pointer-events:none;
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;
   }
   .btn .main{
     font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado);
   }
 
-  /* Voltar */
   footer{ text-align:center; margin:16px 0 22px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
@@ -155,18 +177,19 @@
   <header>
     <h1 class="titulo">Lilyo</h1>
     <div class="subtitulo">meia noite e vigílias</div>
-    <!-- ÍCONE PRINCIPAL reintroduzido -->
-    <img class="hero-icon" src="img/icone-lilyo.horas.jpg" alt="Ícone principal Lilyo">
+
+    <!-- ÍCONE PRINCIPAL OVALADO -->
+    <figure class="hero-oval">
+      <img class="hero-img" src="img/icone-lilyo.horas.jpg" alt="Ícone principal Lilyo">
+    </figure>
   </header>
 
   <main class="wrap">
-    <!-- Botão 1: Oração -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Oração</span></span>
     </a>
 
-    <!-- Botão 2: Hinos e Melodias -->
     <a href="#" class="btn">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Hinos e Melodias</span></span>
