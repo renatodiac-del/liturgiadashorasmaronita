@@ -19,6 +19,8 @@
     margin:0; font-family:Arial,Helvetica,sans-serif; color:#333;
     background:linear-gradient(to bottom, #ffffff 0%, var(--pastel2) 50%, var(--pastel) 100%);
     position:relative;
+    /* empurra o footer para a base sem colar demais */
+    min-height:100vh; display:flex; flex-direction:column;
   }
 
   /* Sol (¼ visível) canto superior direito */
@@ -42,11 +44,11 @@
     font-style:italic; font-weight:400; font-size:27px;  /* 7pt menor */
   }
 
-  /* Ícone principal: +15% e ABAIXO do 1/6 superior (~16vh) */
+  /* Ícone principal: +15% e um pouco MAIS alto (abaixo de ~1/6 = 16vh → 15.6vh) */
   .hero-icon{
     display:block;
-    margin:clamp(8px, 16vh, 180px) auto 8px;   /* sobe, mas respeita o limite 1/6 */
-    max-width:clamp(265px, 74vw, 472px);       /* 230→265px, 64→74vw, 410→472px (+15%) */
+    margin:clamp(8px, 15.6vh, 180px) auto 8px;   /* ↑ subido levemente */
+    max-width:clamp(265px, 74vw, 472px);         /* +15% do tamanho aprovado */
     width:100%; height:auto;
     object-fit:contain; object-position:center;
     border:6px solid var(--dourado); border-radius:0;
@@ -54,7 +56,7 @@
     background:transparent;
   }
 
-  /* Botões (2) — já centralizados e com fonte aumentada antes */
+  /* Botões (2) — centralizados */
   .wrap{
     max-width:600px; margin:0 auto; padding:20px;
     display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1;
@@ -83,9 +85,11 @@
     font-size:24px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor;
   }
 
-  /* Voltar: quase colado ao último botão (como você pediu antes) */
-  .wrap .btn:last-of-type{ margin-bottom:0; }
-  footer{ text-align:center; margin:4px 0 20px }
+  /* Espaço maior entre último botão grande e o botão vermelho */
+  .wrap .btn:last-of-type{ margin-bottom:24px; }
+
+  /* Footer desce perto da borda inferior, sem colar */
+  footer{ text-align:center; margin:8px 0 28px; margin-top:auto; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--vermelho); color:#fff; text-decoration:none;
