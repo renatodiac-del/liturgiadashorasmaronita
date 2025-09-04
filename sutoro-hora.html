@@ -1,3 +1,4 @@
+<!-- sutoro-hora.html (AJUSTE: ícone no topo, sem ultrapassar 1/7 da tela) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -28,18 +29,18 @@
     z-index:0; pointer-events:none;
   }
 
-  /* Cabeçalho e títulos (mantidos) */
+  /* Cabeçalho e títulos */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px;               /* +7pt aprox (mantido) */
+    font-size:39px;
     color:#fff;
     -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
   .subtitulo{
     margin:6px 0 8px;
-    font-size:29px;               /* 10pt menor que o título */
+    font-size:29px;
     font-weight:700; line-height:1.1;
     background:linear-gradient(180deg,#7a8da6 0%, #b9c4d2 55%, #ffffff 100%);
     -webkit-background-clip:text; background-clip:text;
@@ -47,11 +48,10 @@
   }
 
   /* Ícone principal OVAL VERTICAL:
-     - tamanho +40% (já aplicado)
-     - posição no MÁXIMO até o limite de 1/5 (20vh) do topo */
+     - o mais alto possível, mas SEM ultrapassar 1/7 da tela */
   .hero-oval{
     display:block;
-    margin:clamp(10px, 20vh, 200px) auto 10px;  /* ← limite de 1/5 da tela */
+    margin: max(10px, calc(100vh/7)) auto 10px;
     width:min(84vw, 622px);
     aspect-ratio:3/4;               /* vertical */
     border-radius:38% / 50%;        /* oval “em pé” */
@@ -59,6 +59,7 @@
     box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1;
     background:#000;                /* segurança */
+    border:6px solid var(--dourado);
   }
   .hero-oval .hero-img{
     width:100%; height:100%;
@@ -74,7 +75,7 @@
     position:relative; z-index:1;
   }
 
-  /* Botões grandes (altura -30% mantida) */
+  /* Botões grandes */
   .btn{
     position:relative;
     display:flex; align-items:center; justify-content:flex-start;
@@ -131,7 +132,7 @@
     <h1 class="titulo">Sutoro</h1>
     <div class="subtitulo">Oração da Noite</div>
 
-    <!-- Ícone principal OVAL VERTICAL (limite de 1/5 = 20vh) -->
+    <!-- Ícone principal OVAL VERTICAL (topo ≤ 1/7 da tela) -->
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-sutoro.horas.jpg" alt="Ícone principal Sutoro">
     </figure>
