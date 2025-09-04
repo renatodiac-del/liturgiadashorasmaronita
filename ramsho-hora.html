@@ -51,7 +51,7 @@
 
   /* --- ESTRELAS --- */
 
-  /* Pontinhos próximos do SOL (topo esquerdo), da LUA (topo direito) e nas laterais */
+  /* Pontinhos próximos do SOL (topo ESQ), da LUA (topo DIR) e nas laterais */
   .stars-near{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
@@ -105,13 +105,13 @@
     margin:4px 0 6px; color:#fff; font-size:26px; font-weight:700; /* -2 pt anterior */
   }
 
-  /* ÍCONE PRINCIPAL em FORMATO OVAL e -25% de tamanho */
+  /* ÍCONE PRINCIPAL — OVAL VERTICAL (padronizado com Lilyo) */
   .hero-oval{
     display:block;
     margin:6px auto 6px;              /* próximo do título/subtítulo */
-    width:min(60vw, 460px);           /* 614px máx anterior → ~460px (−25%) */
-    aspect-ratio:4/3;                 /* base do oval */
-    border-radius:50% / 40%;          /* forma ovalada */
+    width:min(60vw, 460px);           /* base do Ramsho (antes ~-25%) */
+    aspect-ratio:3/4;                 /* <<< vertical */
+    border-radius:38% / 50%;          /* forma oval “em pé” */
     overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1;
@@ -119,7 +119,7 @@
   }
   .hero-oval .hero-img{
     width:100%; height:100%;
-    object-fit:cover; object-position:center;
+    object-fit:cover; object-position:50% 45%; /* minimiza cortes visíveis */
     display:block; border:0;
   }
 
@@ -180,7 +180,7 @@
     <h1 class="titulo">Ramsho</h1>
     <div class="subtitulo">Oração da Tarde</div>
 
-    <!-- Ícone principal OVAL (-25%) -->
+    <!-- Ícone principal OVAL VERTICAL -->
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-ramsho.horas.jpg" alt="Ícone principal Ramsho">
     </figure>
