@@ -18,12 +18,12 @@
     position:relative; overflow-x:hidden;
   }
 
-  /* SOL (¼ visível, topo ESQUERDO) — tamanho -35% */
+  /* SOL (¼ visível, topo ESQUERDO) — tamanho reduzido anteriormente */
   body::before{
     content:"";
     position:fixed;
-    top:-110px; left:-110px;           /* ≈ metade do novo diâmetro → mostra ~¼ */
-    width:221px; height:221px;         /* 340px → ~221px */
+    top:-110px; left:-110px;
+    width:221px; height:221px;         /* 340px → ~221px (−35%) */
     border-radius:50%;
     background:
       radial-gradient(circle at 65% 35%, rgba(0,0,0,.40) 0%, rgba(0,0,0,0) 55%),
@@ -34,12 +34,12 @@
     z-index:0; pointer-events:none;
   }
 
-  /* LUA (¼ visível, topo DIREITO) — tamanho -35% */
+  /* LUA (¼ visível, topo DIREITO) — tamanho reduzido anteriormente */
   body::after{
     content:"";
     position:fixed;
-    top:-85px; right:-85px;            /* ≈ metade do novo diâmetro → mostra ~¼ */
-    width:169px; height:169px;         /* 260px → ~169px */
+    top:-85px; right:-85px;
+    width:169px; height:169px;         /* 260px → ~169px (−35%) */
     border-radius:50%;
     background:
       radial-gradient(circle at 35% 35%, #ffffff 0%, #fef3d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%);
@@ -49,73 +49,60 @@
     z-index:0; pointer-events:none;
   }
 
-  /* --- ESTRELAS --- */
-
-  /* Pontinhos próximos do SOL (topo ESQ), da LUA (topo DIR) e nas laterais */
+  /* --- ESTRELAS --- (clusters e destaques) */
   .stars-near{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
-      /* cluster perto da LUA (topo direito) */
       radial-gradient(1px 1px at 88% 10%, rgba(255,255,255,.95) 99%, transparent 100%),
       radial-gradient(1px 1px at 92% 14%, rgba(255,255,255,.85) 99%, transparent 100%),
       radial-gradient(1px 1px at 95% 8%,  rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 90% 18%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 85% 12%, rgba(255,255,255,.85) 99%, transparent 100%),
 
-      /* cluster perto do SOL (topo esquerdo) */
       radial-gradient(1px 1px at 12% 10%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 8%  14%, rgba(255,255,255,.85) 99%, transparent 100%),
       radial-gradient(1px 1px at 5%   8%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 15% 12%, rgba(255,255,255,.85) 99%, transparent 100%),
 
-      /* laterais (meio da tela) */
       radial-gradient(1px 1px at 2%  50%, rgba(255,255,255,.85) 99%, transparent 100%),
       radial-gradient(1px 1px at 3%  70%, rgba(255,255,255,.8)  99%, transparent 100%),
       radial-gradient(1px 1px at 97% 30%, rgba(255,255,255,.85) 99%, transparent 100%),
       radial-gradient(1px 1px at 98% 55%, rgba(255,255,255,.8)  99%, transparent 100%),
       transparent;
   }
-
-  /* 3–4 estrelas MAIORES/BRILHANTES (alto, extremidades e uma mais ao meio) */
   .stars-big{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
-      /* cantos superiores */
       radial-gradient(3px 3px at 3% 3%,   #fff, transparent 60%),
       radial-gradient(3px 3px at 97% 3%,  #fff, transparent 60%),
-      /* topo meio (um destaque) */
       radial-gradient(3px 3px at 50% 6%,  #fff, transparent 60%),
-      /* extremidade inferior direita (leve brilho) */
       radial-gradient(3px 3px at 96% 94%, #fff, transparent 60%);
-    filter:
-      drop-shadow(0 0 10px rgba(255,255,255,1))
-      drop-shadow(0 0 22px rgba(255,255,255,.7));
+    filter: drop-shadow(0 0 10px rgba(255,255,255,1)) drop-shadow(0 0 22px rgba(255,255,255,.7));
   }
 
-  /* Cabeçalho (mantém ajustes anteriores) */
+  /* Cabeçalho (mantém ajustes) */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px;                  /* +2 pt anterior */
-    color:#ff7a00; -webkit-text-stroke:1px var(--dourado);
+    font-size:39px; color:#ff7a00; -webkit-text-stroke:1px var(--dourado);
     text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
   .subtitulo{
-    margin:4px 0 6px; color:#fff; font-size:26px; font-weight:700; /* -2 pt anterior */
+    margin:4px 0 6px; color:#fff; font-size:26px; font-weight:700;
   }
 
-  /* ÍCONE PRINCIPAL — OVAL VERTICAL (padronizado com Lilyo) */
+  /* ÍCONE PRINCIPAL — OVAL VERTICAL, AGORA ~+45% */
   .hero-oval{
     display:block;
-    margin:6px auto 6px;              /* próximo do título/subtítulo */
-    width:min(60vw, 460px);           /* base do Ramsho (antes ~-25%) */
-    aspect-ratio:3/4;                 /* <<< vertical */
-    border-radius:38% / 50%;          /* forma oval “em pé” */
+    margin:6px auto 6px;
+    width:min(87vw, 667px);       /* 60vw→87vw e 460px→667px (≈ +45%) */
+    aspect-ratio:3/4;             /* vertical */
+    border-radius:38% / 50%;      /* oval “em pé” */
     overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1;
-    background:#000;                  /* segurança */
+    background:#000;
   }
   .hero-oval .hero-img{
     width:100%; height:100%;
@@ -123,7 +110,7 @@
     display:block; border:0;
   }
 
-  /* Área dos botões (mantidas centralização e dimensões anteriores) */
+  /* Área dos botões */
   .wrap{
     position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:16px 20px 4px;
@@ -134,14 +121,13 @@
     display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; min-height:38px; padding:4px 12px; /* já com -7% anterior */
+    width:55%; min-width:280px; min-height:38px; padding:4px 12px;
     box-shadow:0 4px 10px var(--sombra);
     color:#001a33; text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s;
     overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
     border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
@@ -151,12 +137,8 @@
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:0; pointer-events:none;
   }
-  .btn .main{
-    font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor;
-  }
-  .btn .sub{
-    font-size:14px; line-height:1.06; font-weight:700; color:#001a33; -webkit-text-stroke:0;
-  }
+  .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
+  .btn .sub{ font-size:14px; line-height:1.06; font-weight:700; color:#001a33; -webkit-text-stroke:0; }
 
   .wrap .btn:last-of-type{ margin-bottom:2px; }
   footer{ text-align:center; margin:0 0 20px; position:relative; z-index:1; }
@@ -180,7 +162,7 @@
     <h1 class="titulo">Ramsho</h1>
     <div class="subtitulo">Oração da Tarde</div>
 
-    <!-- Ícone principal OVAL VERTICAL -->
+    <!-- Ícone principal OVAL VERTICAL (agora maior ~+45%) -->
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-ramsho.horas.jpg" alt="Ícone principal Ramsho">
     </figure>
