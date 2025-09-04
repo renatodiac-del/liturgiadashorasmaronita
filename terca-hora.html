@@ -2,98 +2,133 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hora Terça</title>
+<title>Hora Sexta</title>
 <style>
-  /* --- FUNDO: branco → laranja pastel --- */
   :root{
     --dourado:#a9842b;
-    --bordo:#7a1b1b;
-    --pastel:#ffe5c7;
-    --pastel2:#ffedd6;
-    --laranja:#ff8c00;      /* laranja do subtítulo */
+    --musgo:#556B2F;
     --vermelho:#a00000;
     --sombra:rgba(0,0,0,.18);
   }
-  *{box-sizing:border-box}
   body{
-    margin:0; font-family:Arial,Helvetica,sans-serif; color:#333;
-    background:linear-gradient(to bottom, #ffffff 0%, var(--pastel2) 50%, var(--pastel) 100%);
-    position:relative;
-  }
-  /* Sol (¼ visível) canto superior direito */
-  body::after{
-    content:""; position:fixed; top:-140px; right:-140px; width:320px; height:320px; border-radius:50%;
-    background:radial-gradient(circle at 45% 45%, #fffef2 0%, #fff6c7 35%, #ffe88a 55%, rgba(255,232,138,0) 60%);
-    box-shadow:0 0 30px 10px rgba(255,248,200,.6), 0 0 80px 30px rgba(255,232,138,.35);
-    pointer-events:none; z-index:0;
+    margin:0;font-family:Arial,Helvetica,sans-serif;color:#333;
+    background:linear-gradient(#fff6d1,#ffa94d);
+    position:relative; overflow-x:hidden;
   }
 
-  /* Cabeçalho */
+  /* SOL (metade visível no topo central) — tamanho -40% (80vh → 48vh) */
+  body::before{
+    content:"";
+    position:fixed;
+    top:-24vh;                   /* metade negativa do novo tamanho (48vh) */
+    left:50%;
+    transform:translateX(-50%);
+    width:48vh; height:48vh;     /* 80vh → 48vh */
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 50% 50%,
+        #fff9db 0%,
+        #ffe89a 38%,
+        #ffd161 62%,
+        rgba(255,209,97,0) 63%);
+    box-shadow:
+      0 0 40px 18px rgba(255,236,170,.6),
+      0 0 120px 40px rgba(255,193,61,.25);
+    z-index:0; pointer-events:none;
+  }
+
+  /* ---------- Cabeçalho ---------- */
   header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
   .titulo{
     margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px; color:var(--bordo);
-    -webkit-text-stroke:2.2px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10);
+    font-size:40px;                 /* +3pt aplicado anteriormente */
+    color:#d6b25a;
+    -webkit-text-stroke:1px var(--dourado);
+    text-shadow:0 1px 0 rgba(0,0,0,.10);
   }
-  /* Subtítulo agora em LARANJA */
   .subtitulo{
     margin:6px 0 10px;
-    color:var(--laranja);
-    font-style:italic; font-weight:400; font-size:27px;
+    color:var(--musgo);
+    font-size:27px;                 /* 30px → 27px (−3pt) */
+    font-weight:700;
   }
 
-  /* Ícone principal */
-  .hero-icon{
+  /* Ícone principal: OVAL VERTICAL e −25% de tamanho */
+  .hero-oval{
     display:block; margin:10px auto 8px;
-    max-width:clamp(288px, 80vw, 512px); width:100%; height:auto;
-    object-fit:contain; object-position:center;
-    border:6px solid var(--dourado); border-radius:0; box-shadow:0 6px 18px var(--sombra);
-    background:transparent;
+    width:min(60vw, 308px);         /* ~410px → ~308px (−25%) */
+    aspect-ratio:3/4;               /* vertical */
+    border-radius:38% / 50%;        /* oval em pé */
+    overflow:hidden;
+    box-shadow:0 6px 18px var(--sombra);
+    position:relative; z-index:1;
+    background:#000;                /* segurança */
+  }
+  .hero-oval .hero-img{
+    width:100%; height:100%;
+    object-fit:cover; object-position:50% 45%;  /* minimiza cortes */
+    display:block; border:0;
   }
 
-  /* Botões (largura +20% → 66%) */
-  .wrap{ max-width:600px; margin:0 auto; padding:20px; display:flex; flex-direction:column; gap:8px; align-items:center; }
+  /* ---------- Botões ---------- */
+  .wrap{
+    max-width:600px; margin:0 auto; padding:20px 20px 4px;
+    display:flex; flex-direction:column; gap:8px; align-items:center;
+    position:relative; z-index:1;
+  }
   .btn{
-    position:relative; display:flex; align-items:center; justify-content:flex-start;
+    position:relative;
+    display:flex; align-items:center; justify-content:flex-start;
     text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px;
-    width:66%;                   /* antes 55% */
-    min-width:280px; min-height:51px; padding:5px 12px;
+    width:55%; min-width:280px;
+    min-height:33px; padding:4px 12px; /* 41px → ~33px (−20%) */
     box-shadow:0 4px 10px var(--sombra);
-    color:#ffd700; text-align:center; font-weight:800;
-    transition:transform .08s, box-shadow .12s; overflow:hidden; margin:0 auto;
+    color:#d6b25a;
+    text-align:center; font-weight:800;
+    transition:transform .08s ease-in-out, box-shadow .12s;
+    overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
+    border:2px solid var(--dourado);
+    box-shadow:0 0 0 2px #fff inset; background:#fff;
     margin-right:10px; flex:0 0 auto;
   }
   .btn .label{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:0; pointer-events:none;
   }
-  /* Texto dos botões já +3pt */
   .btn .main{
-    font-size:24px; line-height:1.06;
-    -webkit-text-stroke:.8px var(--dourado); color:currentColor;
+    font-size:21px; line-height:1.06;
+    -webkit-text-stroke:.8px var(--dourado);
+    color:currentColor;
   }
 
-  /* Voltar */
-  footer{ text-align:center; margin:20px 0 }
+  /* ---------- Voltar ---------- */
+  footer{ text-align:center; margin:0 0 20px; position:relative; z-index:1; }
   .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px;
-    box-shadow:0 3px 8px var(--sombra); transform:scale(.6); transform-origin:center;
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--vermelho); color:#fff; text-decoration:none;
+    border:none; border-radius:999px; padding:6px 12px;
+    font-weight:800; font-size:12px;
+    box-shadow:0 3px 8px var(--sombra);
+    transform:scale(.6); transform-origin:center;
   }
 </style>
 </head>
 <body>
 
   <header>
-    <h1 class="titulo">Hora Terça</h1>
-    <div class="subtitulo">9 horas</div>
-    <img class="hero-icon" src="img/icone-terca.horas.jpg" alt="Ícone principal Terça">
+    <h1 class="titulo">Hora Sexta</h1>
+    <div class="subtitulo">12 horas</div>
+
+    <!-- Ícone principal OVAL VERTICAL (−25%) -->
+    <figure class="hero-oval">
+      <img class="hero-img" src="img/icone-sexta.horas.jpg" alt="Ícone principal Sexta">
+    </figure>
   </header>
 
   <main class="wrap">
