@@ -7,8 +7,8 @@
   :root{
     --fundo:#020814;          /* azul quase preto */
     --dourado:#d6b25a;        /* ouro-velho */
-    --bege:#f5e6c8;           /* bege claro (referência) */
-    --bege-escuro:#e8d6ad;    /* bege um pouco mais escuro (subtítulo) */
+    --bege:#f5e6c8;           /* bege claro (ref) */
+    --bege-escuro:#e8d6ad;    /* subtítulo (mais escuro) */
     --vermelho:#a00000;       /* voltar */
     --sombra:rgba(0,0,0,.22);
   }
@@ -19,11 +19,10 @@
     position:relative; overflow-x:hidden;
   }
 
-  /* Estrelas miúdas: densidade aumentada */
+  /* Estrelas finas (densidade alta) */
   body::after{
     content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
-      /* camada 1 (topo/meio) */
       radial-gradient(1px 1px at 6% 8%,   rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 14% 28%, rgba(255,255,255,.75)99%, transparent 100%),
@@ -42,7 +41,6 @@
       radial-gradient(1px 1px at 82% 10%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 88% 20%, rgba(255,255,255,.85)99%, transparent 100%),
 
-      /* camada 2 (meio/baixo) */
       radial-gradient(1px 1px at 8% 58%,  rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 16% 72%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 24% 86%, rgba(255,255,255,.75)99%, transparent 100%),
@@ -54,14 +52,13 @@
       radial-gradient(1px 1px at 72% 70%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 80% 86%, rgba(255,255,255,.8) 99%, transparent 100%),
 
-      /* poeira de brilho */
       radial-gradient(450px 450px at 50% 40%, rgba(255,255,255,.05), transparent 70%),
       radial-gradient(300px 300px at 20% 60%, rgba(255,255,255,.04), transparent 70%),
       radial-gradient(300px 300px at 80% 70%, rgba(255,255,255,.04), transparent 70%),
       transparent;
   }
 
-  /* Estrelas grandes e mais brilhantes nas bordas (quantidade reforçada) */
+  /* Estrelas maiores brilhantes nas bordas */
   .sky-border{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
@@ -70,21 +67,17 @@
       radial-gradient(3px 3px at 50% 2%,  #fff, transparent 60%),
       radial-gradient(3px 3px at 85% 2%,  #fff, transparent 60%),
       radial-gradient(3px 3px at 98% 2%,  #fff, transparent 60%),
-
       radial-gradient(3px 3px at 2% 50%,  #fff, transparent 60%),
       radial-gradient(3px 3px at 98% 50%, #fff, transparent 60%),
-
       radial-gradient(3px 3px at 2% 98%,  #fff, transparent 60%),
       radial-gradient(3px 3px at 15% 98%, #fff, transparent 60%),
       radial-gradient(3px 3px at 50% 98%, #fff, transparent 60%),
       radial-gradient(3px 3px at 85% 98%, #fff, transparent 60%),
       radial-gradient(3px 3px at 98% 98%, #fff, transparent 60%);
-    filter:
-      drop-shadow(0 0 10px rgba(255,255,255,1))
-      drop-shadow(0 0 22px rgba(255,255,255,.7));
+    filter:drop-shadow(0 0 10px rgba(255,255,255,1)) drop-shadow(0 0 22px rgba(255,255,255,.7));
   }
 
-  /* Lua no topo meio: −40% (80vh → 48vh) e metade visível (top = −metade) */
+  /* Lua no topo meio (metade visível) — tamanho reduzido (48vh) */
   .moon{
     position:fixed; top:-24vh; left:50%; transform:translateX(-50%);
     width:48vh; height:48vh; border-radius:50%; pointer-events:none; z-index:0;
@@ -96,39 +89,37 @@
     box-shadow:0 0 28px 12px rgba(255,255,255,.26), inset 0 0 60px rgba(255,255,255,.16);
   }
 
-  /* Cabeçalho e títulos */
+  /* Cabeçalho/títulos */
   header{ position:relative; z-index:1; text-align:center; padding:12px 12px 0 }
   .titulo{
     margin:0; padding:6px 0 0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:37px;                      /* 32px + 5pt aprox. (mantido) */
-    color:#fff; -webkit-text-stroke:3px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25);
+    font-size:37px; color:#fff; -webkit-text-stroke:3px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25);
   }
   .subtitulo{
     margin:6px 0 6px; line-height:1.08;
-    font-size:27px;                      /* 10pt menor que o título */
-    color:var(--bege-escuro);            /* bege mais escuro */
-    font-weight:800;
+    font-size:27px; color:var(--bege-escuro); font-weight:800;
   }
 
-  /* Ícone principal OVAL: −15% e mais próximo do topo */
+  /* Ícone principal OVAL VERTICAL (inverter formato) */
   .hero-oval{
     display:block;
-    margin:clamp(8px, 12vh, 120px) auto 10px; /* mais perto da borda superior */
-    width:min(68vw, 435px);                   /* ~−15% do limite superior */
-    aspect-ratio:4/3;                         /* forma base do oval */
-    border-radius:50% / 38%;                  /* OVAL */
+    margin:clamp(8px, 12vh, 120px) auto 10px;  /* perto do topo */
+    width:min(68vw, 435px);
+    aspect-ratio:3/4;                          /* <<< vertical agora */
+    border-radius:38% / 50%;                   /* oval “em pé” */
     overflow:hidden;
     box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1;
-    background:#000;                          /* fundo de segurança */
+    background:#000;
   }
   .hero-oval .hero-img{
     width:100%; height:100%;
-    object-fit:cover; object-position:center;
+    object-fit:cover;
+    object-position:50% 45%;                  /* mínimo de corte perceptível */
     display:block; border:0;
   }
 
-  /* Área dos botões (2) */
+  /* Botões grandes (2) centralizados */
   .wrap{
     position:relative; z-index:1;
     max-width:600px; margin:0 auto; padding:14px 20px 10px;
@@ -145,7 +136,6 @@
     overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-
   .btn .icon-round{
     width:32px; height:32px; border-radius:50%; object-fit:cover;
     border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
@@ -158,6 +148,7 @@
     font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado);
   }
 
+  /* Voltar */
   footer{ text-align:center; margin:16px 0 22px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px;
@@ -170,7 +161,6 @@
 </head>
 <body>
 
-  <!-- estrelas grandes nas bordas e lua no topo -->
   <div class="sky-border" aria-hidden="true"></div>
   <div class="moon" aria-hidden="true"></div>
 
@@ -178,7 +168,7 @@
     <h1 class="titulo">Lilyo</h1>
     <div class="subtitulo">meia noite e vigílias</div>
 
-    <!-- ÍCONE PRINCIPAL OVALADO -->
+    <!-- ÍCONE PRINCIPAL OVAL VERTICAL -->
     <figure class="hero-oval">
       <img class="hero-img" src="img/icone-lilyo.horas.jpg" alt="Ícone principal Lilyo">
     </figure>
