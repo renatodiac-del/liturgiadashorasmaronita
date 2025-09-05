@@ -1,4 +1,4 @@
-<!-- santos.html (rev com ajustes de tamanho e sem rodapé extra) -->
+<!-- santos.html (ajustes: remover último, penúltimo=Confessores, altura -20%, ícone +15%, voltar mais perto) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -47,11 +47,11 @@ header{text-align:center;padding:12px 10px 6px}
   padding:10px 16px 22px;
   width:100%
 }
-/* Ícone retrato diminuído em 40% (492px → 295px) */
+/* Ícone retrato (mantido da versão anterior) */
 .hero{
   display:block;
   margin:8px auto 16px;
-  height:295px;
+  height:295px; /* mantido conforme ajuste anterior */
   width:auto;
   aspect-ratio:3/4;
   object-fit:cover;
@@ -66,7 +66,7 @@ header{text-align:center;padding:12px 10px 6px}
   gap:12px;
   margin-top:6px
 }
-/* Botões maiores em largura (+20%) e mais baixos (−30% altura) */
+/* Botões mais largos e 20% mais baixos (altura) */
 .btn{
   display:grid;
   grid-template-columns:40px 1fr 40px;
@@ -79,29 +79,30 @@ header{text-align:center;padding:12px 10px 6px}
   border:3px solid var(--vermelho);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
   border-radius:18px;
-  padding:7.5px 18px;     /* 10.8px → −30% */
-  width:94%;              /* 78% → +20% */
+  padding:6px 18px;       /* ↓ 20% em relação ao 7.5px anterior */
+  width:94%;
   margin:0 auto;
   transition:transform .12s, background-color .2s;
 }
 .btn:hover{transform:scale(1.02);background:#fff8f0}
+/* Ícone +15% (32px → 37px) com aro dourado */
 .btn .icon{
-  width:32px;
-  height:32px;
+  width:37px;
+  height:37px;
   border-radius:50%;
   border:2px solid var(--ouro);
   box-shadow:inset 0 0 0 2px var(--ouro);
   object-fit:cover;
 }
 .btn .label{text-align:center}
-.btn .slot{width:32px;height:32px}
+.btn .slot{width:37px;height:37px}
 
-/* Botão Voltar padrão reduzido em 20% */
+/* Botão Voltar padrão, aproximado do último botão */
 .back-wrap{
   display:flex;
   justify-content:center;
-  margin-top:10px;
-  transform:scale(.48);
+  margin-top:4px;          /* mais perto do botão “Confessores” */
+  transform:scale(.48);    /* escala 0.48 (−20%) */
   transform-origin:center top;
 }
 .btn-back{
@@ -141,11 +142,11 @@ header{text-align:center;padding:12px 10px 6px}
     <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Anjos</span><span class="slot"></span></a>
     <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Apóstolos</span><span class="slot"></span></a>
     <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Mártires</span><span class="slot"></span></a>
-    <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Confessores – Profetas</span><span class="slot"></span></a>
-    <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Virgens – Monges</span><span class="slot"></span></a>
+    <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Confessores</span><span class="slot"></span></a>
+    <!-- último botão removido -->
   </section>
 
-  <!-- Botão Voltar -->
+  <!-- Botão Voltar (colado nos botões grandes) -->
   <div class="back-wrap">
     <button class="btn-back" onclick="goBackOrHome()">
       <span class="arr">←</span>
