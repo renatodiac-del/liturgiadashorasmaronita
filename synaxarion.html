@@ -1,65 +1,71 @@
-<!-- synaxarion.html (rev com azul del-rey + pager centralizado + voltar padrão) -->
+<!-- synaxarion.html (corrigido: fundo + ícone + sem subtítulo/“Leituras e notas”) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Synaxarion</title>
-<meta name="theme-color" content="#faf7ef">
+<meta name="theme-color" content="#a00000">
 <style>
 :root{
-  --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
-  --ouro:#d6b25a; --vermelho:#a00000; --shadow:rgba(0,0,0,.1);
-  --azul-del-rey:#003399; /* azul del-rey (fonte do botão da data) */
+  --bg1:#e9f5ff; --bg2:#cfe4ff;           /* fundo azul estrelado */
+  --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+  --ouro:#d6b25a; --vermelho:#a00000; --shadow:rgba(0,0,0,.10);
+  --azul-del-rey:#003399;
   --sans: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family:var(--sans);
-  background:var(--bg);
-  color:var(--txt);
-  display:flex; flex-direction:column; min-height:100vh;
+  font-family:var(--sans); color:var(--txt); min-height:100vh;
+  background:
+    radial-gradient(#fff8,1px,transparent 1.5px) 0 0/6px 6px,
+    linear-gradient(160deg,var(--bg1),var(--bg2));
+  display:flex; flex-direction:column;
 }
 .container{max-width:720px; margin:0 auto; width:100%; padding:16px}
 .card{
   background:var(--card); border:1px solid var(--bord); border-radius:16px;
   box-shadow:0 8px 24px var(--shadow); padding:14px;
 }
-header{ text-align:center; margin-bottom:12px }
-h1{ font-size:1.8rem; margin:4px 0 0 }
-.subtitle{ opacity:.8; font-size:.95rem }
+header{text-align:center; margin-bottom:12px}
+h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 
-/* Botão “data” (texto azul del-rey) */
+/* Ícone/hero retrato com aro dourado */
+.hero{
+  display:block; margin:10px auto 14px; height:260px; width:auto;
+  aspect-ratio:3/4; object-fit:cover; border-radius:14px;
+  border:6px solid var(--vermelho);
+  box-shadow:0 0 0 4px var(--ouro) inset, 0 8px 16px var(--shadow);
+}
+
+/* Botão da data (texto azul del-rey) */
 .btn-date{
   display:inline-flex; align-items:center; justify-content:center;
-  gap:10px; min-height:48px; padding:10px 16px;
+  gap:10px; min-height:48px; padding:10px 16px; width:100%;
   background:#fff; border:2px solid var(--bord); border-radius:18px;
   box-shadow: inset 0 0 0 2px var(--ouro), 0 6px 16px var(--shadow);
   font-weight:800; text-decoration:none; color:var(--azul-del-rey);
-  width:100%;
 }
 
-/* Pager centralizado, mesmo alinhamento e próximos */
+/* Pager centralizado logo abaixo da data */
 .pager{
-  display:flex; justify-content:center; align-items:center; gap:10px;
-  margin-top:10px;
+  display:flex; justify-content:center; align-items:center; gap:10px; margin-top:10px;
 }
 .btn-nav{
   display:inline-flex; align-items:center; justify-content:center;
   min-height:44px; padding:8px 14px;
   background:#fff; border:2px solid var(--bord); border-radius:14px;
   box-shadow: inset 0 0 0 2px var(--ouro), 0 4px 12px var(--shadow);
-  font-weight:800; color:var(--txt); text-decoration:none;
+  font-weight:800; color:var(--txt); text-decoration:none; cursor:pointer;
 }
 .btn-nav:focus-visible, .btn-date:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(160,0,0,.25) }
 
-/* Conteúdo */
-.section{ margin-top:14px }
-.section h2{ font-size:1.1rem; margin-bottom:6px }
-.section p{ line-height:1.6 }
+/* Área de conteúdo do dia (sem título extra) */
+.section{ margin-top:12px }
+.section .content{ line-height:1.6; }
 
-/* Botão Voltar — igual ao padrão dos Santos (escala .48) */
+/* Botão Voltar — padrão dos Santos (escala .48) */
 .back-wrap{
   display:flex; justify-content:center; margin:12px 0 0;
   transform:scale(.48); transform-origin:center top;
@@ -74,7 +80,6 @@ h1{ font-size:1.8rem; margin:4px 0 0 }
 </style>
 
 <script>
-  // Navegação simples por data via URL (?data=YYYY-MM-DD)
   function getParam(n){ return new URLSearchParams(location.search).get(n); }
   function setDate(iso){
     const u = new URL(location.href);
@@ -105,36 +110,36 @@ h1{ font-size:1.8rem; margin:4px 0 0 }
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="card">
-        <h1>Synaxarion</h1>
-        <div class="subtitle">Vidas dos Santos por dia</div>
-      </div>
+    <header class="card">
+      <h1>Synaxarion</h1>
+      <!-- (sem subtítulo) -->
+      <img class="hero" src="img/icone-synaxarion.jpg" alt="Ícone do Synaxarion" onerror="this.style.display='none'">
     </header>
 
-    <!-- Botão da data com texto azul del-rey -->
+    <!-- Botão da data -->
     <div class="card" style="text-align:center;">
       <button id="btnData" class="btn-date" type="button" title="Alterar data"></button>
 
-      <!-- Pager centralizado logo abaixo do botão da data -->
+      <!-- Pager centralizado -->
       <div class="pager">
         <button class="btn-nav" type="button" onclick="shiftDate(-1)">← Anterior</button>
         <button class="btn-nav" type="button" onclick="shiftDate(+1)">Próximo →</button>
       </div>
     </div>
 
-    <!-- Conteúdo do dia (exemplo; substitua pelo seu render de planilha/CSV) -->
+    <!-- Conteúdo do dia (sem “Leituras e notas”) -->
     <section class="card section">
-      <h2>Leituras e notas</h2>
-      <p id="conteudo">
-        <!-- TODO: injetar conteúdo do Synaxarion a partir da sua planilha/CSV -->
-      </p>
+      <div id="conteudo" class="content">
+        <!-- TODO: injetar o texto do Synaxarion da sua planilha/CSV -->
+      </div>
     </section>
 
-    <!-- Botão Voltar padrão (igual Santos) -->
+    <!-- Botão Voltar -->
     <div class="back-wrap">
       <button class="btn-back" onclick="goBackOrHome()">
         <span class="arr">←</span><span>Voltar</span>
       </button>
     </div>
   </div>
+</body>
+</html>
