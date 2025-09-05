@@ -1,4 +1,4 @@
-<!-- santos.html (rev V7 ajustado) -->
+<!-- santos.html (rev final com cruz3 centralizado e aro duplo) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -51,7 +51,7 @@ header{text-align:center;padding:12px 10px 6px}
 .hero{
   display:block;
   margin:8px auto 16px;
-  height:492px;              /* antes ~256px → +92% */
+  height:492px; /* 256px → +92% */
   width:auto;
   aspect-ratio:3/4;
   object-fit:cover;
@@ -66,13 +66,12 @@ header{text-align:center;padding:12px 10px 6px}
   gap:12px;
   margin-top:6px
 }
-/* Botões −10% de altura + ícone cruz3 */
+/* Botões com grid p/ centralizar título e ícone na esquerda */
 .btn{
-  position:relative;
-  display:flex;
+  display:grid;
+  grid-template-columns:40px 1fr 40px; /* ícone - texto - espaço simétrico */
   align-items:center;
-  justify-content:flex-start;
-  gap:10px;
+  text-align:center;
   background:#fff;
   color:var(--vermelho);
   text-decoration:none;
@@ -80,26 +79,30 @@ header{text-align:center;padding:12px 10px 6px}
   border:3px solid var(--vermelho);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
   border-radius:18px;
-  padding:10.8px 18px;        /* 12px → −10% */
+  padding:10.8px 18px; /* 12px → −10% */
   width:78%;
   margin:0 auto;
   transition:transform .12s, background-color .2s;
 }
-.btn img{
-  width:28px;
-  height:28px;
-  object-fit:contain;
+.btn:hover{transform:scale(1.02);background:#fff8f0}
+/* Ícone da cruz com aro dourado e arredondado */
+.btn .icon{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:2px solid var(--ouro);
+  box-shadow:inset 0 0 0 2px var(--ouro);
+  object-fit:cover;
 }
-.btn:hover{
-  transform:scale(1.02);
-  background:#fff8f0
-}
+.btn .label{text-align:center}
+.btn .slot{width:32px;height:32px} /* espaço simétrico à direita */
+
 /* Botão Voltar padrão reduzido em 20% */
 .back-wrap{
   display:flex;
   justify-content:center;
   margin-top:10px;
-  transform:scale(.48);       /* 0.6 → −20% */
+  transform:scale(.48); /* 0.6 → −20% */
   transform-origin:center top;
 }
 .btn-back{
@@ -147,12 +150,12 @@ footer a{
   <img class="hero" src="img/icone-santos.jpg" alt="Ícone — Comum dos Santos" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Categorias do Comum dos Santos">
-    <a class="btn" href="#"><img src="img/cruz3.jpg" alt="">Virgem Maria</a>
-    <a class="btn" href="#"><img src="img/cruz3.jpg" alt="">Anjos</a>
-    <a class="btn" href="#"><img src="img/cruz3.jpg" alt="">Apóstolos</a>
-    <a class="btn" href="#"><img src="img/cruz3.jpg" alt="">Mártires</a>
-    <a class="btn" href="#"><img src="img/cruz3.jpg" alt="">Confessores – Profetas</a>
-    <a class="btn" href="#"><img src="img/cruz3.jpg" alt="">Virgens – Monges</a>
+    <a class="btn" href="#"><img class="icon" src="img/cruz3.jpg" alt=""><span class="label">Virgem Maria</span><span class="slot"></span></a>
+    <a class="btn" href="#"><img class="icon" src="img/cruz3.jpg" alt=""><span class="label">Anjos</span><span class="slot"></span></a>
+    <a class="btn" href="#"><img class="icon" src="img/cruz3.jpg" alt=""><span class="label">Apóstolos</span><span class="slot"></span></a>
+    <a class="btn" href="#"><img class="icon" src="img/cruz3.jpg" alt=""><span class="label">Mártires</span><span class="slot"></span></a>
+    <a class="btn" href="#"><img class="icon" src="img/cruz3.jpg" alt=""><span class="label">Confessores – Profetas</span><span class="slot"></span></a>
+    <a class="btn" href="#"><img class="icon" src="img/cruz3.jpg" alt=""><span class="label">Virgens – Monges</span><span class="slot"></span></a>
   </section>
 
   <!-- Botão Voltar -->
