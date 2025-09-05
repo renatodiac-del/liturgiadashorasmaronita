@@ -1,4 +1,4 @@
-<!-- santos.html (ajustes: remover último, penúltimo=Confessores, altura -20%, ícone +15%, voltar mais perto) -->
+<!-- santos.html (hero +15%, botões -20% altura, cruz -20%) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,6 +14,8 @@
   --texto:#0b2a4d;
   --shadow:rgba(0,0,0,.14);
   --fonte: Arial, Helvetica, sans-serif;
+  /* Tamanho do ícone da cruz nos botões (após -20%) */
+  --btnIcon: 29.6px; /* 37px → 29.6px */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -47,11 +49,11 @@ header{text-align:center;padding:12px 10px 6px}
   padding:10px 16px 22px;
   width:100%
 }
-/* Ícone retrato (mantido da versão anterior) */
+/* Ícone retrato +15% (295px → 339px) */
 .hero{
   display:block;
   margin:8px auto 16px;
-  height:295px; /* mantido conforme ajuste anterior */
+  height:339px;
   width:auto;
   aspect-ratio:3/4;
   object-fit:cover;
@@ -66,10 +68,10 @@ header{text-align:center;padding:12px 10px 6px}
   gap:12px;
   margin-top:6px
 }
-/* Botões mais largos e 20% mais baixos (altura) */
+/* Botões: centralização via grid; altura -20% (6px → 4.8px) */
 .btn{
   display:grid;
-  grid-template-columns:40px 1fr 40px;
+  grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);
   align-items:center;
   text-align:center;
   background:#fff;
@@ -79,29 +81,29 @@ header{text-align:center;padding:12px 10px 6px}
   border:3px solid var(--vermelho);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
   border-radius:18px;
-  padding:6px 18px;       /* ↓ 20% em relação ao 7.5px anterior */
+  padding:4.8px 18px;   /* 6px → -20% */
   width:94%;
   margin:0 auto;
   transition:transform .12s, background-color .2s;
 }
 .btn:hover{transform:scale(1.02);background:#fff8f0}
-/* Ícone +15% (32px → 37px) com aro dourado */
+/* Cruz com aro dourado (tamanho -20%) */
 .btn .icon{
-  width:37px;
-  height:37px;
+  width:var(--btnIcon);
+  height:var(--btnIcon);
   border-radius:50%;
   border:2px solid var(--ouro);
   box-shadow:inset 0 0 0 2px var(--ouro);
   object-fit:cover;
 }
 .btn .label{text-align:center}
-.btn .slot{width:37px;height:37px}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
 
-/* Botão Voltar padrão, aproximado do último botão */
+/* Botão Voltar padrão, bem próximo do último botão */
 .back-wrap{
   display:flex;
   justify-content:center;
-  margin-top:4px;          /* mais perto do botão “Confessores” */
+  margin-top:4px;
   transform:scale(.48);    /* escala 0.48 (−20%) */
   transform-origin:center top;
 }
@@ -143,7 +145,7 @@ header{text-align:center;padding:12px 10px 6px}
     <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Apóstolos</span><span class="slot"></span></a>
     <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Mártires</span><span class="slot"></span></a>
     <a class="btn" href="#"><img class="icon" src="img/cruz2.jpg" alt=""><span class="label">Confessores</span><span class="slot"></span></a>
-    <!-- último botão removido -->
+    <!-- último botão removido (Virgens – Monges) -->
   </section>
 
   <!-- Botão Voltar (colado nos botões grandes) -->
