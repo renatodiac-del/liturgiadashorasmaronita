@@ -1,110 +1,270 @@
-<<!-- mapa-liturgico.html -->
+<!-- mapa-liturgico.html (cards com ícones) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mapa Litúrgico</title>
-<link rel="stylesheet" href="css/base.css">
+<style>
+  :root{
+    --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+    --gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.08);
+    --sans: Arial, Helvetica, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; padding:18px; background:var(--bg); color:var(--txt); font-family:var(--sans)}
+  h1{margin:.2rem 0 1rem; font-size:1.7rem}
+  .section{margin:18px 0}
+  .section-title{font-weight:900; font-size:1rem; margin:0 0 .6rem; color:#4a3828; letter-spacing:.2px}
+  .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+  .card{
+    display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--card);
+    border:1.5px solid var(--bord); border-radius:14px; overflow:hidden;
+    box-shadow:0 6px 16px var(--shadow);
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .card:hover{transform:translateY(-2px); border-color:var(--gold); box-shadow:0 10px 22px rgba(0,0,0,.12)}
+  .thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold)}
+  .thumb[hidden]{display:none!important}
+  .body{padding:12px 12px 14px}
+  .title{
+    font-weight:900; font-size:1.02rem; margin:0 0 4px; color:var(--accent);
+    text-shadow:-0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold),
+                -0.5px  0.5px 0 var(--gold), 0.5px  0.5px 0 var(--gold);
+  }
+  .subtitle{margin:0; font-size:.9rem; color:#5a4634}
+  .tag{
+    display:inline-block; margin-top:8px; font-size:.75rem; font-weight:700; color:#4a3828;
+    background:linear-gradient(#fff,#fff9ef); border:1px solid var(--gold);
+    box-shadow:inset 0 0 0 1px rgba(214,178,90,.6); border-radius:999px; padding:4px 8px;
+  }
+</style>
 </head>
 <body>
-  <main class="container">
-    <h1>Mapa Litúrgico</h1>
+<h1>Mapa Litúrgico</h1>
 
-    <!-- APLICATIVO PRINCIPAL -->
-    <section class="section" aria-labelledby="app-principal">
-      <h2 id="app-principal" class="section-title">Aplicativo Principal</h2>
-      <div class="grid">
-        <a class="card" href="index.html" aria-label="Abrir o aplicativo principal">
-          <img class="thumb" src="img/thumbnail-index.jpg" alt="Aplicativo principal" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Index (Sheets)</h3>
-            <p class="subtitle">Integração de conteúdo via Google Sheets</p>
-            <span class="tag">principal</span>
-          </div>
-        </a>
+<!-- APP PRINCIPAL -->
+<section class="section">
+  <h2 class="section-title">App principal</h2>
+  <div class="grid">
+    <a class="card" href="index.html">
+      <img class="thumb" src="img/icone-app.jpg" alt="App atual" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">App Principal (atual)</h3>
+        <p class="subtitle">Liturgia diária via planilhas</p>
       </div>
-    </section>
+    </a>
 
-    <!-- HORAS CANÔNICAS — PÁGINAS -->
-    <section class="section" aria-labelledby="horas-canonicas">
-      <h2 id="horas-canonicas" class="section-title">Horas Canônicas — páginas</h2>
-      <div class="grid">
-
-        <a class="card" href="safro-hora.html" aria-label="Abrir Safro — Oração da Manhã">
-          <img class="thumb" src="img/icone-safro.horas.jpg" alt="Safro — ícone" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Safro</h3>
-            <p class="subtitle">Oração da Manhã · curta e longa</p>
-            <span class="tag">novo</span>
-          </div>
-        </a>
-
-        <a class="card" href="terca-hora.html" aria-label="Abrir Hora Terça">
-          <img class="thumb" src="img/icone-terca.horas.jpg" alt="Hora Terça — ícone" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Hora Terça</h3>
-            <p class="subtitle">Oração · Hinos e Melodias</p>
-          </div>
-        </a>
-
-        <a class="card" href="sexta-hora.html" aria-label="Abrir Hora Sexta">
-          <img class="thumb" src="img/icone-sexta.horas.jpg" alt="Hora Sexta — ícone" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Hora Sexta</h3>
-            <p class="subtitle">Oração · Hinos e Melodias</p>
-          </div>
-        </a>
-
-        <a class="card" href="nona-hora.html" aria-label="Abrir Hora Nona">
-          <img class="thumb" src="img/icone-nona.horas.jpg" alt="Hora Nona — ícone" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Hora Nona</h3>
-            <p class="subtitle">Oração · Hinos e Melodias</p>
-          </div>
-        </a>
-
-        <a class="card" href="ramsho-horas.html" aria-label="Abrir Ramsho — Oração da Tarde">
-          <img class="thumb" src="img/icone-ramsho.horas.jpg" alt="Ramsho — ícone" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Ramsho</h3>
-            <p class="subtitle">Oração da Tarde · curta e longa</p>
-          </div>
-        </a>
-
-        <a class="card" href="sutoro-hora.html" aria-label="Abrir Sutoro — Oração da Noite">
-          <img class="thumb" src="img/icone-sutoro.horas.jpg" alt="Sutoro — ícone" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Sutoro</h3>
-            <p class="subtitle">Oração da Noite · curta e longa</p>
-          </div>
-        </a>
-
-        <a class="card" href="lilyo-hora.html" aria-label="Abrir Lilyo — Vigílias">
-          <img class="thumb" src="img/icone-lilyo.horas.jpg" alt="Lilyo — ícone" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">Lilyo</h3>
-            <p class="subtitle">Vigílias · Oração · Hinos e Melodias</p>
-          </div>
-        </a>
-
+    <!-- NOVA PÁGINA INICIAL CONSOLIDADA -->
+    <a class="card" href="index-teste.html">
+      <img class="thumb" src="img/icone-app-teste.jpg" alt="Página Inicial consolidada" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Página Inicial (consolidada)</h3>
+        <p class="subtitle">Qurbono · Horas · Calendário · Patrística</p>
+        <span class="tag">novo</span>
       </div>
-    </section>
+    </a>
+  </div>
+</section>
 
-    <!-- RECURSOS -->
-    <section class="section" aria-labelledby="recursos">
-      <h2 id="recursos" class="section-title">Recursos</h2>
-      <div class="grid">
-        <a class="card" href="css/base.css" aria-label="Abrir CSS Base (tokens e utilitários)">
-          <img class="thumb" src="img/thumbnail-css.jpg" alt="CSS Base" onerror="this.hidden=true">
-          <div class="body">
-            <h3 class="title">CSS Base</h3>
-            <p class="subtitle">Tokens (cores, tipografia) e utilitários</p>
-            <span class="tag">comum</span>
-          </div>
-        </a>
+<!-- INTERMEDIÁRIAS / MENUS -->
+<section class="section">
+  <h2 class="section-title">Intermediárias / Menus</h2>
+  <div class="grid">
+    <a class="card" href="oracao.html">
+      <img class="thumb" src="img/icone-oração.jpg" alt="Oração das Horas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Oração das Horas</h3>
+        <p class="subtitle">Menu principal da Oração</p>
       </div>
-    </section>
+    </a>
 
-  </main>
+    <a class="card" href="qurbono-teste.html">
+      <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Qurbono (teste)</h3>
+        <p class="subtitle">Acesso rápido à Divina Liturgia</p>
+      </div>
+    </a>
+
+    <a class="card" href="santos.html">
+      <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Comum dos Santos</h3>
+        <p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p>
+      </div>
+    </a>
+
+    <a class="card" href="festas-por-datas.html">
+      <img class="thumb" src="img/icone-festadata.jpg" alt="Festas por Datas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Festas por Datas</h3>
+        <p class="subtitle">Navegação por datas especiais</p>
+      </div>
+    </a>
+
+    <a class="card" href="biblos.html">
+      <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Biblioteca</h3>
+        <p class="subtitle">Tempos e coleções litúrgicas</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- PÁGINAS POR DATA -->
+<section class="section">
+  <h2 class="section-title">Páginas por data</h2>
+  <div class="grid">
+    <a class="card" href="horas-teste.html">
+      <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Oração do Dia</h3>
+        <p class="subtitle">Horas canônicas (visual)</p>
+      </div>
+    </a>
+
+    <a class="card" href="liturgia-dia.html">
+      <img class="thumb" src="img/icone-liturgiadia.jpg" alt="Liturgia Eucarística" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Liturgia Eucarística</h3>
+        <p class="subtitle">Data clicável + navegação</p>
+      </div>
+    </a>
+
+    <a class="card" href="leituras.html">
+      <img class="thumb" src="img/icone-leituras.png" alt="Leituras Bíblicas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Leituras Bíblicas</h3>
+        <p class="subtitle">Referências por dia</p>
+      </div>
+    </a>
+
+    <a class="card" href="synaxarion.html">
+      <img class="thumb" src="img/icone-synaxarion.jpg" alt="Synaxarion" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Synaxarion</h3>
+        <p class="subtitle">Datas, sem dia da semana</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- HORAS CANÔNICAS — PÁGINAS (NOVAS) -->
+<section class="section">
+  <h2 class="section-title">Horas Canônicas — páginas</h2>
+  <div class="grid">
+    <a class="card" href="safro-hora.html">
+      <img class="thumb" src="img/icone-safro.hora.jpg" alt="Safro — Oração da Manhã" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Safro</h3>
+        <p class="subtitle">Oração da Manhã · versão curta e longa</p>
+        <span class="tag">novo</span>
+      </div>
+    </a>
+
+    <a class="card" href="terca-hora.html">
+      <img class="thumb" src="img/icone-terca.hora.jpg" alt="Hora Terça" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Hora Terça</h3>
+        <p class="subtitle">Oração · Hinos e Melodias</p>
+      </div>
+    </a>
+
+    <a class="card" href="sexta-hora.html">
+      <img class="thumb" src="img/icone-sexta.hora.jpg" alt="Hora Sexta" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Hora Sexta</h3>
+        <p class="subtitle">Oração · Hinos e Melodias</p>
+      </div>
+    </a>
+
+    <a class="card" href="nona-hora.html">
+      <img class="thumb" src="img/icone-nona.hora.jpg" alt="Hora Nona" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Hora Nona</h3>
+        <p class="subtitle">Oração · Hinos e Melodias</p>
+      </div>
+    </a>
+
+    <a class="card" href="ramsho-hora.html">
+      <img class="thumb" src="img/icone-ramsho.hora.jpg" alt="Ramsho — Oração da Tarde" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ramsho</h3>
+        <p class="subtitle">Oração da Tarde · versão curta e longa</p>
+      </div>
+    </a>
+
+    <a class="card" href="sutoro-hora.html">
+      <img class="thumb" src="img/icone-sutoro.hora.jpg" alt="Sutoro — Oração da Noite" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Sutoro</h3>
+        <p class="subtitle">Oração da Noite · versão curta e longa</p>
+      </div>
+    </a>
+
+    <a class="card" href="lilyo-hora.html">
+      <img class="thumb" src="img/icone-lilyo.hora.jpg" alt="Lilyo — Vigílias" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Lilyo</h3>
+        <p class="subtitle">Vigílias · Oração · Hinos e Melodias</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ORDINÁRIO E CICLOS -->
+<section class="section">
+  <h2 class="section-title">Ordinário e ciclos</h2>
+  <div class="grid">
+    <a class="card" href="ordinario.html">
+      <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ordinário</h3>
+        <p class="subtitle">Seções por tempo</p>
+      </div>
+    </a>
+
+    <a class="card" href="tempos.html">
+      <img class="thumb" src="img/icone-tempos.jpg" alt="Anúncio / Epifania / Pentecostes / Cruz" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Anúncio · Epifania · Pentecostes · Cruz</h3>
+        <p class="subtitle">Dias da semana</p>
+      </div>
+    </a>
+
+    <a class="card" href="quaresma.html">
+      <img class="thumb" src="img/icone-quaresma.jpg" alt="Quaresma" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Quaresma</h3>
+        <p class="subtitle">Grande Quaresma</p>
+      </div>
+    </a>
+
+    <a class="card" href="paixao.html">
+      <img class="thumb" src="img/icone-paixão.jpg" alt="Semana da Paixão" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Semana da Paixão</h3>
+        <p class="subtitle">Ritos e dias</p>
+      </div>
+    </a>
+
+    <a class="card" href="ressurreicao.html">
+      <img class="thumb" src="img/icone-ressurreição.jpg" alt="Ressurreição" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ressurreição</h3>
+        <p class="subtitle">Semana da Glória</p>
+      </div>
+    </a>
+
+    <a class="card" href="anafora.html">
+      <img class="thumb" src="img/icone-anafora.jpg" alt="Anáforas" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Anáforas</h3>
+        <p class="subtitle">Lista de anáforas</p>
+      </div>
+    </a>
+  </div>
+</section>
 </body>
 </html>
