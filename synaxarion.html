@@ -1,4 +1,4 @@
-<!-- synaxarion.html (fundo único dourado, sem cards brancos, anjinhos no fundo, hero +25%) -->
+<!-- synaxarion.html (hero +20% e Voltar mais próximo da borda inferior) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -24,13 +24,11 @@ body{
   font-family:var(--sans); color:var(--txt); min-height:100vh; position:relative;
   background: linear-gradient(160deg, var(--bg-ouro-1), var(--bg-ouro-2));
 }
-/* Camada decorativa do fundo: salpicos + anjinhos (atrás do conteúdo) */
+/* Fundo decorado (salpicos + cabeças de anjinhos) atrás do conteúdo */
 body::before{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.55;
   background:
-    /* salpicos brancos */
     radial-gradient(#ffffffdd 1.2px, transparent 1.5px) 0 0/10px 10px,
-    /* padrão SVG com cabeças de anjinhos (sem sobrepor conteúdo pois está atrás) */
     url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'>\
   <defs>\
@@ -51,21 +49,26 @@ body::before{
   <use href='#angelHead' transform='translate(420,420) scale(0.95)'/>\
 </svg>") center/520px 520px repeat;
 }
-/* Conteúdo acima do fundo decorativo */
-.container{max-width:720px; margin:0 auto; width:100%; padding:16px; position:relative; z-index:1}
+
+/* Layout da página: flex para encostar o botão Voltar no rodapé com respiro */
+.container{
+  max-width:720px; margin:0 auto; width:100%; padding:16px;
+  position:relative; z-index:1;
+  display:flex; flex-direction:column; min-height:100dvh;
+}
 
 header{ text-align:center; margin-bottom:12px }
 h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 
-/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (+25%) */
+/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (+20%) */
 .hero{
-  display:block; margin:10px auto 14px; height:358px; width:auto;
+  display:block; margin:10px auto 14px; height:430px; width:auto; /* 358px -> 430px */
   aspect-ratio:3/4; object-fit:cover; border-radius:14px;
   border:6px solid var(--vermelho);
   box-shadow:0 0 0 6px var(--ouro-velho), 0 8px 16px var(--shadow);
 }
 
-/* Botão da data: 50% de largura, fundo transparente, aros ouro-velho e vermelho */
+/* Botão da data: 50% largura, transparente, aro duplo ouro-velho + vermelho */
 .btn-date{
   display:block; width:50%; margin:0 auto;
   display:flex; align-items:center; justify-content:center; gap:10px;
@@ -76,7 +79,8 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
     inset 0 0 0 6px var(--vermelho);
   font-weight:800; color:var(--azul-del-rey); text-decoration:none;
 }
-/* Pager centralizado logo abaixo da data, mesmo aro duplo e transparente */
+
+/* Pager centralizado, mesmo aro duplo e transparente */
 .pager{ display:flex; justify-content:center; align-items:center; gap:10px; margin-top:10px; }
 .btn-nav{
   display:inline-flex; align-items:center; justify-content:center;
@@ -87,16 +91,21 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
     inset 0 0 0 6px var(--vermelho);
   font-weight:800; color:var(--txt); text-decoration:none; cursor:pointer;
 }
-.btn-nav:focus-visible, .btn-date:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(160,0,0,.25), inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho) }
+.btn-nav:focus-visible, .btn-date:focus-visible{
+  outline:none; box-shadow:0 0 0 3px rgba(160,0,0,.25),
+  inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho)
+}
 
-/* Área de conteúdo do dia (sem fundo branco) */
+/* Conteúdo do dia (sem cartões) */
 .section{ margin-top:12px }
 .section .content{ line-height:1.6 }
 
-/* Botão Voltar — padrão (sem bloco branco entre elementos) */
+/* Botão Voltar — mais próximo da borda inferior (com respiro) */
 .back-wrap{
-  display:flex; justify-content:center; margin:12px 0 0;
-  transform:scale(.48); transform-origin:center top;
+  display:flex; justify-content:center;
+  margin-top:auto;              /* empurra para o fim da coluna */
+  margin-bottom:16px;           /* perto, mas não colado */
+  transform:scale(.48); transform-origin:center bottom;
 }
 .btn-back{
   display:inline-flex; align-items:center; gap:10px;
@@ -154,12 +163,12 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
       <button class="btn-nav" type="button" onclick="shiftDate(+1)">Próximo →</button>
     </div>
 
-    <!-- Conteúdo do dia (sem cartões brancos) -->
+    <!-- Conteúdo do dia -->
     <section class="section">
-      <div id="conteudo" class="content"><!-- injetar texto via CSV, se desejar --></div>
+      <div id="conteudo" class="content"><!-- render do dia via CSV, se desejar --></div>
     </section>
 
-    <!-- Botão Voltar -->
+    <!-- Botão Voltar (próximo da borda inferior) -->
     <div class="back-wrap">
       <button class="btn-back" onclick="goBackOrHome()">
         <span class="arr">←</span><span>Voltar</span>
