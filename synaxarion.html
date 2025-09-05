@@ -1,4 +1,4 @@
-<!-- synaxarion.html (largura/label da data, aros, hero +10%, fundo temático) -->
+<!-- synaxarion.html (fundo único dourado, sem cards brancos, anjinhos no fundo, hero +25%) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,13 +8,12 @@
 <meta name="theme-color" content="#a00000">
 <style>
 :root{
-  /* Cores base */
   --ouro:#d6b25a;
-  --ouro-velho: rgb(176,138,46);     /* “old gold” */
-  --bg-ouro-1: #f1e1b6;              /* gradiente de fundo */
-  --bg-ouro-2: #d9b975;
+  --ouro-velho:#b08a2e;
+  --bg-ouro-1:#f1e1b6;
+  --bg-ouro-2:#d9b975;
   --vermelho:#a00000;
-  --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+  --txt:#2b1f16;
   --shadow:rgba(0,0,0,.10);
   --azul-del-rey:#003399;
   --sans: Arial, Helvetica, sans-serif;
@@ -22,115 +21,79 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family:var(--sans); color:var(--txt); min-height:100vh;
-  /* Fundo ouro-velho com brilho */
+  font-family:var(--sans); color:var(--txt); min-height:100vh; position:relative;
   background: linear-gradient(160deg, var(--bg-ouro-1), var(--bg-ouro-2));
-  position:relative;
 }
-
-/* Camada “salpicada”: estrelas grandes, luas, sóis, pássaros e anjos */
+/* Camada decorativa do fundo: salpicos + anjinhos (atrás do conteúdo) */
 body::before{
-  content:""; position:fixed; inset:0; pointer-events:none; opacity:.45;
-  /* Speckles + elementos SVG repetidos */
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.55;
   background:
-    /* estrelas pequenas (pontilhado) */
-    radial-gradient(#ffffffcc 1.2px, transparent 1.4px) 0 0/10px 10px,
-    /* textura SVG com estrelas grandes, luas, sóis, pássaros e anjos */
+    /* salpicos brancos */
+    radial-gradient(#ffffffdd 1.2px, transparent 1.5px) 0 0/10px 10px,
+    /* padrão SVG com cabeças de anjinhos (sem sobrepor conteúdo pois está atrás) */
     url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'>\
   <defs>\
-    <g id='star' fill='rgb(255,253,245)'><polygon points='10,0 12.9,6.5 20,7.3 14.5,11.8 16,18.8 10,15 4,18.8 5.5,11.8 0,7.3 7.1,6.5'/></g>\
-    <g id='sun'>\
-      <circle cx='0' cy='0' r='6' fill='rgb(255,244,160)' stroke='rgb(255,224,120)' stroke-width='2'/>\
-      <g stroke='rgb(255,224,120)' stroke-width='2'>\
-        <line x1='0' y1='-12' x2='0' y2='-18'/>\
-        <line x1='0' y1='12'  x2='0' y2='18'/>\
-        <line x1='12' y1='0'  x2='18' y2='0'/>\
-        <line x1='-12' y1='0' x2='-18' y2='0'/>\
-        <line x1='8.5' y1='-8.5' x2='12.5' y2='-12.5'/>\
-        <line x1='-8.5' y1='-8.5' x2='-12.5' y2='-12.5'/>\
-        <line x1='8.5' y1='8.5' x2='12.5' y2='12.5'/>\
-        <line x1='-8.5' y1='8.5' x2='-12.5' y2='12.5'/>\
-      </g>\
-    </g>\
-    <g id='moon'>\
-      <circle cx='0' cy='0' r='7' fill='rgb(255,250,230)'/>\
-      <circle cx='3' cy='-1' r='7' fill='rgb(217,185,117)'/>\
-    </g>\
-    <g id='bird'>\
-      <path d='M -8 0 Q 0 -6 8 0' fill='none' stroke='rgb(255,248,235)' stroke-width='2'/>\
-      <path d='M -2 0 Q 6 -6 14 0' fill='none' stroke='rgb(255,248,235)' stroke-width='2'/>\
-    </g>\
-    <g id='angel'>\
-      <circle cx='0' cy='-2' r='2.8' fill='rgb(255,255,245)'/>\
-      <path d='M -9 0 C -3 -6, -3 -6, 0 -2 C 3 -6, 3 -6, 9 0 Z' fill='rgb(255,255,245)' opacity='.95'/>\
+    <g id='angelHead'>\
+      <circle cx='0' cy='0' r='6' fill='rgb(255,255,245)'/>\
+      <ellipse cx='0' cy='-8' rx='10' ry='3' fill='none' stroke='rgb(255,248,200)' stroke-width='2'/>\
+      <path d='M -12 4 C -2 -2, -2 -2, 0 0 C 2 -2, 2 -2, 12 4' fill='none' stroke='rgb(255,255,245)' stroke-width='2'/>\
+      <path d='M -10 7 C -2 1, -2 1, 0 3 C 2 1, 2 1, 10 7' fill='none' stroke='rgb(255,255,245)' stroke-width='2'/>\
     </g>\
   </defs>\
-  <!-- espalhamento (coordenadas variadas) -->\
-  <use href='#star' transform='translate(60,60) scale(2)'/>\
-  <use href='#star' transform='translate(200,90) scale(1.5)'/>\
-  <use href='#star' transform='translate(420,70) scale(2.3)'/>\
-  <use href='#star' transform='translate(340,220) scale(2)'/>\
-  <use href='#star' transform='translate(80,300) scale(1.7)'/>\
-  <use href='#sun'  transform='translate(120,200)'/>\
-  <use href='#sun'  transform='translate(460,180) scale(0.85)'/>\
-  <use href='#moon' transform='translate(300,120) rotate(-15)'/>\
-  <use href='#moon' transform='translate(180,360) rotate(10) scale(0.9)'/>\
-  <use href='#bird' transform='translate(260,280) scale(1.1)'/>\
-  <use href='#bird' transform='translate(380,320) scale(0.9)'/>\
-  <use href='#angel' transform='translate(90,430) scale(1.1)'/>\
-  <use href='#angel' transform='translate(420,420) scale(0.9)'/>\
-</svg>") center / 520px 520px repeat;
+  <use href='#angelHead' transform='translate(60,60) scale(1.2)'/>\
+  <use href='#angelHead' transform='translate(200,90) scale(0.9)'/>\
+  <use href='#angelHead' transform='translate(420,70) scale(1.3)'/>\
+  <use href='#angelHead' transform='translate(340,220) scale(1.1)'/>\
+  <use href='#angelHead' transform='translate(80,300) scale(1.0)'/>\
+  <use href='#angelHead' transform='translate(300,120) scale(1.0)'/>\
+  <use href='#angelHead' transform='translate(180,360) scale(1.1)'/>\
+  <use href='#angelHead' transform='translate(420,420) scale(0.95)'/>\
+</svg>") center/520px 520px repeat;
 }
+/* Conteúdo acima do fundo decorativo */
+.container{max-width:720px; margin:0 auto; width:100%; padding:16px; position:relative; z-index:1}
 
-.container{max-width:720px; margin:0 auto; width:100%; padding:16px}
-.card{
-  background:var(--card); border:1px solid var(--bord); border-radius:16px;
-  box-shadow:0 8px 24px var(--shadow); padding:14px;
-}
-header{text-align:center; margin-bottom:12px}
+header{ text-align:center; margin-bottom:12px }
 h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 
-/* Ícone/hero retrato com borda vermelha e aro ouro-velho por fora (+10%) */
+/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (+25%) */
 .hero{
-  display:block; margin:10px auto 14px; height:286px; width:auto;
+  display:block; margin:10px auto 14px; height:358px; width:auto;
   aspect-ratio:3/4; object-fit:cover; border-radius:14px;
   border:6px solid var(--vermelho);
-  box-shadow:0 0 0 6px var(--ouro-velho), 0 8px 16px var(--shadow); /* aro externo ouro-velho */
+  box-shadow:0 0 0 6px var(--ouro-velho), 0 8px 16px var(--shadow);
 }
 
-/* Botão da data: 50% de largura, centralizado, texto azul del-rey, aro duplo (ouro + vermelho interno) */
+/* Botão da data: 50% de largura, fundo transparente, aros ouro-velho e vermelho */
 .btn-date{
-  display:inline-flex; align-items:center; justify-content:center;
-  gap:10px; min-height:48px; padding:10px 16px;
-  background:#fff; border:2px solid var(--bord); border-radius:18px;
+  display:block; width:50%; margin:0 auto;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  min-height:48px; padding:10px 16px; border-radius:18px;
+  background:transparent; border:none;
   box-shadow:
-    inset 0 0 0 2px var(--ouro),          /* aro dourado externo */
-    inset 0 0 0 5px var(--vermelho),      /* aro vermelho interno */
-    0 6px 16px var(--shadow);
-  font-weight:800; text-decoration:none; color:var(--azul-del-rey);
-  width:50%; margin:0 auto; display:block;   /* 50% e centralizado */
+    inset 0 0 0 3px var(--ouro-velho),
+    inset 0 0 0 6px var(--vermelho);
+  font-weight:800; color:var(--azul-del-rey); text-decoration:none;
 }
-
-/* Pager centralizado logo abaixo do botão da data, com o mesmo aro duplo */
+/* Pager centralizado logo abaixo da data, mesmo aro duplo e transparente */
 .pager{ display:flex; justify-content:center; align-items:center; gap:10px; margin-top:10px; }
 .btn-nav{
   display:inline-flex; align-items:center; justify-content:center;
-  min-height:44px; padding:8px 14px;
-  background:#fff; border:2px solid var(--bord); border-radius:14px;
+  min-height:44px; padding:8px 14px; border-radius:14px;
+  background:transparent; border:none;
   box-shadow:
-    inset 0 0 0 2px var(--ouro),
-    inset 0 0 0 5px var(--vermelho),
-    0 4px 12px var(--shadow);
+    inset 0 0 0 3px var(--ouro-velho),
+    inset 0 0 0 6px var(--vermelho);
   font-weight:800; color:var(--txt); text-decoration:none; cursor:pointer;
 }
-.btn-nav:focus-visible, .btn-date:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(160,0,0,.25) }
+.btn-nav:focus-visible, .btn-date:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(160,0,0,.25), inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho) }
 
-/* Área de conteúdo do dia (sem títulos extras) */
+/* Área de conteúdo do dia (sem fundo branco) */
 .section{ margin-top:12px }
-.section .content{ line-height:1.6; }
+.section .content{ line-height:1.6 }
 
-/* Botão Voltar — padrão dos Santos (escala .48) */
+/* Botão Voltar — padrão (sem bloco branco entre elementos) */
 .back-wrap{
   display:flex; justify-content:center; margin:12px 0 0;
   transform:scale(.48); transform-origin:center top;
@@ -164,12 +127,12 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
     catch{ location.href='index-teste.html'; }
   }
   document.addEventListener('DOMContentLoaded', ()=>{
-    // Botão da data: mostrar apenas DIA e MÊS em pt-BR (sem dia da semana, sem ano)
+    // Botão da data: apenas dia e mês (pt-BR)
     const iso = getParam('data') || new Date().toISOString().slice(0,10);
     const d = new Date(iso + 'T00:00:00');
-    const opts = { day:'2-digit', month:'long' }; // apenas dia e mês
+    const opts = { day:'2-digit', month:'long' };
     let label = d.toLocaleDateString('pt-BR', opts);
-    label = label.charAt(0).toUpperCase() + label.slice(1); // inicial maiúscula
+    label = label.charAt(0).toUpperCase() + label.slice(1);
     const el = document.getElementById('btnData');
     if(el) el.textContent = label;
   });
@@ -177,27 +140,23 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 </head>
 <body>
   <div class="container">
-    <header class="card" style="text-align:center">
+    <header>
       <h1>Synaxarion</h1>
       <img class="hero" src="img/icone-synaxarion.jpg" alt="Ícone do Synaxarion" onerror="this.style.display='none'">
     </header>
 
-    <!-- Botão da data (50% largura) -->
-    <div class="card" style="text-align:center;">
-      <button id="btnData" class="btn-date" type="button" title="Alterar data"></button>
+    <!-- Botão da data (50% largura, transparente) -->
+    <button id="btnData" class="btn-date" type="button" title="Alterar data"></button>
 
-      <!-- Pager centralizado -->
-      <div class="pager">
-        <button class="btn-nav" type="button" onclick="shiftDate(-1)">← Anterior</button>
-        <button class="btn-nav" type="button" onclick="shiftDate(+1)">Próximo →</button>
-      </div>
+    <!-- Pager centralizado e transparente -->
+    <div class="pager">
+      <button class="btn-nav" type="button" onclick="shiftDate(-1)">← Anterior</button>
+      <button class="btn-nav" type="button" onclick="shiftDate(+1)">Próximo →</button>
     </div>
 
-    <!-- Conteúdo do dia -->
-    <section class="card section">
-      <div id="conteudo" class="content">
-        <!-- TODO: injetar o texto do Synaxarion da sua planilha/CSV -->
-      </div>
+    <!-- Conteúdo do dia (sem cartões brancos) -->
+    <section class="section">
+      <div id="conteudo" class="content"><!-- injetar texto via CSV, se desejar --></div>
     </section>
 
     <!-- Botão Voltar -->
