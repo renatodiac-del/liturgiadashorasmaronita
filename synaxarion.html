@@ -1,129 +1,140 @@
+<!-- synaxarion.html (rev com azul del-rey + pager centralizado + voltar padrão) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Synaxarion</title>
-<meta name="theme-color" content="#b8860b">
+<meta name="theme-color" content="#faf7ef">
 <style>
 :root{
-  --ouro:#b8860b; --turq:#40E0D0; --ink:#123d41;
-  --paper:#fff7e6; --shadow:rgba(0,0,0,.18);
-  --fonte: Arial, Helvetica, sans-serif;
+  --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+  --ouro:#d6b25a; --vermelho:#a00000; --shadow:rgba(0,0,0,.1);
+  --azul-del-rey:#003399; /* azul del-rey (fonte do botão da data) */
+  --sans: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family:var(--fonte);background:var(--ouro);color:var(--ink);
-  background-image:
-    repeating-linear-gradient(45deg, rgba(64,224,208,.22) 0, rgba(64,224,208,.22) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(64,224,208,.22) 0, rgba(64,224,208,.22) 2px, transparent 2px, transparent 40px);
-  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--txt);
+  display:flex; flex-direction:column; min-height:100vh;
+}
+.container{max-width:720px; margin:0 auto; width:100%; padding:16px}
+.card{
+  background:var(--card); border:1px solid var(--bord); border-radius:16px;
+  box-shadow:0 8px 24px var(--shadow); padding:14px;
+}
+header{ text-align:center; margin-bottom:12px }
+h1{ font-size:1.8rem; margin:4px 0 0 }
+.subtitle{ opacity:.8; font-size:.95rem }
+
+/* Botão “data” (texto azul del-rey) */
+.btn-date{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:10px; min-height:48px; padding:10px 16px;
+  background:#fff; border:2px solid var(--bord); border-radius:18px;
+  box-shadow: inset 0 0 0 2px var(--ouro), 0 6px 16px var(--shadow);
+  font-weight:800; text-decoration:none; color:var(--azul-del-rey);
+  width:100%;
 }
 
-/* HEADER */
-header{text-align:center;padding:16px 12px 8px}
-.title{
-  color:var(--turq); font-size:2.3rem; font-weight:900;
-  text-shadow:
-    0 0 2px var(--ouro),
-    0 0 4px var(--ouro),
-    0 0 6px rgba(184,134,11,.75);
+/* Pager centralizado, mesmo alinhamento e próximos */
+.pager{
+  display:flex; justify-content:center; align-items:center; gap:10px;
+  margin-top:10px;
 }
-
-/* CONTAINER */
-.wrap{max-width:640px;margin:0 auto;padding:10px 16px 24px;width:100%}
-
-/* ÍCONE com 3 CAMADAS: azul / dourado / azul */
-.hero{
-  display:block;margin:10px auto 18px;max-width:100%;height:auto;max-height:420px;background:#fff;
-  border:10px solid var(--turq); /* externa */
-  box-shadow:
-    0 0 0 10px var(--ouro) inset,   /* camada do meio */
-    0 0 0 20px var(--turq) inset,   /* interna */
-    0 8px 20px var(--shadow);
-  border-radius:18px;
+.btn-nav{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:8px 14px;
+  background:#fff; border:2px solid var(--bord); border-radius:14px;
+  box-shadow: inset 0 0 0 2px var(--ouro), 0 4px 12px var(--shadow);
+  font-weight:800; color:var(--txt); text-decoration:none;
 }
-.hero[hidden]{display:none}
-.chip{display:none} /* nunca mostra “Synaxarion” em duplicado */
+.btn-nav:focus-visible, .btn-date:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(160,0,0,.25) }
 
-/* NAVEGAÇÃO */
-.datebox{display:flex;align-items:center;justify-content:center;gap:14px;margin:14px 0 6px}
-.navbtn{
-  appearance:none; background:#fff; color:var(--ink); cursor:pointer;
-  padding:9px 14px; border-radius:12px; font-weight:900;
-  border:3px solid var(--turq);
-  box-shadow:
-    inset 0 0 0 3px var(--ouro),
-    0 2px 6px var(--shadow);
+/* Conteúdo */
+.section{ margin-top:14px }
+.section h2{ font-size:1.1rem; margin-bottom:6px }
+.section p{ line-height:1.6 }
+
+/* Botão Voltar — igual ao padrão dos Santos (escala .48) */
+.back-wrap{
+  display:flex; justify-content:center; margin:12px 0 0;
+  transform:scale(.48); transform-origin:center top;
 }
-.navbtn:hover{background:#f1fffc; transform:translateY(-1px)}
-
-/* PAINEL DE DATA — mesmas 3 camadas + letras com contorno */
-.date{
-  display:inline-flex; align-items:center; justify-content:center; min-width:270px;
-  background:#fff; padding:12px 18px; border-radius:14px;
-  border:4px solid var(--turq);
-  box-shadow:
-    inset 0 0 0 5px var(--ouro),
-    inset 0 0 0 12px var(--turq),
-    0 4px 12px var(--shadow);
-  font-size:1.5rem; font-weight:900; color:var(--turq);
-  text-shadow:
-    0 0 2px var(--ouro),
-    0 0 3px var(--ouro),
-    0 0 5px rgba(184,134,11,.7);
-  -webkit-text-stroke: 0.8px var(--ouro);
+.btn-back{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--vermelho); color:#fff; border:none; border-radius:999px;
+  padding:10px 16px; font-weight:800; cursor:pointer;
+  box-shadow:0 6px 14px var(--shadow);
 }
-
-footer{margin-top:auto;text-align:center;color:#0d3b3f;font-size:.85rem;padding:.8rem}
-footer a{color:#053e44;text-decoration:none;font-weight:700}
+.btn-back .arr{font-size:18px; line-height:1}
 </style>
-</head>
-<body>
-<header>
-  <h1 class="title">Synaxarion</h1>
-</header>
-
-<main class="wrap">
-  <!-- Ícone principal -->
-  <img class="hero" src="img/icone-synaxarion.jpg" alt="Ícone — Synaxarion">
-
-  <!-- Navegação -->
-  <div class="datebox" aria-label="Navegação por datas do Synaxarion">
-    <button id="prev" class="navbtn" type="button">← Anterior</button>
-    <div id="date" class="date">-- de ------</div>
-    <button id="next" class="navbtn" type="button">Próximo →</button>
-  </div>
-</main>
-
-<footer>
-  Synaxarion · <a href="qurbono-teste.html">Qurbono</a> · <a href="horas-teste.html">Oração do Dia</a> · <a href="index.html">App</a>
-</footer>
 
 <script>
-const AVAILABLE = [
-  '01-01','01-06','01-15','02-02','02-14','03-19','03-25','04-23',
-  '05-03','05-10','06-24','06-29','07-20','08-06','08-15','09-14',
-  '10-01','10-07','11-01','12-06','12-08','12-25'
-];
-const MONTHS_PT = [
-  "janeiro","fevereiro","março","abril","maio","junho",
-  "julho","agosto","setembro","outubro","novembro","dezembro"
-];
-const dateEl=document.getElementById('date'); let idx=0;
-(function(){
-  const today=new Date();
-  const key=`${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-  const pos=AVAILABLE.indexOf(key); if(pos>=0) idx=pos;
-})();
-function fmt(md){
-  const [mm,dd]=md.split('-').map(n=>parseInt(n,10));
-  const m=MONTHS_PT[mm-1]; return `${dd}${dd===1?"º":""} de ${m}`;
-}
-function render(){dateEl.textContent=fmt(AVAILABLE[idx]);}
-document.getElementById('prev').onclick=()=>{idx=(idx-1+AVAILABLE.length)%AVAILABLE.length;render();};
-document.getElementById('next').onclick=()=>{idx=(idx+1)%AVAILABLE.length;render();};
-render();
+  // Navegação simples por data via URL (?data=YYYY-MM-DD)
+  function getParam(n){ return new URLSearchParams(location.search).get(n); }
+  function setDate(iso){
+    const u = new URL(location.href);
+    u.searchParams.set('data', iso);
+    location.href = u.toString();
+  }
+  function shiftDate(days){
+    const iso = getParam('data') || new Date().toISOString().slice(0,10);
+    const d = new Date(iso + 'T00:00:00');
+    d.setDate(d.getDate() + days);
+    const pad=n=>String(n).padStart(2,'0');
+    const next = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    setDate(next);
+  }
+  function goBackOrHome(){
+    try{ if(history.length>1) history.back(); else location.href='index-teste.html'; }
+    catch{ location.href='index-teste.html'; }
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{
+    // Preenche o texto do botão de data
+    const iso = getParam('data') || new Date().toISOString().slice(0,10);
+    const d = new Date(iso + 'T00:00:00');
+    const label = d.toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+    const el = document.getElementById('btnData');
+    if(el) el.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+  });
 </script>
-</body>
-</html>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="card">
+        <h1>Synaxarion</h1>
+        <div class="subtitle">Vidas dos Santos por dia</div>
+      </div>
+    </header>
+
+    <!-- Botão da data com texto azul del-rey -->
+    <div class="card" style="text-align:center;">
+      <button id="btnData" class="btn-date" type="button" title="Alterar data"></button>
+
+      <!-- Pager centralizado logo abaixo do botão da data -->
+      <div class="pager">
+        <button class="btn-nav" type="button" onclick="shiftDate(-1)">← Anterior</button>
+        <button class="btn-nav" type="button" onclick="shiftDate(+1)">Próximo →</button>
+      </div>
+    </div>
+
+    <!-- Conteúdo do dia (exemplo; substitua pelo seu render de planilha/CSV) -->
+    <section class="card section">
+      <h2>Leituras e notas</h2>
+      <p id="conteudo">
+        <!-- TODO: injetar conteúdo do Synaxarion a partir da sua planilha/CSV -->
+      </p>
+    </section>
+
+    <!-- Botão Voltar padrão (igual Santos) -->
+    <div class="back-wrap">
+      <button class="btn-back" onclick="goBackOrHome()">
+        <span class="arr">←</span><span>Voltar</span>
+      </button>
+    </div>
+  </div>
