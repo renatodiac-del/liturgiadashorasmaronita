@@ -1,4 +1,4 @@
-<!-- synaxarion.html (hero +20% e Voltar mais próximo da borda inferior) -->
+<!-- synaxarion.html (hero +10% e Voltar um pouco mais alto, com respiro) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -50,7 +50,7 @@ body::before{
 </svg>") center/520px 520px repeat;
 }
 
-/* Layout da página: flex para encostar o botão Voltar no rodapé com respiro */
+/* Layout da página: flex para posicionar o Voltar perto do rodapé com respiro */
 .container{
   max-width:720px; margin:0 auto; width:100%; padding:16px;
   position:relative; z-index:1;
@@ -60,9 +60,9 @@ body::before{
 header{ text-align:center; margin-bottom:12px }
 h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 
-/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (+20%) */
+/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (+10%) */
 .hero{
-  display:block; margin:10px auto 14px; height:430px; width:auto; /* 358px -> 430px */
+  display:block; margin:10px auto 14px; height:473px; width:auto; /* 430px -> 473px */
   aspect-ratio:3/4; object-fit:cover; border-radius:14px;
   border:6px solid var(--vermelho);
   box-shadow:0 0 0 6px var(--ouro-velho), 0 8px 16px var(--shadow);
@@ -97,14 +97,14 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 }
 
 /* Conteúdo do dia (sem cartões) */
-.section{ margin-top:12px }
+.section{ margin:12px 0 40px } /* respiro antes do Voltar para não ficar perto dos outros botões */
 .section .content{ line-height:1.6 }
 
-/* Botão Voltar — mais próximo da borda inferior (com respiro) */
+/* Botão Voltar — um pouco mais alto do rodapé e com bom respiro dos demais botões */
 .back-wrap{
   display:flex; justify-content:center;
-  margin-top:auto;              /* empurra para o fim da coluna */
-  margin-bottom:16px;           /* perto, mas não colado */
+  margin-top:auto;          /* empurra para a parte de baixo */
+  margin-bottom:28px;       /* sobe um pouco (28px do rodapé) */
   transform:scale(.48); transform-origin:center bottom;
 }
 .btn-back{
@@ -168,7 +168,7 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
       <div id="conteudo" class="content"><!-- render do dia via CSV, se desejar --></div>
     </section>
 
-    <!-- Botão Voltar (próximo da borda inferior) -->
+    <!-- Botão Voltar (um pouco mais alto do rodapé) -->
     <div class="back-wrap">
       <button class="btn-back" onclick="goBackOrHome()">
         <span class="arr">←</span><span>Voltar</span>
