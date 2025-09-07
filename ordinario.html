@@ -14,6 +14,7 @@
   --texto:#0f2a25; 
   --shadow:rgba(0,0,0,.18);
   --fonte: Arial, Helvetica, sans-serif;
+  --vermelho:#a00000;       /* para o botão Voltar padrão */
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -63,9 +64,24 @@ header{text-align:center;padding:6px}
   border-radius:50%; object-fit:cover;
 }
 
-footer{margin-top:4px;text-align:center;color:#0d2e28;font-size:.88rem;padding:.5rem 0 .7rem}
-footer a{color:#1c3e38;text-decoration:none;font-weight:800}
-footer a:hover{text-decoration:underline}
+/* Rodapé com botão Voltar padrão (links removidos) */
+footer{
+  margin-top:4px;                 /* mantém a “mesma altura” visual do projeto */
+  text-align:center; 
+  padding:.5rem 0 .7rem;
+}
+.back-wrap{
+  display:flex; justify-content:center;
+  transform:scale(.48);           /* escala padrão usada nas demais páginas */
+  transform-origin:center top;
+}
+.btn-back{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--vermelho); color:#fff; border:none; border-radius:999px;
+  padding:10px 16px; font-weight:800; cursor:pointer;
+  box-shadow:0 6px 14px var(--shadow);
+}
+.btn-back .arr{font-size:18px; line-height:1}
 </style>
 </head>
 <body>
@@ -86,7 +102,22 @@ footer a:hover{text-decoration:underline}
 </main>
 
 <footer>
-  <a href="oracao.html">Voltar</a> · <a href="index.html">App</a>
+  <div class="back-wrap">
+    <button class="btn-back" type="button" onclick="goBackOrHome()">
+      <span class="arr">←</span><span>Voltar</span>
+    </button>
+  </div>
 </footer>
+
+<script>
+function goBackOrHome(){
+  try{
+    if(history.length>1) history.back();
+    else location.href='index-teste.html';
+  }catch(e){
+    location.href='index-teste.html';
+  }
+}
+</script>
 </body>
 </html>
