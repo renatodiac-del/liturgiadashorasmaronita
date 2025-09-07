@@ -8,10 +8,11 @@
 
   <style>
     :root{
-      --gap: 8px;
-      --btn-wide: 77.3%;     /* largura dos botões grandes */
+      --gap: 4.8px;          /* ↓ 40% na distância entre os botões maiores (era 8px) */
+      --btn-wide: 88.9%;     /* ↑ 15% na largura (era 77.3%) */
       --btn-pad-v: 6px;      /* altura base dos botões grandes */
       --btn-pad-h: 11px;
+      --ouro-velho:#b08a2e;
     }
 
     *{box-sizing:border-box}
@@ -35,9 +36,14 @@
 
     .wrap{ width:100%; max-width:620px; margin:0 auto; padding:4px 16px 16px }
 
+    /* Ícone com aro laranja + aro ouro-velho EXTERNO (novo) */
     .hero{
       display:block; margin:4px auto 8px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid #ff7a00; box-shadow:0 0 0 4px #d6b25a inset; border-radius:12px
+      border:6px solid #ff7a00; 
+      box-shadow:
+        0 0 0 4px #d6b25a inset,   /* aro dourado interno (já havia) */
+        0 0 0 6px var(--ouro-velho); /* aro ouro-velho EXTERNO (novo) */
+      border-radius:12px
     }
     .hero[hidden]{ display:none }
     .chip{
@@ -49,26 +55,52 @@
     .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
       background:#fff; border:2px solid #ff7a00; border-radius:20px;
-      padding:3px 22px;                  /* altura -50%, largura mantida */
-      font-size:0.58rem;                 /* fonte pequena */
-      color:#7a0000; cursor:pointer; transition:.2s
+      padding:3px 22px;
+      font-size:0.58rem; color:#7a0000; cursor:pointer; transition:.2s;
+      /* Aro duplo dourado em TODOS os botões (novo): externo + interno */
+      box-shadow:
+        0 0 0 2.2px var(--ouro-velho),   /* aro externo ouro-velho */
+        inset 0 0 0 2.2px #d6b25a;       /* aro interno dourado */
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
     .datedisplay{ min-width:156px; text-align:center; color:#582c0c; line-height:1.2 }
     .datedisplay .date{ font-weight:700 }
     .datedisplay .weekday{ font-size:.95rem; color:#7a5c3a; text-transform:lowercase }
 
-    /* Coluna única centralizada */
+    /* Coluna única centralizada + wrapper para setas piscantes */
+    .buttons-wrap{ position:relative; }
     .col{ display:flex; flex-direction:column; align-items:center }
 
-    /* BASE dos botões grandes (canônicos & calendário) */
+    /* Setas vermelhas piscantes (4x) como no Synaxarion */
+    .hint-arrows{
+      position:absolute; left:0; right:0; top:-6px; 
+      display:flex; justify-content:space-between; align-items:center;
+      padding:0 6px; pointer-events:none; z-index:2;
+    }
+    .hint{
+      color:#a00000; font-weight:900; line-height:1;
+      font-size:clamp(22px, 3.2vw, 30px);
+      text-shadow:0 0 6px rgba(0,0,0,.25);
+      animation:hintBlink .85s ease-in-out 4; /* pisca 4x */
+    }
+    @keyframes hintBlink{
+      0%{opacity:0; transform:translateY(-3px)}
+      20%{opacity:1; transform:translateY(0)}
+      50%{opacity:0}
+      100%{opacity:0}
+    }
+
+    /* BASE dos botões grandes (canônicos & calendário) — agora com aro ouro-velho externo adicional */
     .btn{
       display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
       background:rgba(255,255,255,0.97); border:1.35px solid #ff7a00;
-      box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow:
+        0 0 0 2px var(--ouro-velho),     /* aro externo ouro-velho (novo) */
+        0 0 0 0.9px #d6b25a inset,       /* aro interno dourado (já havia) */
+        0 4px 10px rgba(0,0,0,0.15);
       border-radius:18px; font-size:.86rem; font-weight:bold;
       text-align:center; position:relative; transition:.2s; color:#a00000;
-      margin: var(--gap) 0;
+      margin: var(--gap) 0;              /* espaço vertical reduzido */
     }
     .btn:hover{ transform:scale(1.02); background:#fff3da }
     .btn img{ position:absolute; left:10px; width:20px; height:20px }
@@ -127,7 +159,15 @@
       <button class="datebtn" id="btn-next">Próximo ▶</button>
     </div>
 
-    <div class="col" id="col"></div>
+    <!-- Wrapper para os botões + setas piscantes -->
+    <div class="buttons-wrap">
+      <div class="hint-arrows" id="hintArrows">
+        <span class="hint left">↓</span>
+        <span class="hint right">↓</span>
+      </div>
+
+      <div class="col" id="col"></div>
+    </div>
 
     <div class="wide-wrap">
       <a class="btn calendar" data-action="calendario" href="#">
@@ -150,10 +190,15 @@
       ramsho:'Ramsho — em breve.','tarde-leituras':'Salmo tarde — em breve.','sutoro':'Sutoro — em breve.',
       lilyo:'Lilyo — em breve.','calendario':'Calendário Litúrgico — em breve.'
     };
-    function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;
-      clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800);}
-    document.addEventListener('click',e=>{const a=e.target.closest('.btn[data-action]');if(!a)return;
-      e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');});
+    function toast(msg){
+      const t=document.getElementById('toast');
+      t.textContent=msg;t.style.opacity=1;
+      clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800);
+    }
+    document.addEventListener('click',e=>{
+      const a=e.target.closest('.btn[data-action]');if(!a)return;
+      e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');
+    });
 
     function mk(id,l1,l2=''){
       const a=document.createElement('a');a.href='#';a.className='btn tall '+id;a.dataset.action=id;
@@ -189,6 +234,15 @@
     updateDateBar();
 
     document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+
+    // Remover completamente as setas após terminarem de piscar 4x
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const right=document.querySelector('#hintArrows .right');
+      const wrap=document.getElementById('hintArrows');
+      if(right && wrap){
+        right.addEventListener('animationend', ()=>{ wrap.remove(); }, {once:true});
+      }
+    });
   </script>
 </body>
 </html>
