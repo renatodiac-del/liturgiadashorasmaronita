@@ -1,4 +1,3 @@
-<!-- synaxarion.html (hero 473px; fundo dourado salpicado com anjinhos; data 50% só dia/mês; pager central; Voltar mais alto do rodapé) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -50,17 +49,36 @@ body::before{
 </svg>") center/520px 520px repeat;
 }
 
-/* Layout da página: flex para posicionar o Voltar perto do rodapé com respiro */
+/* Layout geral */
 .container{
   max-width:720px; margin:0 auto; width:100%; padding:16px;
-  position:relative; z-index:1;
-  display:flex; flex-direction:column; min-height:100dvh;
+  position:relative; z-index:1; display:flex; flex-direction:column; min-height:100dvh;
 }
 
-header{ text-align:center; margin-bottom:12px }
-h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
+/* Título + subtítulo */
+header{ text-align:center; margin-bottom:10px }
+h1{
+  color:#fff;
+  font-weight:900;
+  font-size:calc(1.8rem + 3pt);        /* +3pt no título */
+  margin:4px 0 2px;
+  /* borda ouro-velho nas letras */
+  -webkit-text-stroke:1px var(--ouro-velho);
+  text-shadow:
+    -1px -1px 0 var(--ouro-velho),
+     1px -1px 0 var(--ouro-velho),
+    -1px  1px 0 var(--ouro-velho),
+     1px  1px 0 var(--ouro-velho);
+}
+.subtitle{
+  color:#fff;
+  font-weight:700;
+  /* 10pt menor que o título */
+  font-size:calc( (1.8rem + 3pt) - 10pt );
+  opacity:.95;
+}
 
-/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (473px) */
+/* Ícone/hero (mantém 473px da última revisão) */
 .hero{
   display:block; margin:10px auto 14px; height:473px; width:auto;
   aspect-ratio:3/4; object-fit:cover; border-radius:14px;
@@ -68,7 +86,7 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
   box-shadow:0 0 0 6px var(--ouro-velho), 0 8px 16px var(--shadow);
 }
 
-/* Botão da data: 50% largura, transparente, aro duplo ouro-velho + vermelho; texto azul del-rey (apenas dia/mês) */
+/* Botão da data: 50% largura, transparente, aro duplo ouro-velho + vermelho */
 .btn-date{
   display:block; width:50%; margin:0 auto;
   display:flex; align-items:center; justify-content:center; gap:10px;
@@ -80,7 +98,7 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
   font-weight:800; color:var(--azul-del-rey); text-decoration:none;
 }
 
-/* Pager centralizado, mesmo aro duplo e transparente */
+/* Pager centralizado */
 .pager{ display:flex; justify-content:center; align-items:center; gap:10px; margin-top:10px; }
 .btn-nav{
   display:inline-flex; align-items:center; justify-content:center;
@@ -96,16 +114,10 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
   inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho)
 }
 
-/* Conteúdo do dia (sem cartões) */
-.section{ margin:12px 0 40px }
-.section .content{ line-height:1.6 }
-
-/* Botão Voltar — mais alto do rodapé, com bom respiro */
+/* Botão Voltar — logo abaixo do pager, com respiro (não colado) */
 .back-wrap{
-  display:flex; justify-content:center;
-  margin-top:auto;          /* empurra para a parte de baixo */
-  margin-bottom:48px;       /* mais alto do rodapé (antes 28px) */
-  transform:scale(.48); transform-origin:center bottom;
+  display:flex; justify-content:center; margin-top:14px;  /* aproxima do pager, mas não cola */
+  transform:scale(.48); transform-origin:center top;
 }
 .btn-back{
   display:inline-flex; align-items:center; gap:10px;
@@ -114,6 +126,10 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
   box-shadow:0 6px 14px var(--shadow);
 }
 .btn-back .arr{font-size:18px; line-height:1}
+
+/* Conteúdo do dia (sem cartões) */
+.section{ margin:16px 0 24px }
+.section .content{ line-height:1.6 }
 </style>
 
 <script>
@@ -151,29 +167,30 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
   <div class="container">
     <header>
       <h1>Synaxarion</h1>
+      <div class="subtitle">sobre a comemoração do dia</div>
       <img class="hero" src="img/icone-synaxarion.jpg" alt="Ícone do Synaxarion" onerror="this.style.display='none'">
     </header>
 
     <!-- Botão da data (50% largura, transparente) -->
     <button id="btnData" class="btn-date" type="button" title="Alterar data"></button>
 
-    <!-- Pager centralizado e transparente -->
+    <!-- Pager centralizado -->
     <div class="pager">
       <button class="btn-nav" type="button" onclick="shiftDate(-1)">← Anterior</button>
       <button class="btn-nav" type="button" onclick="shiftDate(+1)">Próximo →</button>
+    </div>
+
+    <!-- Botão Voltar (logo após o pager, com respiro) -->
+    <div class="back-wrap">
+      <button class="btn-back" onclick="goBackOrHome()">
+        <span class="arr">←</span><span>Voltar</span>
+      </button>
     </div>
 
     <!-- Conteúdo do dia -->
     <section class="section">
       <div id="conteudo" class="content"><!-- render do dia via CSV, se desejar --></div>
     </section>
-
-    <!-- Botão Voltar (mais alto do rodapé) -->
-    <div class="back-wrap">
-      <button class="btn-back" onclick="goBackOrHome()">
-        <span class="arr">←</span><span>Voltar</span>
-      </button>
-    </div>
   </div>
 </body>
 </html>
