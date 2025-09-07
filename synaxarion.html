@@ -11,7 +11,7 @@
   --ouro-velho:#b08a2e;
   --bg-ouro-1:#f1e1b6;
   --bg-ouro-2:#d9b975;
-  --vermelho:#a00000;
+  --vermelho:#a00000;           /* título deve permanecer vermelho */
   --txt:#2b1f16;
   --shadow:rgba(0,0,0,.10);
   --azul-del-rey:#003399;
@@ -58,11 +58,11 @@ body::before{
 /* Título + subtítulo */
 header{ text-align:center; margin-bottom:10px }
 h1{
-  color:#fff;
+  color:var(--vermelho);              /* vermelho restaurado */
   font-weight:900;
-  font-size:calc(1.8rem + 3pt);        /* +3pt no título */
+  font-size:calc(1.8rem + 3pt);       /* +3pt no título */
   margin:4px 0 2px;
-  /* borda ouro-velho nas letras */
+  /* borda ouro-velho nas letras (contorno) */
   -webkit-text-stroke:1px var(--ouro-velho);
   text-shadow:
     -1px -1px 0 var(--ouro-velho),
@@ -71,14 +71,14 @@ h1{
      1px  1px 0 var(--ouro-velho);
 }
 .subtitle{
-  color:#fff;
+  color:#fff;                         /* subtítulo em branco */
   font-weight:700;
-  /* 10pt menor que o título */
-  font-size:calc( (1.8rem + 3pt) - 10pt );
+  /* 10pt menor que o título - 3pt adicionais (total -13pt) */
+  font-size:calc( (1.8rem + 3pt) - 13pt );
   opacity:.95;
 }
 
-/* Ícone/hero (mantém 473px da última revisão) */
+/* Ícone/hero (473px) */
 .hero{
   display:block; margin:10px auto 14px; height:473px; width:auto;
   aspect-ratio:3/4; object-fit:cover; border-radius:14px;
@@ -114,9 +114,9 @@ h1{
   inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho)
 }
 
-/* Botão Voltar — logo abaixo do pager, com respiro (não colado) */
+/* Botão Voltar — mais próximo do pager, com respiro (não colado) */
 .back-wrap{
-  display:flex; justify-content:center; margin-top:14px;  /* aproxima do pager, mas não cola */
+  display:flex; justify-content:center; margin-top:12px;  /* aproximado dos botões Anterior/Próximo */
   transform:scale(.48); transform-origin:center top;
 }
 .btn-back{
@@ -127,7 +127,7 @@ h1{
 }
 .btn-back .arr{font-size:18px; line-height:1}
 
-/* Conteúdo do dia (sem cartões) */
+/* Conteúdo do dia */
 .section{ margin:16px 0 24px }
 .section .content{ line-height:1.6 }
 </style>
