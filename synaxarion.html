@@ -1,4 +1,6 @@
-<!-- synaxarion.html (hero +10% e Voltar um pouco mais alto, com respiro) -->
+ me dê o código completo
+O ChatGPT disse:
+<!-- synaxarion.html (hero 473px; fundo dourado salpicado com anjinhos; data 50% só dia/mês; pager central; Voltar mais alto do rodapé) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -38,7 +40,7 @@ body::before{
       <path d='M -12 4 C -2 -2, -2 -2, 0 0 C 2 -2, 2 -2, 12 4' fill='none' stroke='rgb(255,255,245)' stroke-width='2'/>\
       <path d='M -10 7 C -2 1, -2 1, 0 3 C 2 1, 2 1, 10 7' fill='none' stroke='rgb(255,255,245)' stroke-width='2'/>\
     </g>\
-  </defs>\
+  </defs>\n\
   <use href='#angelHead' transform='translate(60,60) scale(1.2)'/>\
   <use href='#angelHead' transform='translate(200,90) scale(0.9)'/>\
   <use href='#angelHead' transform='translate(420,70) scale(1.3)'/>\
@@ -60,15 +62,15 @@ body::before{
 header{ text-align:center; margin-bottom:12px }
 h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 
-/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (+10%) */
+/* Ícone/hero retrato com borda vermelha e aro ouro-velho externo (473px) */
 .hero{
-  display:block; margin:10px auto 14px; height:473px; width:auto; /* 430px -> 473px */
+  display:block; margin:10px auto 14px; height:473px; width:auto;
   aspect-ratio:3/4; object-fit:cover; border-radius:14px;
   border:6px solid var(--vermelho);
   box-shadow:0 0 0 6px var(--ouro-velho), 0 8px 16px var(--shadow);
 }
 
-/* Botão da data: 50% largura, transparente, aro duplo ouro-velho + vermelho */
+/* Botão da data: 50% largura, transparente, aro duplo ouro-velho + vermelho; texto azul del-rey (apenas dia/mês) */
 .btn-date{
   display:block; width:50%; margin:0 auto;
   display:flex; align-items:center; justify-content:center; gap:10px;
@@ -97,14 +99,14 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
 }
 
 /* Conteúdo do dia (sem cartões) */
-.section{ margin:12px 0 40px } /* respiro antes do Voltar para não ficar perto dos outros botões */
+.section{ margin:12px 0 40px }
 .section .content{ line-height:1.6 }
 
-/* Botão Voltar — um pouco mais alto do rodapé e com bom respiro dos demais botões */
+/* Botão Voltar — mais alto do rodapé, com bom respiro */
 .back-wrap{
   display:flex; justify-content:center;
   margin-top:auto;          /* empurra para a parte de baixo */
-  margin-bottom:28px;       /* sobe um pouco (28px do rodapé) */
+  margin-bottom:48px;       /* mais alto do rodapé (antes 28px) */
   transform:scale(.48); transform-origin:center bottom;
 }
 .btn-back{
@@ -168,7 +170,7 @@ h1{ font-size:1.8rem; margin:4px 0 0; color:var(--vermelho) }
       <div id="conteudo" class="content"><!-- render do dia via CSV, se desejar --></div>
     </section>
 
-    <!-- Botão Voltar (um pouco mais alto do rodapé) -->
+    <!-- Botão Voltar (mais alto do rodapé) -->
     <div class="back-wrap">
       <button class="btn-back" onclick="goBackOrHome()">
         <span class="arr">←</span><span>Voltar</span>
