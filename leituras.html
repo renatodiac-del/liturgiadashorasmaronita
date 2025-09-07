@@ -49,7 +49,7 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 }
 .subtitle{
   margin-top:4px;
-  color:var(--azul-del-rey);         /* subtítulo azul del-rey */
+  color:var(--azul-del-rey);
   font-weight:800;
   font-style:italic;                 /* itálico */
   /* 15pt menor que o título */
@@ -114,10 +114,10 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 }
 .navbtn:hover{background:#f4fbff;transform:translateY(-1px)}
 
-/* Botão Voltar (padrão): distância reduzida pela metade */
+/* Botão Voltar (padrão): distância reduzida em 60% (resta 40%) */
 .back-wrap{
   display:flex; justify-content:center;
-  margin-top:min(9vh, 70px);   /* antes: min(18vh, 140px) */
+  margin-top:min(3.6vh, 28px);  /* antes: min(9vh, 70px) */
   transform:scale(.48); transform-origin:center top;
 }
 .btn-back{
