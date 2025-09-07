@@ -17,13 +17,14 @@
   --vermelho:#a00000;
   --fonte: Arial, Helvetica, sans-serif;
 }
-/* Fonte geral +20% (mantido) */
+/* Fonte geral +20% */
 html{font-size:120%}
 
 *{box-sizing:border-box} 
 html,body{height:100%}
 body{
   margin:0;font-family:var(--fonte); background:var(--azulbebe); color:var(--ink);
+  /* mosaico/ladrilho em ouro-velho */
   background-image:
     repeating-linear-gradient(45deg, rgba(var(--ouro-velho-rgb),.20) 0, rgba(var(--ouro-velho-rgb),.20) 2px, transparent 2px, transparent 40px),
     repeating-linear-gradient(-45deg, rgba(var(--ouro-velho-rgb),.16) 0, rgba(var(--ouro-velho-rgb),.16) 2px, transparent 2px, transparent 40px);
@@ -34,10 +35,11 @@ body{
 /* Cabeçalho */
 header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
 .title{
-  color:var(--dourado);
+  color:var(--dourado);              /* mantém a cor do título */
   font-weight:900;
-  font-size:calc(1.8rem + 3pt);
+  font-size:calc(1.8rem + 3pt);      /* +3pt no título */
   margin:0;
+  /* borda azul del-rey nas letras */
   -webkit-text-stroke:1px var(--azul-del-rey);
   text-shadow:
     -1px -1px 0 var(--azul-del-rey),
@@ -47,10 +49,12 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 }
 .subtitle{
   margin-top:4px;
-  color:var(--azul-del-rey);
+  color:var(--azul-del-rey);         /* subtítulo azul del-rey */
   font-weight:800;
-  font-style:italic;
-  font-size:calc( (1.8rem + 3pt) - 15pt ); /* 12pt + 3pt = 15pt menor que o título */
+  font-style:italic;                 /* itálico */
+  /* 15pt menor que o título */
+  font-size:calc( (1.8rem + 3pt) - 15pt );
+  /* contorno ouro-velho no subtítulo */
   -webkit-text-stroke:.8px var(--ouro-velho);
   text-shadow:
     -1px -1px 0 var(--ouro-velho),
@@ -110,10 +114,10 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 }
 .navbtn:hover{background:#f4fbff;transform:translateY(-1px)}
 
-/* Botão Voltar (padrão): ~meio caminho até o rodapé */
+/* Botão Voltar (padrão): distância reduzida pela metade */
 .back-wrap{
   display:flex; justify-content:center;
-  margin-top:min(18vh, 140px);
+  margin-top:min(9vh, 70px);   /* antes: min(18vh, 140px) */
   transform:scale(.48); transform-origin:center top;
 }
 .btn-back{
