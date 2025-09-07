@@ -24,7 +24,6 @@ html{font-size:120%}
 html,body{height:100%}
 body{
   margin:0;font-family:var(--fonte); background:var(--azulbebe); color:var(--ink);
-  /* mosaico/ladrilho em ouro-velho (mantido) */
   background-image:
     repeating-linear-gradient(45deg, rgba(var(--ouro-velho-rgb),.20) 0, rgba(var(--ouro-velho-rgb),.20) 2px, transparent 2px, transparent 40px),
     repeating-linear-gradient(-45deg, rgba(var(--ouro-velho-rgb),.16) 0, rgba(var(--ouro-velho-rgb),.16) 2px, transparent 2px, transparent 40px);
@@ -35,11 +34,10 @@ body{
 /* Cabeçalho */
 header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
 .title{
-  color:var(--dourado);              /* mantém a cor do título */
+  color:var(--dourado);
   font-weight:900;
-  font-size:calc(1.8rem + 3pt);      /* +3pt no título */
+  font-size:calc(1.8rem + 3pt);
   margin:0;
-  /* borda azul del-rey nas letras */
   -webkit-text-stroke:1px var(--azul-del-rey);
   text-shadow:
     -1px -1px 0 var(--azul-del-rey),
@@ -49,12 +47,10 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 }
 .subtitle{
   margin-top:4px;
-  color:var(--azul-del-rey);         /* subtítulo azul del-rey */
+  color:var(--azul-del-rey);
   font-weight:800;
-  font-style:italic;                 /* em itálico (novo) */
-  /* 12pt menor que o título - 3pt adicionais = 15pt menor */
-  font-size:calc( (1.8rem + 3pt) - 15pt );
-  /* contorno ouro-velho no subtítulo */
+  font-style:italic;
+  font-size:calc( (1.8rem + 3pt) - 15pt ); /* 12pt + 3pt = 15pt menor que o título */
   -webkit-text-stroke:.8px var(--ouro-velho);
   text-shadow:
     -1px -1px 0 var(--ouro-velho),
@@ -65,9 +61,9 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 
 .wrap{max-width:640px;margin:0 auto;padding:10px 16px 24px}
 
-/* Ícone com borda dourada */
+/* Ícone com borda dourada — +20% (420px → 504px) */
 .hero{
-  display:block;margin:8px auto 16px;max-width:100%;height:auto;max-height:420px;
+  display:block;margin:8px auto 16px;max-width:100%;height:auto;max-height:504px;
   border:6px solid var(--dourado); 
   box-shadow:0 0 0 4px rgba(214,178,90,.45) inset, 0 6px 16px var(--sombra);
   border-radius:14px
@@ -76,9 +72,9 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 
 /* Aro duplo (externo azul del-rey, interno dourado) para todos os botões */
 .aro-duplo{
-  border:3px solid var(--azul-del-rey);                /* anel externo */
+  border:3px solid var(--azul-del-rey);
   box-shadow:
-    inset 0 0 0 3px var(--dourado),                    /* anel interno dourado */
+    inset 0 0 0 3px var(--dourado),
     0 2px 6px var(--sombra);
 }
 
@@ -88,20 +84,24 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   margin:10px 0 6px;
 }
 
-/* Botão central de DATA (duas linhas) */
+/* Botão de DATA (duas linhas) — altura -25% (10px → 7.5px) */
 .datebtn{
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  min-width:230px; padding:10px 16px; border-radius:14px; background:#fff; 
+  min-width:230px; padding:7.5px 16px; border-radius:14px; background:#fff; 
   font-weight:900; text-align:center; line-height:1.2;
 }
-.datebtn .date{font-size:1.25rem; color:var(--navy)}
-.datebtn .weekday{font-size:1rem; font-weight:800; color:#27466a; text-transform:capitalize}
+.datebtn .date{
+  font-size:calc(1.25rem - 2pt);   /* −2pt na data */
+  color:var(--ouro-velho);         /* cor ouro-velho (sem bordas/contorno) */
+}
+.datebtn .weekday{
+  font-size:1rem; font-weight:800; color:#27466a; text-transform:capitalize
+}
 
-/* Nova linha: Anterior e Próximo, imediatamente abaixo da data */
+/* Linha abaixo: Anterior | Próximo (centrados e juntinhos) */
 .navrow{
   display:flex; align-items:center; justify-content:center;
-  gap:6px;                       /* bem próximos ao centro */
-  margin-top:6px;
+  gap:6px; margin-top:6px;
 }
 .navbtn{
   appearance:none;background:#fff;color:var(--navy);cursor:pointer;
@@ -110,10 +110,10 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 }
 .navbtn:hover{background:#f4fbff;transform:translateY(-1px)}
 
-/* Botão Voltar (padrão): posicionado ~a meio caminho até o rodapé */
+/* Botão Voltar (padrão): ~meio caminho até o rodapé */
 .back-wrap{
   display:flex; justify-content:center;
-  margin-top:min(18vh, 140px);     /* ~metade do espaço até a borda inferior */
+  margin-top:min(18vh, 140px);
   transform:scale(.48); transform-origin:center top;
 }
 .btn-back{
@@ -156,8 +156,6 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
     </button>
   </div>
 </main>
-
-<!-- Rodapé removido -->
 
 <script>
 function goBackOrHome(){
