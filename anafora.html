@@ -6,8 +6,15 @@
 <meta name="theme-color" content="#bfa57f">
 <style>
 :root{
-  --bege:#bfa57f; --laranja:#ff7a00; --dourado:#d6b25a; --escuro:#3a2d18; --sombra:rgba(0,0,0,.16);
-  --fonte: Arial, Helvetica, sans-serif; --vermelho:#a00000;
+  /* Fundo um pouco mais claro */
+  --bege:#cfbd95; 
+  --laranja:#ff7a00; 
+  --dourado:#d6b25a; 
+  --ouro-velho:#b08a2e;
+  --escuro:#3a2d18; 
+  --sombra:rgba(0,0,0,.16);
+  --vermelho:#a00000;
+  --fonte: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box} html,body{height:100%}
 body{
@@ -20,8 +27,16 @@ body{
 
 header{display:flex;justify-content:center;padding:12px 12px 0}
 h1{
-  color:var(--laranja);font-weight:900;font-size:1.6rem;margin:0;
-  text-shadow:0 0 1px var(--dourado),0 0 4px rgba(214,178,90,.6)
+  color:var(--laranja);font-weight:900;
+  font-size:calc(1.6rem + 2pt); /* +2pt */
+  margin:0;
+  /* “sombras douradas ouro velho” nas letras */
+  -webkit-text-stroke:1px var(--ouro-velho);
+  text-shadow:
+    -1px -1px 0 var(--ouro-velho),
+     1px -1px 0 var(--ouro-velho),
+    -1px  1px 0 var(--ouro-velho),
+     1px  1px 0 var(--ouro-velho);
 }
 
 .wrap{max-width:620px;margin:0 auto;padding:8px 16px 24px;width:100%}
@@ -39,24 +54,27 @@ h1{
 .btn{
   position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
   background:rgba(255,255,255,.97);
-  border:2px solid var(--dourado);
-  box-shadow:0 0 0 2px var(--laranja) inset, 0 4px 10px var(--sombra);
-  border-radius:18px; padding:8px 18px; /* ↓ 20% (de 10px para 8px) */
+  /* Bordas mais espessas nos botões grandes */
+  border:4px solid var(--dourado);
+  box-shadow:0 0 0 3px var(--laranja) inset, 0 4px 10px var(--sombra);
+  border-radius:18px; 
+  padding:8px 18px; /* mantido do ajuste anterior (-20% da altura original) */
   width:77%; margin:0 auto;
   font-size:1rem; font-weight:900; color:var(--laranja); text-decoration:none; text-align:center;
   transition:transform .15s ease, background-color .2s ease
 }
 .btn:hover{transform:scale(1.02); background:#fff7ec}
 
-/* Ícones 26px redondos à esquerda — padronizados para a cruz do São Sixto (cruz8.jpeg)
-   com aro duplo: borda dourada + aro laranja interno */
+/* Ícones 26px redondos à esquerda — padrão cruz do São Sixto (cruz8.jpeg)
+   Aumentamos também a espessura das bordas do ícone para harmonizar */
 .btn img{
   position:absolute; left:12px; width:26px; height:26px; object-fit:cover; border-radius:50%;
-  border:2px solid var(--dourado); box-shadow:0 0 0 2px var(--laranja) inset;
+  border:3px solid var(--dourado);           /* antes 2px */
+  box-shadow:0 0 0 3px var(--laranja) inset; /* antes 2px */
 }
 .btn .label{width:100%; text-align:center; pointer-events:none}
 
-/* Botão Voltar (padrão) logo abaixo da lista */
+/* Botão Voltar (padrão), próximo ao último botão */
 .back-wrap{
   display:flex; justify-content:center; margin-top:6px;
   transform:scale(.48); transform-origin:center top;
@@ -78,7 +96,7 @@ h1{
   <!-- Ícone (corrigido .jpg) -->
   <img class="hero" src="img/icone-anafora.jpg" alt="Ícone — Anáforas">
 
-  <!-- Lista (toda padronizada com a cruz do São Sixto: cruz8.jpeg) -->
+  <!-- Lista padronizada com cruz do São Sixto (cruz8.jpeg) -->
   <section class="buttons" aria-label="Lista de Anáforas">
     <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">Doze Apóstolos</span></a>
     <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">São Pedro</span></a>
@@ -97,8 +115,6 @@ h1{
     </button>
   </div>
 </main>
-
-<!-- Rodapé removido (sem links) -->
 
 <script>
 function goBackOrHome(){
