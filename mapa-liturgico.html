@@ -1,497 +1,298 @@
-<!-- mapa.html — Piloto de Interface (multi-telas com página-mãe e Voltar direcionado) -->
+<!-- mapa-liturgico.html — Mapa final só com links reais (sem telas internas) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Capela Virtual São Marun — Mapa (Piloto)</title>
-<meta name="theme-color" content="#f5f0e5">
+<title>Mapa Litúrgico</title>
 <style>
   :root{
-    --fundo:#f5f0e5;
-    --mosaico:#e9dfc9;
-    --txt:#2b1f16;
-    --ouro:#d6b25a;
-    --ouro-velho:#b08a2e;
-    --vermelho:#a00000;
-    --shadow:rgba(0,0,0,.14);
+    --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+    --gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.08);
     --sans: Arial, Helvetica, sans-serif;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; font-family:var(--sans); color:var(--txt);
-    background:var(--fundo);
-    background-image:
-      repeating-linear-gradient(45deg, rgba(214,178,90,.16) 0, rgba(214,178,90,.16) 2px, transparent 2px, transparent 42px),
-      repeating-linear-gradient(-45deg, rgba(233,223,201,.16) 0, rgba(233,223,201,.16) 2px, transparent 2px, transparent 42px);
-    background-size:42px 42px;
-    display:flex; flex-direction:column; min-height:100vh;
+  body{margin:0; padding:18px; background:var(--bg); color:var(--txt); font-family:var(--sans)}
+  h1{margin:.2rem 0 1rem; font-size:1.7rem}
+  .section{margin:18px 0}
+  .section-title{font-weight:900; font-size:1rem; margin:0 0 .6rem; color:#4a3828; letter-spacing:.2px}
+  .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+  .card{
+    display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--card);
+    border:1.5px solid var(--bord); border-radius:14px; overflow:hidden;
+    box-shadow:0 6px 16px var(--shadow);
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
   }
-
-  /* Layout de cada "tela" (screen) */
-  .screen{ display:none; padding:14px 16px 22px; max-width:720px; margin:0 auto; width:100% }
-  .screen.active{ display:block }
-
-  header.hd{text-align:center; padding:10px 6px 8px}
+  .card:hover{transform:translateY(-2px); border-color:var(--gold); box-shadow:0 10px 22px rgba(0,0,0,.12)}
+  .thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold)}
+  .thumb[hidden]{display:none!important}
+  .body{padding:12px 12px 14px}
   .title{
-    margin:0;
-    color:var(--vermelho);
-    font-weight:900;
-    font-size:2rem;
-    text-shadow:
-      -1px -1px 0 var(--ouro),
-       1px -1px 0 var(--ouro),
-      -1px  1px 0 var(--ouro),
-       1px  1px 0 var(--ouro);
+    font-weight:900; font-size:1.02rem; margin:0 0 4px; color:var(--accent);
+    text-shadow:-0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold),
+                -0.5px  0.5px 0 var(--gold), 0.5px  0.5px 0 var(--gold);
   }
-  .subtitle{margin:.25rem 0 0; font-weight:700; color:#4a3828}
-
-  /* Grid / listas de botões principais */
-  .grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-top:8px}
-  .btn{
-    appearance:none; cursor:pointer; text-decoration:none;
-    display:flex; align-items:center; justify-content:center; text-align:center;
-    background:#fff; color:var(--vermelho); font-weight:900;
-    border:3px solid var(--vermelho);
-    box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
-    border-radius:18px; padding:12px 18px; min-height:56px;
-    transition:transform .12s, background-color .18s;
-  }
-  .btn:hover{ transform:scale(1.02); background:#fff8ef }
-  .btn[aria-disabled="true"]{ opacity:.55; cursor:not-allowed }
-  .btn[aria-disabled="true"]:hover{ transform:none; background:#fff }
-
-  /* Listas verticais (menus) */
-  .list{ display:flex; flex-direction:column; gap:10px; margin-top:8px }
-  .btn.wide{ width:88%; margin:0 auto }
-  .btn.small{ padding:9px 14px; min-height:44px; font-weight:800 }
-
-  /* Seções de auxílio (pager de datas, anos etc.) */
-  .row{ display:flex; gap:10px; align-items:center; justify-content:center; margin:10px 0 0 }
+  .subtitle{margin:0; font-size:.9rem; color:#5a4634}
   .tag{
-    display:inline-block; font-size:.78rem; font-weight:800; color:#4a3828;
-    background:linear-gradient(#fff,#fff9ef); border:1px solid var(--ouro);
+    display:inline-block; margin-top:8px; font-size:.75rem; font-weight:700; color:#4a3828;
+    background:linear-gradient(#fff,#fff9ef); border:1px solid var(--gold);
     box-shadow:inset 0 0 0 1px rgba(214,178,90,.6); border-radius:999px; padding:4px 8px;
   }
-
-  /* Botão Voltar padrão (escala .48 conforme projeto) */
-  .footer{ text-align:center; padding:10px 0 0 }
-  .back-wrap{ display:flex; justify-content:center; transform:scale(.48); transform-origin:center top; }
-  .back{
-    display:inline-flex; align-items:center; gap:10px;
-    background:var(--vermelho); color:#fff; border:none; border-radius:999px;
-    padding:10px 16px; font-weight:800; cursor:pointer; text-decoration:none;
-    box-shadow:0 6px 14px var(--shadow);
-  }
-  .arr{ font-size:18px; line-height:1 }
-  /* Utilidades */
-  .muted{ color:#6b5a45; font-size:.92rem }
-  .center{ text-align:center }
 </style>
 </head>
 <body>
+<h1>Mapa Litúrgico</h1>
 
-<!-- HOME -->
-<section id="home" class="screen active" aria-labelledby="tit-home" data-parent="">
-  <header class="hd">
-    <h1 class="title" id="tit-home">Capela Virtual São Marun</h1>
-    <p class="subtitle">Página Inicial</p>
-  </header>
-
-  <div class="grid" role="navigation" aria-label="Seções principais">
-    <button class="btn" onclick="go('qurbono', this.closest('.screen').id)">Qurbono</button>
-    <button class="btn" onclick="go('horas', this.closest('.screen').id)">Oração das Horas</button>
-    <button class="btn" onclick="go('calendario', this.closest('.screen').id)">Calendário Litúrgico</button>
-    <button class="btn" onclick="go('patristica', this.closest('.screen').id)">Patrística Siríaca</button>
-  </div>
-</section>
-
-<!-- QURBONO (filha da HOME) -->
-<section id="qurbono" class="screen" aria-labelledby="tit-qurb" data-parent="home">
-  <header class="hd"><h2 class="title" id="tit-qurb">Qurbono</h2></header>
-
-  <div class="list" aria-label="Menu do Qurbono">
-    <button class="btn wide" onclick="go('liturgia-dia', 'qurbono')">Liturgia Eucarística do Dia</button>
-    <button class="btn wide" onclick="go('anaforas', 'qurbono')">Anáforas</button>
-    <button class="btn wide" onclick="go('synaxarion', 'qurbono')">Synaxarion</button>
-    <button class="btn wide" onclick="go('leituras', 'qurbono')">Leituras Bíblicas</button>
-    <button class="btn wide" aria-disabled="true" title="Em construção"
-      onclick="inConstrucao()">Biblioteca (em construção)</button>
-  </div>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
-</section>
-
-<!-- LITURGIA DO DIA (filha de QURBONO) -->
-<section id="liturgia-dia" class="screen" aria-labelledby="tit-litdia" data-parent="qurbono">
-  <header class="hd"><h2 class="title" id="tit-litdia">Liturgia Eucarística do Dia</h2></header>
-
-  <p class="center muted">Navegue pela data e abra o documento do dia.</p>
-  <div class="row">
-    <button class="btn small" onclick="shiftDate(-1)">← Anterior</button>
-    <button id="btnDataLit" class="btn" onclick="openDoc('liturgia')"
-      title="Abrir documento do dia (planilha)" style="min-width:240px"></button>
-    <button class="btn small" onclick="shiftDate(+1)">Próximo →</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Integrar CSV/planilha (link do dia).</p>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
-</section>
-
-<!-- ANÁFORAS (filha de QURBONO) -->
-<section id="anaforas" class="screen" aria-labelledby="tit-anaf" data-parent="qurbono">
-  <header class="hd"><h2 class="title" id="tit-anaf">Anáforas</h2></header>
-
-  <div class="list" aria-label="Lista de Anáforas">
-    <!-- Exemplos; cada uma deve abrir link da planilha para .doc -->
-    <button class="btn wide" onclick="openDoc('anafora-12-apostolos')">Doze Apóstolos</button>
-    <button class="btn wide" onclick="openDoc('anafora-sao-pedro')">São Pedro</button>
-    <button class="btn wide" onclick="openDoc('anafora-sao-tiago')">São Tiago</button>
-    <button class="btn wide" onclick="openDoc('anafora-sao-joao')">São João Apóstolo</button>
-    <button class="btn wide" onclick="openDoc('anafora-sao-marcos')">Evangelista São Marcos</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Ligar cada botão ao link da planilha.</p>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
-</section>
-
-<!-- SYNAXARION (filha de QURBONO, e usada também pela Oração do Dia) -->
-<section id="synaxarion" class="screen" aria-labelledby="tit-syn" data-parent="qurbono">
-  <header class="hd"><h2 class="title" id="tit-syn">Synaxarion</h2></header>
-
-  <p class="center muted">Navegação por data; abrir o documento do dia.</p>
-  <div class="row">
-    <button class="btn small" onclick="shiftDate(-1)">← Anterior</button>
-    <button id="btnDataSyn" class="btn" onclick="openDoc('synaxarion')" style="min-width:240px"></button>
-    <button class="btn small" onclick="shiftDate(+1)">Próximo →</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Integrar CSV/planilha (link do dia).</p>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
-</section>
-
-<!-- LEITURAS (filha de QURBONO) -->
-<section id="leituras" class="screen" aria-labelledby="tit-lei" data-parent="qurbono">
-  <header class="hd"><h2 class="title" id="tit-lei">Leituras Bíblicas</h2></header>
-
-  <p class="center muted">Funciona como a Liturgia do Dia, mas para as leituras.</p>
-  <div class="row">
-    <button class="btn small" onclick="shiftDate(-1)">← Anterior</button>
-    <button id="btnDataLeit" class="btn" onclick="openDoc('leituras')" style="min-width:240px"></button>
-    <button class="btn small" onclick="shiftDate(+1)">Próximo →</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Integrar CSV/planilha (link do dia).</p>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
-</section>
-
-<!-- ORAÇÃO DAS HORAS (filha da HOME) -->
-<section id="horas" class="screen" aria-labelledby="tit-horas" data-parent="home">
-  <header class="hd"><h2 class="title" id="tit-horas">Oração das Horas</h2></header>
-
-  <div class="list" aria-label="Menu da Oração das Horas">
-    <button class="btn wide" onclick="go('oracao-dia', 'horas')">Oração do Dia</button>
-    <button class="btn wide" onclick="go('ordinario',   'horas')">Ordinário</button>
-    <button class="btn wide" onclick="go('santos',      'horas')">Comum dos Santos</button>
-    <button class="btn wide" onclick="go('festas',      'horas')">Festas por data</button>
-    <button class="btn wide" onclick="go('biblos',      'horas')">Biblioteca</button>
-  </div>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
-</section>
-
-<!-- ORAÇÃO DO DIA (filha de ORAÇÃO DAS HORAS) -->
-<section id="oracao-dia" class="screen" aria-labelledby="tit-ordia" data-parent="horas">
-  <header class="hd"><h2 class="title" id="tit-ordia">Oração do Dia</h2></header>
-
-  <!-- barra de data (o .doc do dia vem da planilha) -->
-  <div class="row">
-    <button class="btn small" onclick="shiftDate(-1)">← Anterior</button>
-    <button id="btnDataHoras" class="btn" onclick="openDoc('horas-dia')" style="min-width:240px"></button>
-    <button class="btn small" onclick="shiftDate(+1)">Próximo →</button>
-  </div>
-  <p class="center muted" style="margin-top:6px">Abaixo, as **horas canônicas** que abrem outras páginas.</p>
-
-  <div class="list" aria-label="Horas canônicas">
-    <button class="btn wide" onclick="go('hora-safro',  'oracao-dia')">Safro</button>
-    <button class="btn wide" onclick="go('hora-terca',  'oracao-dia')">Hora Terça</button>
-    <button class="btn wide" onclick="go('hora-sexta',  'oracao-dia')">Hora Sexta</button>
-    <button class="btn wide" onclick="go('hora-nona',   'oracao-dia')">Hora Nona</button>
-    <button class="btn wide" onclick="go('hora-ramsho', 'oracao-dia')">Ramsho</button>
-    <button class="btn wide" onclick="go('hora-sutoro', 'oracao-dia')">Sutoro</button>
-    <button class="btn wide" onclick="go('hora-lilyo',  'oracao-dia')">Lilyo</button>
-    <!-- Synaxarion deve reutilizar a mesma página de Synaxarion do Qurbono -->
-    <button class="btn wide" onclick="go('synaxarion',  'oracao-dia')">Synaxarion</button>
-  </div>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
-</section>
-
-<!-- PLACEHOLDERS das páginas de cada HORA (todas filhas de ORAÇÃO DO DIA) -->
-<section id="hora-safro"  class="screen" data-parent="oracao-dia"><header class="hd"><h2 class="title">Safro</h2></header>
-  <p class="center muted">Página simples com conteúdo da planilha (Ramsho/Safro quando aplicável).</p>
-  <div class="list center"><button class="btn" onclick="openDoc('safro')">Abrir documento (.doc)</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="hora-terca"  class="screen" data-parent="oracao-dia"><header class="hd"><h2 class="title">Hora Terça</h2></header>
-  <div class="list center"><button class="btn" onclick="openDoc('terca')">Abrir documento (.doc)</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="hora-sexta"  class="screen" data-parent="oracao-dia"><header class="hd"><h2 class="title">Hora Sexta</h2></header>
-  <div class="list center"><button class="btn" onclick="openDoc('sexta')">Abrir documento (.doc)</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="hora-nona"   class="screen" data-parent="oracao-dia"><header class="hd"><h2 class="title">Hora Nona</h2></header>
-  <div class="list center"><button class="btn" onclick="openDoc('nona')">Abrir documento (.doc)</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="hora-ramsho" class="screen" data-parent="oracao-dia"><header class="hd"><h2 class="title">Ramsho</h2></header>
-  <div class="list center"><button class="btn" onclick="openDoc('ramsho')">Abrir documento (.doc)</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="hora-sutoro" class="screen" data-parent="oracao-dia"><header class="hd"><h2 class="title">Sutoro</h2></header>
-  <div class="list center"><button class="btn" onclick="openDoc('sutoro')">Abrir documento (.doc)</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="hora-lilyo"  class="screen" data-parent="oracao-dia"><header class="hd"><h2 class="title">Lilyo</h2></header>
-  <div class="list center"><button class="btn" onclick="openDoc('lilyo')">Abrir documento (.doc)</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<!-- ORDINÁRIO (filha de ORAÇÃO DAS HORAS) — aqui só o "hub" -->
-<section id="ordinario" class="screen" aria-labelledby="tit-ord" data-parent="horas">
-  <header class="hd"><h2 class="title" id="tit-ord">Ordinário</h2></header>
-
-  <div class="list">
-    <button class="btn wide" onclick="go('ord-epifania', 'ordinario')">Epifania · Anúncio · Pentecostes · Cruz</button>
-    <button class="btn wide" onclick="go('ord-quaresma', 'ordinario')">Quaresma</button>
-    <button class="btn wide" onclick="go('ord-paixao',  'ordinario')">Semana da Paixão</button>
-    <button class="btn wide" onclick="go('ord-ressur',  'ordinario')">Ressurreição</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Cada página abrirá 7 dias (Ramsho/Safro).</p>
-
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<!-- ORDINÁRIO — placeholders (cada um terá 7 dias; aqui só rascunho) -->
-<section id="ord-epifania" class="screen" data-parent="ordinario"><header class="hd"><h2 class="title">Epifania · Anúncio · Pentecostes · Cruz</h2></header>
-  <div class="list center"><button class="btn" onclick="go('dias-semana','ord-epifania')">Abrir dias da semana</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-<section id="ord-quaresma" class="screen" data-parent="ordinario"><header class="hd"><h2 class="title">Quaresma</h2></header>
-  <div class="list center"><button class="btn" onclick="go('dias-semana','ord-quaresma')">Abrir dias da semana</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-<section id="ord-paixao"  class="screen" data-parent="ordinario"><header class="hd"><h2 class="title">Semana da Paixão</h2></header>
-  <div class="list center"><button class="btn" onclick="go('dias-semana','ord-paixao')">Abrir dias da semana</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-<section id="ord-ressur"  class="screen" data-parent="ordinario"><header class="hd"><h2 class="title">Ressurreição</h2></header>
-  <div class="list center"><button class="btn" onclick="go('dias-semana','ord-ressur')">Abrir dias da semana</button></div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<!-- DIAS DA SEMANA → Ramsho / Safro (placeholder genérico) -->
-<section id="dias-semana" class="screen" data-parent="ordinario">
-  <header class="hd"><h2 class="title">Dias da Semana</h2></header>
-  <div class="grid" aria-label="7 dias">
-    <button class="btn" onclick="go('dia-rs','dias-semana')">Domingo</button>
-    <button class="btn" onclick="go('dia-rs','dias-semana')">Segunda</button>
-    <button class="btn" onclick="go('dia-rs','dias-semana')">Terça</button>
-    <button class="btn" onclick="go('dia-rs','dias-semana')">Quarta</button>
-    <button class="btn" onclick="go('dia-rs','dias-semana')">Quinta</button>
-    <button class="btn" onclick="go('dia-rs','dias-semana')">Sexta</button>
-    <button class="btn" onclick="go('dia-rs','dias-semana')">Sábado</button>
-  </div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="dia-rs" class="screen" data-parent="dias-semana">
-  <header class="hd"><h2 class="title">Escolha a Hora</h2></header>
-  <div class="row">
-    <button class="btn" onclick="openDoc('ramsho')">Ramsho</button>
-    <button class="btn" onclick="openDoc('safro')">Safro</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Cada botão abre o .doc do dia (planilha).</p>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<!-- COMUM DOS SANTOS (filha de ORAÇÃO DAS HORAS) -->
-<section id="santos" class="screen" data-parent="horas">
-  <header class="hd"><h2 class="title">Comum dos Santos</h2></header>
+<!-- INÍCIO / HOME -->
+<section class="section">
+  <h2 class="section-title">Página inicial</h2>
   <div class="grid">
-    <button class="btn" onclick="go('santos-categoria','santos')">Virgem Maria</button>
-    <button class="btn" onclick="go('santos-categoria','santos')">Anjos</button>
-    <button class="btn" onclick="go('santos-categoria','santos')">Apóstolos</button>
-    <button class="btn" onclick="go('santos-categoria','santos')">Mártires</button>
-    <button class="btn" onclick="go('santos-categoria','santos')">Confessores</button>
+    <a class="card" href="index-teste.html" aria-label="Abrir Página Inicial consolidada">
+      <img class="thumb" src="img/icone-app-teste.jpg" alt="Página Inicial consolidada" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Capela Virtual São Marun</h3>
+        <p class="subtitle">Qurbono · Horas · Calendário · Patrística</p>
+        <span class="tag">home</span>
+      </div>
+    </a>
   </div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
 </section>
 
-<section id="santos-categoria" class="screen" data-parent="santos">
-  <header class="hd"><h2 class="title">Categoria</h2></header>
-  <div class="row">
-    <button class="btn" onclick="openDoc('ramsho-santos')">Ramsho</button>
-    <button class="btn" onclick="openDoc('safro-santos')">Safro</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Ramsho/Safro desta categoria (planilha → .doc).</p>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<!-- FESTAS POR DATA (filha de ORAÇÃO DAS HORAS) -->
-<section id="festas" class="screen" data-parent="horas">
-  <header class="hd"><h2 class="title">Festas por data</h2></header>
-  <p class="center muted">Navegar por data, depois escolher Ramsho/Safro da festa.</p>
-  <div class="row">
-    <button class="btn small" onclick="shiftDate(-1)">← Anterior</button>
-    <button id="btnDataFestas" class="btn" onclick="go('festas-rs','festas')" style="min-width:240px"></button>
-    <button class="btn small" onclick="shiftDate(+1)">Próximo →</button>
-  </div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<section id="festas-rs" class="screen" data-parent="festas">
-  <header class="hd"><h2 class="title">Festa — Escolha a Hora</h2></header>
-  <div class="row">
-    <button class="btn" onclick="openDoc('festa-ramsho')">Ramsho</button>
-    <button class="btn" onclick="openDoc('festa-safro')">Safro</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Abre o .doc da festa do dia (planilha).</p>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
-</section>
-
-<!-- BIBLIOTECA (filha de ORAÇÃO DAS HORAS) -->
-<section id="biblos" class="screen" data-parent="horas">
-  <header class="hd"><h2 class="title">Biblioteca</h2></header>
-  <p class="center muted">Botões levarão a páginas temáticas (por ora: “Em construção”).</p>
+<!-- APP PRINCIPAL -->
+<section class="section">
+  <h2 class="section-title">App principal</h2>
   <div class="grid">
-    <button class="btn" onclick="inConstrucao()">Domingos da Igreja</button>
-    <button class="btn" onclick="inConstrucao()">Anúncio</button>
-    <button class="btn" onclick="inConstrucao()">Natal</button>
-    <button class="btn" onclick="inConstrucao()">Epifania</button>
-    <button class="btn" onclick="inConstrucao()">Domingos dos Falecidos</button>
-    <button class="btn" onclick="inConstrucao()">Grande Quaresma</button>
+    <a class="card" href="index.html" aria-label="Abrir App Principal">
+      <img class="thumb" src="img/icone-app.jpg" alt="App atual" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">App Principal (núcleo)</h3>
+        <p class="subtitle">Liturgia diária via planilhas</p>
+      </div>
+    </a>
   </div>
-  <div class="footer"><div class="back-wrap"><button class="back" onclick="backToParent(this)"><span class="arr">←</span> Voltar</button></div></div>
 </section>
 
-<!-- CALENDÁRIO LITÚRGICO (filha da HOME) -->
-<section id="calendario" class="screen" aria-labelledby="tit-cal" data-parent="home">
-  <header class="hd"><h2 class="title" id="tit-cal">Calendário Litúrgico</h2></header>
-  <div class="row">
-    <button class="btn" onclick="openDoc('ano-2024')">Ano 2024</button>
-    <button class="btn" onclick="openDoc('ano-2025')">Ano 2025</button>
-  </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Cada ano abre o link da planilha (.doc).</p>
+<!-- MENUS / INTERMEDIÁRIAS -->
+<section class="section">
+  <h2 class="section-title">Menus principais</h2>
+  <div class="grid">
+    <a class="card" href="qurbone.html" aria-label="Acessar Qurbono">
+      <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Qurbono</h3>
+        <p class="subtitle">Divina Liturgia</p>
+      </div>
+    </a>
 
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
+    <a class="card" href="oracao.html" aria-label="Menu principal da Oração das Horas">
+      <img class="thumb" src="img/icone-oracao.jpg" alt="Oração das Horas" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Oração das Horas</h3>
+        <p class="subtitle">Menu principal</p>
+      </div>
+    </a>
+
+    <a class="card" href="calendario.html" aria-label="Acessar Calendário Litúrgico">
+      <img class="thumb" src="img/icone-calendario.jpg" alt="Calendário Litúrgico" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Calendário Litúrgico</h3>
+        <p class="subtitle">Anos e navegação</p>
+      </div>
+    </a>
+
+    <a class="card" href="patristica.html" aria-label="Acessar Patrística Siríaca">
+      <img class="thumb" src="img/icone-patristica.jpg" alt="Patrística Siríaca" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Patrística Siríaca</h3>
+        <p class="subtitle">Autores e obras</p>
+      </div>
+    </a>
+  </div>
 </section>
 
-<!-- PATRÍSTICA SIRÍACA (filha da HOME) -->
-<section id="patristica" class="screen" aria-labelledby="tit-pat" data-parent="home">
-  <header class="hd"><h2 class="title" id="tit-pat">Patrística Siríaca</h2></header>
+<!-- PÁGINAS POR DATA -->
+<section class="section">
+  <h2 class="section-title">Por data</h2>
+  <div class="grid">
+    <a class="card" href="liturgia-dia.html" aria-label="Abrir Liturgia Eucarística do Dia">
+      <img class="thumb" src="img/icone-liturgiadia.jpg" alt="Liturgia Eucarística do Dia" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Liturgia Eucarística do Dia</h3>
+        <p class="subtitle">Data clicável + navegação</p>
+      </div>
+    </a>
 
-  <p class="center muted">Navegue por autor; clique no autor para abrir o documento (planilha).</p>
-  <div class="row">
-    <button class="btn small" onclick="prevAutor()">← Autor anterior</button>
-    <button class="btn" id="btnAutor" onclick="openDoc('autor-atual')" style="min-width:260px">Autor atual</button>
-    <button class="btn small" onclick="nextAutor()">Próximo autor →</button>
+    <a class="card" href="leituras.html" aria-label="Abrir Leituras Bíblicas">
+      <img class="thumb" src="img/icone-leituras.png" alt="Leituras Bíblicas" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Leituras Bíblicas</h3>
+        <p class="subtitle">Referências do dia</p>
+      </div>
+    </a>
+
+    <a class="card" href="synaxarion.html" aria-label="Abrir Synaxarion">
+      <img class="thumb" src="img/icone-synaxarion.jpg" alt="Synaxarion" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Synaxarion</h3>
+        <p class="subtitle">Datas (sem dia da semana)</p>
+      </div>
+    </a>
+
+    <a class="card" href="horas-teste.html" aria-label="Abrir Oração do Dia (visual)">
+      <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Oração do Dia</h3>
+        <p class="subtitle">Horas canônicas (visual)</p>
+      </div>
+    </a>
   </div>
-  <p class="center" style="margin-top:10px"><span class="tag">TODO</span> Carregar nomes da planilha; mapear para links .doc.</p>
-
-  <div class="footer"><div class="back-wrap">
-    <button class="back" onclick="backToParent(this)"> <span class="arr">←</span> Voltar </button>
-  </div></div>
 </section>
 
-<script>
-  /* ========= Navegação de telas ========= */
-  function show(id){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    const el=document.getElementById(id);
-    if(el){ el.classList.add('active'); window.scrollTo(0,0); }
-    // opcional: deep-link por hash
-    location.hash = '#'+id;
-  }
-  function go(targetId, parentId){
-    const el = document.getElementById(targetId);
-    if(el){ el.setAttribute('data-parent', parentId); show(targetId); }
-  }
-  function backToParent(btn){
-    const screen = btn.closest('.screen');
-    const parent = screen?.getAttribute('data-parent') || 'home';
-    show(parent);
-  }
-  // abrir aviso "em construção"
-  function inConstrucao(){ alert('Em construção'); }
+<!-- HORAS CANÔNICAS — PÁGINAS ESPECÍFICAS -->
+<section class="section">
+  <h2 class="section-title">Horas canônicas — páginas</h2>
+  <div class="grid">
+    <a class="card" href="safro-hora.html" aria-label="Abrir Safro — Oração da Manhã">
+      <img class="thumb" src="img/icone-safro.horas.jpg" alt="Safro — Oração da Manhã" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Safro</h3>
+        <p class="subtitle">Oração da manhã · curta/longa</p>
+      </div>
+    </a>
 
-  /* ========= Data compartilhada (Protótipo) ========= */
-  let current = new Date();
-  const fmt = (d,opt)=>d.toLocaleDateString('pt-BR',opt);
-  function renderDates(){
-    const dataStr = fmt(current,{day:'2-digit',month:'2-digit',year:'numeric'});
-    const wd = fmt(current,{weekday:'long'}); const wdC = wd.charAt(0).toUpperCase()+wd.slice(1);
+    <a class="card" href="terca-hora.html" aria-label="Abrir Hora Terça">
+      <img class="thumb" src="img/icone-terca.horas.jpg" alt="Hora Terça" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Hora Terça</h3>
+        <p class="subtitle">Oração · Hinos</p>
+      </div>
+    </a>
 
-    const labels = [
-      ['btnDataLit',  dataStr+' — '+wdC],
-      ['btnDataSyn',  fmt(current,{day:'2-digit',month:'long'}).replace(/^./,c=>c.toUpperCase())],
-      ['btnDataLeit', dataStr+' — '+wdC],
-      ['btnDataHoras',dataStr+' — '+wdC],
-      ['btnDataFestas',dataStr+' — '+wdC]
-    ];
-    labels.forEach(([id,txt])=>{ const el=document.getElementById(id); if(el) el.textContent=txt; });
-  }
-  function shiftDate(delta){ current.setDate(current.getDate()+delta); renderDates(); }
+    <a class="card" href="sexta-hora.html" aria-label="Abrir Hora Sexta">
+      <img class="thumb" src="img/icone-sexta.horas.jpg" alt="Hora Sexta" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Hora Sexta</h3>
+        <p class="subtitle">Oração · Hinos</p>
+      </div>
+    </a>
 
-  /* ========= Integração com planilha (stubs) =========
-     Substitua a função abaixo por sua rotina de geração de links
-     a partir da planilha publicada (CSV → link .doc do dia/item).
-  */
-  function openDoc(kind){
-    // TODO: mapear 'kind' + data atual -> URL do .doc vindas da planilha.
-    console.log('Abrir documento para:', kind, 'data:', current.toISOString().slice(0,10));
-    alert('Abrir documento ('+kind+') — integrar com planilha.');
-    // exemplo futuro:
-    // const url = resolveDocUrl(kind, current); window.open(url,'_blank');
-  }
+    <a class="card" href="nona-hora.html" aria-label="Abrir Hora Nona">
+      <img class="thumb" src="img/icone-nona.horas.jpg" alt="Hora Nona" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Hora Nona</h3>
+        <p class="subtitle">Oração · Hinos</p>
+      </div>
+    </a>
 
-  /* ========= Patrística — carrossel simples de autores (stub) ========= */
-  const autores = ['Efrém, o Sírio','Jacó de Sarug','Isaac de Nínive','Narsai','Balai'];
-  let idxAutor = 0;
-  function updateAutor(){ const b=document.getElementById('btnAutor'); if(b) b.textContent = autores[idxAutor]||'Autor'; }
-  function prevAutor(){ idxAutor = (idxAutor - 1 + autores.length) % autores.length; updateAutor(); }
-  function nextAutor(){ idxAutor = (idxAutor + 1) % autores.length; updateAutor(); }
+    <!-- slug final confirmado: ramsho-hora.html -->
+    <a class="card" href="ramsho-hora.html" aria-label="Abrir Ramsho — Oração da Tarde">
+      <img class="thumb" src="img/icone-ramsho.hora.jpg" alt="Ramsho — Oração da Tarde" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ramsho</h3>
+        <p class="subtitle">Oração da tarde · curta/longa</p>
+      </div>
+    </a>
 
-  /* ========= Inicialização ========= */
-  (function init(){
-    // Suporta abrir direto por hash (#qurbono etc.)
-    const h = (location.hash||'').replace('#','');
-    renderDates(); updateAutor();
-    if(h && document.getElementById(h)) show(h);
-  })();
-</script>
+    <a class="card" href="sutoro-hora.html" aria-label="Abrir Sutoro — Oração da Noite">
+      <img class="thumb" src="img/icone-sutoro.horas.jpg" alt="Sutoro — Oração da Noite" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Sutoro</h3>
+        <p class="subtitle">Oração da noite · curta/longa</p>
+      </div>
+    </a>
+
+    <a class="card" href="lilyo-hora.html" aria-label="Abrir Lilyo — Vigílias">
+      <img class="thumb" src="img/icone-lilyo.horas.jpg" alt="Lilyo — Vigílias" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Lilyo</h3>
+        <p class="subtitle">Vigílias · Oração · Hinos</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ORDINÁRIO E CICLOS -->
+<section class="section">
+  <h2 class="section-title">Ordinário e ciclos</h2>
+  <div class="grid">
+    <a class="card" href="ordinario.html" aria-label="Abrir Ordinário">
+      <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ordinário</h3>
+        <p class="subtitle">Seções por tempo</p>
+      </div>
+    </a>
+
+    <a class="card" href="tempos.html" aria-label="Abrir Tempos litúrgicos">
+      <img class="thumb" src="img/icone-tempos.jpg" alt="Anúncio, Epifania, Pentecostes, Cruz" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Anúncio · Epifania · Pentecostes · Cruz</h3>
+        <p class="subtitle">Dias da semana</p>
+      </div>
+    </a>
+
+    <a class="card" href="quaresma.html" aria-label="Abrir Quaresma">
+      <img class="thumb" src="img/icone-quaresma.jpg" alt="Quaresma" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Quaresma</h3>
+        <p class="subtitle">Grande Quaresma</p>
+      </div>
+    </a>
+
+    <a class="card" href="paixao.html" aria-label="Abrir Semana da Paixão">
+      <img class="thumb" src="img/icone-paixao.jpg" alt="Semana da Paixão" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Semana da Paixão</h3>
+        <p class="subtitle">Ritos e dias</p>
+      </div>
+    </a>
+
+    <a class="card" href="ressurreicao.html" aria-label="Abrir Ressurreição">
+      <img class="thumb" src="img/icone-ressurreicao.jpg" alt="Ressurreição" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Ressurreição</h3>
+        <p class="subtitle">Semana da Glória</p>
+      </div>
+    </a>
+
+    <a class="card" href="anafora.html" aria-label="Abrir Anáforas">
+      <img class="thumb" src="img/icone-anafora.jpg" alt="Anáforas" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Anáforas</h3>
+        <p class="subtitle">Lista de anáforas</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- OUTRAS COLEÇÕES -->
+<section class="section">
+  <h2 class="section-title">Coleções e Comuns</h2>
+  <div class="grid">
+    <a class="card" href="santos.html" aria-label="Acessar Comum dos Santos">
+      <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Comum dos Santos</h3>
+        <p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p>
+      </div>
+    </a>
+
+    <!-- slug final: festas-por-datas.html (aliases ativos p/ antigos) -->
+    <a class="card" href="festas-por-datas.html" aria-label="Acessar Festas por Datas">
+      <img class="thumb" src="img/icone-festadata.jpg" alt="Festas por Datas" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Festas por Datas</h3>
+        <p class="subtitle">Navegação por datas especiais</p>
+      </div>
+    </a>
+
+    <a class="card" href="biblos.html" aria-label="Acessar Biblioteca">
+      <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" loading="lazy" onerror="this.hidden=true">
+      <div class="body">
+        <h3 class="title">Biblioteca</h3>
+        <p class="subtitle">Tempos e coleções</p>
+      </div>
+    </a>
+  </div>
+</section>
 </body>
 </html>
