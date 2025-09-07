@@ -7,8 +7,13 @@
 <meta name="theme-color" content="#ffe6e6">
 <style>
 :root{
-  --vermelhoClaro:#ffe6e6; --vermelho:#a00000; --ouro:#d6b25a; --texto:#3a0f0f;
-  --shadow:rgba(0,0,0,.14); --fonte: Arial, Helvetica, sans-serif;
+  --vermelhoClaro:#ffe6e6; 
+  --vermelho:#a00000; 
+  --ouro:#d6b25a; 
+  --ouro-velho:#b08a2e;
+  --texto:#3a0f0f;
+  --shadow:rgba(0,0,0,.14); 
+  --fonte: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -35,21 +40,68 @@ header{text-align:center;padding:12px 10px 6px}
   box-shadow:0 0 0 4px rgba(255,255,255,.0) inset, 0 8px 16px var(--shadow);
   border-radius:14px
 }
+
+/* Wrapper para setas piscantes + grid */
+.grid-wrap{ position:relative; }
+
+/* Setas vermelhas piscando 4x (como na Synaxarion) */
+.hint-arrows{
+  position:absolute; left:0; right:0; top:-6px; 
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 6px; pointer-events:none; z-index:2;
+}
+.hint{
+  color:var(--vermelho); font-weight:900; line-height:1;
+  font-size:clamp(22px, 3.2vw, 30px);
+  text-shadow:0 0 6px rgba(0,0,0,.25);
+  animation:hintBlink .85s ease-in-out 4; /* pisca 4x */
+}
+@keyframes hintBlink{
+  0%{opacity:0; transform:translateY(-3px)}
+  20%{opacity:1; transform:translateY(0)}
+  50%{opacity:0}
+  100%{opacity:0}
+}
+
+/* Grid de seções */
 .grid{
   display:grid; gap:12px; margin-top:6px;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 }
+
+/* Botões: altura -20% (56px → 44.8px); largura -15% (85% da coluna) */
 .btn{
   display:flex; align-items:center; justify-content:center; text-align:center; text-decoration:none; cursor:pointer;
   background:#fff; color:var(--vermelho); font-weight:900;
   border:3px solid var(--ouro);
-  box-shadow: inset 0 0 0 2.4px rgba(214,178,90,.75), 0 4px 10px var(--shadow);
-  border-radius:16px; padding:12px 16px; min-height:56px;
+  box-shadow:
+    inset 0 0 0 2.4px rgba(214,178,90,.75),  /* aro dourado interno (mantido) */
+    0 0 0 2px var(--ouro-velho),             /* aro ouro-velho externo (extra) */
+    0 4px 10px var(--shadow);
+  border-radius:16px;
+  padding:12px 16px;
+  min-height:44.8px;                         /* ↓ 20% */
+  width:85%;                                  /* ↓ 15% */
+  margin:0 auto;                              /* centraliza na coluna */
   transition:transform .12s, background-color .2s;
 }
 .btn:hover{transform:scale(1.02); background:#fff8ec}
-footer{margin-top:auto;text-align:center;color:#7a3a3a;font-size:.85rem;padding:.8rem}
-footer a{color:#7a0000;text-decoration:none;font-weight:700}
+
+/* Rodapé com botão Voltar (links removidos) */
+footer{
+  margin-top:auto; text-align:center; padding:.8rem;
+}
+.back-wrap{
+  display:flex; justify-content:center;
+  transform:scale(.48); transform-origin:center top; /* padrão do projeto */
+}
+.btn-back{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--vermelho); color:#fff; border:none; border-radius:999px;
+  padding:10px 16px; font-weight:800; cursor:pointer;
+  box-shadow:0 6px 14px var(--shadow);
+}
+.btn-back .arr{font-size:18px; line-height:1}
 </style>
 </head>
 <body>
@@ -58,22 +110,53 @@ footer a{color:#7a0000;text-decoration:none;font-weight:700}
 <main class="wrap">
   <img class="hero" src="img/icone-biblos.jpg" alt="Ícone — Biblioteca">
 
-  <section class="grid" aria-label="Seções da Biblioteca">
-    <a class="btn" href="#">Domingos da Igreja</a>
-    <a class="btn" href="#">Anúncio</a>
-    <a class="btn" href="#">Natal</a>
-    <a class="btn" href="#">Epifania</a>
-    <a class="btn" href="#">Domingos dos Falecidos</a>
-    <a class="btn" href="#">Grande Quaresma</a>
-    <a class="btn" href="#">Semana da Paixão</a>
-    <a class="btn" href="#">Ressurreição</a>
-    <a class="btn" href="#">Pentecostes</a>
-    <a class="btn" href="#">Cruz</a>
-  </section>
+  <div class="grid-wrap">
+    <!-- setas piscantes (somem após a animação terminar) -->
+    <div class="hint-arrows" id="hintArrows">
+      <span class="hint left">↓</span>
+      <span class="hint right">↓</span>
+    </div>
+
+    <section class="grid" aria-label="Seções da Biblioteca">
+      <a class="btn" href="#">Domingos da Igreja</a>
+      <a class="btn" href="#">Anúncio</a>
+      <a class="btn" href="#">Natal</a>
+      <a class="btn" href="#">Epifania</a>
+      <a class="btn" href="#">Domingos dos Falecidos</a>
+      <a class="btn" href="#">Grande Quaresma</a>
+      <a class="btn" href="#">Semana da Paixão</a>
+      <a class="btn" href="#">Ressurreição</a>
+      <a class="btn" href="#">Pentecostes</a>
+      <a class="btn" href="#">Cruz</a>
+    </section>
+  </div>
 </main>
 
 <footer>
-  <a href="mapa.html">Mapa</a> · <a href="index.html">App</a>
+  <div class="back-wrap">
+    <button class="btn-back" type="button" onclick="goBackOrHome()">
+      <span class="arr">←</span><span>Voltar</span>
+    </button>
+  </div>
 </footer>
+
+<script>
+function goBackOrHome(){
+  try{
+    if(history.length>1) history.back();
+    else location.href='index-teste.html';
+  }catch(e){
+    location.href='index-teste.html';
+  }
+}
+/* Remover as setas após piscarem 4x */
+document.addEventListener('DOMContentLoaded', ()=>{
+  const right=document.querySelector('#hintArrows .right');
+  const wrap=document.getElementById('hintArrows');
+  if(right && wrap){
+    right.addEventListener('animationend', ()=>{ wrap.remove(); }, {once:true});
+  }
+});
+</script>
 </body>
 </html>
