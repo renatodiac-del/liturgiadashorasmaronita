@@ -17,14 +17,14 @@
   --vermelho:#a00000;
   --fonte: Arial, Helvetica, sans-serif;
 }
-/* Fonte geral +20% */
+/* Fonte geral +20% (mantido) */
 html{font-size:120%}
 
 *{box-sizing:border-box} 
 html,body{height:100%}
 body{
   margin:0;font-family:var(--fonte); background:var(--azulbebe); color:var(--ink);
-  /* mosaico/ladrilho em ouro-velho */
+  /* mosaico/ladrilho em ouro-velho (mantido) */
   background-image:
     repeating-linear-gradient(45deg, rgba(var(--ouro-velho-rgb),.20) 0, rgba(var(--ouro-velho-rgb),.20) 2px, transparent 2px, transparent 40px),
     repeating-linear-gradient(-45deg, rgba(var(--ouro-velho-rgb),.16) 0, rgba(var(--ouro-velho-rgb),.16) 2px, transparent 2px, transparent 40px);
@@ -51,7 +51,9 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   margin-top:4px;
   color:var(--azul-del-rey);         /* subtítulo azul del-rey */
   font-weight:800;
-  font-size:calc( (1.8rem + 3pt) - 12pt ); /* 12pt menor que o título */
+  font-style:italic;                 /* em itálico (novo) */
+  /* 12pt menor que o título - 3pt adicionais = 15pt menor */
+  font-size:calc( (1.8rem + 3pt) - 15pt );
   /* contorno ouro-velho no subtítulo */
   -webkit-text-stroke:.8px var(--ouro-velho);
   text-shadow:
@@ -72,11 +74,6 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 }
 .hero[hidden]{display:none}
 
-/* Navegação por data: prev | DATA (em botão) | next */
-.datebox{
-  display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 6px
-}
-
 /* Aro duplo (externo azul del-rey, interno dourado) para todos os botões */
 .aro-duplo{
   border:3px solid var(--azul-del-rey);                /* anel externo */
@@ -85,13 +82,11 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
     0 2px 6px var(--sombra);
 }
 
-/* Botões Anterior/Próximo (aproximados ao centro) */
-.navbtn{
-  appearance:none;background:#fff;color:var(--navy);cursor:pointer;
-  padding:8px 12px;border-radius:12px;font-weight:900;
-  transition:transform .12s ease, background-color .2s ease, border-color .2s ease;
+/* Linha do botão de DATA (sozinho) */
+.datebox{
+  display:flex; align-items:center; justify-content:center;
+  margin:10px 0 6px;
 }
-.navbtn:hover{background:#f4fbff;transform:translateY(-1px)}
 
 /* Botão central de DATA (duas linhas) */
 .datebtn{
@@ -102,9 +97,18 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 .datebtn .date{font-size:1.25rem; color:var(--navy)}
 .datebtn .weekday{font-size:1rem; font-weight:800; color:#27466a; text-transform:capitalize}
 
-/* Aproximar os botões ao centro: reduzir gap para 8px e limitar largura do cluster */
-.datebox{gap:8px}
-.datecluster{display:flex; align-items:center; justify-content:center; gap:8px}
+/* Nova linha: Anterior e Próximo, imediatamente abaixo da data */
+.navrow{
+  display:flex; align-items:center; justify-content:center;
+  gap:6px;                       /* bem próximos ao centro */
+  margin-top:6px;
+}
+.navbtn{
+  appearance:none;background:#fff;color:var(--navy);cursor:pointer;
+  padding:8px 12px;border-radius:12px;font-weight:900;
+  transition:transform .12s ease, background-color .2s ease, border-color .2s ease;
+}
+.navbtn:hover{background:#f4fbff;transform:translateY(-1px)}
 
 /* Botão Voltar (padrão): posicionado ~a meio caminho até o rodapé */
 .back-wrap{
@@ -131,18 +135,18 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   <img class="hero" id="hero" src="img/icone-leituras.png" alt="Ícone — Leituras"
        onerror="this.hidden=true">
 
-  <!-- Linha de navegação: Anterior | [ DATA (duas linhas) ] | Próximo -->
-  <div class="datebox" aria-label="Navegação por data">
-    <div class="datecluster">
-      <button id="prev" class="navbtn aro-duplo" type="button">← Anterior</button>
+  <!-- Linha do botão de DATA -->
+  <div class="datebox" aria-label="Data do dia">
+    <button id="datebtn" class="datebtn aro-duplo" type="button" aria-label="Data e dia da semana">
+      <span class="date">--/--/----</span>
+      <span class="weekday">-</span>
+    </button>
+  </div>
 
-      <button id="datebtn" class="datebtn aro-duplo" type="button" aria-label="Data e dia da semana">
-        <span class="date">--/--/----</span>
-        <span class="weekday">-</span>
-      </button>
-
-      <button id="next" class="navbtn aro-duplo" type="button">Próximo →</button>
-    </div>
+  <!-- Linha abaixo: Anterior | Próximo (centrados e juntinhos) -->
+  <div class="navrow" aria-label="Navegação por data">
+    <button id="prev" class="navbtn aro-duplo" type="button">← Anterior</button>
+    <button id="next" class="navbtn aro-duplo" type="button">Próximo →</button>
   </div>
 
   <!-- Botão Voltar (padrão) -->
@@ -185,7 +189,7 @@ function render(){
 prevBt.addEventListener('click',()=>{current.setDate(current.getDate()-1);render();});
 nextBt.addEventListener('click',()=>{current.setDate(current.getDate()+1);render();});
 dateBtn.addEventListener('click', ()=>{
-  // comportamento opcional ao clicar na data (ex.: abrir leituras do dia)
+  // Ex.: abrir leituras do dia
   // window.location.href = `leituras.html?data=${current.toISOString().slice(0,10)}`;
 });
 
