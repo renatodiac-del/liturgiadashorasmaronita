@@ -6,80 +6,189 @@
 <meta name="theme-color" content="#cfeefe">
 <style>
 :root{
-  --azulbebe:#cfeefe; --navy:#0b2a4d; --dourado:#d6b25a; --ink:#0d233b; --sombra:rgba(0,0,0,.12);
+  --azulbebe:#cfeefe; 
+  --navy:#0b2a4d; 
+  --dourado:#d6b25a; 
+  --ouro-velho:#b08a2e; 
+  --ouro-velho-rgb:176,138,46;
+  --azul-del-rey:#003399;
+  --ink:#0d233b; 
+  --sombra:rgba(0,0,0,.12);
+  --vermelho:#a00000;
   --fonte: Arial, Helvetica, sans-serif;
 }
-*{box-sizing:border-box} html,body{height:100%}
+/* Fonte geral +20% */
+html{font-size:120%}
+
+*{box-sizing:border-box} 
+html,body{height:100%}
 body{
   margin:0;font-family:var(--fonte); background:var(--azulbebe); color:var(--ink);
+  /* mosaico/ladrilho em ouro-velho */
   background-image:
-    repeating-linear-gradient(45deg, rgba(11,42,77,.14) 0, rgba(11,42,77,.14) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(11,42,77,.10) 0, rgba(11,42,77,.10) 2px, transparent 2px, transparent 40px);
-  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
+    repeating-linear-gradient(45deg, rgba(var(--ouro-velho-rgb),.20) 0, rgba(var(--ouro-velho-rgb),.20) 2px, transparent 2px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(var(--ouro-velho-rgb),.16) 0, rgba(var(--ouro-velho-rgb),.16) 2px, transparent 2px, transparent 40px);
+  background-size:40px 40px; 
+  display:flex; flex-direction:column; min-height:100vh;
 }
-header{display:flex;justify-content:center;text-align:center;padding:12px 12px 0}
-.title{color:var(--dourado);font-weight:900;font-size:1.8rem;margin:0;text-shadow:0 0 4px rgba(214,178,90,.55)}
+
+/* Cabeçalho */
+header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
+.title{
+  color:var(--dourado);              /* mantém a cor do título */
+  font-weight:900;
+  font-size:calc(1.8rem + 3pt);      /* +3pt no título */
+  margin:0;
+  /* borda azul del-rey nas letras */
+  -webkit-text-stroke:1px var(--azul-del-rey);
+  text-shadow:
+    -1px -1px 0 var(--azul-del-rey),
+     1px -1px 0 var(--azul-del-rey),
+    -1px  1px 0 var(--azul-del-rey),
+     1px  1px 0 var(--azul-del-rey);
+}
+.subtitle{
+  margin-top:4px;
+  color:var(--azul-del-rey);         /* subtítulo azul del-rey */
+  font-weight:800;
+  font-size:calc( (1.8rem + 3pt) - 12pt ); /* 12pt menor que o título */
+  /* contorno ouro-velho no subtítulo */
+  -webkit-text-stroke:.8px var(--ouro-velho);
+  text-shadow:
+    -1px -1px 0 var(--ouro-velho),
+     1px -1px 0 var(--ouro-velho),
+    -1px  1px 0 var(--ouro-velho),
+     1px  1px 0 var(--ouro-velho);
+}
+
 .wrap{max-width:640px;margin:0 auto;padding:10px 16px 24px}
 
 /* Ícone com borda dourada */
 .hero{
   display:block;margin:8px auto 16px;max-width:100%;height:auto;max-height:420px;
-  border:6px solid var(--dourado); box-shadow:0 0 0 4px rgba(214,178,90,.45) inset, 0 6px 16px var(--sombra);
+  border:6px solid var(--dourado); 
+  box-shadow:0 0 0 4px rgba(214,178,90,.45) inset, 0 6px 16px var(--sombra);
   border-radius:14px
 }
 .hero[hidden]{display:none}
-.chip{
-  display:inline-block;margin:6px auto 14px;padding:10px 14px;background:rgba(255,255,255,.95);
-  border:3px solid var(--dourado); box-shadow:0 0 0 2px rgba(214,178,90,.45) inset; border-radius:14px; font-weight:800; color:var(--navy)
+
+/* Navegação por data: prev | DATA (em botão) | next */
+.datebox{
+  display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 6px
 }
 
-/* Navegação por data */
-.datebox{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 6px}
+/* Aro duplo (externo azul del-rey, interno dourado) para todos os botões */
+.aro-duplo{
+  border:3px solid var(--azul-del-rey);                /* anel externo */
+  box-shadow:
+    inset 0 0 0 3px var(--dourado),                    /* anel interno dourado */
+    0 2px 6px var(--sombra);
+}
+
+/* Botões Anterior/Próximo (aproximados ao centro) */
 .navbtn{
-  appearance:none;border:1px solid #98c6ef;background:#fff;color:var(--navy);cursor:pointer;
-  padding:8px 12px;border-radius:12px;font-weight:800;box-shadow:0 2px 6px var(--sombra);
+  appearance:none;background:#fff;color:var(--navy);cursor:pointer;
+  padding:8px 12px;border-radius:12px;font-weight:900;
   transition:transform .12s ease, background-color .2s ease, border-color .2s ease;
 }
-.navbtn:hover{background:#f4fbff;transform:translateY(-1px);border-color:#6eaee4}
-.date-text{display:flex;flex-direction:column;align-items:center;min-width:210px}
-.date{font-size:1.25rem;font-weight:900;color:var(--navy)}
-.weekday{font-size:1rem;font-weight:700;color:#27466a}
+.navbtn:hover{background:#f4fbff;transform:translateY(-1px)}
 
-footer{margin-top:auto;text-align:center;color:#27466a;font-size:.85rem;padding:.75rem}
-footer a{color:#0b2a4d;text-decoration:none}
+/* Botão central de DATA (duas linhas) */
+.datebtn{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-width:230px; padding:10px 16px; border-radius:14px; background:#fff; 
+  font-weight:900; text-align:center; line-height:1.2;
+}
+.datebtn .date{font-size:1.25rem; color:var(--navy)}
+.datebtn .weekday{font-size:1rem; font-weight:800; color:#27466a; text-transform:capitalize}
+
+/* Aproximar os botões ao centro: reduzir gap para 8px e limitar largura do cluster */
+.datebox{gap:8px}
+.datecluster{display:flex; align-items:center; justify-content:center; gap:8px}
+
+/* Botão Voltar (padrão): posicionado ~a meio caminho até o rodapé */
+.back-wrap{
+  display:flex; justify-content:center;
+  margin-top:min(18vh, 140px);     /* ~metade do espaço até a borda inferior */
+  transform:scale(.48); transform-origin:center top;
+}
+.btn-back{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--vermelho); color:#fff; border:none; border-radius:999px;
+  padding:10px 16px; font-weight:800; cursor:pointer;
+  box-shadow:0 6px 14px var(--sombra);
+}
+.btn-back .arr{font-size:18px; line-height:1}
 </style>
 </head>
 <body>
-<header><h1 class="title">Leituras Bíblicas</h1></header>
+<header>
+  <h1 class="title">Leituras Bíblicas</h1>
+  <div class="subtitle">para a Qurbono</div>
+</header>
 
 <main class="wrap">
   <img class="hero" id="hero" src="img/icone-leituras.png" alt="Ícone — Leituras"
-       onerror="this.hidden=true;document.getElementById('chip').hidden=false;">
-  <div id="chip" class="chip" hidden>Leituras Bíblicas</div>
+       onerror="this.hidden=true">
 
+  <!-- Linha de navegação: Anterior | [ DATA (duas linhas) ] | Próximo -->
   <div class="datebox" aria-label="Navegação por data">
-    <button id="prev" class="navbtn" type="button">← Anterior</button>
-    <div class="date-text">
-      <div id="date" class="date">--/--/----</div>
-      <div id="weekday" class="weekday">-</div>
+    <div class="datecluster">
+      <button id="prev" class="navbtn aro-duplo" type="button">← Anterior</button>
+
+      <button id="datebtn" class="datebtn aro-duplo" type="button" aria-label="Data e dia da semana">
+        <span class="date">--/--/----</span>
+        <span class="weekday">-</span>
+      </button>
+
+      <button id="next" class="navbtn aro-duplo" type="button">Próximo →</button>
     </div>
-    <button id="next" class="navbtn" type="button">Próximo →</button>
+  </div>
+
+  <!-- Botão Voltar (padrão) -->
+  <div class="back-wrap">
+    <button class="btn-back" type="button" onclick="goBackOrHome()">
+      <span class="arr">←</span><span>Voltar</span>
+    </button>
   </div>
 </main>
 
-<footer>Leituras · <a href="qurbono-teste.html">Qurbono</a> · <a href="index.html">App</a></footer>
+<!-- Rodapé removido -->
 
 <script>
-const dateEl=document.getElementById('date');
-const weekEl=document.getElementById('weekday');
+function goBackOrHome(){
+  try{
+    if(history.length>1) history.back();
+    else location.href='index-teste.html';
+  }catch(e){
+    location.href='index-teste.html';
+  }
+}
+
+const dateBtn=document.getElementById('datebtn');
 const prevBt=document.getElementById('prev');
 const nextBt=document.getElementById('next');
+
 let current=new Date();
-function fmtDate(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});}
-function fmtWeekday(d){return d.toLocaleDateString('pt-BR',{weekday:'long'});}
-function render(){dateEl.textContent=fmtDate(current); const wd=fmtWeekday(current); weekEl.textContent=wd.charAt(0).toUpperCase()+wd.slice(1);}
+
+function fmtDate(d){
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function fmtWeekday(d){
+  const wd=d.toLocaleDateString('pt-BR',{weekday:'long'});
+  return wd.charAt(0).toUpperCase()+wd.slice(1);
+}
+function render(){
+  dateBtn.querySelector('.date').textContent = fmtDate(current);
+  dateBtn.querySelector('.weekday').textContent = fmtWeekday(current);
+}
 prevBt.addEventListener('click',()=>{current.setDate(current.getDate()-1);render();});
 nextBt.addEventListener('click',()=>{current.setDate(current.getDate()+1);render();});
+dateBtn.addEventListener('click', ()=>{
+  // comportamento opcional ao clicar na data (ex.: abrir leituras do dia)
+  // window.location.href = `leituras.html?data=${current.toISOString().slice(0,10)}`;
+});
+
 render();
 </script>
 </body>
