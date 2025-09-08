@@ -1,209 +1,113 @@
+<!-- index-teste.html (títulos centrados ignorando a cruz) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Capela Virtual São Marun — Home</title>
-  <meta name="theme-color" content="#faf7ef">
-  <style>
-    :root{
-      --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
-      --gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.10);
-      --sans: Arial, Helvetica, sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; padding:18px; background:var(--bg); color:var(--txt);
-      font-family:var(--sans); display:flex; flex-direction:column; min-height:100vh;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Página Inicial</title>
+<style>
+  :root{
+    --vermelho:#a00000;
+    --ouro:#b4923a;             /* ouro velho */
+    --laranja:#a64800;          /* laranja escuro */
+    --shadow:rgba(0,0,0,.12);
+    --fonte: Arial, Helvetica, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: var(--fonte);
+    display:flex; flex-direction:column; min-height:100vh;
+    /* Fundo: ouro velho com mosaico em laranja escuro */
+    background:#b4923a;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(166,72,0,.22) 0, rgba(166,72,0,.22) 2px, transparent 2px, transparent 44px),
+      repeating-linear-gradient(-45deg, rgba(166,72,0,.18) 0, rgba(166,72,0,.18) 2px, transparent 2px, transparent 44px);
+    background-size:44px 44px;
+  }
 
-    /* Cabeçalho + herói (ícone grande) */
-    header{ text-align:center; }
-    h1{
-      margin:.2rem 0 .6rem; font-size:1.72rem; line-height:1.1; font-weight:900; color:#4a3828;
-      text-shadow:0 1px 0 rgba(255,255,255,.8);
-    }
-    .hero{
-      display:block; margin:6px auto 12px; max-width:640px; width:100%; height:auto;
-      border:6px solid var(--gold);
-      box-shadow:0 0 0 4px rgba(122,27,27,.55) inset, 0 8px 18px var(--shadow);
-      border-radius:14px;
-    }
-    .hero[hidden]{display:none!important}
-    .chip{
-      display:inline-block; margin:4px auto 10px; padding:8px 12px;
-      background:linear-gradient(#fff,#fff9ef); font-weight:800; color:#4a3828;
-      border:2px solid var(--gold); box-shadow:inset 0 0 0 1px rgba(214,178,90,.55);
-      border-radius:999px;
-    }
+  .wrap{
+    width:100%; max-width:680px; margin:0 auto; padding:8px 16px 12px;
+    display:flex; flex-direction:column; flex:1 1 auto;
+  }
 
-    /* Seções e cartões */
-    .section{margin:16px 0}
-    .section-title{
-      font-weight:900; font-size:1rem; margin:0 0 .6rem; color:#4a3828; letter-spacing:.2px
-    }
-    .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-    .card{
-      display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--card);
-      border:1.6px solid var(--bord); border-radius:14px; overflow:hidden;
-      box-shadow:0 8px 18px var(--shadow);
-      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-    }
-    .card:hover{transform:translateY(-2px); border-color:var(--gold); box-shadow:0 12px 24px rgba(0,0,0,.14)}
-    .thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold)}
-    .thumb[hidden]{display:none!important}
-    .body{padding:12px 12px 14px}
-    .title{
-      font-weight:900; font-size:1.02rem; margin:0 0 4px; color:var(--accent);
-      text-shadow:-0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold),
-                  -0.5px  0.5px 0 var(--gold), 0.5px  0.5px 0 var(--gold);
-    }
-    .subtitle{margin:0; font-size:.9rem; color:#5a4634}
+  /* Ícone principal: max-height ~608px (ajuste fino anterior) */
+  .hero-box{text-align:center; position:relative}
+  .hero{
+    display:inline-block;
+    width:auto; height:auto; max-width:100%; max-height:608px;
+    border:0; border-bottom:8px solid var(--ouro);
+    border-radius:16px 16px 14px 14px;
+    box-shadow:0 10px 24px var(--shadow);
+  }
 
-    footer{margin-top:auto; text-align:center; color:#7a6a55; font-size:.85rem; padding-top:6px}
-  </style>
+  /* Botões com mais respiro abaixo do ícone */
+  .buttons{
+    margin-top:16px;
+    display:flex; flex-direction:column; gap:10px; align-items:center;
+    padding-bottom:12px;
+  }
+
+  /* Botões: +15% largura, -10% altura; borda interna ouro-velho
+     TÍTULO CENTRALIZADO: padding simétrico (58px à esquerda e direita) */
+  .btn{
+    position:relative;
+    width:82%;
+    padding:10px 58px;             /* <<< simétrico: centraliza o texto sem considerar a cruz */
+    display:flex; align-items:center; justify-content:center;
+    text-decoration:none; text-align:center; cursor:pointer;
+    color:var(--vermelho); background:#fff; font-weight:800; font-size:1rem;
+
+    border:3px solid var(--vermelho);
+    box-shadow:
+      inset 0 0 0 3px var(--ouro),
+      0 4px 12px var(--shadow);
+    border-radius:18px;
+
+    transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
+    background-image:linear-gradient(#fff,#fffaf2);
+  }
+  .btn:hover{transform:translateY(-1px); background:#fff8ef}
+
+  /* Cruz: redonda, +20%, fixa à esquerda */
+  .btn .icon{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:30px; height:30px; border-radius:50%; object-fit:cover;
+  }
+
+  .btn--overlap{ margin-top:-12px; z-index:2; }
+
+  @media (max-width: 380px){
+    .btn{width:88%}
+    .hero{max-height:520px}
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Capela Virtual São Marun</h1>
-    <img class="hero" src="img/icone-app-teste.jpg" alt="Página Inicial"
-         loading="eager" onerror="this.hidden=true;document.getElementById('chip-hero').hidden=false;">
-    <div id="chip-hero" class="chip" hidden>Home inicial</div>
-  </header>
+  <main class="wrap">
+    <section class="hero-box">
+      <img class="hero" src="img/icone-home.png" alt="">
+    </section>
 
-  <!-- ENTRADAS (somente portas de cada fluxo; o resto se navega por dentro) -->
-
-  <section class="section">
-    <h2 class="section-title">App principal</h2>
-    <div class="grid">
-      <a class="card" href="index.html" aria-label="Abrir App Principal">
-        <img class="thumb" src="img/icone-app.jpg" alt="App principal" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">App Principal (núcleo)</h3>
-          <p class="subtitle">Liturgia diária via planilhas</p>
-        </div>
+    <nav class="buttons" aria-label="Ações principais">
+      <a class="btn btn--overlap" href="qurbono-teste.html">
+        <img class="icon" src="img/cruz.png" alt="">
+        Qurbono
       </a>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">Menus principais</h2>
-    <div class="grid">
-      <a class="card" href="qurbone.html" aria-label="Acessar Qurbono">
-        <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Qurbono</h3>
-          <p class="subtitle">Divina Liturgia</p>
-        </div>
+      <a class="btn" href="oracao.html">
+        <img class="icon" src="img/cruz.png" alt="">
+        Oração das Horas
       </a>
-
-      <a class="card" href="oracao.html" aria-label="Menu principal da Oração das Horas">
-        <img class="thumb" src="img/icone-oracao.jpg" alt="Oração das Horas" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Oração das Horas</h3>
-          <p class="subtitle">Menu principal</p>
-        </div>
+      <a class="btn" href="calendario.html">
+        <img class="icon" src="img/cruz.png" alt="">
+        Calendário Litúrgico
       </a>
-
-      <a class="card" href="horas-teste.html" aria-label="Abrir Oração do Dia (visual)">
-        <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Oração do Dia</h3>
-          <p class="subtitle">Horas canônicas (visual)</p>
-        </div>
+      <a class="btn" href="patristica.html">
+        <img class="icon" src="img/cruz.png" alt="">
+        Patrística Siríaca
       </a>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">Por data</h2>
-    <div class="grid">
-      <a class="card" href="liturgia-dia.html" aria-label="Abrir Liturgia Eucarística do Dia">
-        <img class="thumb" src="img/icone-liturgiadia.jpg" alt="Liturgia Eucarística do Dia" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Liturgia Eucarística do Dia</h3>
-          <p class="subtitle">Data clicável + navegação</p>
-        </div>
-      </a>
-
-      <a class="card" href="leituras.html" aria-label="Abrir Leituras Bíblicas">
-        <img class="thumb" src="img/icone-leituras.png" alt="Leituras Bíblicas" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Leituras Bíblicas</h3>
-          <p class="subtitle">Referências do dia</p>
-        </div>
-      </a>
-
-      <a class="card" href="synaxarion.html" aria-label="Abrir Synaxarion">
-        <img class="thumb" src="img/icone-synaxarion.jpg" alt="Synaxarion" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Synaxarion</h3>
-          <p class="subtitle">Comemoração do dia</p>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">Módulos</h2>
-    <div class="grid">
-      <a class="card" href="calendario.html" aria-label="Acessar Calendário Litúrgico">
-        <img class="thumb" src="img/icone-calendario.jpg" alt="Calendário Litúrgico" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Calendário Litúrgico</h3>
-          <p class="subtitle">Anos e navegação</p>
-        </div>
-      </a>
-
-      <a class="card" href="patristica.html" aria-label="Acessar Patrística Siríaca">
-        <img class="thumb" src="img/icone-patristica.jpg" alt="Patrística Siríaca" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Patrística Siríaca</h3>
-          <p class="subtitle">Autores e obras</p>
-        </div>
-      </a>
-
-      <a class="card" href="ordinario.html" aria-label="Abrir Ordinário">
-        <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Ordinário</h3>
-          <p class="subtitle">Seções por tempo</p>
-        </div>
-      </a>
-
-      <a class="card" href="anafora.html" aria-label="Abrir Anáforas">
-        <img class="thumb" src="img/icone-anafora.jpg" alt="Anáforas" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Anáforas</h3>
-          <p class="subtitle">Lista de anáforas</p>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">Coleções e Comuns</h2>
-    <div class="grid">
-      <a class="card" href="santos.html" aria-label="Acessar Comum dos Santos">
-        <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Comum dos Santos</h3>
-          <p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p>
-        </div>
-      </a>
-
-      <a class="card" href="biblos.html" aria-label="Acessar Biblioteca">
-        <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" loading="lazy" onerror="this.hidden=true">
-        <div class="body">
-          <h3 class="title">Biblioteca</h3>
-          <p class="subtitle">Tempos e coleções</p>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <footer>© Capela Virtual São Marun — home (index-teste.html)</footer>
+    </nav>
+  </main>
 </body>
 </html>
-
