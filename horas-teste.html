@@ -8,11 +8,10 @@
 
   <style>
     :root{
-      --gap: 4.8px;          /* ↓ 40% na distância entre os botões maiores (era 8px) */
-      --btn-wide: 88.9%;     /* ↑ 15% na largura (era 77.3%) */
+      --gap: 8px;
+      --btn-wide: 77.3%;     /* largura dos botões grandes */
       --btn-pad-v: 6px;      /* altura base dos botões grandes */
       --btn-pad-h: 11px;
-      --ouro-velho:#b08a2e;
     }
 
     *{box-sizing:border-box}
@@ -36,14 +35,9 @@
 
     .wrap{ width:100%; max-width:620px; margin:0 auto; padding:4px 16px 16px }
 
-    /* Ícone com aro laranja + aro ouro-velho EXTERNO (novo) */
     .hero{
       display:block; margin:4px auto 8px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid #ff7a00; 
-      box-shadow:
-        0 0 0 4px #d6b25a inset,   /* aro dourado interno (já havia) */
-        0 0 0 6px var(--ouro-velho); /* aro ouro-velho EXTERNO (novo) */
-      border-radius:12px
+      border:6px solid #ff7a00; box-shadow:0 0 0 4px #d6b25a inset; border-radius:12px
     }
     .hero[hidden]{ display:none }
     .chip{
@@ -55,52 +49,26 @@
     .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
       background:#fff; border:2px solid #ff7a00; border-radius:20px;
-      padding:3px 22px;
-      font-size:0.58rem; color:#7a0000; cursor:pointer; transition:.2s;
-      /* Aro duplo dourado em TODOS os botões (novo): externo + interno */
-      box-shadow:
-        0 0 0 2.2px var(--ouro-velho),   /* aro externo ouro-velho */
-        inset 0 0 0 2.2px #d6b25a;       /* aro interno dourado */
+      padding:3px 22px;                  /* altura -50%, largura mantida */
+      font-size:0.58rem;                 /* fonte pequena */
+      color:#7a0000; cursor:pointer; transition:.2s
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
     .datedisplay{ min-width:156px; text-align:center; color:#582c0c; line-height:1.2 }
     .datedisplay .date{ font-weight:700 }
     .datedisplay .weekday{ font-size:.95rem; color:#7a5c3a; text-transform:lowercase }
 
-    /* Coluna única centralizada + wrapper para setas piscantes */
-    .buttons-wrap{ position:relative; }
+    /* Coluna única centralizada */
     .col{ display:flex; flex-direction:column; align-items:center }
 
-    /* Setas vermelhas piscantes (4x) como no Synaxarion */
-    .hint-arrows{
-      position:absolute; left:0; right:0; top:-6px; 
-      display:flex; justify-content:space-between; align-items:center;
-      padding:0 6px; pointer-events:none; z-index:2;
-    }
-    .hint{
-      color:#a00000; font-weight:900; line-height:1;
-      font-size:clamp(22px, 3.2vw, 30px);
-      text-shadow:0 0 6px rgba(0,0,0,.25);
-      animation:hintBlink .85s ease-in-out 4; /* pisca 4x */
-    }
-    @keyframes hintBlink{
-      0%{opacity:0; transform:translateY(-3px)}
-      20%{opacity:1; transform:translateY(0)}
-      50%{opacity:0}
-      100%{opacity:0}
-    }
-
-    /* BASE dos botões grandes (canônicos & calendário) — agora com aro ouro-velho externo adicional */
+    /* BASE dos botões grandes (canônicos & calendário) */
     .btn{
       display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
       background:rgba(255,255,255,0.97); border:1.35px solid #ff7a00;
-      box-shadow:
-        0 0 0 2px var(--ouro-velho),     /* aro externo ouro-velho (novo) */
-        0 0 0 0.9px #d6b25a inset,       /* aro interno dourado (já havia) */
-        0 4px 10px rgba(0,0,0,0.15);
+      box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius:18px; font-size:.86rem; font-weight:bold;
       text-align:center; position:relative; transition:.2s; color:#a00000;
-      margin: var(--gap) 0;              /* espaço vertical reduzido */
+      margin: var(--gap) 0;
     }
     .btn:hover{ transform:scale(1.02); background:#fff3da }
     .btn img{ position:absolute; left:10px; width:20px; height:20px }
@@ -115,7 +83,7 @@
       padding: var(--btn-pad-v) var(--btn-pad-h);
     }
 
-    /* Synaxarion com +40% de altura */
+    /* Synaxarion com +40% de altura (se quiser manter) */
     .btn.sinaxarion{ padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
     /* Calendário com +40% de altura */
@@ -159,18 +127,11 @@
       <button class="datebtn" id="btn-next">Próximo ▶</button>
     </div>
 
-    <!-- Wrapper para os botões + setas piscantes -->
-    <div class="buttons-wrap">
-      <div class="hint-arrows" id="hintArrows">
-        <span class="hint left">↓</span>
-        <span class="hint right">↓</span>
-      </div>
-
-      <div class="col" id="col"></div>
-    </div>
+    <div class="col" id="col"></div>
 
     <div class="wide-wrap">
-      <a class="btn calendar" data-action="calendario" href="#">
+      <!-- Calendário agora leva à página real -->
+      <a class="btn calendar" href="calendario.html">
         <img src="img/cruz3.png" alt="">
         <span class="label"><span class="line1">Calendário Litúrgico</span></span>
       </a>
@@ -184,65 +145,55 @@
   </footer>
 
   <script>
-    const msgs={
-      safro:'Safro — em breve.','manha-leituras':'Salmo manhã — em breve.','terca':'Hora Terça — em breve.',
-      sexta:'Hora Sexta — em breve.','nona':'Hora Nona — em breve.','sinaxarion':'Synaxarion — em breve.',
-      ramsho:'Ramsho — em breve.','tarde-leituras':'Salmo tarde — em breve.','sutoro':'Sutoro — em breve.',
-      lilyo:'Lilyo — em breve.','calendario':'Calendário Litúrgico — em breve.'
-    };
+    /* ======= utilitário de “aviso” (só usado se sobrar algo sem link) ======= */
     function toast(msg){
       const t=document.getElementById('toast');
-      t.textContent=msg;t.style.opacity=1;
-      clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,1800);
+      t.textContent=msg; t.style.opacity=1;
+      clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,1800);
     }
-    document.addEventListener('click',e=>{
-      const a=e.target.closest('.btn[data-action]');if(!a)return;
-      e.preventDefault();toast(msgs[a.dataset.action]||'Em breve');
-    });
 
-    function mk(id,l1,l2=''){
-      const a=document.createElement('a');a.href='#';a.className='btn tall '+id;a.dataset.action=id;
+    /* ======= constrói os botões com seus HREFs reais ======= */
+    function mkLink(href,l1,l2=''){
+      const a=document.createElement('a');
+      a.href=href; a.className='btn tall';
       a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
-        <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}</span>`;
+        <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}
+      </span>`;
       return a;
     }
 
-    (function(){
+    (function mountButtons(){
+      const items = [
+        {href:'safro-hora.html',  l1:'Safro',                l2:'oração da manhã'},
+        {href:'leituras.html',    l1:'Salmo do Dia e Leitura', l2:'manhã'},
+        {href:'terca-hora.html',  l1:'Hora Terça',           l2:'9 horas'},
+        {href:'sexta-hora.html',  l1:'Hora Sexta',           l2:'12 horas'},
+        {href:'nona-hora.html',   l1:'Hora Nona',            l2:'15 horas'},
+        {href:'synaxarion.html',  l1:'Synaxarion'},
+        {href:'ramsho-hora.html', l1:'Ramsho',               l2:'oração da tarde'},
+        {href:'leituras.html',    l1:'Salmo do Dia e Leitura', l2:'tarde'},
+        {href:'sutoro-hora.html', l1:'Sutoro',               l2:'oração da noite'},
+        {href:'lilyo-hora.html',  l1:'Lilyo',                l2:'vigílias'}
+      ];
       const c=document.getElementById('col');
-      c.append(mk('safro','Safro','oração da manhã'));
-      c.append(mk('manha-leituras','Salmo do Dia e Leitura','manhã'));
-      c.append(mk('terca','Hora Terça','9 horas'));
-      c.append(mk('sexta','Hora Sexta','12 horas'));
-      c.append(mk('nona','Hora Nona','15 horas'));
-      c.append(mk('sinaxarion','Synaxarion')); // altura +40% via CSS (.btn.sinaxarion)
-      c.append(mk('ramsho','Ramsho','oração da tarde'));
-      c.append(mk('tarde-leituras','Salmo do Dia e Leitura','tarde'));
-      c.append(mk('sutoro','Sutoro','oração da noite'));
-      c.append(mk('lilyo','Lilyo','vigílias'));
+      items.forEach(it=>c.append(mkLink(it.href,it.l1,it.l2)));
     })();
 
-    // barra de data
+    /* ======= barra de data ======= */
     let currentDate=new Date();
     function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
     function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
     function updateDateBar(){
       document.getElementById('date-text').textContent=formatDateBR(currentDate);
-      document.getElementById('weekday-text').textContent=weekdayBR(currentDate);
+      const wd = weekdayBR(currentDate); 
+      document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
     }
-    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();toast('Carregar orações do dia anterior…')});
-    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();toast('Carregar orações do próximo dia…')});
+    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
+    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
     updateDateBar();
 
+    /* ======= ícone “chip” ======= */
     document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
-
-    // Remover completamente as setas após terminarem de piscar 4x
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const right=document.querySelector('#hintArrows .right');
-      const wrap=document.getElementById('hintArrows');
-      if(right && wrap){
-        right.addEventListener('animationend', ()=>{ wrap.remove(); }, {once:true});
-      }
-    });
   </script>
 </body>
 </html>
