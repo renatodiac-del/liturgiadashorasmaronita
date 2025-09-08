@@ -8,7 +8,7 @@
 <style>
 :root{
   --marromClaro:#e7d9c6; --ouroVelho:#b4923a; --texto:#3b2a19;
-  --shadow:rgba(0,0,0,.15); --fonte: Arial, Helvetica, sans-serif;
+  --shadow:rgba(0,0,0,.15); --fonte: Arial, Helvetica, sans-serif; --vermelho:#a00000;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -35,6 +35,8 @@ header{text-align:center;padding:12px 12px 6px}
   box-shadow:0 0 0 5px rgba(255,255,255,.0) inset, 0 6px 14px var(--shadow);
   border-radius:14px
 }
+
+/* Painel de data + navegação */
 .panel{
   display:inline-flex; align-items:center; justify-content:center; text-align:center;
   padding:12px 20px; border-radius:14px; background:#fff; color:var(--texto);
@@ -50,8 +52,15 @@ header{text-align:center;padding:12px 12px 6px}
   cursor:pointer; transition:background-color .2s, transform .12s;
 }
 .navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
-footer{margin-top:auto;text-align:center;color:#5b4b1c;font-size:.85rem;padding:.8rem}
-footer a{color:#0b3a4d;text-decoration:none;font-weight:700}
+
+/* Rodapé: botão Voltar padrão (mãe sugerida = biblos.html) */
+footer{margin-top:auto;text-align:center;padding:.8rem}
+.back{
+  display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
+  border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px;
+  font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:center;
+}
+.back:hover{background:#c00000}
 </style>
 </head>
 <body>
@@ -70,22 +79,43 @@ footer a{color:#0b3a4d;text-decoration:none;font-weight:700}
 </main>
 
 <footer>
-  <a href="mapa.html">Mapa</a> · <a href="index.html">App</a>
+  <a class="back" href="javascript:history.back()"
+     onclick="if(!document.referrer || (!document.referrer.includes('biblos.html') && !document.referrer.includes('index-teste.html'))){this.href='biblos.html'}">← Voltar</a>
 </footer>
 
 <script>
+/* Preencha as datas desejadas (mes = 1..12, dia = 1..31).
+   Exemplo: 6 jan (Epifania), 25 mar (Anunciação), 14 set (Exaltação da Santa Cruz) */
 const datasEspeciais = [
   // {mes:1, dia:6}, {mes:3, dia:25}, {mes:9, dia:14}
 ];
+
 const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-const dataBtn=document.getElementById('dataBtn');const prevBt=document.getElementById('prev');const nextBt=document.getElementById('next');let idx=0;
+const dataBtn=document.getElementById('dataBtn');
+const prevBt=document.getElementById('prev');
+const nextBt=document.getElementById('next');
+let idx=0;
+
 function formatDia(d){return d===1?'1º':String(d);}
 function labelData(item){return `${formatDia(item.dia)} de ${meses[item.mes-1]}`;}
 function linkParaData(item){return `#${String(item.mes).padStart(2,'0')}-${String(item.dia).padStart(2,'0')}`;}
-function render(){if(!datasEspeciais.length){dataBtn.textContent='Defina as datas no código';dataBtn.disabled=true;prevBt.disabled=true;nextBt.disabled=true;return;}const cur=datasEspeciais[idx];dataBtn.textContent=labelData(cur);}
-dataBtn.addEventListener('click',()=>{if(!datasEspeciais.length)return;window.open(linkParaData(datasEspeciais[idx]),'_blank');});
-prevBt.onclick=()=>{if(!datasEspeciais.length)return;idx=(idx-1+datasEspeciais.length)%datasEspeciais.length;render();}
-nextBt.onclick=()=>{if(!datasEspeciais.length)return;idx=(idx+1)%datasEspeciais.length;render();}
+
+function render(){
+  if(!datasEspeciais.length){
+    dataBtn.textContent='Defina as datas no código';
+    dataBtn.disabled=true; prevBt.disabled=true; nextBt.disabled=true; return;
+  }
+  const cur=datasEspeciais[idx];
+  dataBtn.textContent=labelData(cur);
+}
+
+dataBtn.addEventListener('click',()=>{
+  if(!datasEspeciais.length) return;
+  window.open(linkParaData(datasEspeciais[idx]),'_blank');
+});
+prevBt.onclick=()=>{ if(!datasEspeciais.length) return; idx=(idx-1+datasEspeciais.length)%datasEspeciais.length; render(); }
+nextBt.onclick=()=>{ if(!datasEspeciais.length) return; idx=(idx+1)%datasEspeciais.length; render(); }
+
 render();
 </script>
 </body>
