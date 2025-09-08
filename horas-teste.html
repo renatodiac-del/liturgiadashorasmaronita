@@ -37,7 +37,12 @@
 
     .hero{
       display:block; margin:4px auto 8px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid #ff7a00; box-shadow:0 0 0 4px #d6b25a inset; border-radius:12px
+      border:6px solid #ff7a00; 
+      /* aro dourado externo + aro dourado interno (mantém laranja) */
+      box-shadow:
+        0 0 0 4px #d6b25a,
+        0 0 0 4px #d6b25a inset;
+      border-radius:12px
     }
     .hero[hidden]{ display:none }
     .chip{
@@ -61,7 +66,7 @@
     /* Coluna única centralizada */
     .col{ display:flex; flex-direction:column; align-items:center }
 
-    /* BASE dos botões grandes (canônicos & calendário) */
+    /* BASE dos botões grandes */
     .btn{
       display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
       background:rgba(255,255,255,0.97); border:1.35px solid #ff7a00;
@@ -83,7 +88,7 @@
       padding: var(--btn-pad-v) var(--btn-pad-h);
     }
 
-    /* Synaxarion com +40% de altura (se quiser manter) */
+    /* Synaxarion com +40% de altura (opcional) */
     .btn.sinaxarion{ padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
     /* Calendário com +40% de altura */
@@ -94,13 +99,13 @@
     }
     .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
-    /* Botão vermelho (encostado ao Calendário) */
+    /* Botão vermelho Voltar */
     footer{ margin-top: 0; text-align:center; font-size:.85rem; color:#7a6a55; padding:0 8px 8px }
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
       font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none;
-      margin: 2px auto 0;   /* bem próximo do calendário */
+      margin: 2px auto 0;
     }
 
     #toast{
@@ -130,7 +135,7 @@
     <div class="col" id="col"></div>
 
     <div class="wide-wrap">
-      <!-- Calendário agora leva à página real -->
+      <!-- Calendário leva à página real -->
       <a class="btn calendar" href="calendario.html">
         <img src="img/cruz3.png" alt="">
         <span class="label"><span class="line1">Calendário Litúrgico</span></span>
@@ -141,18 +146,120 @@
   <div id="toast"></div>
 
   <footer>
-    <a class="back" href="javascript:history.back();" onclick="if(history.length<=1){this.href='index-teste.html'}">← Voltar</a>
+    <a class="back" href="javascript:history.back();" onclick="if(!document.referrer || !document.referrer.includes('horas-teste.html')){this.href='horas-teste.html'}">← Voltar</a>
   </footer>
 
   <script>
-    /* ======= utilitário de “aviso” (só usado se sobrar algo sem link) ======= */
+    /* ===================== CONFIGURE AQUI O CSV PUBLICADO ===================== */
+    const SALMOS_CSV_URL = 'https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv';
+    /* ========================================================================= */
+
+    /* ======= utilitário de aviso ======= */
     function toast(msg){
       const t=document.getElementById('toast');
       t.textContent=msg; t.style.opacity=1;
-      clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,1800);
+      clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000);
     }
 
-    /* ======= constrói os botões com seus HREFs reais ======= */
+    /* ======= normalizações ======= */
+    const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+    function toISO(d){ // dd/mm/yyyy ou yyyy/mm/dd -> yyyy-mm-dd
+      const s=(d||'').replace(/[-.]/g,'/').trim();
+      const parts=s.split('/');
+      if(parts.length!==3) return null;
+      if(parts[0].length===4){ // yyyy/mm/dd
+        const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+      }
+      // dd/mm/yyyy
+      const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+    }
+    function fmtBR(d){ // Date -> dd/mm/yyyy
+      return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+    }
+
+    /* ======= parser CSV robusto ======= */
+    function parseCSV(text){
+      const rows=[]; let i=0, cur=[], val='', q=false;
+      while(i<text.length){
+        const c=text[i++];
+        if(q){
+          if(c==='"' && text[i]==='"'){ val+='"'; i++; }
+          else if(c==='"'){ q=false; }
+          else val+=c;
+        }else{
+          if(c===','){ cur.push(val); val=''; }
+          else if(c==='"'){ q=true; }
+          else if(c==='\n'){ cur.push(val); rows.push(cur); cur=[]; val=''; }
+          else if(c!=='\r'){ val+=c; }
+        }
+      }
+      if(val.length||cur.length) { cur.push(val); rows.push(cur); }
+      return rows;
+    }
+
+    /* ======= fetch CSV (com cache-busting e fallback AllOrigins) ======= */
+    async function fetchCSV(url){
+      const cb = Math.floor(Date.now()/60000); // muda a cada minuto
+      const u1 = url + (url.includes('?')?'&':'?') + 'cb='+cb;
+      try{
+        const r=await fetch(u1,{mode:'cors'});
+        if(!r.ok) throw new Error(r.status);
+        return await r.text();
+      }catch(e){
+        const prox='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);
+        const r=await fetch(prox);
+        if(!r.ok) throw new Error('fallback '+r.status);
+        return await r.text();
+      }
+    }
+
+    /* ======= lookup de link por (data, periodo) ======= */
+    let _salmosRows=null, _salmosHeader=null;
+    async function ensureSalmos(){
+      if(_salmosRows) return;
+      toast('Carregando referências…');
+      const txt = await fetchCSV(SALMOS_CSV_URL);
+      const rows = parseCSV(txt).filter(r=>r.length && r.join('').trim()!=='');
+      const header = rows.shift().map(h=>norm(h));
+      _salmosHeader=header; _salmosRows=rows;
+    }
+    function findCol(header, candidates){
+      for(const c of candidates){ const i=header.indexOf(norm(c)); if(i>=0) return i; }
+      return -1;
+    }
+    async function openSalmo(periodo, dateObj){
+      try{
+        await ensureSalmos();
+        const h=_salmosHeader, rs=_salmosRows;
+        const iData = findCol(h, ['data','date','dia']);
+        const iPer  = findCol(h, ['periodo','período','turno']);
+        const iLink = findCol(h, ['link_doc','link','url','doc','arquivo']);
+        if(iData<0 || iPer<0 || iLink<0){ toast('Planilha: cabeçalhos não encontrados'); return; }
+
+        const todayBR = fmtBR(dateObj);        // dd/mm/yyyy
+        const todayISO = toISO(todayBR);       // yyyy-mm-dd
+        const alvoPer = norm(periodo);         // manha|tarde
+
+        // aceita datas em BR ou ISO na planilha
+        const row = rs.find(r=>{
+          const d = (r[iData]||'').trim();
+          const dISO = toISO(d);
+          const dBR  = toISO(d) ? null : toISO(fmtBR(new Date(d))) ; // tentativa leve
+          const p = norm(r[iPer]);
+          const eq = (toISO(d)===todayISO) || (toISO(d)===toISO(todayBR)) || (d===todayBR);
+          return eq && (p===alvoPer || p===norm('manhã') || p===norm('manha')) && (alvoPer.startsWith('t')? p.startsWith('t'): true);
+        });
+
+        if(!row){ toast('Não há referência para esta data/turno'); return; }
+        const link=(row[iLink]||'').trim();
+        if(!link){ toast('Link vazio na planilha'); return; }
+        window.open(link,'_blank');
+      }catch(e){
+        console.error(e); toast('Falha ao abrir referência');
+      }
+    }
+
+    /* ======= montar botões (com HREFs reais) ======= */
     function mkLink(href,l1,l2=''){
       const a=document.createElement('a');
       a.href=href; a.className='btn tall';
@@ -161,23 +268,37 @@
       </span>`;
       return a;
     }
+    function mkSalmoBtn(turno,l2){
+      const a=document.createElement('a');
+      a.href='#'; a.className='btn tall'; a.dataset.salmo=turno;
+      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
+        <span class="line1">Salmo do Dia e Leitura</span>${l2?`<span class="line2">${l2}</span>`:''}
+      </span>`;
+      return a;
+    }
 
     (function mountButtons(){
-      const items = [
-        {href:'safro-hora.html',  l1:'Safro',                l2:'oração da manhã'},
-        {href:'leituras.html',    l1:'Salmo do Dia e Leitura', l2:'manhã'},
-        {href:'terca-hora.html',  l1:'Hora Terça',           l2:'9 horas'},
-        {href:'sexta-hora.html',  l1:'Hora Sexta',           l2:'12 horas'},
-        {href:'nona-hora.html',   l1:'Hora Nona',            l2:'15 horas'},
-        {href:'synaxarion.html',  l1:'Synaxarion'},
-        {href:'ramsho-hora.html', l1:'Ramsho',               l2:'oração da tarde'},
-        {href:'leituras.html',    l1:'Salmo do Dia e Leitura', l2:'tarde'},
-        {href:'sutoro-hora.html', l1:'Sutoro',               l2:'oração da noite'},
-        {href:'lilyo-hora.html',  l1:'Lilyo',                l2:'vigílias'}
-      ];
       const c=document.getElementById('col');
-      items.forEach(it=>c.append(mkLink(it.href,it.l1,it.l2)));
+      c.append(mkLink('safro-hora.html','Safro','oração da manhã'));
+      c.append(mkSalmoBtn('manha','manhã'));
+      c.append(mkLink('terca-hora.html','Hora Terça','9 horas'));
+      c.append(mkLink('sexta-hora.html','Hora Sexta','12 horas'));
+      c.append(mkLink('nona-hora.html','Hora Nona','15 horas'));
+      c.append(mkLink('synaxarion.html','Synaxarion'));
+      c.append(mkLink('ramsho-hora.html','Ramsho','oração da tarde'));
+      c.append(mkSalmoBtn('tarde','tarde'));
+      c.append(mkLink('sutoro-hora.html','Sutoro','oração da noite'));
+      c.append(mkLink('lilyo-hora.html','Lilyo','vigílias'));
     })();
+
+    // clique nos dois botões de Salmo/Leitura (manhã/tarde)
+    document.addEventListener('click', async (e)=>{
+      const a=e.target.closest('a[data-salmo]');
+      if(!a) return;
+      e.preventDefault();
+      const turno=a.dataset.salmo; // 'manha' | 'tarde'
+      await openSalmo(turno, currentDate);
+    });
 
     /* ======= barra de data ======= */
     let currentDate=new Date();
