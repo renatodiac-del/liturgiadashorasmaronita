@@ -1,4 +1,3 @@
-<!-- quaresma.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,9 +12,8 @@
 }
 body{
   margin:0; font-family:var(--fonte); color:var(--ink);
-  /* degradê vertical de baixo para cima: roxo → lavanda → quase branco */
-  background: linear-gradient(to top, #5f19a0 0%, #b99ae6 50%, #f6f2fb 100%);
-  /* mosaico/ladrilho em ouro velho sobre o fundo */
+  /* roxo bem escuro no pé → lavanda bem clara no topo */
+  background: linear-gradient(to top, #2b0052 0%, #7c4bc4 45%, #cdbaf4 75%, #f6f3ff 100%);
   background-image:
     repeating-linear-gradient(45deg, rgba(214,178,90,.22) 0 2px, transparent 2px 40px),
     repeating-linear-gradient(-45deg, rgba(214,178,90,.18) 0 2px, transparent 2px 40px);
@@ -25,7 +23,7 @@ body{
 
 header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
 .title{
-  color:#b8860b; font-weight:900; margin:0; font-size:1.9rem; /* mantida base robusta */
+  color:#b8860b; font-weight:900; margin:0; font-size:1.9rem;
   text-shadow:
     -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
     -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
@@ -34,7 +32,6 @@ header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12p
 .wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
 .hero{
   display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
-  /* borda dourada com aro roxo por dentro (pedido) */
   border:6px solid var(--ouro);
   box-shadow:0 0 0 4px var(--roxo) inset, 0 8px 18px var(--shadow);
   border-radius:12px
@@ -45,27 +42,30 @@ header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12p
   border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082
 }
 
-/* Botões com borda roxa por fora e dourada por dentro (invertido em relação ao ícone) */
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
   background:#fff;
-  border:3px solid var(--roxo); /* roxo por fora */
-  box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow); /* dourado por dentro */
+  border:3px solid var(--roxo);
+  box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
   border-radius:18px;padding:9.2px 16px;width:66%;
   font-size:.96rem;font-weight:bold;color:#4B0082;
   transition:transform .15s ease,background-color .2s ease;text-align:center
 }
 .btn:hover{transform:scale(1.02);background:#fff3da}
-
-/* Cruz ~15% menor e redonda */
 .btn img{
-  position:absolute;left:12px;width:22px;height:22px;
-  object-fit:cover;border-radius:50%;display:block
+  position:absolute;left:12px;width:22px;height:22px;object-fit:cover;border-radius:50%;
 }
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
-/* Rodapé: botão Voltar vermelho padrão (mãe = ordinario.html) */
+/* Setas piscantes (4x) */
+.hints{position:fixed; bottom:22vh; left:0; right:0; display:flex; justify-content:space-between; pointer-events:none}
+.arrow{
+  font-size:1.6rem; color:#4B0082; opacity:0; text-shadow:0 0 6px rgba(75,0,130,.35); margin:0 12px;
+  animation:blink 1.2s ease-in-out 4;
+}
+@keyframes blink{0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0}}
+
 footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 .back{
   display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff; text-decoration:none;
@@ -96,15 +96,15 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
   </section>
 </main>
 
+<div class="hints" aria-hidden="true"><div class="arrow">⬇</div><div class="arrow">⬇</div></div>
+
 <footer>
   <a class="back" href="javascript:history.back()"
      onclick="if(!document.referrer || !document.referrer.includes('ordinario.html')){this.href='ordinario.html'}">← Voltar</a>
 </footer>
 
 <script>
-document.getElementById('hero').addEventListener('load',()=>{
-  document.getElementById('hero-chip').style.display='none';
-});
+document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
 </script>
 </body>
 </html>
