@@ -3,231 +3,207 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Mapa inicial — Capela Virtual São Marun</title>
+  <title>Capela Virtual São Marun — Home</title>
+  <meta name="theme-color" content="#faf7ef">
   <style>
     :root{
       --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
-      --gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.08);
+      --gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.10);
       --sans: Arial, Helvetica, sans-serif;
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
-      margin:0; padding:18px; background:var(--bg); color:var(--txt); 
-      font-family:var(--sans)
+      margin:0; padding:18px; background:var(--bg); color:var(--txt);
+      font-family:var(--sans); display:flex; flex-direction:column; min-height:100vh;
     }
-    h1{margin:.2rem 0 1rem; font-size:1.7rem; text-align:center}
 
-    section{margin:18px 0}
-    summary.head{
-      display:flex; align-items:center; gap:10px;
-      padding:12px; cursor:pointer;
-      border:1.5px solid var(--bord); border-radius:12px;
-      background:linear-gradient(#fff,#fdfaf3);
-      box-shadow:0 3px 6px var(--shadow);
-      list-style:none;
+    /* Cabeçalho + herói (ícone grande) */
+    header{ text-align:center; }
+    h1{
+      margin:.2rem 0 .6rem; font-size:1.72rem; line-height:1.1; font-weight:900; color:#4a3828;
+      text-shadow:0 1px 0 rgba(255,255,255,.8);
     }
-    summary.head::-webkit-details-marker{display:none}
-    .head .chev{font-size:1.1rem; color:var(--accent); font-weight:bold}
-    .head .title{font-weight:900; font-size:1rem; color:var(--accent)}
-    .head .sub{font-size:.85rem; color:#5a4634}
-    details[open] > summary .chev{transform:rotate(90deg)}
+    .hero{
+      display:block; margin:6px auto 12px; max-width:640px; width:100%; height:auto;
+      border:6px solid var(--gold);
+      box-shadow:0 0 0 4px rgba(122,27,27,.55) inset, 0 8px 18px var(--shadow);
+      border-radius:14px;
+    }
+    .hero[hidden]{display:none!important}
+    .chip{
+      display:inline-block; margin:4px auto 10px; padding:8px 12px;
+      background:linear-gradient(#fff,#fff9ef); font-weight:800; color:#4a3828;
+      border:2px solid var(--gold); box-shadow:inset 0 0 0 1px rgba(214,178,90,.55);
+      border-radius:999px;
+    }
 
-    .body{padding:10px 14px 16px}
-    .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-    .btn{
-      display:flex; flex-direction:column; text-decoration:none; color:inherit;
-      background:var(--card); border:1.5px solid var(--bord); border-radius:14px;
-      box-shadow:0 6px 16px var(--shadow);
-      padding:10px; transition:.15s;
+    /* Seções e cartões */
+    .section{margin:16px 0}
+    .section-title{
+      font-weight:900; font-size:1rem; margin:0 0 .6rem; color:#4a3828; letter-spacing:.2px
     }
-    .btn:hover{transform:translateY(-2px); border-color:var(--gold)}
+    .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+    .card{
+      display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--card);
+      border:1.6px solid var(--bord); border-radius:14px; overflow:hidden;
+      box-shadow:0 8px 18px var(--shadow);
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .card:hover{transform:translateY(-2px); border-color:var(--gold); box-shadow:0 12px 24px rgba(0,0,0,.14)}
     .thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold)}
     .thumb[hidden]{display:none!important}
-    .label{margin-top:6px; font-weight:900; font-size:1rem; color:var(--accent)}
-    small{font-size:.82rem; color:#5a4634}
-    footer{margin-top:30px; text-align:center; font-size:.85rem; color:#6a5644}
+    .body{padding:12px 12px 14px}
+    .title{
+      font-weight:900; font-size:1.02rem; margin:0 0 4px; color:var(--accent);
+      text-shadow:-0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold),
+                  -0.5px  0.5px 0 var(--gold), 0.5px  0.5px 0 var(--gold);
+    }
+    .subtitle{margin:0; font-size:.9rem; color:#5a4634}
+
+    footer{margin-top:auto; text-align:center; color:#7a6a55; font-size:.85rem; padding-top:6px}
   </style>
 </head>
 <body>
-  <h1>Capela Virtual São Marun</h1>
+  <header>
+    <h1>Capela Virtual São Marun</h1>
+    <img class="hero" src="img/icone-app-teste.jpg" alt="Página Inicial"
+         loading="eager" onerror="this.hidden=true;document.getElementById('chip-hero').hidden=false;">
+    <div id="chip-hero" class="chip" hidden>Home inicial</div>
+  </header>
 
-  <!-- Grupo: Qurbono -->
-  <section>
-    <details class="group" open>
-      <summary class="head" aria-label="Qurbono">
-        <div class="chev">▶</div>
-        <div>
-          <div class="title">Qurbono</div>
-          <div class="sub">Divina Liturgia e menus associados</div>
+  <!-- ENTRADAS (somente portas de cada fluxo; o resto se navega por dentro) -->
+
+  <section class="section">
+    <h2 class="section-title">App principal</h2>
+    <div class="grid">
+      <a class="card" href="index.html" aria-label="Abrir App Principal">
+        <img class="thumb" src="img/icone-app.jpg" alt="App principal" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">App Principal (núcleo)</h3>
+          <p class="subtitle">Liturgia diária via planilhas</p>
         </div>
-      </summary>
-      <div class="body">
-        <div class="grid">
-          <a class="btn" href="qurbone.html">
-            <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" loading="lazy" onerror="this.remove()">
-            <span class="label">Qurbono</span>
-            <small>Liturgia Eucarística e Anáforas</small>
-          </a>
-        </div>
-      </div>
-    </details>
+      </a>
+    </div>
   </section>
 
-  <!-- Grupo: Oração das Horas -->
-  <section>
-    <details class="group">
-      <summary class="head" aria-label="Oração das Horas">
-        <div class="chev">▶</div>
-        <div>
-          <div class="title">Oração das Horas</div>
-          <div class="sub">Menu principal · Horas canônicas</div>
+  <section class="section">
+    <h2 class="section-title">Menus principais</h2>
+    <div class="grid">
+      <a class="card" href="qurbone.html" aria-label="Acessar Qurbono">
+        <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Qurbono</h3>
+          <p class="subtitle">Divina Liturgia</p>
         </div>
-      </summary>
-      <div class="body">
-        <div class="grid">
-          <a class="btn" href="oracao.html">
-            <img class="thumb" src="img/icone-oracao.jpg" alt="Oração das Horas" loading="lazy" onerror="this.remove()">
-            <span class="label">Oração das Horas</span>
-            <small>Menu principal</small>
-          </a>
-          <a class="btn" href="horas-teste.html">
-            <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia" loading="lazy" onerror="this.remove()">
-            <span class="label">Oração do Dia</span>
-            <small>Horas canônicas (visual)</small>
-          </a>
+      </a>
+
+      <a class="card" href="oracao.html" aria-label="Menu principal da Oração das Horas">
+        <img class="thumb" src="img/icone-oracao.jpg" alt="Oração das Horas" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Oração das Horas</h3>
+          <p class="subtitle">Menu principal</p>
         </div>
-      </div>
-    </details>
+      </a>
+
+      <a class="card" href="horas-teste.html" aria-label="Abrir Oração do Dia (visual)">
+        <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Oração do Dia</h3>
+          <p class="subtitle">Horas canônicas (visual)</p>
+        </div>
+      </a>
+    </div>
   </section>
 
-  <!-- Grupo: Por data -->
-  <section>
-    <details class="group">
-      <summary class="head" aria-label="Por data">
-        <div class="chev">▶</div>
-        <div>
-          <div class="title">Por data</div>
-          <div class="sub">Navegação por datas</div>
+  <section class="section">
+    <h2 class="section-title">Por data</h2>
+    <div class="grid">
+      <a class="card" href="liturgia-dia.html" aria-label="Abrir Liturgia Eucarística do Dia">
+        <img class="thumb" src="img/icone-liturgiadia.jpg" alt="Liturgia Eucarística do Dia" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Liturgia Eucarística do Dia</h3>
+          <p class="subtitle">Data clicável + navegação</p>
         </div>
-      </summary>
-      <div class="body">
-        <div class="grid">
-          <a class="btn" href="liturgia-dia.html">
-            <img class="thumb" src="img/icone-liturgiadia.jpg" alt="Liturgia do Dia" loading="lazy" onerror="this.remove()">
-            <span class="label">Liturgia do Dia</span>
-            <small>Liturgia Eucarística</small>
-          </a>
-          <a class="btn" href="leituras.html">
-            <img class="thumb" src="img/icone-leituras.png" alt="Leituras Bíblicas" loading="lazy" onerror="this.remove()">
-            <span class="label">Leituras Bíblicas</span>
-            <small>Referências do dia</small>
-          </a>
-          <a class="btn" href="synaxarion.html">
-            <img class="thumb" src="img/icone-synaxarion.jpg" alt="Synaxarion" loading="lazy" onerror="this.remove()">
-            <span class="label">Synaxarion</span>
-            <small>Comemoração do dia</small>
-          </a>
+      </a>
+
+      <a class="card" href="leituras.html" aria-label="Abrir Leituras Bíblicas">
+        <img class="thumb" src="img/icone-leituras.png" alt="Leituras Bíblicas" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Leituras Bíblicas</h3>
+          <p class="subtitle">Referências do dia</p>
         </div>
-      </div>
-    </details>
+      </a>
+
+      <a class="card" href="synaxarion.html" aria-label="Abrir Synaxarion">
+        <img class="thumb" src="img/icone-synaxarion.jpg" alt="Synaxarion" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Synaxarion</h3>
+          <p class="subtitle">Comemoração do dia</p>
+        </div>
+      </a>
+    </div>
   </section>
 
-  <!-- Grupo: Calendário e Patrística -->
-  <section>
-    <details class="group">
-      <summary class="head" aria-label="Calendário e Patrística">
-        <div class="chev">▶</div>
-        <div>
-          <div class="title">Calendário e Patrística</div>
-          <div class="sub">Acesso a módulos independentes</div>
+  <section class="section">
+    <h2 class="section-title">Módulos</h2>
+    <div class="grid">
+      <a class="card" href="calendario.html" aria-label="Acessar Calendário Litúrgico">
+        <img class="thumb" src="img/icone-calendario.jpg" alt="Calendário Litúrgico" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Calendário Litúrgico</h3>
+          <p class="subtitle">Anos e navegação</p>
         </div>
-      </summary>
-      <div class="body">
-        <div class="grid">
-          <a class="btn" href="calendario.html">
-            <img class="thumb" src="img/icone-calendario.jpg" alt="Calendário Litúrgico" loading="lazy" onerror="this.remove()">
-            <span class="label">Calendário Litúrgico</span>
-            <small>Anos e navegação</small>
-          </a>
-          <a class="btn" href="patristica.html">
-            <img class="thumb" src="img/icone-patristica.jpg" alt="Patrística Siríaca" loading="lazy" onerror="this.remove()">
-            <span class="label">Patrística Siríaca</span>
-            <small>Autores e obras</small>
-          </a>
+      </a>
+
+      <a class="card" href="patristica.html" aria-label="Acessar Patrística Siríaca">
+        <img class="thumb" src="img/icone-patristica.jpg" alt="Patrística Siríaca" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Patrística Siríaca</h3>
+          <p class="subtitle">Autores e obras</p>
         </div>
-      </div>
-    </details>
+      </a>
+
+      <a class="card" href="ordinario.html" aria-label="Abrir Ordinário">
+        <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Ordinário</h3>
+          <p class="subtitle">Seções por tempo</p>
+        </div>
+      </a>
+
+      <a class="card" href="anafora.html" aria-label="Abrir Anáforas">
+        <img class="thumb" src="img/icone-anafora.jpg" alt="Anáforas" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Anáforas</h3>
+          <p class="subtitle">Lista de anáforas</p>
+        </div>
+      </a>
+    </div>
   </section>
 
-  <!-- Grupo: Ordinário -->
-  <section>
-    <details class="group">
-      <summary class="head" aria-label="Ordinário">
-        <div class="chev">▶</div>
-        <div>
-          <div class="title">Ordinário</div>
-          <div class="sub">Seções por tempo litúrgico</div>
+  <section class="section">
+    <h2 class="section-title">Coleções e Comuns</h2>
+    <div class="grid">
+      <a class="card" href="santos.html" aria-label="Acessar Comum dos Santos">
+        <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Comum dos Santos</h3>
+          <p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p>
         </div>
-      </summary>
-      <div class="body">
-        <div class="grid">
-          <a class="btn" href="ordinario.html">
-            <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário" loading="lazy" onerror="this.remove()">
-            <span class="label">Ordinário</span>
-            <small>Estrutura completa</small>
-          </a>
+      </a>
+
+      <a class="card" href="biblos.html" aria-label="Acessar Biblioteca">
+        <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" loading="lazy" onerror="this.hidden=true">
+        <div class="body">
+          <h3 class="title">Biblioteca</h3>
+          <p class="subtitle">Tempos e coleções</p>
         </div>
-      </div>
-    </details>
+      </a>
+    </div>
   </section>
 
-  <!-- Grupo: Coleções e Comuns -->
-  <section>
-    <details class="group">
-      <summary class="head" aria-label="Coleções e Comuns">
-        <div class="chev">▶</div>
-        <div>
-          <div class="title">Coleções e Comuns</div>
-          <div class="sub">Acesse e navegue pelos botões internos</div>
-        </div>
-      </summary>
-      <div class="body">
-        <div class="grid">
-          <a class="btn" href="santos.html">
-            <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" loading="lazy" onerror="this.remove()">
-            <span class="label">Comum dos Santos</span>
-            <small>Fluxo retrato · categorias internas</small>
-          </a>
-          <a class="btn" href="biblos.html">
-            <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" loading="lazy" onerror="this.remove()">
-            <span class="label">Biblioteca</span>
-            <small>Tempos e coleções</small>
-          </a>
-        </div>
-      </div>
-    </details>
-  </section>
-
-  <footer>© Capela Virtual São Marun — mapa inicial (index-teste.html). A navegação interna depende dos botões de cada página.</footer>
-
-  <script>
-    // Acessibilidade extra: permitir Enter/Espaço no summary
-    document.addEventListener('keydown', (e)=>{
-      const sum = e.target.closest('summary.head');
-      if(!sum) return;
-      if(e.key==='Enter' || e.key===' '){
-        e.preventDefault(); sum.click();
-      }
-    });
-  </script>
-
-  <!--
-  ────────────────────────────────────────────────────────────────
-  SNIPPET "VOLTAR PADRÃO" PARA AS DEMAIS PÁGINAS
-  <a class="back" href="javascript:history.back()" 
-     onclick="if(!document.referrer || !document.referrer.includes(PAI)) this.href=PAI;">← Voltar</a>
-  Onde PAI é a página-mãe (horas-teste.html, qurbone.html, oracao.html…)
-  ────────────────────────────────────────────────────────────────
-  -->
+  <footer>© Capela Virtual São Marun — home (index-teste.html)</footer>
 </body>
 </html>
+
