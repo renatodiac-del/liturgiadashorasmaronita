@@ -1,4 +1,4 @@
-<!-- index-teste.html (títulos centrados ignorando a cruz) -->
+<!-- index-teste.html (home principal, com bloco opcional de atalhos DEV) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -32,7 +32,7 @@
     display:flex; flex-direction:column; flex:1 1 auto;
   }
 
-  /* Ícone principal: max-height ~608px (ajuste fino anterior) */
+  /* Ícone principal: max-height ~608px */
   .hero-box{text-align:center; position:relative}
   .hero{
     display:inline-block;
@@ -42,19 +42,16 @@
     box-shadow:0 10px 24px var(--shadow);
   }
 
-  /* Botões com mais respiro abaixo do ícone */
+  /* Botões principais */
   .buttons{
     margin-top:16px;
     display:flex; flex-direction:column; gap:10px; align-items:center;
     padding-bottom:12px;
   }
-
-  /* Botões: +15% largura, -10% altura; borda interna ouro-velho
-     TÍTULO CENTRALIZADO: padding simétrico (58px à esquerda e direita) */
   .btn{
     position:relative;
     width:82%;
-    padding:10px 58px;             /* <<< simétrico: centraliza o texto sem considerar a cruz */
+    padding:10px 58px;
     display:flex; align-items:center; justify-content:center;
     text-decoration:none; text-align:center; cursor:pointer;
     color:var(--vermelho); background:#fff; font-weight:800; font-size:1rem;
@@ -69,25 +66,41 @@
     background-image:linear-gradient(#fff,#fffaf2);
   }
   .btn:hover{transform:translateY(-1px); background:#fff8ef}
-
-  /* Cruz: redonda, +20%, fixa à esquerda */
   .btn .icon{
     position:absolute; left:14px; top:50%; transform:translateY(-50%);
     width:30px; height:30px; border-radius:50%; object-fit:cover;
   }
-
   .btn--overlap{ margin-top:-12px; z-index:2; }
 
-  @media (max-width: 380px){
+  /* Bloco opcional de Atalhos (DEV) */
+  details.dev{margin:16px auto 8px; width:92%; max-width:700px}
+  details.dev summary{
+    list-style:none; cursor:pointer; user-select:none;
+    background:#fff; border:2px solid var(--vermelho); box-shadow:inset 0 0 0 2px var(--ouro);
+    border-radius:12px; padding:8px 12px; font-weight:800; color:var(--vermelho);
+  }
+  .dev .grid{
+    margin-top:10px; display:grid; gap:8px;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  }
+  .dev a{
+    display:block; background:#fff; text-decoration:none; color:#5a2c00; font-weight:700;
+    border:2px solid var(--vermelho); box-shadow:inset 0 0 0 2px var(--ouro);
+    border-radius:10px; padding:8px 10px; text-align:center;
+  }
+
+  @media (max-width:380px){
     .btn{width:88%}
     .hero{max-height:520px}
   }
+  footer{margin:10px 0 12px; text-align:center}
+  footer a{color:#fff; font-weight:bold}
 </style>
 </head>
 <body>
   <main class="wrap">
     <section class="hero-box">
-      <img class="hero" src="img/icone-home.png" alt="">
+      <img class="hero" src="img/icone-home.png" alt="Ícone inicial" onerror="this.style.display='none'">
     </section>
 
     <nav class="buttons" aria-label="Ações principais">
@@ -108,6 +121,41 @@
         Patrística Siríaca
       </a>
     </nav>
+
+    <!-- OPCIONAL: remova este bloco se não quiser expor atalhos diretos -->
+    <details class="dev">
+      <summary>Atalhos (DEV) — acesso direto a páginas internas</summary>
+      <div class="grid">
+        <!-- Tempos (exemplo de um dia criado) -->
+        <a href="sabado-tempos.html">Sábado · Tempos</a>
+
+        <!-- Quaresma (dias criados) -->
+        <a href="domingo-quaresma.html">Domingo · Quaresma</a>
+        <a href="segunda-quaresma.html">Segunda · Quaresma</a>
+        <a href="terca-quaresma.html">Terça · Quaresma</a>
+        <a href="quarta-quaresma.html">Quarta · Quaresma</a>
+        <a href="quinta-quaresma.html">Quinta · Quaresma</a>
+        <a href="sexta-quaresma.html">Sexta · Quaresma</a>
+        <a href="sabado-quaresma.html">Sábado · Quaresma</a>
+
+        <!-- Páscoa (domingos criados) -->
+        <a href="domingo-pascoa.html">Domingo · Páscoa</a>
+        <a href="domingo-novo-pascoa.html">Domingo Novo · Páscoa</a>
+
+        <!-- Outras principais -->
+        <a href="tempos.html">Tempos (página-mãe)</a>
+        <a href="quaresma.html">Quaresma (página-mãe)</a>
+        <a href="paixao.html">Paixão (página-mãe)</a>
+        <a href="ressurreicao.html">Ressurreição (página-mãe)</a>
+        <a href="santos.html">Comum dos Santos</a>
+        <a href="biblos.html">Biblioteca</a>
+        <a href="festas-data.html">Festas por Data</a>
+      </div>
+    </details>
   </main>
+
+  <footer>
+    <a href="mapa.html">Abrir o Mapa</a>
+  </footer>
 </body>
 </html>
