@@ -1,9 +1,10 @@
+<!-- ressurreicao.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ressurreição Gloriosa</title>
-<meta name="theme-color" content="#fdf5e6"> <!-- bege pastel -->
+<meta name="theme-color" content="#fdf5e6">
 <style>
 *{box-sizing:border-box}html,body{height:100%}
 body{
@@ -16,46 +17,71 @@ body{
 }
 
 header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
-.title{color:#b8860b;font-weight:800;font-size:2rem;margin:0;text-shadow:0 0 8px rgba(184,134,11,.45)}
-.top-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}
-.top-links a{color:#fff;text-decoration:none;background:#b8860b;border:1px solid #8b6508;padding:8px 12px;border-radius:10px;font-weight:bold;font-size:.9rem}
+.title{
+  color:#b8860b;font-weight:800;font-size:2rem;margin:0;
+  text-shadow:0 0 8px rgba(184,134,11,.45)
+}
 
 .wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
-.hero{display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
-  border:6px solid #b8860b;box-shadow:0 0 0 4px rgba(184,134,11,.45) inset;border-radius:12px}
+.hero{
+  display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
+  border:6px solid #b8860b;box-shadow:0 0 0 4px rgba(184,134,11,.45) inset, 0 8px 18px rgba(0,0,0,.16);
+  border-radius:12px
+}
 .hero[hidden]{display:none}
-.chip{display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92);
-  border:3px solid #b8860b;box-shadow:0 0 0 2px rgba(184,134,11,.45) inset;border-radius:14px;font-weight:bold;color:#b8860b}
+.chip{
+  display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92);
+  border:3px solid #b8860b;box-shadow:0 0 0 2px rgba(184,134,11,.45) inset;border-radius:14px;font-weight:bold;color:#b8860b
+}
 
+/* Botões: +25% largura e +15% altura */
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
   background:rgba(255,255,255,.97);
   border:1.35px solid #b8860b;box-shadow:0 0 0 .9px rgba(184,134,11,.45) inset,0 4px 10px rgba(0,0,0,.15);
-  border-radius:18px;padding:8px 16px;width:66%;font-size:1rem;font-weight:bold;color:#b8860b;
-  transition:transform .15s ease,background-color .2s ease;text-align:center
+  border-radius:18px;padding:9.2px 18px; /* 8px -> +15% */
+  width:83%; /* 66% -> ~+25% */
+  font-size:1rem;font-weight:bold;color:#b8860b;
+  transition:transform .15s ease,background-color .2s ease;text-align:center;
+  background-image:linear-gradient(#fff,#fff8e5);
 }
 .btn:hover{transform:scale(1.02);background:#fff8e5}
 
-/* Cruz menor (−20%), redonda e girada 1 grau */
+/* Cruz +15%, redonda */
 .btn img{
-  position:absolute;left:12px;width:26px;height:26px;
+  position:absolute;left:12px;width:30px;height:30px;
   object-fit:cover;border-radius:50%;display:block;
   transform: rotate(1deg);
 }
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
-footer{margin-top:auto;text-align:center;color:#8b6508;font-size:.8rem;padding:8px}
-footer a{color:#b8860b}
+/* Setas piscantes (4x) */
+.hints{
+  position:fixed; bottom:22vh; left:0; right:0; display:flex;
+  justify-content:space-between; pointer-events:none
+}
+.arrow{
+  font-size:1.6rem; color:#a00000; opacity:0;
+  text-shadow:0 0 6px rgba(160,0,0,.35); margin:0 12px;
+  animation:blink 1.2s ease-in-out 4;
+}
+@keyframes blink{ 0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0} }
+
+/* Rodapé com botão Voltar (vermelho) p/ mãe: ordinario.html */
+footer{margin-top:auto;text-align:center;padding:10px 0 16px}
+.back{
+  display:inline-flex; align-items:center; gap:8px;
+  background:#a00000; color:#fff; text-decoration:none;
+  border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px;
+  font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:center;
+}
+.back:hover{background:#c00000}
 </style>
 </head>
 <body>
 <header class="top">
   <h1 class="title">Ressurreição Gloriosa</h1>
-  <nav class="top-links">
-    <a href="ordinario.html">← Ordinário</a>
-    <a href="index.html">App principal</a>
-  </nav>
 </header>
 
 <main class="wrap">
@@ -74,9 +100,17 @@ footer a{color:#b8860b}
   </section>
 </main>
 
-<footer>Ressurreição Gloriosa · <a href="ordinario.html">Voltar</a></footer>
+<div class="hints" aria-hidden="true"><div class="arrow">⬇</div><div class="arrow">⬇</div></div>
+
+<footer>
+  <a class="back" href="javascript:history.back()"
+     onclick="if(!document.referrer || !document.referrer.includes('ordinario.html')){this.href='ordinario.html'}">← Voltar</a>
+</footer>
+
 <script>
-document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+document.getElementById('hero').addEventListener('load',()=>{
+  document.getElementById('hero-chip').style.display='none';
+});
 </script>
 </body>
 </html>
