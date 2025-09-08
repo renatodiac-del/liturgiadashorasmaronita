@@ -80,18 +80,23 @@
 <body>
   <header><h1 class="title">Oração das Horas</h1></header>
   <main class="wrap">
-    <img class="hero" src="img/icone-oração.jpg" alt="Ícone da Oração das Horas">
+    <!-- Se o seu arquivo tem acento no nome, troque para img/icone-oração.jpg -->
+    <img class="hero" src="img/icone-oracao.jpg" alt="Ícone da Oração das Horas">
+
     <section class="buttons">
       <a class="btn" href="horas-teste.html"><img src="img/cedro.jpg" alt="">Oração do Dia</a>
       <a class="btn" href="ordinario.html"><img src="img/cedro.jpg" alt="">Ordinário</a>
       <a class="btn" href="santos.html"><img src="img/cedro.jpg" alt="">Comum dos Santos</a>
-      <a class="btn" href="festas-data.html"><img src="img/cedro.jpg" alt="">Festas por Data</a>
+      <!-- AQUI ESTAVA O ERRO: usar festas.data.html (com ponto) -->
+      <a class="btn" href="festas.data.html"><img src="img/cedro.jpg" alt="">Festas por Data</a>
       <a class="btn" href="biblos.html"><img src="img/cedro.jpg" alt="">Biblioteca</a>
     </section>
   </main>
 
   <footer>
-    <a class="voltar" href="javascript:history.back()">
+    <!-- Fallback para a home “mãe” se não houver histórico -->
+    <a class="voltar" href="javascript:history.back()"
+       onclick="if(history.length<=1){this.href='index-teste.html'}">
       &#8592; Voltar
     </a>
   </footer>
