@@ -1,47 +1,62 @@
+<!-- tempos.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Anúncio / Epifania / Pentecostes / Cruz</title>
-<meta name="theme-color" content="#d6b25a"> <!-- dourado -->
+<meta name="theme-color" content="#d6b25a">
 <style>
-*{box-sizing:border-box}html,body{height:100%}
+*{box-sizing:border-box} html,body{height:100%}
+:root{
+  --ouro:#d6b25a; --marrom:#582c0c; --ink:#1b1b1b; --shadow:rgba(0,0,0,.15);
+  --fonte: Arial, Helvetica, sans-serif;
+}
 body{
-  margin:0; font-family:Arial,Helvetica,sans-serif; color:#1b1b1b;
-  background:#d6b25a; /* dourado */
+  margin:0; font-family:var(--fonte); color:var(--ink);
+  background:#d6b25a;
   background-image:
-    repeating-linear-gradient(45deg, rgba(88,44,12,.22) 0, rgba(88,44,12,.22) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(88,44,12,.22) 0, rgba(88,44,12,.22) 2px, transparent 2px, transparent 40px);
+    repeating-linear-gradient(45deg, rgba(88,44,12,.22) 0 2px, transparent 2px 40px),
+    repeating-linear-gradient(-45deg, rgba(88,44,12,.22) 0 2px, transparent 2px 40px);
   background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
 }
-header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
-.title{color:#582c0c; /* marrom */ font-weight:800; letter-spacing:.3px; font-size:1.7rem; margin:0} /* -2 pontos */
-.top-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}
-.top-links a{
-  color:#fff; text-decoration:none; background:#582c0c; border:1px solid #3e1f08;
-  padding:8px 12px; border-radius:10px; font-weight:bold; font-size:.9rem; line-height:1
-}
-.wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
 
+/* Cabeçalho */
+header{display:flex;flex-direction:column;align-items:center;padding:12px 12px 0;text-align:center}
+.title{
+  margin:0; font-weight:900; line-height:1.1; letter-spacing:.2px;
+  color:var(--marrom);
+  font-size: calc(1.7rem + 2pt); /* +2pt */
+  /* borda ouro nas letras */
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+.title .l2{display:block}
+
+/* Conteúdo */
+.wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
 .hero{
   display:block; margin:6px auto 14px; max-width:100%; height:auto; max-height:420px;
-  border:6px solid #582c0c; box-shadow:0 0 0 4px rgba(88,44,12,.45) inset; border-radius:12px
+  /* manter borda marrom e colocar a dourada por fora */
+  border:6px solid var(--marrom);
+  box-shadow:0 0 0 4px var(--ouro); /* aro externo */
+  border-radius:12px
 }
 .hero[hidden]{display:none}
 .chip{
   display:inline-block; margin:8px 0 14px; padding:10px 14px; background:rgba(255,255,255,.93);
-  border:3px solid #582c0c; box-shadow:0 0 0 2px rgba(88,44,12,.45) inset; border-radius:14px; font-weight:bold; color:#582c0c
+  border:3px solid var(--marrom); box-shadow:0 0 0 2px var(--ouro) inset; border-radius:14px; font-weight:800; color:var(--marrom)
 }
 
+/* Botões com borda marrom e aro dourado por fora */
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
-  background-color:rgba(255,255,255,0.97);
-  border:1.35px solid #582c0c;
-  box-shadow:0 0 0 .9px rgba(88,44,12,.45) inset, 0 4px 10px rgba(0,0,0,.15);
-  border-radius:18px;
-  padding:8px 16px; width:66%; font-size:.94rem; font-weight:bold; color:#582c0c; line-height:1.2;
-  transition:transform .15s ease, background-color .2s ease; text-align:center
+  background:#fff; color:var(--marrom); font-weight:bold; line-height:1.2; text-align:center;
+  border:3px solid var(--marrom);
+  box-shadow:0 0 0 3px var(--ouro); /* aro externo dourado */
+  border-radius:18px; padding:8px 16px; width:66%; font-size:.96rem;
+  transition:transform .15s ease, background-color .2s ease;
 }
 .btn:hover{transform:scale(1.02);background:#fff3da}
 
@@ -52,18 +67,22 @@ header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding
 }
 .btn .label{width:100%; text-align:center; pointer-events:none}
 
-footer{margin-top:auto;text-align:center;color:#3f2a16;font-size:.8rem;padding:8px}
-footer a{color:#3f2a16}
-@media(max-width:600px){.title{font-size:1.5rem}.btn{width:80%}}
+/* Rodapé: botão Voltar (mãe = ordinario.html) */
+footer{margin-top:auto;text-align:center;padding:10px 0 16px}
+.back{
+  display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff; text-decoration:none;
+  border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px;
+  font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:center;
+}
+.back:hover{background:#c00000}
 </style>
 </head>
 <body>
 <header class="top">
-  <h1 class="title">Anúncio / Epifania / Pentecostes / Cruz</h1>
-  <nav class="top-links">
-    <a href="ordinario.html">← Ordinário</a>
-    <a href="index.html">App principal</a>
-  </nav>
+  <h1 class="title">
+    <span class="l1">Anúncio · Epifania</span>
+    <span class="l2">Pentecostes · Cruz</span>
+  </h1>
 </header>
 
 <main class="wrap">
@@ -82,9 +101,15 @@ footer a{color:#3f2a16}
   </section>
 </main>
 
-<footer>Tempos · <a href="ordinario.html">Voltar</a></footer>
+<footer>
+  <a class="back" href="javascript:history.back()"
+     onclick="if(!document.referrer || !document.referrer.includes('ordinario.html')){this.href='ordinario.html'}">← Voltar</a>
+</footer>
+
 <script>
-document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+document.getElementById('hero').addEventListener('load',()=>{
+  document.getElementById('hero-chip').style.display='none';
+});
 </script>
 </body>
 </html>
