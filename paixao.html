@@ -1,4 +1,3 @@
-<!-- paixao.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,17 +9,14 @@
 :root{
   --ouro:#d6b25a;
   --roxo:#4B0082;
-  --bordo:#5a0010;
-  --vermelho:#8B0000;
-  --ink:#1a1a1a; --shadow:rgba(0,0,0,.16);
+  --vermelho:#a00000; /* título em vermelho */
+  --shadow:rgba(0,0,0,.16);
   --fonte: Arial, Helvetica, sans-serif;
 }
 body{
-  margin:0; font-family:var(--fonte); color:var(--ink);
-  /* degradê: bordô no pé → vermelho médio → topo rosado quase branco */
-  background:
-    linear-gradient(to top, #5a0010 0%, #8B0000 50%, #ffecef 100%);
-  /* ladrilho/mosaico alternando roxo escuro e ouro velho */
+  margin:0; font-family:var(--fonte); color:#1a1a1a;
+  /* bordô no pé → vermelho médio → rosa claro no topo */
+  background: linear-gradient(to top, #5a0010 0%, #8B0000 50%, #ffe6ee 100%);
   background-image:
     repeating-linear-gradient(45deg, rgba(75,0,130,.25) 0 2px, transparent 2px 40px),
     repeating-linear-gradient(-45deg, rgba(214,178,90,.25) 0 2px, transparent 2px 40px);
@@ -30,21 +26,18 @@ body{
 
 header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
 .title{
-  color:#4B0082; font-weight:900; margin:0; line-height:1.08;
-  font-size: calc(1.9rem + 2pt); /* +2pt */
-  /* borda dourada nas letras */
+  color:var(--vermelho); font-weight:900; margin:0; line-height:1.08;
+  font-size: calc(1.9rem + 2pt);
+  /* borda roxa nas letras */
   text-shadow:
-    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
-    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+    -1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo),
+    -1px  1px 0 var(--roxo), 1px  1px 0 var(--roxo);
 }
 
-/* Conteúdo */
 .wrap{width:100%;max-width:720px;margin:0 auto;padding:10px 16px 24px}
 .hero{
   display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
-  /* moldura interna dourada */
   border:6px solid var(--ouro);
-  /* moldura externa roxa */
   box-shadow:0 0 0 4px var(--roxo);
   border-radius:12px
 }
@@ -54,39 +47,30 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082
 }
 
-/* Botões: +20% largura e +30% altura */
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
   background:#fff;
-  /* borda roxa por fora + aro dourado por dentro */
   border:3px solid var(--roxo);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
-  border-radius:18px;
-  padding:10.4px 18px; /* 8px → +30% */
-  width:79%; /* ~66% + 20% */
+  border-radius:18px; padding:10.4px 18px; width:79%;
   font-size:1rem;font-weight:bold;color:#4B0082;
   transition:transform .15s ease,background-color .2s ease;text-align:center
 }
 .btn:hover{transform:scale(1.02);background:#fff8e8}
-
-/* Cruz reduzida ~30% e redonda */
 .btn img{
-  position:absolute;left:12px;width:21px;height:21px;
-  object-fit:cover;border-radius:50%;display:block
+  position:absolute;left:12px;width:21px;height:21px;object-fit:cover;border-radius:50%;
 }
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
 /* Setas piscantes (4x) */
 .hints{position:fixed; bottom:22vh; left:0; right:0; display:flex; justify-content:space-between; pointer-events:none}
 .arrow{
-  font-size:1.6rem; color:#4B0082; opacity:0;
-  text-shadow:0 0 6px rgba(75,0,130,.35); margin:0 12px;
+  font-size:1.6rem; color:#4B0082; opacity:0; text-shadow:0 0 6px rgba(75,0,130,.35); margin:0 12px;
   animation:blink 1.2s ease-in-out 4;
 }
-@keyframes blink{ 0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0} }
+@keyframes blink{0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0}}
 
-/* Rodapé: botão Voltar (roxo nesta página) para mãe = ordinario.html */
 footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 .back{
   display:inline-flex; align-items:center; gap:8px; background:#4B0082; color:#fff; text-decoration:none;
@@ -129,9 +113,7 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 </footer>
 
 <script>
-document.getElementById('hero').addEventListener('load',()=>{
-  document.getElementById('hero-chip').style.display='none';
-});
+document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
 </script>
 </body>
 </html>
