@@ -1,113 +1,61 @@
-<!-- index-teste.html (títulos centrados ignorando a cruz) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Página Inicial</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Capela Virtual São Marun — Mapa inicial</title>
+<meta name="theme-color" content="#faf7ef">
 <style>
-  :root{
-    --vermelho:#a00000;
-    --ouro:#b4923a;             /* ouro velho */
-    --laranja:#a64800;          /* laranja escuro */
-    --shadow:rgba(0,0,0,.12);
-    --fonte: Arial, Helvetica, sans-serif;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family: var(--fonte);
-    display:flex; flex-direction:column; min-height:100vh;
-    /* Fundo: ouro velho com mosaico em laranja escuro */
-    background:#b4923a;
-    background-image:
-      repeating-linear-gradient(45deg, rgba(166,72,0,.22) 0, rgba(166,72,0,.22) 2px, transparent 2px, transparent 44px),
-      repeating-linear-gradient(-45deg, rgba(166,72,0,.18) 0, rgba(166,72,0,.18) 2px, transparent 2px, transparent 44px);
-    background-size:44px 44px;
-  }
+:root{
+--bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+--gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.08);
+--sans: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0; padding:18px; background:var(--bg); color:var(--txt); font-family:var(--sans); display:flex; flex-direction:column; min-height:100vh}
+h1{margin:.2rem 0 .8rem; font-size:1.7rem}
 
-  .wrap{
-    width:100%; max-width:680px; margin:0 auto; padding:8px 16px 12px;
-    display:flex; flex-direction:column; flex:1 1 auto;
-  }
 
-  /* Ícone principal: max-height ~608px (ajuste fino anterior) */
-  .hero-box{text-align:center; position:relative}
-  .hero{
-    display:inline-block;
-    width:auto; height:auto; max-width:100%; max-height:608px;
-    border:0; border-bottom:8px solid var(--ouro);
-    border-radius:16px 16px 14px 14px;
-    box-shadow:0 10px 24px var(--shadow);
-  }
+/* Cartões-base e botões gerais (HOME não usa botão Voltar) */
+.section{margin:14px 0}
+.section-title{font-weight:900; font-size:1rem; margin:0 0 .6rem; color:#4a3828; letter-spacing:.2px}
 
-  /* Botões com mais respiro abaixo do ícone */
-  .buttons{
-    margin-top:16px;
-    display:flex; flex-direction:column; gap:10px; align-items:center;
-    padding-bottom:12px;
-  }
 
-  /* Botões: +15% largura, -10% altura; borda interna ouro-velho
-     TÍTULO CENTRALIZADO: padding simétrico (58px à esquerda e direita) */
-  .btn{
-    position:relative;
-    width:82%;
-    padding:10px 58px;             /* <<< simétrico: centraliza o texto sem considerar a cruz */
-    display:flex; align-items:center; justify-content:center;
-    text-decoration:none; text-align:center; cursor:pointer;
-    color:var(--vermelho); background:#fff; font-weight:800; font-size:1rem;
+details.group{
+border:1.5px solid var(--bord); border-radius:14px; background:var(--card);
+box-shadow:0 6px 16px var(--shadow);
+transition:box-shadow .12s ease, border-color .12s ease;
+}
+details.group[open]{border-color:var(--gold); box-shadow:0 10px 22px rgba(0,0,0,.12)}
+summary.head{
+list-style:none; cursor:pointer; outline:none; display:flex; align-items:center; gap:10px;
+padding:12px 14px; user-select:none;
+}
+summary.head::-webkit-details-marker{display:none}
+.chev{inline-size:16px; block-size:16px; display:inline-grid; place-items:center; border-radius:6px; border:1px solid var(--bord);}
+details.group[open] .chev{transform:rotate(90deg)}
+.title{
+font-weight:900; font-size:1.02rem; color:var(--accent);
+text-shadow:-0.5px -0.5px 0 var(--gold), 0.5px -0.5px 0 var(--gold), -0.5px 0.5px 0 var(--gold), 0.5px 0.5px 0 var(--gold);
+}
+.sub{font-size:.9rem; color:#5a4634}
+.body{padding:8px 14px 14px; border-top:1px dashed var(--bord)}
 
-    border:3px solid var(--vermelho);
-    box-shadow:
-      inset 0 0 0 3px var(--ouro),
-      0 4px 12px var(--shadow);
-    border-radius:18px;
 
-    transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
-    background-image:linear-gradient(#fff,#fffaf2);
-  }
-  .btn:hover{transform:translateY(-1px); background:#fff8ef}
+/* Grid de botões internos (apenas ENTRADAS de cada fluxo) */
+.grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.btn{
+display:flex; flex-direction:column; align-items:center; justify-content:center; text-decoration:none; color:inherit;
+background:linear-gradient(#fff,#fff9ef); border:1.5px solid var(--bord); border-radius:12px; padding:10px 10px;
+box-shadow:0 4px 12px var(--shadow), inset 0 0 0 1px rgba(214,178,90,.5);
+font-weight:800; transition:transform .12s, border-color .12s, box-shadow .12s;
+min-height:84px; text-align:center;
+}
+.btn:hover{transform:translateY(-1px); border-color:var(--gold); box-shadow:0 7px 18px rgba(0,0,0,.12), inset 0 0 0 1px rgba(214,178,90,.8)}
+.thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold); border-radius:10px 10px 0 0; margin-bottom:8px}
+.btn .label{font-size:.95rem; color:#7a1b1b}
+.btn small{font-weight:600; color:#4a3828}
 
-  /* Cruz: redonda, +20%, fixa à esquerda */
-  .btn .icon{
-    position:absolute; left:14px; top:50%; transform:translateY(-50%);
-    width:30px; height:30px; border-radius:50%; object-fit:cover;
-  }
 
-  .btn--overlap{ margin-top:-12px; z-index:2; }
-
-  @media (max-width: 380px){
-    .btn{width:88%}
-    .hero{max-height:520px}
-  }
-</style>
-</head>
-<body>
-  <main class="wrap">
-    <section class="hero-box">
-      <img class="hero" src="img/icone-home.png" alt="">
-    </section>
-
-    <nav class="buttons" aria-label="Ações principais">
-      <a class="btn btn--overlap" href="qurbono-teste.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Qurbono
-      </a>
-      <a class="btn" href="oracao.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Oração das Horas
-      </a>
-      <a class="btn" href="calendario.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Calendário Litúrgico
-      </a>
-      <a class="btn" href="patristica.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Patrística Siríaca
-      </a>
-    </nav>
-  </main>
-</body>
+/* Chip do topo */
 </html>
