@@ -1,65 +1,233 @@
 <!DOCTYPE html>
-</div>
-</details>
-</section>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mapa inicial — Capela Virtual São Marun</title>
+  <style>
+    :root{
+      --bg:#faf7ef; --card:#ffffff; --bord:#e1d6c7; --txt:#2b1f16;
+      --gold:#d6b25a; --accent:#7a1b1b; --shadow:rgba(0,0,0,.08);
+      --sans: Arial, Helvetica, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:18px; background:var(--bg); color:var(--txt); 
+      font-family:var(--sans)
+    }
+    h1{margin:.2rem 0 1rem; font-size:1.7rem; text-align:center}
 
+    section{margin:18px 0}
+    summary.head{
+      display:flex; align-items:center; gap:10px;
+      padding:12px; cursor:pointer;
+      border:1.5px solid var(--bord); border-radius:12px;
+      background:linear-gradient(#fff,#fdfaf3);
+      box-shadow:0 3px 6px var(--shadow);
+      list-style:none;
+    }
+    summary.head::-webkit-details-marker{display:none}
+    .head .chev{font-size:1.1rem; color:var(--accent); font-weight:bold}
+    .head .title{font-weight:900; font-size:1rem; color:var(--accent)}
+    .head .sub{font-size:.85rem; color:#5a4634}
+    details[open] > summary .chev{transform:rotate(90deg)}
 
-<!-- Grupo: Coleções e Comuns (entradas únicas) -->
-<section class="section">
-<details class="group">
-<summary class="head" aria-label="Coleções e Comuns">
-<div class="chev">▶</div>
-<div>
-<div class="title">Coleções e Comuns</div>
-<div class="sub">Acesse e navegue pelos botões internos</div>
-</div>
-</summary>
-<div class="body">
-<div class="grid">
-<a class="btn" href="santos.html">
-<img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" loading="lazy" onerror="this.remove()">
-<span class="label">Comum dos Santos</span>
-<small>Fluxo retrato · categorias internas</small>
-</a>
-<a class="btn" href="biblos.html">
-<img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" loading="lazy" onerror="this.remove()">
-<span class="label">Biblioteca</span>
-<small>Tempos e coleções</small>
-</a>
-</div>
-</div>
-</details>
-</section>
+    .body{padding:10px 14px 16px}
+    .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+    .btn{
+      display:flex; flex-direction:column; text-decoration:none; color:inherit;
+      background:var(--card); border:1.5px solid var(--bord); border-radius:14px;
+      box-shadow:0 6px 16px var(--shadow);
+      padding:10px; transition:.15s;
+    }
+    .btn:hover{transform:translateY(-2px); border-color:var(--gold)}
+    .thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold)}
+    .thumb[hidden]{display:none!important}
+    .label{margin-top:6px; font-weight:900; font-size:1rem; color:var(--accent)}
+    small{font-size:.82rem; color:#5a4634}
+    footer{margin-top:30px; text-align:center; font-size:.85rem; color:#6a5644}
+  </style>
+</head>
+<body>
+  <h1>Capela Virtual São Marun</h1>
 
+  <!-- Grupo: Qurbono -->
+  <section>
+    <details class="group" open>
+      <summary class="head" aria-label="Qurbono">
+        <div class="chev">▶</div>
+        <div>
+          <div class="title">Qurbono</div>
+          <div class="sub">Divina Liturgia e menus associados</div>
+        </div>
+      </summary>
+      <div class="body">
+        <div class="grid">
+          <a class="btn" href="qurbone.html">
+            <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono" loading="lazy" onerror="this.remove()">
+            <span class="label">Qurbono</span>
+            <small>Liturgia Eucarística e Anáforas</small>
+          </a>
+        </div>
+      </div>
+    </details>
+  </section>
 
-<footer>© Capela Virtual São Marun — mapa inicial (index-teste.html). A navegação interna depende dos botões de cada página.</footer>
+  <!-- Grupo: Oração das Horas -->
+  <section>
+    <details class="group">
+      <summary class="head" aria-label="Oração das Horas">
+        <div class="chev">▶</div>
+        <div>
+          <div class="title">Oração das Horas</div>
+          <div class="sub">Menu principal · Horas canônicas</div>
+        </div>
+      </summary>
+      <div class="body">
+        <div class="grid">
+          <a class="btn" href="oracao.html">
+            <img class="thumb" src="img/icone-oracao.jpg" alt="Oração das Horas" loading="lazy" onerror="this.remove()">
+            <span class="label">Oração das Horas</span>
+            <small>Menu principal</small>
+          </a>
+          <a class="btn" href="horas-teste.html">
+            <img class="thumb" src="img/icone-horas.jpg" alt="Oração do Dia" loading="lazy" onerror="this.remove()">
+            <span class="label">Oração do Dia</span>
+            <small>Horas canônicas (visual)</small>
+          </a>
+        </div>
+      </div>
+    </details>
+  </section>
 
+  <!-- Grupo: Por data -->
+  <section>
+    <details class="group">
+      <summary class="head" aria-label="Por data">
+        <div class="chev">▶</div>
+        <div>
+          <div class="title">Por data</div>
+          <div class="sub">Navegação por datas</div>
+        </div>
+      </summary>
+      <div class="body">
+        <div class="grid">
+          <a class="btn" href="liturgia-dia.html">
+            <img class="thumb" src="img/icone-liturgiadia.jpg" alt="Liturgia do Dia" loading="lazy" onerror="this.remove()">
+            <span class="label">Liturgia do Dia</span>
+            <small>Liturgia Eucarística</small>
+          </a>
+          <a class="btn" href="leituras.html">
+            <img class="thumb" src="img/icone-leituras.png" alt="Leituras Bíblicas" loading="lazy" onerror="this.remove()">
+            <span class="label">Leituras Bíblicas</span>
+            <small>Referências do dia</small>
+          </a>
+          <a class="btn" href="synaxarion.html">
+            <img class="thumb" src="img/icone-synaxarion.jpg" alt="Synaxarion" loading="lazy" onerror="this.remove()">
+            <span class="label">Synaxarion</span>
+            <small>Comemoração do dia</small>
+          </a>
+        </div>
+      </div>
+    </details>
+  </section>
 
-<script>
-// Acessibilidade extra: permitir Enter/Espaço no summary
-document.addEventListener('keydown', (e)=>{
-const sum = e.target.closest('summary.head');
-if(!sum) return;
-if(e.key==='Enter' || e.key===' '){ e.preventDefault(); sum.click(); }
-});
-</script>
+  <!-- Grupo: Calendário e Patrística -->
+  <section>
+    <details class="group">
+      <summary class="head" aria-label="Calendário e Patrística">
+        <div class="chev">▶</div>
+        <div>
+          <div class="title">Calendário e Patrística</div>
+          <div class="sub">Acesso a módulos independentes</div>
+        </div>
+      </summary>
+      <div class="body">
+        <div class="grid">
+          <a class="btn" href="calendario.html">
+            <img class="thumb" src="img/icone-calendario.jpg" alt="Calendário Litúrgico" loading="lazy" onerror="this.remove()">
+            <span class="label">Calendário Litúrgico</span>
+            <small>Anos e navegação</small>
+          </a>
+          <a class="btn" href="patristica.html">
+            <img class="thumb" src="img/icone-patristica.jpg" alt="Patrística Siríaca" loading="lazy" onerror="this.remove()">
+            <span class="label">Patrística Siríaca</span>
+            <small>Autores e obras</small>
+          </a>
+        </div>
+      </div>
+    </details>
+  </section>
 
+  <!-- Grupo: Ordinário -->
+  <section>
+    <details class="group">
+      <summary class="head" aria-label="Ordinário">
+        <div class="chev">▶</div>
+        <div>
+          <div class="title">Ordinário</div>
+          <div class="sub">Seções por tempo litúrgico</div>
+        </div>
+      </summary>
+      <div class="body">
+        <div class="grid">
+          <a class="btn" href="ordinario.html">
+            <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário" loading="lazy" onerror="this.remove()">
+            <span class="label">Ordinário</span>
+            <small>Estrutura completa</small>
+          </a>
+        </div>
+      </div>
+    </details>
+  </section>
 
-<!--
-──────────────────────────────────────────────────────────────────────
-SNIPPET "VOLTAR PADRÃO" PARA AS DEMAIS PÁGINAS (copiar/colar no <body>)
-<a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes(PAI)) this.href=PAI;">← Voltar</a>
+  <!-- Grupo: Coleções e Comuns -->
+  <section>
+    <details class="group">
+      <summary class="head" aria-label="Coleções e Comuns">
+        <div class="chev">▶</div>
+        <div>
+          <div class="title">Coleções e Comuns</div>
+          <div class="sub">Acesse e navegue pelos botões internos</div>
+        </div>
+      </summary>
+      <div class="body">
+        <div class="grid">
+          <a class="btn" href="santos.html">
+            <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos" loading="lazy" onerror="this.remove()">
+            <span class="label">Comum dos Santos</span>
+            <small>Fluxo retrato · categorias internas</small>
+          </a>
+          <a class="btn" href="biblos.html">
+            <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca" loading="lazy" onerror="this.remove()">
+            <span class="label">Biblioteca</span>
+            <small>Tempos e coleções</small>
+          </a>
+        </div>
+      </div>
+    </details>
+  </section>
 
+  <footer>© Capela Virtual São Marun — mapa inicial (index-teste.html). A navegação interna depende dos botões de cada página.</footer>
 
-Onde PAI é a página-mãe desejada, por exemplo:
-• Em páginas de Horas (safro/ramsho/…): PAI='horas-teste.html'
-• Em Synaxarion/Leituras/Liturgia-do-Dia (quando acessados via Qurbono): PAI='qurbone.html'
-• Em Anáforas: PAI='qurbone.html'
-• Em Ordinário/Tempos/Quaresma…: PAI='oracao.html' (ou conforme seu fluxo)
+  <script>
+    // Acessibilidade extra: permitir Enter/Espaço no summary
+    document.addEventListener('keydown', (e)=>{
+      const sum = e.target.closest('summary.head');
+      if(!sum) return;
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault(); sum.click();
+      }
+    });
+  </script>
 
-
-Isso garante: 1) voltar pelo histórico quando há página anterior válida; 2) caso a página tenha sido aberta direta/externamente, cair no PAI correto (e nunca na home/index-teste).
-──────────────────────────────────────────────────────────────────────
--->
+  <!--
+  ────────────────────────────────────────────────────────────────
+  SNIPPET "VOLTAR PADRÃO" PARA AS DEMAIS PÁGINAS
+  <a class="back" href="javascript:history.back()" 
+     onclick="if(!document.referrer || !document.referrer.includes(PAI)) this.href=PAI;">← Voltar</a>
+  Onde PAI é a página-mãe (horas-teste.html, qurbone.html, oracao.html…)
+  ────────────────────────────────────────────────────────────────
+  -->
 </body>
 </html>
