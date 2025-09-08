@@ -1,60 +1,104 @@
+<!-- paixao.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Semana da Paixão</title>
-<meta name="theme-color" content="#8B0000"> <!-- vermelho escuro -->
+<meta name="theme-color" content="#8B0000">
 <style>
-*{box-sizing:border-box}html,body{height:100%}
+*{box-sizing:border-box} html,body{height:100%}
+:root{
+  --ouro:#d6b25a;
+  --roxo:#4B0082;
+  --bordo:#5a0010;
+  --vermelho:#8B0000;
+  --ink:#1a1a1a; --shadow:rgba(0,0,0,.16);
+  --fonte: Arial, Helvetica, sans-serif;
+}
 body{
-  margin:0;font-family:Arial,Helvetica,sans-serif;
-  background:#8B0000; /* fundo vermelho */
+  margin:0; font-family:var(--fonte); color:var(--ink);
+  /* degradê: bordô no pé → vermelho médio → topo rosado quase branco */
+  background:
+    linear-gradient(to top, #5a0010 0%, #8B0000 50%, #ffecef 100%);
+  /* ladrilho/mosaico alternando roxo escuro e ouro velho */
   background-image:
-    repeating-linear-gradient(45deg, rgba(184,134,11,.25) 0, rgba(184,134,11,.25) 2px, transparent 2px, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(184,134,11,.25) 0, rgba(184,134,11,.25) 2px, transparent 2px, transparent 40px);
-  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
+    repeating-linear-gradient(45deg, rgba(75,0,130,.25) 0 2px, transparent 2px 40px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.25) 0 2px, transparent 2px 40px);
+  background-blend-mode: overlay;
+  display:flex; flex-direction:column; min-height:100vh;
 }
 
-header.top{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
-.title{color:#4B0082; /* roxo */ font-weight:800;font-size:1.9rem;margin:0;text-shadow:0 0 6px rgba(184,134,11,.4)}
-.top-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}
-.top-links a{color:#fff;text-decoration:none;background:#b8860b;border:1px solid #8b6508;padding:8px 12px;border-radius:10px;font-weight:bold;font-size:.9rem}
+header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
+.title{
+  color:#4B0082; font-weight:900; margin:0; line-height:1.08;
+  font-size: calc(1.9rem + 2pt); /* +2pt */
+  /* borda dourada nas letras */
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
 
+/* Conteúdo */
 .wrap{width:100%;max-width:720px;margin:0 auto;padding:10px 16px 24px}
-.hero{display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
-  border:6px solid #b8860b;box-shadow:0 0 0 4px rgba(184,134,11,.45) inset;border-radius:12px}
+.hero{
+  display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
+  /* moldura interna dourada */
+  border:6px solid var(--ouro);
+  /* moldura externa roxa */
+  box-shadow:0 0 0 4px var(--roxo);
+  border-radius:12px
+}
 .hero[hidden]{display:none}
-.chip{display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.9);
-  border:3px solid #b8860b;box-shadow:0 0 0 2px rgba(184,134,11,.45) inset;border-radius:14px;font-weight:bold;color:#4B0082}
+.chip{
+  display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92);
+  border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082
+}
 
+/* Botões: +20% largura e +30% altura */
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
-  background:rgba(255,255,255,.97);
-  border:1.35px solid #b8860b;box-shadow:0 0 0 .9px rgba(184,134,11,.45) inset,0 4px 10px rgba(0,0,0,.15);
-  border-radius:18px;padding:8px 16px;width:66%;font-size:.94rem;font-weight:bold;color:#4B0082;
+  background:#fff;
+  /* borda roxa por fora + aro dourado por dentro */
+  border:3px solid var(--roxo);
+  box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
+  border-radius:18px;
+  padding:10.4px 18px; /* 8px → +30% */
+  width:79%; /* ~66% + 20% */
+  font-size:1rem;font-weight:bold;color:#4B0082;
   transition:transform .15s ease,background-color .2s ease;text-align:center
 }
-.btn:hover{transform:scale(1.02);background:#fff8e5}
+.btn:hover{transform:scale(1.02);background:#fff8e8}
 
-/* Cruz reduzida em 20% (21px) e redonda */
+/* Cruz reduzida ~30% e redonda */
 .btn img{
   position:absolute;left:12px;width:21px;height:21px;
   object-fit:cover;border-radius:50%;display:block
 }
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
-footer{margin-top:auto;text-align:center;color:#b8860b;font-size:.8rem;padding:8px}
-footer a{color:#b8860b}
+/* Setas piscantes (4x) */
+.hints{position:fixed; bottom:22vh; left:0; right:0; display:flex; justify-content:space-between; pointer-events:none}
+.arrow{
+  font-size:1.6rem; color:#4B0082; opacity:0;
+  text-shadow:0 0 6px rgba(75,0,130,.35); margin:0 12px;
+  animation:blink 1.2s ease-in-out 4;
+}
+@keyframes blink{ 0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0} }
+
+/* Rodapé: botão Voltar (roxo nesta página) para mãe = ordinario.html */
+footer{margin-top:auto;text-align:center;padding:10px 0 16px}
+.back{
+  display:inline-flex; align-items:center; gap:8px; background:#4B0082; color:#fff; text-decoration:none;
+  border:1px solid #2f0656; padding:.36rem .62rem; border-radius:9px;
+  font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:center;
+}
+.back:hover{background:#5e1fb0}
 </style>
 </head>
 <body>
-<header class="top">
+<header>
   <h1 class="title">Semana da Paixão</h1>
-  <nav class="top-links">
-    <a href="ordinario.html">← Ordinário</a>
-    <a href="index.html">App principal</a>
-  </nav>
 </header>
 
 <main class="wrap">
@@ -62,7 +106,7 @@ footer a{color:#b8860b}
        onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
   <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
 
-  <section class="buttons">
+  <section class="buttons" aria-label="Semana da Paixão — dias e ritos">
     <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Sexta-feira das Tentações de Cristo</span></a>
     <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Sábado de Lázaro</span></a>
     <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Chegada ao Porto</span></a>
@@ -77,9 +121,17 @@ footer a{color:#b8860b}
   </section>
 </main>
 
-<footer>Semana da Paixão · <a href="ordinario.html">Voltar</a></footer>
+<div class="hints" aria-hidden="true"><div class="arrow">⬇</div><div class="arrow">⬇</div></div>
+
+<footer>
+  <a class="back" href="javascript:history.back()"
+     onclick="if(!document.referrer || !document.referrer.includes('ordinario.html')){this.href='ordinario.html'}">← Voltar</a>
+</footer>
+
 <script>
-document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+document.getElementById('hero').addEventListener('load',()=>{
+  document.getElementById('hero-chip').style.display='none';
+});
 </script>
 </body>
 </html>
