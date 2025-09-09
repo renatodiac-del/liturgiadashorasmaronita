@@ -12,7 +12,6 @@
 }
 body{
   margin:0; font-family:var(--fonte); color:var(--ink);
-  /* Fundo roxo médio (sólido) com linhas decorativas mais espessas */
   background: var(--roxoMedio);
   background-image:
     repeating-linear-gradient(45deg, rgba(214,178,90,.28) 0 3px, transparent 3px 40px),
@@ -20,16 +19,13 @@ body{
   background-blend-mode: normal;
   display:flex; flex-direction:column; min-height:100vh;
 }
-
 header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
 .title{
   color:#b8860b; font-weight:900; margin:0; font-size:1.9rem;
-  /* borda (contorno) roxa no título */
   text-shadow:
     -1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo),
     -1px  1px 0 var(--roxo), 1px  1px 0 var(--roxo);
 }
-
 .wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
 .hero{
   display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
@@ -64,7 +60,7 @@ header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12p
 /* Setas ↓ (iguais) piscando 4x, nas laterais do bloco de botões */
 .hints{position:absolute; inset:0; pointer-events:none}
 .hints .arrow{
-  position:absolute; top:6px; /* aponta para baixo a partir do topo do bloco */
+  position:absolute; top:6px;
   font-size:1.8rem; line-height:1; color:var(--roxo); opacity:0;
   text-shadow:0 0 6px rgba(75,0,130,.35);
   animation:blink 1.1s ease-in-out 4;
@@ -99,13 +95,13 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
     </div>
 
     <div class="buttons">
-      <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label">Domingo</span></a>
-      <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label">Segunda-feira</span></a>
-      <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label">Terça-feira</span></a>
-      <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label">Quarta-feira</span></a>
-      <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label">Quinta-feira</span></a>
-      <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label">Sexta-feira</span></a>
-      <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label">Sábado</span></a>
+      <a class="btn" href="domingo-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Domingo</span></a>
+      <a class="btn" href="segunda-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Segunda-feira</span></a>
+      <a class="btn" href="terca-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Terça-feira</span></a>
+      <a class="btn" href="quarta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Quarta-feira</span></a>
+      <a class="btn" href="quinta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Quinta-feira</span></a>
+      <a class="btn" href="sexta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Sexta-feira</span></a>
+      <a class="btn" href="sabado-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Sábado</span></a>
     </div>
   </section>
 </main>
