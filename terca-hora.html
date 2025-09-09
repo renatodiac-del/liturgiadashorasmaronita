@@ -1,79 +1,55 @@
-<!-- terca-hora.html (AJUSTE FINO: ícone +15%, mais alto; "voltar" bem próximo) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hora Terça</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terça-feira * Paixão</title>
+<meta name="theme-color" content="#8B0000">
 <style>
-  :root{
-    --dourado:#a9842b; --bordo:#7a1b1b;
-    --pastel:#ffe5c7; --pastel2:#ffedd6;
-    --laranja:#ff8c00; --vermelho:#a00000; --sombra:rgba(0,0,0,.18);
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; font-family:Arial,Helvetica,sans-serif; color:#333;
-    background:linear-gradient(to bottom, #ffffff 0%, var(--pastel2) 50%, var(--pastel) 100%);
-    position:relative; min-height:100vh; display:flex; flex-direction:column;
-  }
-  /* Sol 1/4 no topo direito */
-  body::after{
-    content:""; position:fixed; top:-140px; right:-140px; width:320px; height:320px; border-radius:50%;
-    background:radial-gradient(circle at 45% 45%, #fffef2 0%, #fff6c7 35%, #ffe88a 55%, rgba(255,232,138,0) 60%);
-    box-shadow:0 0 30px 10px rgba(255,248,200,.6), 0 0 80px 30px rgba(255,232,138,.35);
-    pointer-events:none; z-index:0;
-  }
-
-  header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
-  .titulo{
-    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px; color:var(--bordo); -webkit-text-stroke:2.2px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10);
-  }
-  .subtitulo{ margin:6px 0 10px; color:var(--laranja); font-style:italic; font-weight:400; font-size:27px; }
-
-  /* Ícone principal: +15% e um pouco mais alto (12vh) */
-  .hero-icon{
-    display:block; margin:clamp(6px, 12vh, 160px) auto 8px;
-    max-width:clamp(305px, 85vw, 543px);
-    width:100%; height:auto; object-fit:contain; object-position:center;
-    border:6px solid var(--dourado); border-radius:0; box-shadow:0 6px 18px var(--sombra);
-  }
-
-  .wrap{
-    max-width:600px; margin:0 auto; padding:20px 20px 0;
-    display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1;
-  }
-  .btn{
-    position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
-    border:2px solid var(--dourado); border-radius:14px; width:66%; min-width:280px; min-height:36px; padding:4px 12px;
-    box-shadow:0 4px 10px var(--sombra); color:#ffd700; text-align:center; font-weight:800; transition:transform .08s, box-shadow .12s; overflow:hidden; margin:0 auto;
-  }
-  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-  .btn .icon-round{ width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto; }
-  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
-  .btn .main{ font-size:24px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
-
-  /* Deixar o "voltar" o mais próximo possível dos botões grandes */
-  .wrap .btn:last-of-type{ margin-bottom:0; }
-  footer{ text-align:center; margin:4px 0 18px; margin-top:4px; position:relative; z-index:1; }
-  .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra); transform:scale(.6);
-  }
+/* igual ao padrão filhas */
+*{box-sizing:border-box} html,body{height:100%}
+:root{ --ouro:#d6b25a; --roxo:#4B0082; --shadow:rgba(0,0,0,.16); --fonte: Arial, Helvetica, sans-serif; --verm:#a00000; }
+body{ margin:0; font-family:var(--fonte); color:#1a1a1a;
+  background: linear-gradient(to top, #5a0010 0%, #8B0000 50%, #ffe6ee 100%);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(75,0,130,.35) 0 3px, transparent 3px 40px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.32) 0 3px, transparent 3px 40px);
+  background-blend-mode: overlay; display:flex; flex-direction:column; min-height:100vh;}
+header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
+.title{color:var(--verm); font-weight:900; margin:0; line-height:1.08; font-size: calc(1.9rem + 2pt);
+  text-shadow:-1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo), -1px 1px 0 var(--roxo), 1px 1px 0 var(--roxo);}
+.wrap{width:100%;max-width:720px;margin:0 auto;padding:10px 16px 18px}
+.hero{display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;border:6px solid var(--ouro);box-shadow:0 0 0 4px var(--roxo);border-radius:12px}
+.hero[hidden]{display:none}
+.chip{display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92);border:3px solid var(--ouro);box-shadow:0 0 0 2px var(--roxo) inset;border-radius:14px;font-weight:800;color:#4B0082}
+.buttons{display:flex;flex-direction:column;gap:10px;align-items:center}
+.btn{ position:relative; display:flex; align-items:center; justify-content:center; gap:.25rem; background:#fff; text-decoration:none; cursor:pointer;
+  border:3px solid var(--roxo); box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px rgba(0,0,0,.15);
+  border-radius:18px; padding:14px 20px; width:87%; transition:transform .15s ease, background-color .2s ease; }
+.btn:hover{transform:scale(1.02); background:#fff8e8}
+.btn img{position:absolute; left:12px; width:26px; height:26px; object-fit:cover; border-radius:50%; border:2px solid var(--ouro)}
+.btn .label{display:inline-block; width:100%; text-align:center; color:#4B0082; font-weight:800; line-height:1.15}
+.btn .label .top{display:block; font-size:1.02rem; color:#b8860b}
+.btn .label .sub{display:block; font-size:.82rem; color:#111}
+footer{margin-top:8px; text-align:center; padding-bottom:12px}
+.back{display:inline-flex; align-items:center; gap:8px; background:#4B0082; color:#fff; text-decoration:none; border:1px solid #2f0656; padding:.36rem .62rem; border-radius:9px; font-weight:bold; font-size:.9rem;}
+.back:hover{background:#5e1fb0}
 </style>
 </head>
 <body>
-  <header>
-    <h1 class="titulo">Hora Terça</h1>
-    <div class="subtitulo">9 horas</div>
-    <img class="hero-icon" src="img/icone-terca.horas.jpg" alt="Ícone principal Terça">
-  </header>
+<header><h1 class="title">Terça-feira * Paixão</h1></header>
+<main class="wrap">
+  <img class="hero" src="img/icone-paixao.jpg" alt="Ícone Paixão" onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
+  <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
 
-  <main class="wrap">
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Oração</span></span></a>
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
-  </main>
-
-  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
+  <section class="buttons" aria-label="Terça-feira — opções">
+    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
+    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
+  </section>
+</main>
+<footer>
+  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('paixao.html')) this.href='paixao.html';">← Voltar</a>
+</footer>
 </body>
 </html>
