@@ -1,4 +1,4 @@
-<!-- index-teste.html (home limpa, sem botões dos dias; só os módulos principais) -->
+<!-- index-teste.html (home simples, sem links para páginas de dias) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,16 +8,15 @@
 <style>
   :root{
     --vermelho:#a00000;
-    --ouro:#b4923a;             /* ouro velho */
-    --laranja:#a64800;          /* laranja escuro */
+    --ouro:#b4923a;
+    --laranja:#a64800;
     --shadow:rgba(0,0,0,.12);
     --fonte: Arial, Helvetica, sans-serif;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0;
-    font-family: var(--fonte);
+    margin:0; font-family: var(--fonte);
     display:flex; flex-direction:column; min-height:100vh;
     background:#b4923a;
     background-image:
@@ -26,59 +25,40 @@
     background-size:44px 44px;
   }
 
-  .wrap{
-    width:100%; max-width:680px; margin:0 auto; padding:8px 16px 12px;
-    display:flex; flex-direction:column; flex:1 1 auto;
-  }
-
-  .hero-box{text-align:center; position:relative}
+  .wrap{width:100%; max-width:680px; margin:0 auto; padding:8px 16px 12px; flex:1 1 auto; display:flex; flex-direction:column}
+  .hero-box{text-align:center}
   .hero{
-    display:inline-block;
-    width:auto; height:auto; max-width:100%; max-height:608px;
-    border:0; border-bottom:8px solid var(--ouro);
+    display:inline-block; max-width:100%; height:auto; max-height:608px;
+    border-bottom:8px solid var(--ouro);
     border-radius:16px 16px 14px 14px;
     box-shadow:0 10px 24px var(--shadow);
   }
 
-  .buttons{
-    margin-top:16px;
-    display:flex; flex-direction:column; gap:10px; align-items:center;
-    padding-bottom:12px;
-  }
-
+  .buttons{margin-top:16px; display:flex; flex-direction:column; gap:10px; align-items:center; padding-bottom:12px}
   .btn{
-    position:relative;
-    width:82%;
-    padding:10px 58px; /* simétrico para centralizar texto independentemente da cruz */
+    position:relative; width:82%; padding:10px 58px;
     display:flex; align-items:center; justify-content:center;
     text-decoration:none; text-align:center; cursor:pointer;
     color:var(--vermelho); background:#fff; font-weight:800; font-size:1rem;
-
     border:3px solid var(--vermelho);
     box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 12px var(--shadow);
     border-radius:18px;
-
     transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
     background-image:linear-gradient(#fff,#fffaf2);
   }
   .btn:hover{transform:translateY(-1px); background:#fff8ef}
-
   .btn .icon{
     position:absolute; left:14px; top:50%; transform:translateY(-50%);
     width:30px; height:30px; border-radius:50%; object-fit:cover;
   }
   .btn--overlap{ margin-top:-12px; z-index:2; }
-
-  @media (max-width: 380px){
-    .btn{width:88%}
-    .hero{max-height:520px}
-  }
+  @media (max-width: 380px){ .btn{width:88%} .hero{max-height:520px} }
 </style>
 </head>
 <body>
   <main class="wrap">
     <section class="hero-box">
-      <img class="hero" src="img/icone-home.png" alt="Ícone da página inicial">
+      <img class="hero" src="img/icone-home.png" alt="Ícone inicial">
     </section>
 
     <nav class="buttons" aria-label="Ações principais">
