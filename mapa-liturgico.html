@@ -1,4 +1,4 @@
-<!-- mapa-liturgico.html — mapa (sem links para páginas de dias) -->
+<!-- mapa-liturgico.html — sem links para páginas de dias -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -20,11 +20,10 @@
     display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--card);
     border:1.5px solid var(--bord); border-radius:14px; overflow:hidden;
     box-shadow:0 6px 16px var(--shadow);
-    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    transition:transform .12s, box-shadow .12s, border-color .12s;
   }
   .card:hover{transform:translateY(-2px); border-color:var(--gold); box-shadow:0 10px 22px rgba(0,0,0,.12)}
   .thumb{width:100%; aspect-ratio:16/10; object-fit:cover; border-bottom:4px solid var(--gold)}
-  .thumb[hidden]{display:none!important}
   .body{padding:12px 12px 14px}
   .title{
     font-weight:900; font-size:1.02rem; margin:0 0 4px; color:var(--accent);
@@ -55,34 +54,19 @@
   <div class="grid">
     <a class="card" href="qurbone.html">
       <img class="thumb" src="img/icone-qurbono.jpg" alt="Qurbono">
-      <div class="body">
-        <h3 class="title">Qurbono</h3>
-        <p class="subtitle">Divina Liturgia</p>
-      </div>
+      <div class="body"><h3 class="title">Qurbono</h3><p class="subtitle">Divina Liturgia</p></div>
     </a>
-
     <a class="card" href="oracao.html">
       <img class="thumb" src="img/icone-oracao.jpg" alt="Oração das Horas">
-      <div class="body">
-        <h3 class="title">Oração das Horas</h3>
-        <p class="subtitle">Menu principal</p>
-      </div>
+      <div class="body"><h3 class="title">Oração das Horas</h3><p class="subtitle">Menu principal</p></div>
     </a>
-
     <a class="card" href="calendario.html">
       <img class="thumb" src="img/icone-calendario.jpg" alt="Calendário Litúrgico">
-      <div class="body">
-        <h3 class="title">Calendário Litúrgico</h3>
-        <p class="subtitle">Anos e navegação</p>
-      </div>
+      <div class="body"><h3 class="title">Calendário Litúrgico</h3><p class="subtitle">Anos e navegação</p></div>
     </a>
-
     <a class="card" href="patristica.html">
       <img class="thumb" src="img/icone-patristica.jpg" alt="Patrística">
-      <div class="body">
-        <h3 class="title">Patrística Siríaca</h3>
-        <p class="subtitle">Autores e obras</p>
-      </div>
+      <div class="body"><h3 class="title">Patrística Siríaca</h3><p class="subtitle">Autores e obras</p></div>
     </a>
   </div>
 </section>
@@ -92,42 +76,23 @@
   <div class="grid">
     <a class="card" href="ordinario.html">
       <img class="thumb" src="img/icone-ordinario.jpg" alt="Ordinário">
-      <div class="body">
-        <h3 class="title">Ordinário</h3>
-        <p class="subtitle">Seções por tempo</p>
-      </div>
+      <div class="body"><h3 class="title">Ordinário</h3><p class="subtitle">Seções por tempo</p></div>
     </a>
-
     <a class="card" href="tempos.html">
-      <img class="thumb" src="img/icone-tempos.jpg" alt="Anúncio, Epifania, Pentecostes, Cruz">
-      <div class="body">
-        <h3 class="title">Anúncio · Epifania · Pentecostes · Cruz</h3>
-        <p class="subtitle">Dias da semana</p>
-      </div>
+      <img class="thumb" src="img/icone-tempos.jpg" alt="Tempos">
+      <div class="body"><h3 class="title">Anúncio · Epifania · Pentecostes · Cruz</h3><p class="subtitle">Dias da semana</p></div>
     </a>
-
     <a class="card" href="quaresma.html">
       <img class="thumb" src="img/icone-quaresma.jpg" alt="Quaresma">
-      <div class="body">
-        <h3 class="title">Quaresma</h3>
-        <p class="subtitle">Grande Quaresma</p>
-      </div>
+      <div class="body"><h3 class="title">Quaresma</h3><p class="subtitle">Grande Quaresma</p></div>
     </a>
-
     <a class="card" href="paixao.html">
-      <img class="thumb" src="img/icone-paixao.jpg" alt="Semana da Paixão">
-      <div class="body">
-        <h3 class="title">Semana da Paixão</h3>
-        <p class="subtitle">Ritos e dias</p>
-      </div>
+      <img class="thumb" src="img/icone-paixao.jpg" alt="Paixão">
+      <div class="body"><h3 class="title">Semana da Paixão</h3><p class="subtitle">Ritos e dias</p></div>
     </a>
-
     <a class="card" href="ressurreicao.html">
       <img class="thumb" src="img/icone-ressurreicao.jpg" alt="Ressurreição">
-      <div class="body">
-        <h3 class="title">Ressurreição</h3>
-        <p class="subtitle">Semana da Glória</p>
-      </div>
+      <div class="body"><h3 class="title">Ressurreição</h3><p class="subtitle">Semana da Glória</p></div>
     </a>
   </div>
 </section>
@@ -137,28 +102,18 @@
   <div class="grid">
     <a class="card" href="santos.html">
       <img class="thumb" src="img/icone-santos.jpg" alt="Comum dos Santos">
-      <div class="body">
-        <h3 class="title">Comum dos Santos</h3>
-        <p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p>
-      </div>
+      <div class="body"><h3 class="title">Comum dos Santos</h3><p class="subtitle">Virgem Maria, Anjos, Apóstolos…</p></div>
     </a>
-
     <a class="card" href="festas-por-datas.html">
       <img class="thumb" src="img/icone-festadata.jpg" alt="Festas por Datas">
-      <div class="body">
-        <h3 class="title">Festas por Datas</h3>
-        <p class="subtitle">Navegação por datas especiais</p>
-      </div>
+      <div class="body"><h3 class="title">Festas por Datas</h3><p class="subtitle">Navegação por datas especiais</p></div>
     </a>
-
     <a class="card" href="biblos.html">
       <img class="thumb" src="img/icone-biblos.jpg" alt="Biblioteca">
-      <div class="body">
-        <h3 class="title">Biblioteca</h3>
-        <p class="subtitle">Tempos e coleções</p>
-      </div>
+      <div class="body"><h3 class="title">Biblioteca</h3><p class="subtitle">Tempos e coleções</p></div>
     </a>
   </div>
 </section>
 </body>
 </html>
+
