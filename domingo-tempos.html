@@ -32,7 +32,7 @@ header{text-align:center;padding:12px 12px 0}
 }
 .btn:hover{transform:scale(1.02);background:#fff9f0}
 .btn img{
-  position:absolute;left:12px;width:18px;height:18px; /* 30% menor que 26px */
+  position:absolute;left:12px;width:18px;height:18px; /* 26px -30% */
   border-radius:50%;object-fit:cover;border:2px solid var(--ouro)
 }
 .label{width:100%}
@@ -54,7 +54,6 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
   <img class="hero" src="img/icone-tempos.jpg" alt="Ícone — Tempos">
 
   <section class="buttons" aria-label="Ações do dia">
-    <!-- Repare no data-link: o href é # e será preenchido pelo script com o link da planilha -->
     <a class="btn" data-link="safro-curta"  href="#" target="_blank" rel="noopener">
       <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
     </a>
@@ -76,25 +75,15 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 </footer>
 
 <script>
-/* COLE AQUI AS 4 URLs (Google Sheets ou .doc) DESTE DIA */
+/* COLE AQUI AS 4 URLs DESTE DIA */
 const LINKS = {
-  'safro-curta' : 'https://docs.google.com/spreadsheets/d/ID_DA_SUA_PLANILHA/edit#gid=0&range=A1',  // <- troque
-  'safro-longa' : 'https://docs.google.com/spreadsheets/d/ID_DA_SUA_PLANILHA/edit#gid=0&range=A2',  // <- troque
-  'ramsho-curta': 'https://docs.google.com/spreadsheets/d/ID_DA_SUA_PLANILHA/edit#gid=0&range=A3',  // <- troque
-  'ramsho-longa': 'https://docs.google.com/spreadsheets/d/ID_DA_SUA_PLANILHA/edit#gid=0&range=A4'   // <- troque
+  'safro-curta' : 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D1',
+  'safro-longa' : 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D2',
+  'ramsho-curta': 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D3',
+  'ramsho-longa': 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D4'
 };
-
-/* Aplica os links nos botões via data-link */
 document.querySelectorAll('[data-link]').forEach(a=>{
-  const key = a.getAttribute('data-link');
-  if (LINKS[key]) {
-    a.href = LINKS[key];
-  } else {
-    a.classList.add('is-disabled');
-    a.style.opacity = .6;
-    a.style.pointerEvents = 'none';
-    a.title = 'Link não configurado';
-  }
+  const key=a.getAttribute('data-link'); if(LINKS[key]) a.href=LINKS[key]; else {a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
 });
 </script>
 </body>
