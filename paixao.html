@@ -10,18 +10,18 @@
   --ouro:#d6b25a;
   --roxo:#4B0082;
   --vermelho:#a00000; /* título em vermelho */
-  --bordo:#5a0010;
   --shadow:rgba(0,0,0,.16);
   --fonte: Arial, Helvetica, sans-serif;
 }
 body{
   margin:0; font-family:var(--fonte); color:#1a1a1a;
-  /* Fundo bordô sólido com linhas decorativas mais espessas */
-  background: var(--bordo);
+  /* bordô no pé → vermelho médio → rosa claro no topo */
+  background: linear-gradient(to top, #5a0010 0%, #8B0000 50%, #ffe6ee 100%);
+  /* linhas (roxo + ouro) um pouco mais espessas */
   background-image:
-    repeating-linear-gradient(45deg, rgba(75,0,130,.30) 0 3px, transparent 3px 40px),
-    repeating-linear-gradient(-45deg, rgba(214,178,90,.30) 0 3px, transparent 3px 40px);
-  background-blend-mode: normal;
+    repeating-linear-gradient(45deg, rgba(75,0,130,.35) 0 3px, transparent 3px 40px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.32) 0 3px, transparent 3px 40px);
+  background-blend-mode: overlay;
   display:flex; flex-direction:column; min-height:100vh;
 }
 
@@ -48,8 +48,6 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082
 }
 
-/* Área de botões + setas ↓ brancas piscando 4× */
-.buttons-wrap{position:relative}
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
@@ -57,28 +55,24 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   border:3px solid var(--roxo);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
   border-radius:18px; padding:12px 20px; width:87%; /* +10% */
-  font-size: calc(1rem - 2pt); /* −2pt */
-  font-weight:bold;color:#4B0082;text-align:center;
-  transition:transform .15s ease,background-color .2s ease
+  font-size:.88rem; /* -2pt approx */
+  font-weight:bold;color:#4B0082;
+  transition:transform .15s ease,background-color .2s ease;text-align:center
 }
 .btn:hover{transform:scale(1.02);background:#fff8e8}
 .btn img{
-  position:absolute;left:12px;width:24px;height:24px; /* 21px → ~+15% */
+  position:absolute;left:12px;width:24px;height:24px; /* ícone ~15% maior que antes */
   object-fit:cover;border-radius:50%;
   border:2px solid var(--ouro); /* borda dourada no ícone */
 }
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
-/* Setas ↓ (iguais) piscando 4x, brancas, nas laterais do bloco de botões */
-.hints{position:absolute; inset:0; pointer-events:none}
-.hints .arrow{
-  position:absolute; top:6px;
-  font-size:1.8rem; line-height:1; color:#ffffff; opacity:0;
-  text-shadow:0 0 8px rgba(0,0,0,.45);
-  animation:blink 1.1s ease-in-out 4;
+/* Setas brancas ↓ piscando 4x (laterais) */
+.hints{position:fixed; bottom:22vh; left:0; right:0; display:flex; justify-content:space-between; pointer-events:none}
+.arrow{
+  font-size:1.7rem; color:#fff; opacity:0; text-shadow:0 0 6px rgba(0,0,0,.35); margin:0 12px;
+  animation:blink 1.2s ease-in-out 4;
 }
-.hints .left{ left:6px; }
-.hints .right{ right:6px; }
 @keyframes blink{0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0}}
 
 footer{margin-top:auto;text-align:center;padding:10px 0 16px}
@@ -100,27 +94,22 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
        onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
   <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
 
-  <section class="buttons-wrap" aria-label="Semana da Paixão — dias e ritos">
-    <div class="hints" aria-hidden="true">
-      <div class="arrow left">⬇</div>
-      <div class="arrow right">⬇</div>
-    </div>
-
-    <div class="buttons">
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sexta-feira das Tentações de Cristo</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sábado de Lázaro</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Chegada ao Porto</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Domingo do Hosana</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Rito da Lâmpada</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Segunda-feira da Paixão</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Terça-feira da Paixão</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Quarta-feira da Paixão</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Quinta-feira dos Mistérios</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Boa sexta-feira</span></a>
-      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sábado da Luz</span></a>
-    </div>
+  <section class="buttons" aria-label="Semana da Paixão — dias e ritos">
+    <a class="btn" href="sexta-tentacoes-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Sexta-feira das Tentações de Cristo</span></a>
+    <a class="btn" href="sabado-lazaro-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Sábado de Lázaro</span></a>
+    <a class="btn" href="https://SEU-LINK-CHEGADA-AO-PORTO" target="_blank" rel="noopener"><img src="img/cruz3.png" alt=""><span class="label">Chegada ao Porto</span></a>
+    <a class="btn" href="domingo-hosana-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Domingo do Hosana</span></a>
+    <a class="btn" href="https://SEU-LINK-RITO-DA-LAMPADA" target="_blank" rel="noopener"><img src="img/cruz3.png" alt=""><span class="label">Rito da Lâmpada</span></a>
+    <a class="btn" href="segunda-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Segunda-feira da Paixão</span></a>
+    <a class="btn" href="terca-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Terça-feira da Paixão</span></a>
+    <a class="btn" href="quarta-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Quarta-feira da Paixão</span></a>
+    <a class="btn" href="quinta-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Quinta-feira dos Mistérios</span></a>
+    <a class="btn" href="boa-sexta-feira-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Boa sexta-feira</span></a>
+    <a class="btn" href="sabado-luz-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Sábado da Luz</span></a>
   </section>
 </main>
+
+<div class="hints" aria-hidden="true"><div class="arrow">⬇</div><div class="arrow">⬇</div></div>
 
 <footer>
   <a class="back" href="javascript:history.back()"
@@ -132,4 +121,3 @@ document.getElementById('hero').addEventListener('load',()=>{document.getElement
 </script>
 </body>
 </html>
-
