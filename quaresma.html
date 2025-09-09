@@ -3,79 +3,98 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Grande Quaresma</title>
-<meta name="theme-color" content="#4B0082">
+<meta name="theme-color" content="#6b3ea7">
 <style>
 *{box-sizing:border-box} html,body{height:100%}
 :root{
-  --ouro:#d6b25a; --roxo:#4B0082; --roxoMedio:#6a3aa8; --ink:#1a1a1a; --shadow:rgba(0,0,0,.16);
+  --roxoMedio:#6b3ea7;  /* roxo médio do fundo */
+  --roxoEscuro:#3a0c6e; /* p/ contornos e setas */
+  --ouro:#d6b25a;
+  --ink:#1a1a1a;
+  --shadow:rgba(0,0,0,.16);
   --fonte: Arial, Helvetica, sans-serif;
+  --vermelho:#a00000;
 }
 body{
   margin:0; font-family:var(--fonte); color:var(--ink);
   background: var(--roxoMedio);
+  /* detalhes em “mosaico” (um pouco mais espessos) */
   background-image:
-    repeating-linear-gradient(45deg, rgba(214,178,90,.28) 0 3px, transparent 3px 40px),
-    repeating-linear-gradient(-45deg, rgba(214,178,90,.24) 0 3px, transparent 3px 40px);
-  background-blend-mode: normal;
+    repeating-linear-gradient(45deg, rgba(214,178,90,.30) 0 3px, transparent 3px 42px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.22) 0 3px, transparent 3px 42px);
+  background-blend-mode: overlay;
   display:flex; flex-direction:column; min-height:100vh;
 }
+
+/* Cabeçalho */
 header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
 .title{
   color:#b8860b; font-weight:900; margin:0; font-size:1.9rem;
+  /* borda ROXA no título (como você pediu) */
   text-shadow:
-    -1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo),
-    -1px  1px 0 var(--roxo), 1px  1px 0 var(--roxo);
+    -1px -1px 0 var(--roxoEscuro), 1px -1px 0 var(--roxoEscuro),
+    -1px  1px 0 var(--roxoEscuro), 1px  1px 0 var(--roxoEscuro);
 }
-.wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 24px}
+
+/* Área principal */
+.wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 18px}
 .hero{
-  display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
+  display:block;margin:6px auto 12px;max-width:100%;height:auto;max-height:420px;
   border:6px solid var(--ouro);
-  box-shadow:0 0 0 4px var(--roxo) inset, 0 8px 18px var(--shadow);
+  box-shadow:0 0 0 4px var(--roxoEscuro) inset, 0 8px 18px var(--shadow);
   border-radius:12px
 }
 .hero[hidden]{display:none}
 .chip{
-  display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.9);
-  border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082
+  display:inline-block;margin:6px 0 12px;padding:10px 14px;background:rgba(255,255,255,.9);
+  border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxoEscuro) inset; border-radius:14px; font-weight:800; color:var(--roxoEscuro)
 }
 
-/* Área de botões + setas ↓ iguais piscando 4× */
-.buttons-wrap{position:relative}
-.buttons{display:flex;flex-direction:column;gap:8px;align-items:center;margin-top:4px}
+/* Botões */
+.buttons{display:flex;flex-direction:column;gap:8px;align-items:center;margin-top:2px}
 .btn{
   position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
   background:#fff;
-  border:3px solid var(--roxo);
+  border:3px solid var(--roxoEscuro);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
-  border-radius:18px;padding:7.5px 16px;width:86%;
-  font-size:.96rem;font-weight:bold;color:#4B0082;text-align:center;
-  transition:transform .15s ease,background-color .2s ease
+  border-radius:18px;
+  /* +largura (~86%) e -altura (~20%) */
+  width:86%; padding:7.2px 16px;
+  font-size:.96rem;font-weight:bold;color:var(--roxoEscuro); text-align:center;
+  transition:transform .15s ease,background-color .2s ease;
 }
 .btn:hover{transform:scale(1.02);background:#fff3da}
 .btn img{
   position:absolute;left:12px;width:22px;height:22px;object-fit:cover;border-radius:50%;
+  border:2px solid var(--ouro);
 }
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
-/* Setas ↓ (iguais) piscando 4x, nas laterais do bloco de botões */
-.hints{position:absolute; inset:0; pointer-events:none}
-.hints .arrow{
-  position:absolute; top:6px;
-  font-size:1.8rem; line-height:1; color:var(--roxo); opacity:0;
-  text-shadow:0 0 6px rgba(75,0,130,.35);
-  animation:blink 1.1s ease-in-out 4;
+/* Setas piscantes — 4x, apontando para baixo, nas laterais */
+.hints{
+  position:fixed; left:0; right:0; display:flex; justify-content:space-between;
+  bottom:22vh; pointer-events:none;
 }
-.hints .left{ left:6px; }
-.hints .right{ right:6px; }
+.arrow{
+  font-size:1.7rem; line-height:1; color:var(--roxoEscuro);
+  opacity:0;
+  /* leve brilho p/ destacar sobre o roxo */
+  text-shadow:0 0 6px rgba(255,255,255,.6);
+  margin:0 12px;
+  animation:blink 1.2s ease-in-out 4;
+}
 @keyframes blink{0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0}}
 
-footer{margin-top:auto;text-align:center;padding:10px 0 16px}
+/* Voltar (bem próximo do último botão) */
+footer{margin-top:6px;text-align:center;padding:6px 0 14px}
 .back{
-  display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff; text-decoration:none;
-  border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px;
-  font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:center;
+  display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
+  border:1px solid #6f0000; padding:.38rem .64rem; border-radius:9px;
+  font-weight:bold; font-size:.9rem;
 }
 .back:hover{background:#c00000}
+
+/* Acessibilidade: Enter/Espaço abre <summary> (se houver) */
 </style>
 </head>
 <body>
@@ -88,23 +107,22 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
        onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
   <div id="hero-chip" class="chip" style="display:none">Quaresma</div>
 
-  <section class="buttons-wrap" aria-label="Grande Quaresma — dias">
-    <div class="hints" aria-hidden="true">
-      <div class="arrow left">⬇</div>
-      <div class="arrow right">⬇</div>
-    </div>
-
-    <div class="buttons">
-      <a class="btn" href="domingo-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Domingo</span></a>
-      <a class="btn" href="segunda-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Segunda-feira</span></a>
-      <a class="btn" href="terca-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Terça-feira</span></a>
-      <a class="btn" href="quarta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Quarta-feira</span></a>
-      <a class="btn" href="quinta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Quinta-feira</span></a>
-      <a class="btn" href="sexta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Sexta-feira</span></a>
-      <a class="btn" href="sabado-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Sábado</span></a>
-    </div>
+  <section class="buttons" aria-label="Grande Quaresma — dias">
+    <a class="btn" href="domingo-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Domingo</span></a>
+    <a class="btn" href="segunda-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Segunda-feira</span></a>
+    <a class="btn" href="terca-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Terça-feira</span></a>
+    <a class="btn" href="quarta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Quarta-feira</span></a>
+    <a class="btn" href="quinta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Quinta-feira</span></a>
+    <a class="btn" href="sexta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Sexta-feira</span></a>
+    <a class="btn" href="sabado-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Sábado</span></a>
   </section>
 </main>
+
+<!-- setas laterais apontando para baixo -->
+<div class="hints" aria-hidden="true">
+  <div class="arrow">⬇</div>
+  <div class="arrow">⬇</div>
+</div>
 
 <footer>
   <a class="back" href="javascript:history.back()"
@@ -112,8 +130,10 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 </footer>
 
 <script>
-document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+  // esconde o chip se a imagem carregar
+  document.getElementById('hero').addEventListener('load',()=>{
+    const c=document.getElementById('hero-chip'); if(c) c.style.display='none';
+  });
 </script>
 </body>
 </html>
-
