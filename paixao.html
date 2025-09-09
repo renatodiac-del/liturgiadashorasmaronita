@@ -15,11 +15,11 @@
 }
 body{
   margin:0; font-family:var(--fonte); color:#1a1a1a;
-  /* fundo vermelho bordô sólido + detalhes mais espessos */
-  background:#5a0010;
+  /* bordô no pé → vermelho médio → rosa claro no topo */
+  background: linear-gradient(to top, #5a0010 0%, #8B0000 50%, #ffe6ee 100%);
   background-image:
-    repeating-linear-gradient(45deg, rgba(75,0,130,.25) 0 3px, transparent 3px 40px),
-    repeating-linear-gradient(-45deg, rgba(214,178,90,.25) 0 3px, transparent 3px 40px);
+    repeating-linear-gradient(45deg, rgba(75,0,130,.25) 0 2px, transparent 2px 40px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.25) 0 2px, transparent 2px 40px);
   background-blend-mode: overlay;
   display:flex; flex-direction:column; min-height:100vh;
 }
@@ -47,34 +47,33 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082
 }
 
-/* Botões: fonte -3pt, largura +15% (~91%), altura +30% (padding Y) */
+/* Área de botões com setas laterais piscando */
+.buttons-wrap{position:relative}
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:4px}
 .btn{
   position:relative;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;
   background:#fff;
   border:3px solid var(--roxo);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
-  border-radius:18px; padding:13.5px 18px; /* 10.4px → +30% */
-  width:91%; /* 79% → +15% */
-  font-size: calc(1rem - 3pt); /* -3pt de tamanho */
-  font-weight:bold; color:#4B0082;
-  transition:transform .15s ease,background-color .2s ease;text-align:center
+  border-radius:18px; padding:10.4px 18px; width:79%;
+  font-size:1rem;font-weight:bold;color:#4B0082;text-align:center;
+  transition:transform .15s ease,background-color .2s ease
 }
 .btn:hover{transform:scale(1.02);background:#fff8e8}
-
-/* Ícone +15% (21→24px), redondo, com borda dourada */
 .btn img{
-  position:absolute;left:12px;width:24px;height:24px;object-fit:cover;border-radius:50%;
-  box-shadow:0 0 0 2px var(--ouro);
+  position:absolute;left:12px;width:21px;height:21px;object-fit:cover;border-radius:50%;
 }
 .btn .label{width:100%;text-align:center;pointer-events:none}
 
-/* Setas piscantes (4x) */
-.hints{position:fixed; bottom:22vh; left:0; right:0; display:flex; justify-content:space-between; pointer-events:none}
-.arrow{
-  font-size:1.6rem; color:#4B0082; opacity:0; text-shadow:0 0 6px rgba(75,0,130,.35); margin:0 12px;
-  animation:blink 1.2s ease-in-out 4;
+/* Setas piscantes (3x) nas laterais dos botões */
+.side-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  font-size:1.6rem; color:#4B0082; opacity:0; pointer-events:none;
+  text-shadow:0 0 6px rgba(75,0,130,.35);
+  animation:blink 1.2s ease-in-out 3;
 }
+.side-arrow.left{ left:-6px }
+side-arrow.right{ right:-6px }
 @keyframes blink{0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0}}
 
 footer{margin-top:auto;text-align:center;padding:10px 0 16px}
@@ -96,22 +95,25 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
        onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
   <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
 
-  <section class="buttons" aria-label="Semana da Paixão — dias e ritos">
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Sexta-feira das Tentações de Cristo</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Sábado de Lázaro</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Chegada ao Porto</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Domingo do Hosana</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Rito da Lâmpada</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Segunda-feira da Paixão</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Terça-feira da Paixão</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Quarta-feira da Paixão</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Quinta-feira dos Mistérios</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Boa sexta-feira</span></a>
-    <a class="btn" href="#"><img src="img/cruz7.jpeg" alt=""><span class="label">Sábado da Luz</span></a>
+  <section class="buttons-wrap" aria-label="Semana da Paixão — dias e ritos">
+    <div class="side-arrow left" aria-hidden="true">⬅</div>
+    <div class="side-arrow right" aria-hidden="true">➡</div>
+
+    <div class="buttons">
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sexta-feira das Tentações de Cristo</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sábado de Lázaro</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Chegada ao Porto</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Domingo do Hosana</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Rito da Lâmpada</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Segunda-feira da Paixão</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Terça-feira da Paixão</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Quarta-feira da Paixão</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Quinta-feira dos Mistérios</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Boa sexta-feira</span></a>
+      <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Sábado da Luz</span></a>
+    </div>
   </section>
 </main>
-
-<div class="hints" aria-hidden="true"><div class="arrow">⬇</div><div class="arrow">⬇</div></div>
 
 <footer>
   <a class="back" href="javascript:history.back()"
