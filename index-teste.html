@@ -2,19 +2,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Página Inicial</title>
 <style>
   :root{
-    --vermelho:#a00000;
-    --ouro:#b4923a;
-    --laranja:#a64800;
-    --shadow:rgba(0,0,0,.12);
-    --fonte: Arial, Helvetica, sans-serif;
+    --vermelho:#a00000; --ouro:#b4923a; --laranja:#a64800;
+    --shadow:rgba(0,0,0,.12); --fonte: Arial, Helvetica, sans-serif;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%}
+  *{box-sizing:border-box} html,body{height:100%}
   body{
     margin:0; font-family: var(--fonte);
     display:flex; flex-direction:column; min-height:100vh;
@@ -24,7 +19,6 @@
       repeating-linear-gradient(-45deg, rgba(166,72,0,.18) 0, rgba(166,72,0,.18) 2px, transparent 2px, transparent 44px);
     background-size:44px 44px;
   }
-
   .wrap{width:100%; max-width:680px; margin:0 auto; padding:8px 16px 12px; flex:1 1 auto; display:flex; flex-direction:column}
   .hero-box{text-align:center}
   .hero{
@@ -33,24 +27,18 @@
     border-radius:16px 16px 14px 14px;
     box-shadow:0 10px 24px var(--shadow);
   }
-
   .buttons{margin-top:16px; display:flex; flex-direction:column; gap:10px; align-items:center; padding-bottom:12px}
   .btn{
-    position:relative; width:82%; padding:10px 58px;
-    display:flex; align-items:center; justify-content:center;
+    position:relative; width:82%; padding:10px 58px; display:flex; align-items:center; justify-content:center;
     text-decoration:none; text-align:center; cursor:pointer;
     color:var(--vermelho); background:#fff; font-weight:800; font-size:1rem;
     border:3px solid var(--vermelho);
     box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 12px var(--shadow);
-    border-radius:18px;
-    transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
+    border-radius:18px; transition:transform .15s ease, background-color .2s ease, box-shadow .15s ease;
     background-image:linear-gradient(#fff,#fffaf2);
   }
   .btn:hover{transform:translateY(-1px); background:#fff8ef}
-  .btn .icon{
-    position:absolute; left:14px; top:50%; transform:translateY(-50%);
-    width:30px; height:30px; border-radius:50%; object-fit:cover;
-  }
+  .btn .icon{position:absolute; left:14px; top:50%; transform:translateY(-50%); width:30px; height:30px; border-radius:50%; object-fit:cover}
   .btn--overlap{ margin-top:-12px; z-index:2; }
   @media (max-width: 380px){ .btn{width:88%} .hero{max-height:520px} }
 </style>
@@ -63,22 +51,19 @@
 
     <nav class="buttons" aria-label="Ações principais">
       <a class="btn btn--overlap" href="qurbone.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Qurbono
+        <img class="icon" src="img/cruz.png" alt="">Qurbono
       </a>
       <a class="btn" href="oracao.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Oração das Horas
+        <img class="icon" src="img/cruz.png" alt="">Oração das Horas
       </a>
       <a class="btn" href="calendario.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Calendário Litúrgico
+        <img class="icon" src="img/cruz.png" alt="">Calendário Litúrgico
       </a>
       <a class="btn" href="patristica.html">
-        <img class="icon" src="img/cruz.png" alt="">
-        Patrística Siríaca
+        <img class="icon" src="img/cruz.png" alt="">Patrística Siríaca
       </a>
     </nav>
   </main>
 </body>
 </html>
+
