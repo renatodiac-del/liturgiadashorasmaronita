@@ -2,57 +2,60 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Segunda-feira * Quaresma</title>
-<meta name="theme-color" content="#4B0082">
+<title>Segunda-feira · Quaresma</title>
+<meta name="theme-color" content="#d6b25a">
 <style>
-/* mesmo CSS do domingo-quaresma.html */
 *{box-sizing:border-box} html,body{height:100%}
-:root{ --ouro:#d6b25a; --roxo:#4B0082; --roxoMedio:#6a3aa8; --ink:#1a1a1a; --shadow:rgba(0,0,0,.16); --fonte: Arial, Helvetica, sans-serif;}
-body{ margin:0; font-family:var(--fonte); color:var(--ink);
-  background: var(--roxoMedio);
-  background-image:repeating-linear-gradient(45deg, rgba(214,178,90,.28) 0 3px, transparent 3px 40px),
-                   repeating-linear-gradient(-45deg, rgba(214,178,90,.24) 0 3px, transparent 3px 40px);
-  display:flex; flex-direction:column; min-height:100vh;}
-header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
-.title{ color:#b8860b; font-weight:900; margin:0; font-size:1.9rem;
-  text-shadow:-1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo), -1px 1px 0 var(--roxo), 1px 1px 0 var(--roxo);}
-.wrap{width:100%;max-width:620px;margin:0 auto;padding:10px 16px 18px}
-.hero{ display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
-  border:6px solid var(--ouro); box-shadow:0 0 0 4px var(--roxo) inset, 0 8px 18px var(--shadow); border-radius:12px}
-.hero[hidden]{display:none}
-.chip{ display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.9);
-  border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082}
-.buttons{display:flex;flex-direction:column;gap:10px;align-items:center}
-.btn{ position:relative; display:flex; align-items:center; justify-content:center; gap:0.25rem;
-  background:#fff; text-decoration:none; cursor:pointer;
-  border:3px solid var(--roxo); box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
-  border-radius:18px; padding:12px 20px; width:86%; transition:transform .15s ease, background-color .2s ease;}
-.btn:hover{transform:scale(1.02); background:#fff3da}
-.btn img{ position:absolute; left:12px; width:22px; height:22px; object-fit:cover; border-radius:50%;}
-.btn .label{display:inline-block; width:100%; text-align:center; color:#4B0082; font-weight:800; line-height:1.15}
-.btn .label .top{display:block; font-size:1.05rem; color:#b8860b}
-.btn .label .sub{display:block; font-size:.82rem; color:#111}
-footer{margin-top:10px; text-align:center; padding-bottom:14px}
-.back{ display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff; text-decoration:none;
-  border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px; font-weight:bold; font-size:.9rem;}
+:root{ --ouro:#d6b25a; --marrom:#582c0c; --shadow:rgba(0,0,0,.15); --fonte:Arial,Helvetica,sans-serif; }
+body{ margin:0; font-family:var(--fonte); background:#d6b25a; color:#1b1b1b;
+  background-image:repeating-linear-gradient(45deg, rgba(88,44,12,.22) 0 2px, transparent 2px 40px),repeating-linear-gradient(-45deg, rgba(88,44,12,.22) 0 2px, transparent 2px 40px);
+  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh; }
+header{text-align:center;padding:12px 12px 0}
+.title{ margin:0; font-weight:900; font-size:1.6rem; color:#3b200b;
+  text-shadow:-1px -1px 0 var(--ouro),1px -1px 0 var(--ouro),-1px 1px 0 var(--ouro),1px 1px 0 var(--ouro) }
+.wrap{max-width:640px;margin:0 auto;padding:8px 16px 24px;width:100%}
+.hero{ display:block;margin:8px auto 14px;max-width:100%;height:auto;max-height:380px;
+  border:6px solid var(--marrom);box-shadow:0 0 0 4px var(--ouro) inset,0 6px 16px var(--shadow);border-radius:14px }
+.buttons{display:flex;flex-direction:column;gap:12px;align-items:center}
+.btn{ position:relative;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;
+  color:var(--marrom);background:#fff;font-weight:900;border:3px solid var(--marrom);border-radius:18px;
+  padding:7px 18px; width:78%; box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow); transition:.15s }
+.btn:hover{transform:scale(1.02);background:#fff9f0}
+.btn img{ position:absolute;left:12px;width:18px;height:18px;border-radius:50%;object-fit:cover;border:2px solid var(--ouro) }
+.label{width:100%}
+.line1{display:block;color:var(--ouro);font-size:1.0rem; line-height:1.05}
+.line2{display:block;color:#000;font-size:.80rem; line-height:1.05}
+footer{margin-top:6px;text-align:center;padding:6px 0 10px}
+.back{ display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;text-decoration:none;
+  border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem; transform:scale(.39) }
 .back:hover{background:#c00000}
 </style>
 </head>
 <body>
-<header><h1 class="title">Segunda-feira * Quaresma</h1></header>
+<header><h1 class="title">Segunda-feira · Quaresma</h1></header>
+
 <main class="wrap">
-  <img class="hero" src="img/icone-quaresma.jpg" alt="Ícone Quaresma" onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
-  <div id="hero-chip" class="chip" style="display:none">Quaresma</div>
-  <section class="buttons" aria-label="Segunda-feira — opções">
-    <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz6.jpeg" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
+  <img class="hero" src="img/icone-tempos.jpg" alt="Ícone — Quaresma">
+
+  <section class="buttons" aria-label="Ações do dia">
+    <a class="btn" data-link="safro-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
+    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
   </section>
 </main>
+
 <footer>
-  <a class="back" href="javascript:history.back()"
-     onclick="if(!document.referrer || !document.referrer.includes('quaresma.html')) this.href='quaresma.html';">← Voltar</a>
+  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('quaresma.html')){this.href='quaresma.html'}">← Voltar</a>
 </footer>
+
+<script>
+const LINKS = { 'safro-curta':null,'safro-longa':null,'ramsho-curta':null,'ramsho-longa':null };
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const key=a.getAttribute('data-link'); if(LINKS[key]) a.href=LINKS[key];
+  else {a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
+});
+</script>
 </body>
 </html>
+
