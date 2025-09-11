@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -26,7 +27,7 @@ header{text-align:center;padding:12px 12px 0}
 }
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center}
 .btn{
-  /* Altura visual ~ -30%: reduzimos padding e linhas */
+  /* Altura visual ~ -30% */
   position:relative;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;
   color:var(--marrom);background:#fff;font-weight:900;border:3px solid var(--marrom);border-radius:18px;
   padding:7px 18px; /* 10px -> 7px */
@@ -34,17 +35,17 @@ header{text-align:center;padding:12px 12px 0}
 }
 .btn:hover{transform:scale(1.02);background:#fff9f0}
 .btn img{
-  position:absolute;left:12px;width:18px;height:18px; /* já estava ~ -30% do antigo 26px */
+  position:absolute;left:12px;width:18px;height:18px; /* ~ -30% do antigo 26px */
   border-radius:50%;object-fit:cover;border:2px solid var(--ouro)
 }
 .label{width:100%}
-.line1{display:block;color:var(--ouro);font-size:1.0rem; line-height:1.05} /* 1.05rem -> 1.0rem */
-.line2{display:block;color:#000;font-size:.80rem; line-height:1.05}      /* .85rem -> .80rem */
+.line1{display:block;color:var(--ouro);font-size:1.0rem; line-height:1.05}
+.line2{display:block;color:#000;font-size:.80rem; line-height:1.05}
 
-footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* perto do último botão, sem encostar */
+footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do último botão, sem encostar */
 .back{
   display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;text-decoration:none;
-  border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.3) /* 0.6 -> 0.3 */
+  border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39) /* 0.3 -> 0.39 (+30%) */
 }
 .back:hover{background:#c00000}
 </style>
@@ -92,4 +93,3 @@ document.querySelectorAll('[data-link]').forEach(a=>{
 </script>
 </body>
 </html>
-
