@@ -36,7 +36,7 @@ footer{margin-top:4px;text-align:center;padding:6px 0 10px}
 <body>
 <header><h1 class="title">Quarta-feira da Paixão</h1></header>
 <main class="wrap">
-  <img class="hero" src="img/icone-quarta-paixao.png" alt="Ícone Quarta-feira da Paixão" onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
+  <img class="hero" id="hero" src="img/icone-quarta-paixao.jpg" alt="Ícone Quarta-feira da Paixão" onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
   <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
   <section class="buttons" aria-label="Quarta-feira da Paixão — opções">
     <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
@@ -48,7 +48,16 @@ footer{margin-top:4px;text-align:center;padding:6px 0 10px}
 <footer>
   <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('paixao.html')) this.href='paixao.html';">← Voltar</a>
 </footer>
+
+<script>
+  // Garante que o chip de fallback permaneça oculto quando a imagem carregar
+  const hero = document.getElementById('hero');
+  if (hero) {
+    hero.addEventListener('load', () => {
+      const chip = document.getElementById('hero-chip');
+      if (chip) chip.style.display = 'none';
+    });
+  }
+</script>
 </body>
 </html>
-
-
