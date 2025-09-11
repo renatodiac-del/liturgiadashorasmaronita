@@ -3,81 +3,90 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Terça-feira da Paixão</title>
-<meta name="theme-color" content="#8B0000">
+<meta name="theme-color" content="#5a0010"><!-- bordô, igual à página mãe -->
 <style>
-/* padrão filhas com fundo bordô da mãe */
+/* padrão filhas (com ajustes solicitados) */
 *{box-sizing:border-box} html,body{height:100%}
 :root{
-  --ouro:#d6b25a; --roxo:#4B0082; --shadow:rgba(0,0,0,.16);
-  --fonte: Arial, Helvetica, sans-serif; --verm:#a00000;
-  --bordo:#5a0010;
+  --ouro:#d6b25a;
+  --roxo:#4B0082;
+  --shadow:rgba(0,0,0,.16);
+  --fonte: Arial, Helvetica, sans-serif;
+  --verm:#a00000;
+  --bordo:#5a0010;        /* cor de fundo igual à mãe */
 }
 body{
   margin:0; font-family:var(--fonte); color:#1a1a1a;
   background: var(--bordo);
+  /* mantém linhas/detalhes */
   background-image:
-    repeating-linear-gradient(45deg, rgba(75,0,130,.35) 0 3px, transparent 3px 40px),
-    repeating-linear-gradient(-45deg, rgba(214,178,90,.32) 0 3px, transparent 3px 40px);
+    repeating-linear-gradient(45deg, rgba(75,0,130,.35) 0 3px, transparent 3px 42px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.32) 0 3px, transparent 3px 42px);
   background-blend-mode: overlay;
   display:flex; flex-direction:column; min-height:100vh;
 }
 
+/* Cabeçalho */
 header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
 .title{
   color:var(--verm); font-weight:900; margin:0; line-height:1.08;
-  /* -5pt no título em relação ao original */
-  font-size: calc(1.9rem + 2pt - 5pt);
-  text-shadow:-1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo),
-              -1px  1px 0 var(--roxo), 1px  1px 0 var(--roxo);
+  font-size: calc(1.9rem + 2pt); /* já estava reduzido nas filhas */
+  text-shadow:-1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo), -1px 1px 0 var(--roxo), 1px 1px 0 var(--roxo);
 }
 
 /* Área principal */
-.wrap{width:100%;max-width:720px;margin:0 auto;padding:10px 16px 16px}
-
-/* Ícone: maior, com origem no topo e mais respiro para não encostar no título nem nos botões */
+.wrap{width:100%;max-width:720px;margin:0 auto;padding:10px 16px 18px}
 .hero{
-  display:block;
-  margin: 14px auto 40px;            /* afasta do título e dos botões */
-  max-width:100%; height:auto; max-height:420px;
-  border:6px solid var(--ouro); box-shadow:0 0 0 4px var(--roxo); border-radius:12px;
-  transform-origin: top center;      /* cresce para baixo, evitando cobrir o título */
-  transform: scale(1.6);             /* 1.4 + 15% ≈ 1.61 → arredondado para 1.6 */
+  display:block;margin:10px auto 12px; /* levemente mais abaixo do título */
+  max-width:92%;height:auto;max-height:520px; /* ícone maior (ajustes anteriores) */
+  border:6px solid var(--ouro);
+  box-shadow:0 0 0 4px var(--roxo); border-radius:12px
 }
 .hero[hidden]{display:none}
-
 .chip{
   display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92);
-  border:3px solid var(--ouro);box-shadow:0 0 0 2px var(--roxo) inset;border-radius:14px;font-weight:800;color:#4B0082
+  border:3px solid var(--ouro); box-shadow:0 0 0 2px var(--roxo) inset; border-radius:14px; font-weight:800; color:#4B0082
 }
 
-/* Botões grandes 30% mais baixos (+ espaço para começarem da metade da página para baixo) */
+/* Botões grandes */
 .buttons{
-  display:flex;flex-direction:column;gap:8px;align-items:center;
-  /* empurra o bloco de botões para iniciar ~da metade da página para baixo, sem quebrar telas menores */
-  margin-top: clamp(12px, calc(50vh - 280px), 30vh);
+  display:flex; flex-direction:column; align-items:center;
+  gap:16px;                 /* SEPARAR mais os botões */
+  margin-top:56vh;          /* descer um pouco mais (antes já estava >50vh) */
 }
 .btn{
-  position:relative; display:flex; align-items:center; justify-content:center; gap:.25rem; background:#fff; text-decoration:none; cursor:pointer;
-  border:3px solid var(--roxo); box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px rgba(0,0,0,.15);
-  border-radius:18px; padding:10px 18px; /* 14px -> ~10px (≈ -30%) */
-  width:87%; transition:transform .15s ease, background-color .2s ease; font-weight:800;
-  color:#4B0082; text-align:center; line-height:1.15;
+  position:relative; display:flex; align-items:center; justify-content:center; gap:.25rem;
+  background:#fff; text-decoration:none; cursor:pointer;
+  border:3px solid var(--roxo);
+  box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px rgba(0,0,0,.15);
+  border-radius:18px;
+  width:87%;
+  padding:9px 20px;         /* ~10% MENOR que o ajuste anterior (altura) */
+  transition:transform .15s ease, background-color .2s ease;
+  font-weight:800; color:#4B0082; text-align:center; line-height:1.15;
 }
 .btn:hover{transform:scale(1.02); background:#fff8e8}
-.btn img{position:absolute; left:12px; width:26px; height:26px; object-fit:cover; border-radius:50%; border:2px solid var(--ouro)}
+.btn img{
+  position:absolute; left:12px; width:26px; height:26px; object-fit:cover; border-radius:50%;
+  border:2px solid var(--ouro)
+}
 .btn .label{display:inline-block; width:100%}
 .btn .label .top{display:block; font-size:1.02rem; color:#b8860b}
 .btn .label .sub{display:block; font-size:.82rem; color:#111}
 
-/* Voltar 50% menor e o mais próximo possível do último botão (sem encostar) */
-footer{margin-top:6px; text-align:center; padding:4px 0 12px}
+/* Voltar (pequeno e encostado sem tocar) */
+footer{margin-top:6px; text-align:center; padding-bottom:12px}
 .back{
   display:inline-flex; align-items:center; gap:8px; background:#4B0082; color:#fff; text-decoration:none;
-  border:1px solid #2f0656; padding:.36rem .62rem; border-radius:9px; font-weight:bold; font-size:.9rem;
-  transform: scale(.5);
-  transform-origin: center;
+  border:1px solid #2f0656; padding:.36rem .62rem; border-radius:9px;
+  font-weight:bold; font-size:.9rem; transform:scale(.5); transform-origin:center; /* pequeno conforme padrão das filhas */
 }
 .back:hover{background:#5e1fb0}
+
+/* Salvaguardas para telas muito baixas: não empurrar demais os botões */
+@media (max-height: 700px){
+  .buttons{ margin-top:50vh; }
+}
 </style>
 </head>
 <body>
@@ -97,7 +106,9 @@ footer{margin-top:6px; text-align:center; padding:4px 0 12px}
 </main>
 
 <footer>
-  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('paixao.html')) this.href='paixao.html';">← Voltar</a>
+  <a class="back" href="javascript:history.back()"
+     onclick="if(!document.referrer || !document.referrer.includes('paixao.html')) this.href='paixao.html';">← Voltar</a>
 </footer>
 </body>
 </html>
+
