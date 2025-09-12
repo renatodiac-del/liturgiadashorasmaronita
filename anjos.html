@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anjos · Comum dos Santos</title>
+<meta name="theme-color" content="#a9d9ff">
+<style>
+:root{
+  --ouro:#d6b25a;         /* ouro velho */
+  --navy:#0b2a4d;         /* borda azul marinho */
+  --texto:#0b2a4d;
+  --shadow:rgba(0,0,0,.14);
+  --fonte: Arial, Helvetica, sans-serif;
+  --btnIcon: 29.6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--fonte); color:var(--texto);
+  /* céu azul celeste com nuvens brancas via gradientes */
+  background:
+    radial-gradient(ellipse at 15% 25%, rgba(255,255,255,.8) 0 18%, transparent 20%) ,
+    radial-gradient(ellipse at 65% 20%, rgba(255,255,255,.9) 0 14%, transparent 16%),
+    radial-gradient(ellipse at 80% 45%, rgba(255,255,255,.85) 0 16%, transparent 18%),
+    radial-gradient(ellipse at 30% 60%, rgba(255,255,255,.85) 0 15%, transparent 17%),
+    linear-gradient(#87c9ff, #cfeaff 60%, #e7f4ff 100%);
+  min-height:100vh; display:flex; flex-direction:column;
+}
+header{text-align:center;padding:12px 10px 6px}
+.title{
+  color:var(--ouro); /* letras douradas */
+  font-weight:900; font-size:2rem; margin:0;
+  /* borda azul marinho ao redor */
+  text-shadow:
+    -1px -1px 0 var(--navy), 1px -1px 0 var(--navy),
+    -1px  1px 0 var(--navy), 1px  1px 0 var(--navy);
+}
+.wrap{max-width:640px;margin:0 auto;padding:10px 16px 22px;width:100%}
+.hero{
+  display:block;margin:8px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
+  /* borda dupla: ouro velha externa + azul marinho interna */
+  border:6px solid var(--ouro);
+  box-shadow:0 0 0 4px var(--navy) inset, 0 8px 16px var(--shadow);
+  border-radius:14px
+}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{
+  display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
+  background:#fff;color:var(--ouro); text-decoration:none;font-weight:900;border:3px solid var(--navy);
+  box-shadow:inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
+  border-radius:18px;padding:4.8px 18px;width:94%;margin:0 auto;transition:transform .12s, background-color .2s;
+}
+.btn:hover{transform:scale(1.02);background:#fffdf4}
+.btn .icon{
+  width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;
+  border:2px solid var(--ouro); box-shadow:inset 0 0 0 2px var(--navy);
+  object-fit:cover;
+}
+.btn .label{
+  text-align:center;color:var(--ouro);
+  text-shadow:
+    -1px -1px 0 var(--navy), 1px -1px 0 var(--navy),
+    -1px  1px 0 var(--navy), 1px  1px 0 var(--navy);
+}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+.back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
+.btn-back{
+  display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
+  padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer;
+}
+.btn-back .arr{font-size:18px;line-height:1}
+</style>
+<script>
+  function goBackOrMother(){
+    try{
+      if (document.referrer && document.referrer.includes('santos.html')) { history.back(); return; }
+      if (history.length>1) { history.back(); return; }
+    }catch(e){}
+    location.href='santos.html';
+  }
+</script>
+</head>
+<body>
+<header><h1 class="title">Anjos</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-anjos.jpg" alt="Ícone — Anjos" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Anjos — ofícios">
+    <a class="btn" data-link="ramsho-curta"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-longa"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho — versão longa</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-curta"   href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-longa"   href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro — versão longa</span><span class="slot"></span></a>
+  </section>
+
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
+</main>
+
+<script>
+const LINKS={'ramsho-curta':null,'ramsho-longa':null,'safro-curta':null,'safro-longa':null};
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}
+});
+</script>
+</body>
+</html>
