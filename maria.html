@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Virgem Maria · Comum dos Santos</title>
+<meta name="theme-color" content="#0a2a66">
+<style>
+:root{
+  --ouro:#d6b25a;            /* ouro velho */
+  --azulTitulo:#0b2a4d;      /* azul marinho do título */
+  --azulBtn:#2e5fa3;         /* azul dos botões (mais claro que o título) */
+  --texto:#0b2a4d;
+  --shadow:rgba(0,0,0,.14);
+  --fonte: Arial, Helvetica, sans-serif;
+  --btnIcon: 29.6px;         /* tamanho do ícone nos botões (igual à mãe) */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--fonte);
+  color:var(--texto);
+  /* degradê: embaixo azul bem escuro -> meio azul médio -> topo azul bem claro com filete quase branco */
+  background:
+    linear-gradient(to top, #061a3a 0%, #184a8c 55%, #cfe6ff 96%, #eef7ff 100%);
+  position:relative;
+  min-height:100vh; display:flex; flex-direction:column;
+  overflow-x:hidden;
+}
+/* camada decorativa para estrelas e lua */
+.decor{position:fixed;inset:0;pointer-events:none;z-index:0}
+.star{position:absolute;color:#ffd700;font-size:22px;filter:drop-shadow(0 0 6px #fff)}
+/* Lua crescente no rodapé, grande, pontas tocando as laterais */
+.moon{
+  position:absolute; left:50%; bottom:-8vw; transform:translateX(-50%);
+  width:110vw; height:110vw; border-radius:50%;
+  background:#fff; filter:blur(0.5px) drop-shadow(0 -2px 10px rgba(255,255,255,.7));
+  /* esculpe a lua com um “disco” azul por cima (fazendo o crescente) */
+  box-shadow:
+    inset -40vw -10vw 0 -15vw #0e2b5c; /* “morde” o disco branco pelo lado direito-superior */
+  opacity:.95;
+}
+header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
+.title{
+  color:var(--azulTitulo);
+  font-weight:900; font-size:2rem; margin:0;
+  /* borda dourada nas letras */
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:10px 16px 22px;width:100%}
+.hero{
+  display:block;margin:8px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
+  border:6px solid var(--ouro); /* borda dourada (ouro velho) */
+  box-shadow:0 0 0 4px #b8860b inset, 0 8px 16px var(--shadow);
+  border-radius:14px
+}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{
+  display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
+  background:#fff;color:var(--azulBtn);text-decoration:none;font-weight:900;border:3px solid var(--azulTitulo);
+  box-shadow:inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
+  border-radius:18px;padding:4.8px 18px;width:94%;margin:0 auto;transition:transform .12s, background-color .2s;
+}
+.btn:hover{transform:scale(1.02);background:#f7fbff}
+.btn .icon{
+  width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--ouro);
+  object-fit:cover;
+}
+.btn .label{
+  text-align:center;
+  color:var(--azulBtn);
+  /* “borda” dourada na fonte dos botões */
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+.back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
+.btn-back{
+  display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
+  padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer;
+}
+.btn-back .arr{font-size:18px;line-height:1}
+</style>
+<script>
+  function goBackOrMother(){
+    try{
+      if (document.referrer && document.referrer.includes('santos.html')) { history.back(); return; }
+      if (history.length>1) { history.back(); return; }
+    }catch(e){}
+    location.href='santos.html';
+  }
+  /* cria 12 estrelas perto do título */
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const decor=document.querySelector('.decor');
+    const areaTop=120; // px a partir do topo
+    for(let i=0;i<12;i++){
+      const s=document.createElement('div');
+      s.className='star';
+      s.textContent='★';
+      const left=8 + i*(84/11); // distribui no topo (em vw aproximado)
+      s.style.left=left+'vw';
+      s.style.top=(12 + Math.sin(i)*8)+'px';
+      s.style.fontSize=(22+ (i%3)*2)+'px';
+      decor.appendChild(s);
+    }
+  });
+</script>
+</head>
+<body>
+<div class="decor">
+  <div class="moon" aria-hidden="true"></div>
+</div>
+
+<header><h1 class="title">Virgem Maria</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-maria.jpg" alt="Ícone — Virgem Maria" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Virgem Maria — ofícios">
+    <a class="btn" data-link="ramsho-curta"  href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-longa"  href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Ramsho — versão longa</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-curta"   href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Safro — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-longa"   href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Safro — versão longa</span><span class="slot"></span></a>
+  </section>
+
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
+</main>
+
+<script>
+/* COLE AQUI AS 4 URLs; desativa se vazio */
+const LINKS={
+  'ramsho-curta':  null,
+  'ramsho-longa':  null,
+  'safro-curta' :  null,
+  'safro-longa' :  null
+};
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}
+});
+</script>
+</body>
+</html>
