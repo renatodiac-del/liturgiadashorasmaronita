@@ -2,54 +2,44 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sábado * Ressurreição</title>
-<meta name="theme-color" content="#fdf5e6">
+<title>Sábado · Ressurreição</title>
+<meta name="theme-color" content="#d6b25a">
 <style>
-/* mesmos estilos base */
 *{box-sizing:border-box} html,body{height:100%}
-:root{ --bege:#fdf5e6; --ouro:#b8860b; --txt:#1b1b1b; --shadow:rgba(0,0,0,.15); --fonte: Arial, Helvetica, sans-serif; --vermelho:#a00000; }
-body{ margin:0; font-family:var(--fonte); color:var(--txt); background:var(--bege);
-  background-image: repeating-linear-gradient(45deg, rgba(184,134,11,.30) 0 2px, transparent 2px 40px),
-                    repeating-linear-gradient(-45deg, rgba(184,134,11,.30) 0 2px, transparent 2px 40px);
-  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;}
-header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
-.title{color:var(--ouro); font-weight:900; margin:0; font-size:2rem; text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff;}
-.wrap{width:100%;max-width:640px;margin:0 auto;padding:10px 16px 18px}
-.hero{display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;border:6px solid var(--ouro);box-shadow:0 0 0 4px rgba(184,134,11,.45) inset, 0 6px 16px var(--shadow);border-radius:12px}
-.hero[hidden]{display:none}
-.chip{display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92);border:3px solid var(--ouro);box-shadow:0 0 0 2px rgba(184,134,11,.55) inset;border-radius:14px;font-weight:800;color:var(--ouro)}
-.buttons{display:flex;flex-direction:column;gap:10px;align-items:center}
-.btn{position:relative; display:flex; align-items:center; justify-content:center; gap:.25rem; width:87%; padding:14px 20px; background:#fff; text-decoration:none; cursor:pointer; border:3px solid var(--ouro); box-shadow: inset 0 0 0 2px rgba(184,134,11,.45), 0 4px 10px var(--shadow); border-radius:18px; transition:transform .15s ease, background-color .2s ease}
-.btn:hover{transform:scale(1.02); background:#fffaf0}
-.btn img{position:absolute; left:12px; width:30px; height:30px; object-fit:cover; border-radius:50%; border:2px solid var(--ouro)}
-.btn .label{display:inline-block; width:100%; text-align:center; color:var(--ouro); font-weight:800; line-height:1.15}
-.btn .label .top{display:block; font-size:1.06rem; color:var(--ouro)}
-.btn .label .sub{display:block; font-size:.84rem; color:#111}
-footer{margin-top:8px; text-align:center; padding-bottom:12px}
-.back{display:inline-flex; align-items:center; gap:.5rem; background:var(--vermelho); color:#fff; text-decoration:none; border:1px solid #6f0000; padding:.42rem .68rem; border-radius:9px; font-weight:bold; font-size:.9rem}
+:root{ --ouro:#d6b25a; --marrom:#58390c; --shadow:rgba(0,0,0,.15); --fonte:Arial,Helvetica,sans-serif; }
+body{ margin:0; font-family:var(--fonte); color:#1b1b1b; background:linear-gradient(to top, #fff6d6 0%, #fff9e8 55%, #fffef8 100%); display:flex; flex-direction:column; min-height:100vh; }
+header{text-align:center;padding:12px 12px 0}
+.title{ margin:0; font-weight:900; font-size:1.6rem; color:#3b200b; text-shadow:-1px -1px 0 var(--ouro),1px -1px 0 var(--ouro),-1px 1px 0 var(--ouro),1px 1px 0 var(--ouro); }
+.wrap{max-width:640px;margin:0 auto;padding:8px 16px 24px;width:100%}
+.hero{ display:block;margin:8px auto 14px;max-width:100%;height:auto;max-height:360px; border:6px solid var(--marrom);box-shadow:0 0 0 4px var(--ouro) inset,0 6px 16px var(--shadow);border-radius:14px; }
+.buttons{display:flex;flex-direction:column;gap:12px;align-items:center}
+.btn{ position:relative;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none; color:var(--marrom);background:#fff;font-weight:900;border:3px solid var(--marrom);border-radius:18px; padding:7px 18px;width:78%; box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow); transition:.15s }
+.btn:hover{transform:scale(1.02);background:#fffdf4}
+.btn img{ position:absolute;left:12px;width:18px;height:18px;border-radius:50%;object-fit:cover;border:2px solid var(--ouro) }
+.label{width:100%}.line1{display:block;color:var(--ouro);font-size:1.0rem;line-height:1.05}.line2{display:block;color:#000;font-size:.80rem;line-height:1.05}
+footer{margin-top:6px;text-align:center;padding:6px 0 10px}
+.back{ display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;text-decoration:none; border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39) }
 .back:hover{background:#c00000}
 </style>
 </head>
 <body>
-<header><h1 class="title">Sábado * Ressurreição</h1></header>
-
+<header><h1 class="title">Sábado · Ressurreição</h1></header>
 <main class="wrap">
-  <img class="hero" id="hero" src="img/icone-ressurreicao.jpg" alt="Ícone Ressurreição" onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
-  <div id="hero-chip" class="chip" style="display:none">Ressurreição</div>
-
-  <section class="buttons" aria-label="Sábado — opções">
-    <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
+  <img class="hero" src="img/icone-ressurreicao.jpg" alt="Ícone — Ressurreição">
+  <section class="buttons" aria-label="Ações do dia">
+    <a class="btn" data-link="safro-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
+    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
   </section>
 </main>
-
 <footer>
-  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('ressurreicao.html')) this.href='ressurreicao.html';">← Voltar</a>
+  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('ressurreicao.html')){this.href='ressurreicao.html'}">← Voltar</a>
 </footer>
 <script>
-document.getElementById('hero').addEventListener('load',()=>{const c=document.getElementById('hero-chip'); if(c) c.style.display='none';});
+const LINKS={'safro-curta':null,'safro-longa':null,'ramsho-curta':null,'ramsho-longa':null};
+document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}});
 </script>
 </body>
 </html>
+
