@@ -8,8 +8,8 @@
 <style>
 :root{
   --ouro:#d6b25a;            /* ouro velho */
-  --vermelhoVivo:#d10000;    /* borda interna do ícone / borda de letras dos botões */
-  --vermelhoBordo:#7b001c;   /* base do degradê */
+  --vermelhoVivo:#d10000;
+  --vermelhoBordo:#7b001c;
   --texto:#470000;
   --shadow:rgba(0,0,0,.16);
   --fonte: Arial, Helvetica, sans-serif;
@@ -19,12 +19,15 @@
 html,body{height:100%}
 body{
   font-family:var(--fonte); color:var(--texto);
-  background:
-    linear-gradient(to top, var(--vermelhoBordo) 0%, #f7b1b1 70%, #ffffff 100%);
+  background: linear-gradient(to top, var(--vermelhoBordo) 0%, #f7b1b1 70%, #ffffff 100%);
   min-height:100vh; display:flex; flex-direction:column; position:relative; overflow:hidden;
 }
 .decor{position:fixed;inset:0;pointer-events:none;z-index:0}
-.crown{position:absolute;color:var(--ouro);font-size:18px;filter:drop-shadow(0 0 4px rgba(255,215,0,.7))}
+.crown{
+  position:absolute; color:var(--ouro); font-size:18px; line-height:1;
+  text-shadow:0 0 4px rgba(184,134,11,.6); /* leve brilho ouro velho */
+  font-family: "Segoe UI Symbol","Apple Color Emoji","Noto Color Emoji",sans-serif;
+}
 header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 .title{
   color:#ff1b1b; font-weight:900; font-size:2rem; margin:0;
@@ -36,7 +39,6 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 .hero{
   display:block;margin:8px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
   border:6px solid var(--ouro);
-  /* duas bordas: externa ouro e interna vermelho vivo */
   box-shadow:0 0 0 3px var(--vermelhoVivo) inset, 0 8px 16px var(--shadow), 0 0 0 4px var(--ouro) inset;
   border-radius:14px
 }
@@ -54,7 +56,6 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 }
 .btn .label{
   text-align:center;color:var(--ouro);
-  /* borda vermelho vivo nas letras dos botões */
   text-shadow:
     -1px -1px 0 var(--vermelhoVivo), 1px -1px 0 var(--vermelhoVivo),
     -1px  1px 0 var(--vermelhoVivo), 1px  1px 0 var(--vermelhoVivo);
@@ -75,16 +76,21 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
     }catch(e){}
     location.href='santos.html';
   }
-  /* 12 coroas douradas */
+  /* Coroas minimalistas (símbolo simples) espalhadas, priorizando bordas laterais e faixas superior/inferior */
   document.addEventListener('DOMContentLoaded', ()=>{
     const decor=document.querySelector('.decor');
-    const qty=12;
+    const qty=18;
     for(let i=0;i<qty;i++){
       const e=document.createElement('div');
-      e.className='crown'; e.textContent='👑';
-      e.style.left=(6+Math.random()*88)+'vw';
-      e.style.top=(8+Math.random()*70)+'vh';
-      e.style.fontSize=(16+Math.random()*6)+'px';
+      e.className='crown';
+      e.textContent='♛'; // forma simples/minimalista
+      // X mais perto das laterais
+      const xSide = Math.random()<0.5 ? (2+Math.random()*10) : (88+Math.random()*10); // 2..12vw ou 88..98vw
+      // Y mais perto do topo ou rodapé
+      const yBand = Math.random()<0.5 ? (4+Math.random()*10) : (86+Math.random()*10); // 4..14vh ou 86..96vh
+      e.style.left = xSide+'vw';
+      e.style.top  = yBand+'vh';
+      e.style.fontSize = (14 + Math.random()*8) + 'px';
       decor.appendChild(e);
     }
   });
@@ -118,3 +124,4 @@ document.querySelectorAll('[data-link]').forEach(a=>{
 </script>
 </body>
 </html>
+
