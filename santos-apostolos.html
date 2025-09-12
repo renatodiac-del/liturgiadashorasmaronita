@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apóstolos · Comum dos Santos</title>
+<meta name="theme-color" content="#b40022">
+<style>
+:root{
+  --ouro:#d6b25a;          /* ouro velho p/ bordas, letras e brilhos */
+  --vermelhoBordo:#7b001c; /* cor do título e dos botões */
+  --vermelhoPe:#7a0a0a;    /* base do degradê (rodapé) */
+  --vermelhoTopo:#f06a6a;  /* topo do degradê (um pouco mais claro) */
+  --texto:#460000;
+  --shadow:rgba(0,0,0,.16);
+  --fonte: Arial, Helvetica, sans-serif;
+  --btnIcon: 29.6px;       /* mesmo tamanho de ícone dos botões da mãe */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--fonte); color:var(--texto);
+  /* Fundo em degradê: vermelho real (pé) -> vermelho mais claro (topo) */
+  background:
+    linear-gradient(to top, var(--vermelhoPe) 0%, #cf2d2d 50%, var(--vermelhoTopo) 100%);
+  min-height:100vh; display:flex; flex-direction:column; position:relative; overflow:hidden;
+}
+
+/* Camada decorativa: várias cruzes douradas, pequenas e iguais (12+) */
+.decor{position:fixed;inset:0;pointer-events:none;z-index:0}
+.cross{
+  position:absolute; color:var(--ouro); font-size:18px; line-height:1;
+  text-shadow:0 0 4px rgba(184,134,11,.7);
+  font-family: "Segoe UI Symbol","Apple Color Emoji","Noto Color Emoji",sans-serif;
+}
+
+/* Conteúdo */
+header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
+.title{
+  color:var(--vermelhoBordo); font-weight:900; font-size:2rem; margin:0;
+  /* borda dourada nas letras do título */
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:10px 16px 22px;width:100%}
+
+/* Ícone da página (hero) com borda ouro velho */
+.hero{
+  display:block;margin:8px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
+  border:6px solid var(--ouro);
+  box-shadow:0 0 0 4px #b8860b inset, 0 8px 16px var(--shadow);
+  border-radius:14px
+}
+
+/* Lista de botões (mesmas dimensões do padrão) */
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{
+  display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
+  background:#fff;color:var(--vermelhoBordo);text-decoration:none;font-weight:900;border:3px solid var(--vermelhoBordo);
+  box-shadow:inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
+  border-radius:18px;padding:4.8px 18px;width:94%;margin:0 auto;transition:transform .12s, background-color .2s;
+}
+.btn:hover{transform:scale(1.02);background:#fff6f6}
+.btn .icon{
+  width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--ouro);object-fit:cover;
+}
+.btn .label{
+  text-align:center;color:var(--vermelhoBordo);
+  /* letras dos botões com “borda” dourada */
+  text-shadow:
+    -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+    -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+
+/* Botão Voltar — mesmo tamanho/padrão das demais páginas (escala .48) e perto dos botões */
+.back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
+.btn-back{
+  display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
+  padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer;
+}
+.btn-back .arr{font-size:18px;line-height:1}
+</style>
+
+<script>
+  /* Voltar inteligente: histórico se veio da mãe; senão, cai em santos.html */
+  function goBackOrMother(){
+    try{
+      if (document.referrer && document.referrer.includes('santos.html')) { history.back(); return; }
+      if (history.length>1) { history.back(); return; }
+    }catch(e){}
+    location.href='santos.html';
+  }
+
+  /* Gera 14 cruzes douradas do mesmo tamanho, distribuídas;
+     mantém boa parte rumo às laterais para dar textura sem poluir o centro */
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const decor=document.querySelector('.decor');
+    const Q=14;
+    for(let i=0;i<Q;i++){
+      const xSide = Math.random()<0.5 ? (4+Math.random()*12) : (84+Math.random()*12); // perto das laterais
+      const yPos  = 10 + Math.random()*76; // evita grudar totalmente nas bordas horiz.
+      const e=document.createElement('div');
+      e.className='cross';
+      e.textContent='✚';
+      e.style.left = xSide + 'vw';
+      e.style.top  = yPos  + 'vh';
+      e.style.fontSize = '18px';
+      decor.appendChild(e);
+    }
+  });
+</script>
+</head>
+<body>
+<div class="decor" aria-hidden="true"></div>
+
+<header><h1 class="title">Apóstolos</h1></header>
+
+<main class="wrap">
+  <!-- Ícone da página -->
+  <img class="hero" src="img/icone-apostolos.jpg" alt="Ícone — Apóstolos" onerror="this.style.display='none'">
+
+  <!-- 4 botões grandes (Ramsho curto/longa, Safro curto/longa) -->
+  <section class="list" aria-label="Apóstolos — ofícios">
+    <a class="btn" data-link="ramsho-curta"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-longa"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho — versão longa</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-curta"   href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-longa"   href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro — versão longa</span><span class="slot"></span></a>
+  </section>
+
+  <!-- Voltar (colado sem encostar) -->
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
+</main>
+
+<!-- Cole aqui as 4 URLs (deixe null para desativar) -->
+<script>
+const LINKS={
+  'ramsho-curta':  null,
+  'ramsho-longa':  null,
+  'safro-curta' :  null,
+  'safro-longa' :  null
+};
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const k=a.getAttribute('data-link');
+  if (LINKS[k]) a.href=LINKS[k];
+  else { a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+});
+</script>
+</body>
+</html>
