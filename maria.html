@@ -110,5 +110,39 @@ header{position:relative;z-index:1;text-align:center;padding:28px 10px 8px} /* �
       s.style.left = left+'vw';
       s.style.top  = top+'px';
       s.style.fontSize=(20 + (i%3))*1+'px';
-      decor.appendChi
+      decor.appendChild(s);
+    }
+  });
+</script>
+</head>
+<body>
+<div class="decor">
+  <div class="moon" aria-hidden="true"></div>
+</div>
+
+<header><h1 class="title">Virgem Maria</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-maria.jpg" alt="Ícone — Virgem Maria" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Virgem Maria — ofícios">
+    <a class="btn" data-link="ramsho-curta"  href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-longa"  href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Ramsho — versão longa</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-curta"   href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Safro — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-longa"   href="#"><img class="icon" src="img/cedro.jpg"   alt=""><span class="label">Safro — versão longa</span><span class="slot"></span></a>
+  </section>
+
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
+</main>
+
+<script>
+const LINKS={'ramsho-curta':null,'ramsho-longa':null,'safro-curta':null,'safro-longa':null};
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}
+});
+</script>
+</body>
+</html>
 
