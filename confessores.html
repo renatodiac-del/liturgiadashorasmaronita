@@ -20,8 +20,7 @@
 html,body{height:100%}
 body{
   font-family:var(--fonte); color:var(--texto);
-  background:
-    linear-gradient(to top, var(--verdePe) 0%, #7fbf86 48%, var(--verdeTopo) 96%, #ffffff 100%);
+  background: linear-gradient(to top, var(--verdePe) 0%, #7fbf86 48%, var(--verdeTopo) 96%, #ffffff 100%);
   position:relative; min-height:100vh; display:flex; flex-direction:column; overflow:hidden;
 }
 .decor{position:fixed;inset:0;pointer-events:none;z-index:0}
@@ -29,17 +28,19 @@ body{
 header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 .title{
   color:var(--ouro); font-weight:900; font-size:2rem; margin:0;
-  /* borda preta */
   text-shadow:
     -1px -1px 0 var(--preto), 1px -1px 0 var(--preto),
     -1px  1px 0 var(--preto), 1px  1px 0 var(--preto);
 }
 .wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:10px 16px 22px;width:100%}
 .hero{
-  display:block;margin:8px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
+  display:block;margin:8px auto 16px; width:100%; max-width:100%;
+  height:auto; max-height:360px;      /* reduzido para caber sem cortar */
+  object-fit:contain;                 /* garante que a paisagem não seja cortada */
   border:6px solid var(--ouro);
   box-shadow:0 0 0 4px #b8860b inset, 0 8px 16px var(--shadow);
-  border-radius:14px
+  border-radius:14px;
+  background:#fff;                    /* fundo neutro caso a imagem não preencha tudo */
 }
 .list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .btn{
@@ -54,7 +55,6 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 }
 .btn .label{
   text-align:center;color:var(--ouro);
-  /* borda preta nas letras dos botões */
   text-shadow:
     -1px -1px 0 var(--preto), 1px -1px 0 var(--preto),
     -1px  1px 0 var(--preto), 1px  1px 0 var(--preto);
@@ -75,14 +75,13 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
     }catch(e){}
     location.href='santos.html';
   }
-  /* 30 florzinhas brancas perto das bordas */
+  /* 30 florzinhas brancas nas bordas (como antes) */
   document.addEventListener('DOMContentLoaded', ()=>{
     const decor=document.querySelector('.decor');
     const qty=30;
     for(let i=0;i<qty;i++){
       const e=document.createElement('div');
       e.className='flower'; e.textContent='✿';
-      /* concentra mais nas bordas: x em [0..12]vw e [88..100]vw; y aleatório */
       const side = Math.random()<0.5 ? (2+Math.random()*10) : (88+Math.random()*10);
       e.style.left= side+'vw';
       e.style.top=(5+Math.random()*88)+'vh';
@@ -98,7 +97,7 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 <header><h1 class="title">Confessores</h1></header>
 
 <main class="wrap">
-  <img class="hero" src="img/icone-confessores.jpg" alt="Ícone — Confessores" onerror="this.style.display='none'">
+  <img class="hero" src="img/icone-confessores.jpg" alt="Ícone — Confessores (paisagem)" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Confessores — ofícios">
     <a class="btn" data-link="ramsho-curta"  href="#"><img class="icon" src="img/cedro.jpg" alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
