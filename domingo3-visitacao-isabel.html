@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3º Domingo · Visitação à Isabel</title>
+<meta name="theme-color" content="#064b52">
+<style>
+:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;
+  --base:#064b52; --topo:#9ef0ea; }
+*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
+body{ font-family:var(--fonte); background:linear-gradient(to top, var(--base) 0%, #0e8b93 55%, var(--topo) 100%); min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden}
+.sky{position:fixed; inset:0; pointer-events:none; z-index:0}
+.bethlehem{position:absolute; top:8px; left:50%; transform:translateX(-50%); color:var(--branco); font-size:30px; text-shadow:0 0 10px rgba(255,255,255,.95),0 0 14px rgba(255,255,255,.8)}
+.bethlehem::after{content:""; position:absolute; left:18px; top:6px; width:28vw; height:3px; transform:rotate(10deg); background:repeating-linear-gradient(90deg, var(--branco) 0 10px, var(--prata) 10px 20px); filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
+.star{position:absolute; color:var(--branco); opacity:.9; text-shadow:0 0 6px rgba(255,255,255,.9)}
+header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
+.title{ color:var(--prata); font-weight:900; font-size:1.9rem; text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
+.wrap{position:relative; z-index:1; max-width:640px; margin:0 auto; padding:12px 16px 22px; width:100%}
+.hero{ display:block; margin:10px auto 16px; height:390px; width:auto; aspect-ratio:3/4; object-fit:cover; max-height:580px; border:4px solid var(--prata); box-shadow: inset 0 0 0 4px var(--branco), 0 8px 16px var(--shadow); border-radius:14px}
+.list{display:flex; flex-direction:column; gap:12px; margin-top:6px}
+.btn{ display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center; background:linear-gradient(to top, #0a5a60 0%, #1aa9b3 60%, #92e3de 100%); color:var(--prata); text-decoration:none; font-weight:900; border:3px solid var(--prata); box-shadow: inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow); border-radius:18px; padding:6px 18px; width:94%; margin:0 auto; transition:transform .12s, filter .2s}
+.btn:hover{transform:scale(1.02); filter:brightness(1.05)}
+.btn .icon{ width:var(--btnIcon); height:var(--btnIcon); border-radius:50%; border:2px solid var(--prata); box-shadow:inset 0 0 0 2px var(--branco); object-fit:cover}
+.btn .label{ color:var(--prata); text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
+.btn .line1,.btn .line2{display:block} .btn .line2{font-weight:800; opacity:.95}
+.btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
+.back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
+.btn-back{ display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer}
+.btn-back .arr{font-size:18px; line-height:1}
+</style>
+<script>
+function goBackOrMother(){
+  try{
+    if (document.referrer && document.referrer.includes('anuncio.html')) { history.back(); return; }
+    if (history.length>1) { history.back(); return; }
+  }catch(e){}
+  location.href='anuncio.html';
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  const sky=document.querySelector('.sky'); const star=document.createElement('div'); star.className='bethlehem'; star.textContent='✶'; sky.appendChild(star);
+  const N=36; for(let i=0;i<N;i++){const e=document.createElement('div'); e.className='star'; e.textContent='✸';
+    const side=Math.random()<0.5 ? (2+Math.random()*12) : (86+Math.random()*12); const top=8+Math.random()*88;
+    e.style.left=(Math.random()<0.6?side:(14+Math.random()*72))+'vw'; e.style.top=top+'vh';
+    e.style.fontSize=(Math.random()<0.3?(20+Math.random()*8):(10+Math.random()*6))+'px'; sky.appendChild(e);}
+});
+</script>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<header><h1 class="title">3º Domingo · Visitação à Isabel</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-visitacao.png" alt="Ícone — Visitação" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Ofícios">
+    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">—</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="safro"  href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">—</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
+  </section>
+
+  <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
+</main>
+
+<script>
+const LINKS={ ramsho:null, safro:null, salmos:null };
+document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';}});
+</script>
+</body>
+</html>
