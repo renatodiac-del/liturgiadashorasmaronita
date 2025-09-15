@@ -18,7 +18,8 @@ body{
 header{text-align:center;padding:26px 10px 8px}
 .title{
   color:var(--roxotxt); font-weight:900; font-size:1.9rem;
-  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro);
+  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+              -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
 }
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 .hero{
@@ -35,9 +36,11 @@ header{text-align:center;padding:26px 10px 8px}
 .btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--ouro);object-fit:cover}
 .btn .label{
   text-align:center;color:var(--roxotxt);
-  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro);
+  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+              -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
 }
 .btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+/* Voltar padrão (.48), mesmo dos demais módulos */
 .back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
 .btn-back{
   display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
@@ -59,26 +62,46 @@ function goBackOrMother(){
 <header><h1 class="title">Domingo dos Sacerdotes</h1></header>
 
 <main class="wrap">
-  <!-- Tenta 'icone-sacerdotes.jpg'; se não existir, tenta 'icone-secerdotes.jpg' (ortografia alternativa) -->
-  <img class="hero" src="img/icone-sacerdotes.jpg" alt="Ícone — Sacerdotes"
-       onerror="if(!this.dataset.alt){this.dataset.alt=1;this.src='img/icone-secerdotes.jpg'}else this.style.display='none'">
+  <!-- Ícone ajustado: icone-sacerdote.jpg -->
+  <img class="hero" src="img/icone-sacerdote.jpg" alt="Ícone — Sacerdotes" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
-    <a class="btn" data-link="safro"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho" href="#" target="_blank" rel="noopener">
+      <img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho</span><span class="slot"></span>
+    </a>
+    <a class="btn" data-link="safro" href="#" target="_blank" rel="noopener">
+      <img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro</span><span class="slot"></span>
+    </a>
+    <a class="btn" data-link="salmos" href="#" target="_blank" rel="noopener">
+      <img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span>
+    </a>
   </section>
 
-  <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
 </main>
 
 <script>
-/* COLE AQUI os links (.doc) da planilha shots */
+/* COLE AQUI os links (.doc) provenientes da planilha “shots”.
+   Exemplo:
+   'ramsho': 'https://docs.google.com/…/edit?…',
+   'safro' : 'https://docs.google.com/…/edit?…',
+   'salmos': 'https://docs.google.com/…/edit?…'
+*/
 const LINKS={ ramsho:null, safro:null, salmos:null };
+
 document.querySelectorAll('[data-link]').forEach(a=>{
   const k=a.getAttribute('data-link');
-  if(LINKS[k]) a.href=LINKS[k]; else { a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+  if(LINKS[k]){
+    a.href = LINKS[k];
+  }else{
+    a.style.opacity=.55;
+    a.style.pointerEvents='none';
+    a.title='Link não configurado';
+  }
 });
 </script>
 </body>
 </html>
+
