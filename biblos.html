@@ -47,7 +47,8 @@ header{text-align:center;padding:12px 10px 6px}
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 }
 
-/* Botão com label 100% centralizado e ícone do cedro à direita */
+/* Botão com label 100% centralizado + ícone redondo à esquerda
+   e setas piscantes vermelhas nos dois lados (apontando para baixo) */
 .btn{
   position:relative;
   display:flex; align-items:center; justify-content:center;
@@ -56,23 +57,30 @@ header{text-align:center;padding:12px 10px 6px}
   border:3px solid var(--ouro);
   box-shadow: inset 0 0 0 2.4px rgba(214,178,90,.75), 0 4px 10px var(--shadow);
   border-radius:16px;
-  /* altura e largura do botão (os antigos “-20%/-15%”) já vêm elegantes para grid */
-  padding:12px 44px 12px 44px;  /* reserva espaço dos dois lados; mantém o texto central independentemente do ícone */
+  padding:12px 44px;   /* espaço para ícone sem desalinhar o rótulo */
   min-height:48px;
   transition:transform .12s, background-color .2s;
 }
 .btn:hover{transform:scale(1.02); background:#fff8ec}
 
 /* Rótulo central (100% de largura) */
-.btn .label{
-  width:100%; pointer-events:none; text-align:center;
+.btn .label{width:100%; pointer-events:none; text-align:center}
+
+/* Ícone redondo (cruz.png) à esquerda */
+.btn .icon{
+  position:absolute; left:12px; width:26px; height:26px; object-fit:cover;
+  border-radius:50%; border:2px solid var(--ouro);
 }
 
-/* Ícone do cedro à direita (opcional); se a imagem não existir, some sem quebrar layout */
-.btn .cedar{
-  position:absolute; right:12px; width:24px; height:24px; object-fit:contain;
+/* Setas piscantes (vermelhas) nos dois lados do botão, apontando para baixo */
+.btn .blink{
+  position:absolute; top:-18px; font-size:1.35rem; line-height:1;
+  color:var(--vermelho); text-shadow:0 0 6px rgba(160,0,0,.35);
+  animation:blink 1.2s ease-in-out 4;
 }
-.btn .cedar[hidden]{display:none}
+.btn .blink.left{ left:8px }
+.btn .blink.right{ right:8px }
+@keyframes blink{ 0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0} }
 
 /* Rodapé: botão Voltar padrão (mãe = oracao.html) */
 footer{margin-top:auto;text-align:center;padding:10px 0 16px}
@@ -84,17 +92,6 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 }
 .back:hover{background:#c00000}
 
-/* Setas piscantes (4x), como antes */
-.hints{
-  position:fixed; bottom:18vh; left:0; right:0; pointer-events:none;
-  display:flex; justify-content:space-between
-}
-.arrow{
-  font-size:1.6rem; color:#a00000; opacity:0; text-shadow:0 0 6px rgba(160,0,0,.35); margin:0 12px;
-  animation:blink 1.2s ease-in-out 4;
-}
-@keyframes blink{ 0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0} }
-
 @media (max-width:480px){
   .grid{grid-template-columns:1fr}
 }
@@ -104,64 +101,80 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 <header><h1 class="title">Biblioteca</h1></header>
 
 <main class="wrap">
-  <img class="hero" src="img/icone-biblos.jpg" alt="Ícone — Biblioteca"
-       onerror="this.hidden=true">
+  <img class="hero" src="img/icone-biblos.jpg" alt="Ícone — Biblioteca" onerror="this.hidden=true">
 
   <section class="grid" aria-label="Seções da Biblioteca">
-    <a class="btn" href="#">
+    <a class="btn" href="domingos-igreja.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left"  aria-hidden="true">⬇</span>
       <span class="label">Domingos da Igreja</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="anuncio.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Anúncio</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="natal.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Natal</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="epifania.htm">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Epifania</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="falecidos.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Domingos dos Falecidos</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="grande-quaresma.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Grande Quaresma</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="semana-paixao.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Semana da Paixão</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="ressurreicao-pascoa.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Ressurreição</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="pentecoste.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Pentecostes</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
-    <a class="btn" href="#">
+    <a class="btn" href="cruz.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Cruz</span>
-      <img class="cedar" src="img/cedro.png" alt="Cedro" onerror="this.hidden=true">
+      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
   </section>
 </main>
-
-<!-- Setas piscantes (4x) -->
-<div class="hints" aria-hidden="true"><div class="arrow">⬇</div><div class="arrow">⬇</div></div>
 
 <footer>
   <a class="back" href="javascript:history.back()"
@@ -169,3 +182,4 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 </footer>
 </body>
 </html>
+
