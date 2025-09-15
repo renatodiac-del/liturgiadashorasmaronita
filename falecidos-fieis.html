@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Domingo dos Fiéis Falecidos · Falecidos</title>
+<meta name="theme-color" content="#6d6d75">
+<style>
+:root{
+  --ouro:#d6b25a; --roxotxt:#5a2ea6; --chumbo:#2f2f34; --prata:#b7b7b9; --branco:#ffffff;
+  --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;
+}
+*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
+body{
+  font-family:var(--fonte);
+  background:linear-gradient(to top, var(--chumbo) 0%, #56565c 48%, var(--prata) 92%, var(--branco) 100%);
+  min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden;
+}
+header{text-align:center;padding:26px 10px 8px}
+.title{
+  color:var(--roxotxt); font-weight:900; font-size:1.9rem;
+  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro);
+}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
+.hero{
+  display:block;margin:10px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
+  border:4px solid var(--ouro);box-shadow:0 8px 16px var(--shadow);border-radius:14px
+}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{
+  display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
+  background:#ffffffd9;color:var(--roxotxt);text-decoration:none;font-weight:900;border:3px solid var(--ouro);
+  border-radius:18px;padding:6px 18px;width:94%;margin:0 auto;transition:transform .12s, filter .2s;
+}
+.btn:hover{transform:scale(1.02);filter:brightness(1.05)}
+.btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--ouro);object-fit:cover}
+.btn .label{
+  text-align:center;color:var(--roxotxt);
+  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+              -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+.back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
+.btn-back{
+  display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
+  padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer
+}
+.btn-back .arr{font-size:18px;line-height:1}
+</style>
+<script>
+function goBackOrMother(){
+  try{
+    if (document.referrer && document.referrer.includes('falecidos.html')) { history.back(); return; }
+    if (history.length>1) { history.back(); return; }
+  }catch(e){}
+  location.href='falecidos.html';
+}
+</script>
+</head>
+<body>
+<header><h1 class="title">Domingo dos Fiéis Falecidos</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-fieis-falecidos.png" alt="Ícone — Fiéis Falecidos" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Ofícios">
+    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
+    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
+  </section>
+
+  <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
+</main>
+
+<script>
+/* COLE AQUI os links (.doc) da planilha shots */
+const LINKS={ ramsho:null, safro:null, salmos:null };
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const k=a.getAttribute('data-link');
+  if(LINKS[k]) a.href=LINKS[k]; else { a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+});
+</script>
+</body>
+</html>
