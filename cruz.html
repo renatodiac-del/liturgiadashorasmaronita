@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cruz · Biblioteca</title>
+<meta name="theme-color" content="#7a0b0b">
+<style>
+:root{
+  --bordo:#7a0b0b;        /* vermelho profundo (pé) */
+  --dourado:#d6b25a;      /* ouro velho (topo) */
+  --texto:#6d0000;        /* título/botões */
+  --prata:#b0b0b0;        /* prata envelhecida (borda externa) */
+  --branco:#ffffff;       /* filete branco interno */
+  --shadow:rgba(0,0,0,.16);
+  --fonte:Arial, Helvetica, sans-serif;
+  --btnIcon:29.6px;
+}
+*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
+body{
+  font-family:var(--fonte);
+  background:linear-gradient(to top, var(--bordo) 0%, #a33 45%, #c95 78%, var(--dourado) 100%);
+  min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; position:relative;
+}
+header{text-align:center;padding:26px 10px 10px}
+.title{
+  color:var(--texto); font-weight:900; font-size:2rem;
+  text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata),
+              -1px  1px 0 var(--prata), 1px  1px 0 var(--prata);
+}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
+.hero{
+  display:block;margin:10px auto 16px;height:360px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:560px;
+  border:4px solid var(--prata); box-shadow:inset 0 0 0 4px var(--branco), 0 8px 16px var(--shadow); border-radius:14px
+}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{
+  display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center;
+  background:#fff; color:var(--texto); text-decoration:none; font-weight:900; border:3px solid var(--prata);
+  box-shadow:inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow); border-radius:18px;
+  padding:6px 18px; width:94%; margin:0 auto; transition:transform .12s, filter .2s;
+}
+.btn:hover{transform:scale(1.02); filter:brightness(1.04)}
+.btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--prata);box-shadow:inset 0 0 0 2px var(--branco);object-fit:cover}
+.btn .label{
+  text-align:center; line-height:1.18; color:var(--texto);
+  text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata),
+              -1px  1px 0 var(--prata), 1px  1px 0 var(--prata);
+}
+.btn .line1{display:block}
+.btn .line2{display:block; font-weight:800; opacity:.95}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+/* Voltar (mãe → biblos) */
+.back-wrap{display:flex;justify-content:center;margin-top:6px;transform:scale(.48);transform-origin:center top}
+.btn-back{
+  display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
+  padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer
+}
+.btn-back .arr{font-size:18px;line-height:1}
+</style>
+<script>
+function goBackOrBiblos(){
+  try{
+    if (document.referrer && document.referrer.includes('biblos.html')) { history.back(); return; }
+    if (history.length>1) { history.back(); return; }
+  }catch(e){}
+  location.href='biblos.html';
+}
+</script>
+</head>
+<body>
+<header><h1 class="title">Cruz</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-tempo-cruz.png" alt="Ícone — Cruz" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Cruz — seções">
+    <a class="btn" href="cruz-exaltacao.html">
+      <img class="icon" src="img/icone-tempo-cruz.jpg" alt="">
+      <span class="label"><span class="line1">Exaltação da</span><span class="line2">Cruz Gloriosa</span></span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" href="cruz-semanas.html">
+      <img class="icon" src="img/icone-tempo-cruz.png" alt="">
+      <span class="label"><span class="line1">Semanas do Tempo</span><span class="line2">Salmos e Leituras</span></span>
+      <span class="slot"></span>
+    </a>
+  </section>
+
+  <div class="back-wrap"><button class="btn-back" onclick="goBackOrBiblos()"><span class="arr">←</span><span>Voltar</span></button></div>
+</main>
+</body>
+</html>
