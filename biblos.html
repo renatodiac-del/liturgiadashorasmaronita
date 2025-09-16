@@ -32,7 +32,10 @@ header{text-align:center;padding:12px 10px 6px}
 }
 
 /* Conteúdo */
-.wrap{max-width:680px;margin:0 auto;padding:10px 16px 22px;width:100%}
+.wrap{
+  max-width:680px;margin:0 auto;padding:10px 16px 22px;width:100%;
+  position:relative; /* para posicionar as setas */
+}
 .hero{
   display:block;margin:8px auto 16px;max-width:100%;height:auto;max-height:420px;
   border:6px solid var(--ouro);
@@ -41,14 +44,12 @@ header{text-align:center;padding:12px 10px 6px}
 }
 .hero[hidden]{display:none}
 
-/* Grid de botões */
+/* Coluna única de botões (centralizados) */
 .grid{
-  display:grid; gap:12px; margin-top:6px;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:6px;
 }
 
-/* Botão com label 100% centralizado + ícone redondo à esquerda
-   e setas piscantes vermelhas nos dois lados (apontando para baixo) */
+/* Botões 10% mais estreitos (90% da largura) */
 .btn{
   position:relative;
   display:flex; align-items:center; justify-content:center;
@@ -57,9 +58,12 @@ header{text-align:center;padding:12px 10px 6px}
   border:3px solid var(--ouro);
   box-shadow: inset 0 0 0 2.4px rgba(214,178,90,.75), 0 4px 10px var(--shadow);
   border-radius:16px;
-  padding:12px 44px;   /* espaço para ícone sem desalinhar o rótulo */
+  padding:12px 44px;     /* espaço para o ícone sem desalinho do rótulo */
   min-height:48px;
+  width:90%;
+  max-width:560px;       /* limita em telas largas */
   transition:transform .12s, background-color .2s;
+  margin:0 auto;
 }
 .btn:hover{transform:scale(1.02); background:#fff8ec}
 
@@ -72,17 +76,19 @@ header{text-align:center;padding:12px 10px 6px}
   border-radius:50%; border:2px solid var(--ouro);
 }
 
-/* Setas piscantes (vermelhas) nos dois lados do botão, apontando para baixo */
-.btn .blink{
-  position:absolute; top:-18px; font-size:1.35rem; line-height:1;
-  color:var(--vermelho); text-shadow:0 0 6px rgba(160,0,0,.35);
-  animation:blink 1.2s ease-in-out 4;
+/* ===== Setas laterais (uma de cada lado da COLUNA) ===== */
+.hint-arrow{
+  position:absolute; top:48%; transform:translateY(-50%);
+  font-size:1.8rem; line-height:1; color:var(--vermelho);
+  text-shadow:0 0 6px rgba(160,0,0,.35);
+  animation:blink 0.75s ease-in-out 4 forwards; /* pisca 4x e some */
+  pointer-events:none; user-select:none; z-index:5;
 }
-.btn .blink.left{ left:8px }
-.btn .blink.right{ right:8px }
-@keyframes blink{ 0%,100%{opacity:0} 25%,50%{opacity:1} 75%{opacity:0} }
+.hint-left{ left:-2px; }
+.hint-right{ right:-2px; }
+@keyframes blink{ 0%,100%{opacity:0} 50%{opacity:1} }
 
-/* Rodapé: botão Voltar padrão (mãe = oracao.html) */
+/* Rodapé: botão Voltar (sempre oracao.html) */
 footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 .back{
   display:inline-flex; align-items:center; gap:8px;
@@ -93,7 +99,9 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 .back:hover{background:#c00000}
 
 @media (max-width:480px){
-  .grid{grid-template-columns:1fr}
+  .btn{max-width:100%}
+  .hint-left{ left:0 }
+  .hint-right{ right:0 }
 }
 </style>
 </head>
@@ -101,85 +109,76 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 <header><h1 class="title">Biblioteca</h1></header>
 
 <main class="wrap">
+  <!-- Setas laterais únicas para a COLUNA -->
+  <div class="hint-arrow hint-left" aria-hidden="true">⬇</div>
+  <div class="hint-arrow hint-right" aria-hidden="true">⬇</div>
+
   <img class="hero" src="img/icone-biblos.jpg" alt="Ícone — Biblioteca" onerror="this.hidden=true">
 
   <section class="grid" aria-label="Seções da Biblioteca">
     <a class="btn" href="domingos-igreja.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left"  aria-hidden="true">⬇</span>
       <span class="label">Domingos da Igreja</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="anuncio.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Anúncio</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="natal.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Natal</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="epifania.htm">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Epifania</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="falecidos.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Domingos dos Falecidos</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="grande-quaresma.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Grande Quaresma</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="semana-paixao.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Semana da Paixão</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="ressurreicao-pascoa.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Ressurreição</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="pentecoste.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Pentecostes</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
 
     <a class="btn" href="cruz.html">
       <img class="icon" src="img/cruz.png" alt="Cruz">
-      <span class="blink left" aria-hidden="true">⬇</span>
       <span class="label">Cruz</span>
-      <span class="blink right" aria-hidden="true">⬇</span>
     </a>
   </section>
 </main>
 
 <footer>
-  <a class="back" href="javascript:history.back()"
-     onclick="if(!document.referrer || (!document.referrer.includes('oracao.html') && !document.referrer.includes('index-teste.html'))){this.href='oracao.html'}">← Voltar</a>
+  <!-- Sempre volta para oracao.html -->
+  <a class="back" href="oracao.html">← Voltar</a>
 </footer>
+
+<script>
+  // remove as setas do DOM após terminar de piscar (4x)
+  document.querySelectorAll('.hint-arrow').forEach(el=>{
+    el.addEventListener('animationend', ()=>el.remove(), {once:true});
+  });
+</script>
 </body>
 </html>
 
