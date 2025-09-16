@@ -1,48 +1,32 @@
-<!-- terca-hora.html (AJUSTE FINO: ícone +15%, mais alto; "voltar" bem próximo) -->
+<!-- terca-hora.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Terça</title>
 <style>
-  :root{
-    --dourado:#a9842b; --bordo:#7a1b1b;
-    --pastel:#ffe5c7; --pastel2:#ffedd6;
-    --laranja:#ff8c00; --vermelho:#a00000; --sombra:rgba(0,0,0,.18);
-  }
+  :root{ --dourado:#a9842b; --bordo:#7a1b1b; --pastel:#ffe5c7; --pastel2:#ffedd6; --laranja:#ff8c00; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
   *{box-sizing:border-box}
   body{
     margin:0; font-family:Arial,Helvetica,sans-serif; color:#333;
     background:linear-gradient(to bottom, #ffffff 0%, var(--pastel2) 50%, var(--pastel) 100%);
     position:relative; min-height:100vh; display:flex; flex-direction:column;
   }
-  /* Sol 1/4 no topo direito */
   body::after{
     content:""; position:fixed; top:-140px; right:-140px; width:320px; height:320px; border-radius:50%;
     background:radial-gradient(circle at 45% 45%, #fffef2 0%, #fff6c7 35%, #ffe88a 55%, rgba(255,232,138,0) 60%);
     box-shadow:0 0 30px 10px rgba(255,248,200,.6), 0 0 80px 30px rgba(255,232,138,.35);
     pointer-events:none; z-index:0;
   }
-
   header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
-  .titulo{
-    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px; color:var(--bordo); -webkit-text-stroke:2.2px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10);
-  }
+  .titulo{ margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px; font-size:40px; color:var(--bordo); -webkit-text-stroke:2.2px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10); }
   .subtitulo{ margin:6px 0 10px; color:var(--laranja); font-style:italic; font-weight:400; font-size:27px; }
-
-  /* Ícone principal: +15% e um pouco mais alto (12vh) */
   .hero-icon{
     display:block; margin:clamp(6px, 12vh, 160px) auto 8px;
-    max-width:clamp(305px, 85vw, 543px);
-    width:100%; height:auto; object-fit:contain; object-position:center;
+    max-width:clamp(305px, 85vw, 543px); width:100%; height:auto; object-fit:contain; object-position:center;
     border:6px solid var(--dourado); border-radius:0; box-shadow:0 6px 18px var(--sombra);
   }
-
-  .wrap{
-    max-width:600px; margin:0 auto; padding:20px 20px 0;
-    display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1;
-  }
+  .wrap{ max-width:600px; margin:0 auto; padding:20px 20px 0; display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1; }
   .btn{
     position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px; width:66%; min-width:280px; min-height:36px; padding:4px 12px;
@@ -53,7 +37,6 @@
   .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
   .btn .main{ font-size:24px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
 
-  /* Deixar o "voltar" o mais próximo possível dos botões grandes */
   .wrap .btn:last-of-type{ margin-bottom:0; }
   footer{ text-align:center; margin:4px 0 18px; margin-top:4px; position:relative; z-index:1; }
   .btn-voltar{
@@ -74,6 +57,10 @@
     <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
   </main>
 
-  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
+  <footer>
+    <!-- VOLTA SEMPRE PARA A PÁGINA MÃE -->
+    <a class="btn-voltar" href="oracao.html">← voltar</a>
+  </footer>
 </body>
 </html>
+
