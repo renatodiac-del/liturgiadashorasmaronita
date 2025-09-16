@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grande Quaresma — Qurbono</title>
+<meta name="theme-color" content="#6a2bb6">
+<style>
+  :root{
+    --bg1:#6a2bb6; --bg2:#c9b3ff; --txt:#2d004a;
+    --bord:#7a0012; --envelhecido:#b0a6c6; --shadow:rgba(0,0,0,.15);
+    --fonte: Arial, Helvetica, sans-serif;
+  }
+  *{box-sizing:border-box} html,body{height:100%}
+  body{
+    margin:0; font-family:var(--fonte); color:var(--txt);
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+    display:flex; flex-direction:column; min-height:100vh;
+  }
+  .wrap{width:100%; max-width:560px; margin:0 auto; padding:8px 14px 10px}
+  .title{text-align:center; font-weight:900; font-size:1.8rem; margin:4px 0 6px}
+  .hero{display:block; margin:0 auto 12px; max-width:100%; height:auto; max-height:380px;
+    border:6px solid var(--envelhecido); box-shadow:0 6px 16px var(--shadow); border-radius:12px}
+  .main{
+    display:block; width:94%; margin:0 auto 8px; padding:12px 14px; text-align:center; text-decoration:none;
+    background:#fff; color:var(--txt); font-weight:900; font-size:1.05rem; border-radius:16px;
+    border:3px solid var(--bord); box-shadow: inset 0 0 0 3px var(--envelhecido), 0 6px 14px var(--shadow);
+  }
+  .nav{display:flex; justify-content:center; gap:10px; margin:8px 0 0}
+  .nav button{
+    background:#fff; color:var(--txt); font-weight:900; border-radius:12px; border:3px solid var(--envelhecido);
+    padding:8px 12px; cursor:pointer; box-shadow: inset 0 0 0 3px rgba(176,166,198,.8), 0 2px 6px var(--shadow)
+  }
+  .nav button:hover{background:#faf6ff}
+  footer{text-align:center; margin-top:auto; padding:10px 0 12px}
+  .back{background:#a00000;color:#fff;text-decoration:none;border:none;border-radius:8px;padding:.38rem .7rem;font-weight:900}
+  .back:hover{background:#c00000}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">Grande Quaresma</h1>
+    <img class="hero" src="img/icone-qurbono-quaresma.jpg" alt="">
+    <a id="mainLink" class="main" href="#" target="_blank">—</a>
+    <div class="nav">
+      <button id="prev">← Anterior</button>
+      <button id="next">Próximo →</button>
+    </div>
+  </main>
+  <footer>
+    <a class="back" href="javascript:history.back()" onclick="if(!document.referrer||!document.referrer.includes('liturgia-ano.html'))this.href='liturgia-ano.html'">← Voltar</a>
+  </footer>
+
+<script>
+const itens = [
+  {label:'Domingo das Bodas de Caná', href:'#'},
+  {label:'Domingo da Cura do Leproso', href:'#'},
+  {label:'Domingo da Cura da Hemorroíssa', href:'#'},
+  {label:'Domingo do Filho Pródigo', href:'#'},
+  {label:'Domingo da Cura do Paralítico', href:'#'},
+  {label:'Domingo da Cura do Cego Bartimeu', href:'#'}
+];
+let i=0;
+const link = document.getElementById('mainLink');
+function render(){ link.innerText = itens[i].label; link.href = itens[i].href; }
+document.getElementById('prev').onclick=()=>{i=(i-1+itens.length)%itens.length; render();}
+document.getElementById('next').onclick=()=>{i=(i+1)%itens.length; render();}
+render();
+</script>
+</body>
+</html>
