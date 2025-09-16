@@ -1,4 +1,3 @@
-<!-- sexta-hora.html (AJUSTE: sol -5% adicional; ícone mais alto; botões sobem junto) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,8 +11,6 @@
     background:linear-gradient(#fff6d1,#ffa94d);
     position:relative; overflow-x:hidden; min-height:100vh; display:flex; flex-direction:column;
   }
-
-  /* Sol 1/2 no topo central — agora 38.76vh (−5% sobre 40.8vh) e metade fora */
   body::before{
     content:""; position:fixed; top:-19.38vh; left:50%; transform:translateX(-50%);
     width:38.76vh; height:38.76vh; border-radius:50%;
@@ -21,30 +18,19 @@
     box-shadow:0 0 40px 18px rgba(255,236,170,.6), 0 0 120px 40px rgba(255,193,61,.25);
     z-index:0; pointer-events:none;
   }
-
   header{ text-align:center; padding:12px 12px 0; position:relative; z-index:1; }
-  .titulo{
-    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:40px; color:#d6b25a; -webkit-text-stroke:1px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10);
-  }
+  .titulo{ margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px; font-size:40px; color:#d6b25a; -webkit-text-stroke:1px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10); }
   .subtitulo{ margin:6px 0 10px; color:var(--musgo); font-size:25px; font-weight:700; }
 
-  /* Ícone OVAL VERTICAL — mais alto (12vh → 10vh) */
   .hero-oval{
-    display:block;
-    margin:clamp(8px, 10vh, 140px) auto 8px;
-    width:min(90vw, 517px); /* versão ampliada anterior (+20%) mantida */
-    aspect-ratio:3/4; border-radius:38% / 50%;
+    display:block; margin:clamp(8px, 10vh, 140px) auto 8px;
+    width:min(90vw, 517px); aspect-ratio:3/4; border-radius:38% / 50%;
     border:6px solid var(--dourado); overflow:hidden; box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1; background:#000;
   }
   .hero-oval .hero-img{ width:100%; height:100%; object-fit:cover; object-position:50% 45%; display:block; border:0; }
 
-  /* Área dos botões — sobem junto (menos respiro acima) */
-  .wrap{
-    max-width:600px; margin:0 auto; padding:6px 20px 4px; /* antes 8px no topo */
-    display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1;
-  }
+  .wrap{ max-width:600px; margin:0 auto; padding:6px 20px 4px; display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1; }
   .btn{
     position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px; width:55%; min-width:280px; min-height:33px; padding:4px 12px;
@@ -74,6 +60,9 @@
     <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
   </main>
 
-  <footer><a class="btn-voltar" href="mapa-liturgico.html">← voltar</a></footer>
+  <footer>
+    <a class="btn-voltar" href="horas-teste.html">← voltar</a>
+  </footer>
 </body>
 </html>
+
