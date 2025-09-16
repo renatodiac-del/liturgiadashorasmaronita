@@ -16,29 +16,59 @@
     display:flex;flex-direction:column;min-height:100vh;
   }
   .wrap{width:100%;max-width:560px;margin:0 auto;padding:8px 14px 10px}
-  .title{text-align:center;font-weight:900;font-size:1.8rem;margin:4px 0 6px}
+  .title{
+    text-align:center;font-weight:900;margin:4px 0 6px;
+    /* +5pt aprox → ~+0.4rem */
+    font-size:2.2rem;
+    /* contorno dourado nas letras */
+    text-shadow:
+      -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+      -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+  }
   .hero{
-    display:block;margin:0 auto 12px;max-width:100%;height:auto;max-height:380px;
-    border:6px solid var(--branco); box-shadow:inset 0 0 0 4px var(--branco), 0 6px 16px var(--shadow);
+    display:block;margin:0 auto 12px;max-width:100%;height:auto;
+    /* +30% (380 → 494px) */
+    max-height:494px;
+    border:6px solid var(--branco);
+    box-shadow:
+      inset 0 0 0 4px var(--branco),
+      0 6px 16px var(--shadow);
     border-radius:12px
   }
   .main{
     display:block;width:94%;margin:0 auto 8px;padding:12px 14px;text-align:center;text-decoration:none;
-    background:#fff;color:#7a1b1b;font-weight:900;font-size:1.05rem;border-radius:16px;
-    border:3px solid var(--branco); box-shadow:inset 0 0 0 3px var(--branco), 0 6px 14px var(--shadow)
+    background:#fff;color:#7a1b1b;font-weight:900;
+    /* +2pt aprox → ~+0.17rem */
+    font-size:1.2rem;
+    border-radius:16px;
+    /* mantém a borda atual (branca) e adiciona uma dourada EXTERNA */
+    border:3px solid var(--branco);
+    box-shadow:
+      0 0 0 3px var(--ouro),              /* anel externo dourado */
+      inset 0 0 0 3px var(--branco),      /* anel interno branco (já existia) */
+      0 6px 14px var(--shadow);
+    /* contorno dourado no texto do botão maior */
+    text-shadow:
+      -1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+      -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
   }
   .nav{display:flex;justify-content:center;gap:10px;margin:8px 0 0}
   .nav button{
     background:#fff;color:#7a1b1b;font-weight:900;border-radius:12px;border:3px solid var(--branco);
-    padding:8px 12px;cursor:pointer; box-shadow:inset 0 0 0 3px var(--branco), 0 2px 6px var(--shadow)
+    padding:8px 12px;cursor:pointer;
+    /* mantém a branca e acrescenta um anel externo dourado */
+    box-shadow:
+      0 0 0 3px var(--ouro),
+      inset 0 0 0 3px var(--branco),
+      0 2px 6px var(--shadow);
   }
   .nav button:hover{background:#fffbfb}
   footer{text-align:center;margin-top:auto;padding:10px 0 12px}
   .back{
     background:#a00000;color:#fff;text-decoration:none;border:none;border-radius:8px;padding:.38rem .7rem;font-weight:900;
-    /* AJUSTES: 50% menor e ~30% mais próximo */
+    /* 50% menor + 30% mais perto (de -18px → -24px) */
     transform: scale(0.5); transform-origin:center;
-    margin-top:-18px; display:inline-block;
+    margin-top:-24px; display:inline-block;
   }
   .back:hover{background:#c00000}
 </style>
@@ -76,4 +106,3 @@ render();
 </script>
 </body>
 </html>
-
