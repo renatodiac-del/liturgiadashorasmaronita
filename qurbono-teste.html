@@ -1,4 +1,4 @@
-<!-- qurbono-teste.html — Menu do Qurbono (atualizado) -->
+<!-- qurbono-teste.html — Menu do Qurbono (FINAL) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -24,7 +24,6 @@
         repeating-linear-gradient(45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px),
         repeating-linear-gradient(-45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px);
       background-size:40px 40px;
-      display:flex; flex-direction:column; min-height:100vh;
     }
 
     .wrap{
@@ -35,7 +34,7 @@
 
     .title{
       text-align:center;
-      font-size: calc(2rem + 2pt);
+      font-size: calc(2rem + 2pt - 2pt); /* -2pt no título */
       font-weight:900;
       color:var(--vermelho);
       margin:4px 0 6px;
@@ -50,8 +49,8 @@
     }
 
     .buttons{
-      display:flex; flex-direction:column; gap:10px;
-      margin:0 0 14px 0;
+      display:flex; flex-direction:column; gap:8px;
+      margin:0 0 6px 0; /* deixa o VOLTAR bem próximo, sem colar */
     }
 
     .btn{
@@ -60,8 +59,8 @@
       border:2.4px solid var(--turquesa);
       box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
       border-radius:18px;
-      padding:9.9px 18px;           /* altura ajustada */
-      width:92%;                    /* largura ampla */
+      padding:6.5px 16px;              /* ≈ 35% mais baixo que o original */
+      width:92%;
       font-size:1rem; font-weight:bold;
       color:var(--vermelho);
       transition:transform .15s ease, background-color .2s ease;
@@ -77,7 +76,8 @@
     }
 
     footer{
-      margin-top:auto; text-align:center; padding:6px 0 14px;
+      /* NÃO usar margin-top:auto para não empurrar o botão para o rodapé da tela */
+      text-align:center; padding:0 0 10px;
     }
     .voltar{
       background:var(--vermelho);
@@ -99,27 +99,35 @@
     <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
 
     <section class="buttons" aria-label="Menu do Qurbono">
-      <a class="btn" href="liturgia-dia.html">
+      <!-- 1) Liturgia do dia -->
+      <a class="btn" href="liturgia-dia.html" aria-label="Abrir Liturgia Eucarística do Dia">
         <img src="img/cruz2.jpg" alt="">
         Liturgia Eucarística do Dia
       </a>
 
-      <a class="btn" href="anafora.html">
+      <!-- 2) NOVO: Durante o Ano -->
+      <a class="btn" href="liturgia-ano.html" aria-label="Abrir Liturgia Eucaristia Durante o Ano">
+        <img src="img/cruz2.jpg" alt="">
+        Liturgia Eucaristia Durante o Ano
+      </a>
+
+      <!-- 3) Demais itens do menu -->
+      <a class="btn" href="anafora.html" aria-label="Abrir lista de Anáforas">
         <img src="img/cruz2.jpg" alt="">
         Anáforas
       </a>
 
-      <a class="btn" href="synaxarion.html">
+      <a class="btn" href="synaxarion.html" aria-label="Abrir Synaxarion">
         <img src="img/cruz2.jpg" alt="">
         Synaxarion
       </a>
 
-      <a class="btn" href="leituras.html">
+      <a class="btn" href="leituras.html" aria-label="Abrir Leituras Bíblicas">
         <img src="img/cruz2.jpg" alt="">
         Leituras Bíblicas
       </a>
 
-      <a class="btn" href="biblioteca.html">
+      <a class="btn" href="biblioteca.html" aria-label="Abrir Biblioteca do Qurbono">
         <img src="img/cruz2.jpg" alt="">
         Biblioteca
       </a>
