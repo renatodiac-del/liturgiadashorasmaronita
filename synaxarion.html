@@ -7,15 +7,8 @@
 <meta name="theme-color" content="#a00000">
 <style>
 :root{
-  --ouro:#d6b25a;
-  --ouro-velho:#b08a2e;
-  --bg-ouro-1:#f1e1b6;
-  --bg-ouro-2:#d9b975;
-  --vermelho:#a00000;           /* título deve permanecer vermelho */
-  --txt:#2b1f16;
-  --shadow:rgba(0,0,0,.10);
-  --azul-del-rey:#003399;
-  --sans: Arial, Helvetica, sans-serif;
+  --ouro:#d6b25a; --ouro-velho:#b08a2e; --bg-ouro-1:#f1e1b6; --bg-ouro-2:#d9b975;
+  --vermelho:#a00000; --txt:#2b1f16; --shadow:rgba(0,0,0,.10); --azul-del-rey:#003399; --sans: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -23,7 +16,6 @@ body{
   font-family:var(--sans); color:var(--txt); min-height:100vh; position:relative;
   background: linear-gradient(160deg, var(--bg-ouro-1), var(--bg-ouro-2));
 }
-/* Fundo decorado (salpicos + cabeças de anjinhos) atrás do conteúdo */
 body::before{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.55;
   background:
@@ -49,36 +41,22 @@ body::before{
 </svg>") center/520px 520px repeat;
 }
 
-/* Layout geral */
 .container{
   max-width:720px; margin:0 auto; width:100%; padding:16px;
   position:relative; z-index:1; display:flex; flex-direction:column; min-height:100dvh;
 }
-
-/* Título + subtítulo */
 header{ text-align:center; margin-bottom:10px }
 h1{
-  color:var(--vermelho);              /* vermelho restaurado */
+  color:var(--vermelho);
   font-weight:900;
-  font-size:calc(1.8rem + 3pt);       /* +3pt no título */
+  font-size:calc(1.8rem + 3pt);
   margin:4px 0 2px;
-  /* borda ouro-velho nas letras (contorno) */
   -webkit-text-stroke:1px var(--ouro-velho);
-  text-shadow:
-    -1px -1px 0 var(--ouro-velho),
-     1px -1px 0 var(--ouro-velho),
-    -1px  1px 0 var(--ouro-velho),
-     1px  1px 0 var(--ouro-velho);
+  text-shadow:-1px -1px 0 var(--ouro-velho), 1px -1px 0 var(--ouro-velho),
+              -1px  1px 0 var(--ouro-velho), 1px  1px 0 var(--ouro-velho);
 }
-.subtitle{
-  color:#fff;                         /* subtítulo em branco */
-  font-weight:700;
-  /* 10pt menor que o título - 3pt adicionais (total -13pt) */
-  font-size:calc( (1.8rem + 3pt) - 13pt );
-  opacity:.95;
-}
+.subtitle{ color:#fff; font-weight:700; font-size:calc((1.8rem + 3pt) - 13pt); opacity:.95; }
 
-/* Ícone/hero (473px) */
 .hero{
   display:block; margin:10px auto 14px; height:473px; width:auto;
   aspect-ratio:3/4; object-fit:cover; border-radius:14px;
@@ -86,27 +64,21 @@ h1{
   box-shadow:0 0 0 6px var(--ouro-velho), 0 8px 16px var(--shadow);
 }
 
-/* Botão da data: 50% largura, transparente, aro duplo ouro-velho + vermelho */
+/* Data + navegação */
 .btn-date{
   display:block; width:50%; margin:0 auto;
   display:flex; align-items:center; justify-content:center; gap:10px;
   min-height:48px; padding:10px 16px; border-radius:18px;
   background:transparent; border:none;
-  box-shadow:
-    inset 0 0 0 3px var(--ouro-velho),
-    inset 0 0 0 6px var(--vermelho);
+  box-shadow: inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho);
   font-weight:800; color:var(--azul-del-rey); text-decoration:none;
 }
-
-/* Pager centralizado */
 .pager{ display:flex; justify-content:center; align-items:center; gap:10px; margin-top:10px; }
 .btn-nav{
   display:inline-flex; align-items:center; justify-content:center;
   min-height:44px; padding:8px 14px; border-radius:14px;
   background:transparent; border:none;
-  box-shadow:
-    inset 0 0 0 3px var(--ouro-velho),
-    inset 0 0 0 6px var(--vermelho);
+  box-shadow: inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho);
   font-weight:800; color:var(--txt); text-decoration:none; cursor:pointer;
 }
 .btn-nav:focus-visible, .btn-date:focus-visible{
@@ -114,20 +86,16 @@ h1{
   inset 0 0 0 3px var(--ouro-velho), inset 0 0 0 6px var(--vermelho)
 }
 
-/* Botão Voltar — mais próximo do pager, com respiro (não colado) */
-.back-wrap{
-  display:flex; justify-content:center; margin-top:12px;  /* aproximado dos botões Anterior/Próximo */
-  transform:scale(.48); transform-origin:center top;
-}
+/* Voltar condicional */
+.back-wrap{ display:flex; justify-content:center; margin-top:12px; transform:scale(.48); transform-origin:center top; }
 .btn-back{
   display:inline-flex; align-items:center; gap:10px;
-  background:var(--vermelho); color:#fff; border:none; border-radius:999px;
+  background:#a00000; color:#fff; border:none; border-radius:999px;
   padding:10px 16px; font-weight:800; cursor:pointer;
   box-shadow:0 6px 14px var(--shadow);
 }
 .btn-back .arr{font-size:18px; line-height:1}
 
-/* Conteúdo do dia */
 .section{ margin:16px 0 24px }
 .section .content{ line-height:1.6 }
 </style>
@@ -148,11 +116,16 @@ h1{
     setDate(next);
   }
   function goBackOrHome(){
-    try{ if(history.length>1) history.back(); else location.href='index-teste.html'; }
-    catch{ location.href='index-teste.html'; }
+    try{
+      const ref = document.referrer || '';
+      if(ref.includes('horas-teste.html')){ location.href='horas-teste.html'; return; }
+      if(history.length>1){ history.back(); return; }
+      location.href='index-teste.html';
+    }catch(e){
+      location.href='index-teste.html';
+    }
   }
   document.addEventListener('DOMContentLoaded', ()=>{
-    // Botão da data: apenas dia e mês (pt-BR)
     const iso = getParam('data') || new Date().toISOString().slice(0,10);
     const d = new Date(iso + 'T00:00:00');
     const opts = { day:'2-digit', month:'long' };
@@ -171,26 +144,21 @@ h1{
       <img class="hero" src="img/icone-synaxarion.jpg" alt="Ícone do Synaxarion" onerror="this.style.display='none'">
     </header>
 
-    <!-- Botão da data (50% largura, transparente) -->
     <button id="btnData" class="btn-date" type="button" title="Alterar data"></button>
 
-    <!-- Pager centralizado -->
     <div class="pager">
       <button class="btn-nav" type="button" onclick="shiftDate(-1)">← Anterior</button>
       <button class="btn-nav" type="button" onclick="shiftDate(+1)">Próximo →</button>
     </div>
 
-    <!-- Botão Voltar (logo após o pager, com respiro) -->
     <div class="back-wrap">
-      <button class="btn-back" onclick="goBackOrHome()">
-        <span class="arr">←</span><span>Voltar</span>
-      </button>
+      <button class="btn-back" onclick="goBackOrHome()"><span class="arr">←</span><span>Voltar</span></button>
     </div>
 
-    <!-- Conteúdo do dia -->
     <section class="section">
-      <div id="conteudo" class="content"><!-- render do dia via CSV, se desejar --></div>
+      <div id="conteudo" class="content"></div>
     </section>
   </div>
 </body>
 </html>
+
