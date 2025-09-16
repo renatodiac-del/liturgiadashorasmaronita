@@ -1,4 +1,4 @@
-<!-- liturgia-ano.html — Filha de Qurbono: "Liturgia Eucaristia Durante o Ano" -->
+<!-- liturgia-ano.html — Filha de Qurbono: "Liturgia Eucaristia Durante o Ano" (com setas laterais brancas) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,13 +8,8 @@
   <meta name="theme-color" content="#1a2a40">
   <style>
     :root{
-      /* herdando a estética da página mãe (qurbono-teste.html) */
-      --azul:#1a2a40;
-      --vermelho:#a00000;
-      --turquesa:#40E0D0;
-      --dourado:#d6b25a;
-      --sombra:rgba(0,0,0,.15);
-      --fonte: Arial, Helvetica, sans-serif;
+      --azul:#1a2a40; --vermelho:#a00000; --turquesa:#40E0D0; --dourado:#d6b25a;
+      --sombra:rgba(0,0,0,.15); --fonte: Arial, Helvetica, sans-serif;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -28,65 +23,56 @@
       display:flex; flex-direction:column; min-height:100vh;
     }
 
-    .wrap{
-      width:100%; max-width:520px; margin:0 auto;
-      padding:4px 12px 10px;
-      display:flex; flex-direction:column;
-    }
+    .wrap{ width:100%; max-width:520px; margin:0 auto; padding:4px 12px 10px; display:flex; flex-direction:column; }
 
     .title{
       text-align:center;
       font-size: calc(2rem + 2pt - 2pt); /* mesmo -2pt usado na mãe */
-      font-weight:900;
-      color:var(--vermelho);
-      margin:4px 0 6px;
-      line-height:1.05;
+      font-weight:900; color:var(--vermelho); margin:4px 0 6px; line-height:1.05;
     }
 
     .hero{
       display:block; margin:0 auto 10px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid var(--turquesa);
-      box-shadow:0 0 0 4px var(--dourado) inset;
-      border-radius:12px
+      border:6px solid var(--turquesa); box-shadow:0 0 0 4px var(--dourado) inset; border-radius:12px
     }
 
-    .buttons{
-      display:flex; flex-direction:column; gap:8px;
-      margin:0 0 6px 0; /* deixa o VOLTAR bem próximo, sem colar */
-    }
-
+    .buttons{ display:flex; flex-direction:column; gap:8px; margin:0 0 6px 0; }
     .btn{
       position:relative; display:flex; align-items:center; justify-content:center; gap:8px;
       cursor:pointer; background-color:rgba(255,255,255,0.95);
       border:2.4px solid var(--turquesa);
       box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
-      border-radius:18px;
-      padding:6.5px 16px;              /* 35% mais baixo, como na mãe */
-      width:92%;
-      font-size:1rem; font-weight:bold;
-      color:var(--vermelho);
-      transition:transform .15s ease, background-color .2s ease;
-      text-decoration:none; margin:0 auto;
-      text-align:center;
+      border-radius:18px; padding:6.5px 16px; /* 35% mais baixo, como na mãe */
+      width:92%; font-size:1rem; font-weight:bold; color:var(--vermelho);
+      transition:transform .15s ease, background-color .2s ease; text-decoration:none; margin:0 auto; text-align:center;
     }
     .btn:hover{transform:scale(1.02); background:#fff3da}
+    .btn img{ position:absolute; left:12px; width:26px; height:26px; border-radius:50%; object-fit:cover; }
 
-    .btn img{
-      position:absolute; left:12px;
-      width:26px; height:26px;
-      border-radius:50%; object-fit:cover;
+    /* SETAS laterais brancas (apontando para baixo, piscam 4x e somem) */
+    .side-hints{
+      position:fixed; left:0; right:0; top:38vh; pointer-events:none; display:flex; justify-content:space-between; padding:0 6px;
+    }
+    .side-hints .arrow{
+      color:#fff; font-size:2rem; line-height:1; text-shadow:0 0 6px rgba(0,0,0,.35);
+      animation:blink 1.1s ease-in-out 4; /* 4 piscadas */
+      opacity:0;
+    }
+    .side-hints .left{ transform:translateX(2px); }
+    .side-hints .right{ transform:translateX(-2px); }
+
+    @keyframes blink{
+      0%,100%{opacity:0}
+      25%,50%{opacity:1}
+      75%{opacity:0}
     }
 
     footer{ text-align:center; padding:0 0 10px; }
     .voltar{
-      background:var(--vermelho);
-      color:#fff; font-size:.65rem; font-weight:bold;
-      border:none; border-radius:6px;
-      padding:.3rem .55rem; cursor:pointer;
-      display:inline-flex; align-items:center; gap:.4rem;
-      text-decoration:none;
-      transform:scale(0.6); /* 40% menor */
-      transform-origin:center;
+      background:var(--vermelho); color:#fff; font-size:.65rem; font-weight:bold;
+      border:none; border-radius:6px; padding:.3rem .55rem; cursor:pointer;
+      display:inline-flex; align-items:center; gap:.4rem; text-decoration:none;
+      transform:scale(0.6); transform-origin:center;
     }
     .voltar:hover{background:#c00000}
   </style>
@@ -94,65 +80,43 @@
 <body>
   <main class="wrap">
     <h1 class="title">Liturgia Eucaristia Durante o Ano</h1>
-
-    <!-- mesmo ícone da mãe -->
     <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone do Qurbono">
 
     <section class="buttons" aria-label="Durante o Ano">
-      <a class="btn" href="qurbono-domingos-igreja.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Domingos da Igreja</span>
-      </a>
-
-      <a class="btn" href="qurbono-anuncio.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Tempo do Anúncio</span>
-      </a>
-
-      <a class="btn" href="qurbono-natividade.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Natal</span>
-      </a>
-
-      <a class="btn" href="qurbono-epifania.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Epifania</span>
-      </a>
-
-      <a class="btn" href="qurbono-falecidos.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Domingos dos Falecidos</span>
-      </a>
-
-      <a class="btn" href="qurbono-quaresma.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Grande Quaresma</span>
-      </a>
-
-      <a class="btn" href="qurbono-paixao.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Semana da Paixão</span>
-      </a>
-
-      <a class="btn" href="qurbono-ressurreicao.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Tempo da Ressurreição</span>
-      </a>
-
-      <a class="btn" href="qurbono-pentecoste.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Tempo de Pentecostes</span>
-      </a>
-
-      <a class="btn" href="qurbono-cruz.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Tempo da Cruz</span>
-      </a>
-
-      <!-- NOVO botão que você mencionou agora -->
-      <a class="btn" href="qurbono-festas.html">
-        <img src="img/cruz2.jpg" alt=""><span class="label">Festas</span>
-      </a>
+      <a class="btn" href="qurbono-domingos-igreja.html"><img src="img/cruz2.jpg" alt=""><span class="label">Domingos da Igreja</span></a>
+      <a class="btn" href="qurbono-anuncio.html"><img src="img/cruz2.jpg" alt=""><span class="label">Tempo do Anúncio</span></a>
+      <a class="btn" href="qurbono-natividade.html"><img src="img/cruz2.jpg" alt=""><span class="label">Natal</span></a>
+      <a class="btn" href="qurbono-epifania.html"><img src="img/cruz2.jpg" alt=""><span class="label">Epifania</span></a>
+      <a class="btn" href="qurbono-falecidos.html"><img src="img/cruz2.jpg" alt=""><span class="label">Domingos dos Falecidos</span></a>
+      <a class="btn" href="qurbono-quaresma.html"><img src="img/cruz2.jpg" alt=""><span class="label">Grande Quaresma</span></a>
+      <a class="btn" href="qurbono-paixao.html"><img src="img/cruz2.jpg" alt=""><span class="label">Semana da Paixão</span></a>
+      <a class="btn" href="qurbono-ressurreicao.html"><img src="img/cruz2.jpg" alt=""><span class="label">Tempo da Ressurreição</span></a>
+      <a class="btn" href="qurbono-pentecoste.html"><img src="img/cruz2.jpg" alt=""><span class="label">Tempo de Pentecostes</span></a>
+      <a class="btn" href="qurbono-cruz.html"><img src="img/cruz2.jpg" alt=""><span class="label">Tempo da Cruz</span></a>
+      <a class="btn" href="qurbono-festas.html"><img src="img/cruz2.jpg" alt=""><span class="label">Festas</span></a>
     </section>
 
     <footer>
-      <!-- Voltar SEMPRE para a mãe -->
       <a class="voltar" href="javascript:history.back()"
          onclick="if(!document.referrer || !document.referrer.includes('qurbono-teste.html')) this.href='qurbono-teste.html'">
         &#8592; Voltar
       </a>
     </footer>
   </main>
+
+  <!-- Setas somem após a 4ª piscada -->
+  <div class="side-hints" aria-hidden="true">
+    <div class="arrow left">⬇</div>
+    <div class="arrow right">⬇</div>
+  </div>
+  <script>
+    const hints = document.querySelector('.side-hints');
+    const arrows = document.querySelectorAll('.side-hints .arrow');
+    let ended = 0;
+    arrows.forEach(a => a.addEventListener('animationend', ()=>{
+      ended++;
+      if(ended >= arrows.length) hints.style.display='none';
+    }));
+  </script>
 </body>
 </html>
-
