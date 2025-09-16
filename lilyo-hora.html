@@ -1,28 +1,15 @@
-<!-- lilyo-hora.html (AJUSTE: borda branca da lua dobrada para dentro, mantendo anel prateado) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lilyo — Vigílias</title>
 <style>
-  :root{
-    --fundo:#020814;          /* azul quase preto */
-    --dourado:#d6b25a;        /* ouro-velho */
-    --bege-escuro:#e8d6ad;    /* subtítulo */
-    --vermelho:#a00000;       /* voltar */
-    --sombra:rgba(0,0,0,.22);
-  }
-  body{
-    margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff;
-    background:var(--fundo);
-    position:relative; overflow-x:hidden;
-  }
-
-  /* Estrelas de fundo (mantidas) */
+  :root{ --fundo:#020814; --dourado:#d6b25a; --bege-escuro:#e8d6ad; --vermelho:#a00000; --sombra:rgba(0,0,0,.22); }
+  body{ margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff; background:var(--fundo); position:relative; overflow-x:hidden; }
   body::after{
     content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
     background:
-      radial-gradient(1px 1px at 6% 8%,   rgba(255,255,255,.9) 99%, transparent 100%),
+      radial-gradient(1px 1px at 6% 8%, rgba(255,255,255,.9) 99%, transparent 100%),
       radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(1px 1px at 14% 28%, rgba(255,255,255,.75)99%, transparent 100%),
       radial-gradient(1px 1px at 18% 10%, rgba(255,255,255,.85)99%, transparent 100%),
@@ -51,13 +38,10 @@
       radial-gradient(1px 1px at 80% 86%, rgba(255,255,255,.8) 99%, transparent 100%),
       radial-gradient(450px 450px at 50% 40%, rgba(255,255,255,.05), transparent 70%),
       radial-gradient(300px 300px at 20% 60%, rgba(255,255,255,.04), transparent 70%),
-      radial-gradient(300px 300px at 80% 70%, rgba(255,255,255,.04), transparent 70%),
-      transparent;
+      radial-gradient(300px 300px at 80% 70%, rgba(255,255,255,.04), transparent 70%), transparent;
   }
-
-  .sky-border{
-    position:fixed; inset:0; pointer-events:none; z-index:0;
-    background:
+  .sky-border,.stars-sides{ position:fixed; inset:0; pointer-events:none; z-index:0; }
+  .sky-border{ background:
       radial-gradient(3px 3px at 2% 2%,   #fff, transparent 60%),
       radial-gradient(3px 3px at 15% 2%,  #fff, transparent 60%),
       radial-gradient(3px 3px at 50% 2%,  #fff, transparent 60%),
@@ -74,9 +58,7 @@
       radial-gradient(3px 3px at 98% 98%, #fff, transparent 60%);
     filter:drop-shadow(0 0 11px rgba(255,255,255,1)) drop-shadow(0 0 24px rgba(255,255,255,.7));
   }
-  .stars-sides{
-    position:fixed; inset:0; pointer-events:none; z-index:0;
-    background:
+  .stars-sides{ background:
       radial-gradient(5px 5px at 1% 38%,  #fff, transparent 60%),
       radial-gradient(5px 5px at 1% 62%,  #fff, transparent 60%),
       radial-gradient(5px 5px at 99% 30%, #fff, transparent 60%),
@@ -85,66 +67,35 @@
       radial-gradient(4px 4px at 97% 20%, #fff, transparent 60%);
     filter:drop-shadow(0 0 14px rgba(255,255,255,1)) drop-shadow(0 0 28px rgba(255,255,255,.8));
   }
-
-  /* LUA — borda branca dobrada para DENTRO + anel prateado externo fino */
   .moon{
     position:fixed; top:-13.5vh; left:50%; transform:translateX(-50%);
     width:27vh; height:27vh; border-radius:50%; pointer-events:none; z-index:0;
-
-    /* Mantém diâmetro externo fixo ao usar padding como "borda interna" */
-    box-sizing:border-box;
-    padding:20px; /* era 10px; dobrado e para DENTRO (encolhe o disco visível) */
-
-    /* Camadas: 1-4 = disco/crateras (clip no content-box), 5 = anel branco (padding-box) */
+    box-sizing:border-box; padding:20px;
     background:
       radial-gradient(circle at 35% 35%, #ffffff 0%, #f7f0d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%),
       radial-gradient(6px 6px at 42% 38%, rgba(0,0,0,.16), rgba(0,0,0,0) 60%),
       radial-gradient(4px 4px at 30% 48%, rgba(0,0,0,.12), rgba(0,0,0,0) 60%),
       radial-gradient(5px 5px at 52% 30%, rgba(0,0,0,.10), rgba(0,0,0,0) 60%),
-      linear-gradient(#ffffff, #ffffff); /* anel branco interno */
+      linear-gradient(#ffffff, #ffffff);
     background-clip: content-box, content-box, content-box, content-box, padding-box;
-
-    /* Anel prateado fino externo + brilho e relevo */
-    box-shadow:
-      0 0 0 2px #c0c0c0,                    /* anel prateado externo fino */
-      0 0 22px 9px rgba(255,255,255,.26),    /* brilho externo */
-      inset 0 0 46px rgba(255,255,255,.16);  /* relevo interno */
+    box-shadow: 0 0 0 2px #c0c0c0, 0 0 22px 9px rgba(255,255,255,.26), inset 0 0 46px rgba(255,255,255,.16);
   }
-
-  /* Cabeçalho e conteúdos (mantidos da versão anterior) */
   header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0 }
-  .titulo{
-    margin:0; padding:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:37px; color:#fff; -webkit-text-stroke:3px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25);
-  }
-  .subtitulo{
-    margin:2px 0 4px; line-height:1.08;
-    font-size:20px; color:var(--bege-escuro); font-weight:800;
-  }
+  .titulo{ margin:0; padding:0; line-height:1.05; font-weight:900; letter-spacing:.6px; font-size:37px; color:#fff; -webkit-text-stroke:3px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.25); }
+  .subtitulo{ margin:2px 0 4px; line-height:1.08; font-size:20px; color:var(--bege-escuro); font-weight:800; }
   .hero-oval{
-    display:block; margin:clamp(8px, 10vh, 140px) auto 10px;
-    width:min(85vw, 544px); aspect-ratio:3/4; border-radius:38% / 50%;
-    border:6px solid var(--dourado); overflow:hidden; box-shadow:0 6px 18px var(--sombra);
-    position:relative; z-index:1; background:#000;
+    display:block; margin:clamp(8px, 10vh, 140px) auto 10px; width:min(85vw, 544px); aspect-ratio:3/4; border-radius:38% / 50%;
+    border:6px solid var(--dourado); overflow:hidden; box-shadow:0 6px 18px var(--sombra); position:relative; z-index:1; background:#000;
   }
   .hero-oval .hero-img{ width:100%; height:100%; object-fit:cover; object-position:50% 45%; display:block; border:0; }
-
-  .wrap{
-    position:relative; z-index:1; max-width:600px; margin:0 auto; padding:14px 20px 10px;
-    display:flex; flex-direction:column; align-items:center; gap:8px;
-  }
+  .wrap{ position:relative; z-index:1; max-width:600px; margin:0 auto; padding:14px 20px 10px; display:flex; flex-direction:column; align-items:center; gap:8px; }
   .btn{
     position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
     border:2px solid var(--dourado); border-radius:14px; width:55%; min-width:280px; min-height:31px; padding:3px 12px;
-    box-shadow:0 4px 10px var(--sombra); color:#000; text-align:center; font-weight:800;
-    transition:transform .08s ease-in-out, box-shadow .12s; overflow:hidden; margin:0 auto;
+    box-shadow:0 4px 10px var(--sombra); color:#000; text-align:center; font-weight:800; transition:transform .08s, box-shadow .12s; overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-  .btn .icon-round{
-    width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
-    margin-right:10px; flex:0 0 auto;
-  }
+  .btn .icon-round{ width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto; }
   .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
   .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); }
 
@@ -152,13 +103,11 @@
   footer{ text-align:center; margin:4px 0 20px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
-    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
-    transform:scale(.6); transform-origin:center;
+    border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra); transform:scale(.6); transform-origin:center;
   }
 </style>
 </head>
 <body>
-
   <div class="sky-border" aria-hidden="true"></div>
   <div class="stars-sides" aria-hidden="true"></div>
   <div class="moon" aria-hidden="true"></div>
@@ -166,10 +115,7 @@
   <header>
     <h1 class="titulo">Lilyo</h1>
     <div class="subtitulo">meia-noite e vigílias</div>
-
-    <figure class="hero-oval">
-      <img class="hero-img" src="img/icone-lilyo.horas.jpg" alt="Ícone principal Lilyo">
-    </figure>
+    <figure class="hero-oval"><img class="hero-img" src="img/icone-lilyo.horas.jpg" alt="Ícone principal Lilyo"></figure>
   </header>
 
   <main class="wrap">
@@ -185,8 +131,8 @@
   </main>
 
   <footer>
-    <a class="btn-voltar" href="mapa-liturgico.html">← voltar</a>
+    <a class="btn-voltar" href="horas-teste.html">← voltar</a>
   </footer>
-
 </body>
 </html>
+
