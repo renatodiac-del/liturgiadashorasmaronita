@@ -9,9 +9,12 @@
   <style>
     :root{
       --gap: 8px;
-      --btn-wide: 77.3%;     /* largura dos botões grandes */
-      --btn-pad-v: 6px;      /* altura base dos botões grandes */
+      --btn-wide: 77.3%;
+      --btn-pad-v: 6px;
       --btn-pad-h: 11px;
+      --vermelho:#a00000;
+      --dourado:#d6b25a;
+      --laranja:#ff7a00;
     }
 
     *{box-sizing:border-box}
@@ -29,31 +32,28 @@
 
     header.top{ text-align:center; padding:4px 8px 0 }
     .title{
-      color:#d6b25a; font-weight:800; font-size:2.15rem; margin:2px 0 4px;
-      -webkit-text-stroke:1px #ff7a00; text-shadow:0 0 1px #ff7a00,0 0 1px #ff7a00
+      color:var(--dourado); font-weight:800; font-size:2.15rem; margin:2px 0 4px;
+      -webkit-text-stroke:1px var(--laranja); text-shadow:0 0 1px var(--laranja),0 0 1px var(--laranja)
     }
 
-    .wrap{ width:100%; max-width:620px; margin:0 auto; padding:4px 16px 16px }
+    .wrap{ width:100%; max-width:620px; margin:0 auto; padding:4px 16px 16px; position:relative; }
 
     .hero{
       display:block; margin:4px auto 8px; max-width:100%; height:auto; max-height:420px;
-      border:6px solid #ff7a00; 
-      /* aro dourado externo + aro dourado interno (mantém laranja) */
-      box-shadow:
-        0 0 0 4px #d6b25a,
-        0 0 0 4px #d6b25a inset;
+      border:6px solid var(--laranja);
+      box-shadow: 0 0 0 4px var(--dourado), 0 0 0 4px var(--dourado) inset;
       border-radius:12px
     }
     .hero[hidden]{ display:none }
     .chip{
       display:inline-block; margin:6px 0 8px; padding:8px 12px; background:rgba(255,255,255,0.9);
-      border:3px solid #ff7a00; box-shadow:0 0 0 2px #d6b25a inset; border-radius:14px; font-weight:bold; color:#a00000
+      border:3px solid var(--laranja); box-shadow:0 0 0 2px var(--dourado) inset; border-radius:14px; font-weight:bold; color:var(--vermelho)
     }
 
     /* Barra de data e navegação */
     .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
-      background:#fff; border:2px solid #ff7a00; border-radius:20px;
+      background:#fff; border:2px solid var(--laranja); border-radius:20px;
       padding:3px 22px;
       font-size:0.58rem;
       color:#7a0000; cursor:pointer; transition:.2s
@@ -69,16 +69,16 @@
     /* BASE dos botões grandes */
     .btn{
       display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
-      background:rgba(255,255,255,0.97); border:1.35px solid #ff7a00;
-      box-shadow:0 0 0 0.9px #d6b25a inset, 0 4px 10px rgba(0,0,0,0.15);
+      background:rgba(255,255,255,0.97); border:1.35px solid var(--laranja);
+      box-shadow:0 0 0 0.9px var(--dourado) inset, 0 4px 10px rgba(0,0,0,0.15);
       border-radius:18px; font-size:.86rem; font-weight:bold;
-      text-align:center; position:relative; transition:.2s; color:#a00000;
+      text-align:center; position:relative; transition:.2s; color:var(--vermelho);
       margin: var(--gap) 0;
     }
     .btn:hover{ transform:scale(1.02); background:#fff3da }
     .btn img{ position:absolute; left:10px; width:20px; height:20px }
     .label{ width:100%; text-align:center; pointer-events:none }
-    .line1{ display:block; color:#a00000 }
+    .line1{ display:block; color:var(--vermelho) }
     .line2{ display:block; color:#000; font-size:.9em }
 
     /* Botões grandes padrão */
@@ -99,10 +99,10 @@
     }
     .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
-    /* Botão vermelho Voltar (da mãe) */
+    /* Botão vermelho Voltar — AGORA fixa para 'oracao.html' */
     footer{ margin-top: 0; text-align:center; font-size:.85rem; color:#7a6a55; padding:0 8px 8px }
     .back{
-      display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
+      display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff;
       border:1px solid #6f0000; padding:.32rem .56rem; border-radius:9px;
       font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none;
       margin: 2px auto 0;
@@ -113,12 +113,46 @@
       background:#222; color:#fff; padding:10px 14px; border-radius:10px; font-size:.9rem;
       opacity:0; pointer-events:none; transition:.2s
     }
+
+    /* ===== Hints (setas vermelhas laterais que piscam 4x e somem) ===== */
+    .hint-arrow{
+      position:absolute;
+      top: 48%;
+      transform: translateY(-50%);
+      font-size:36px;
+      line-height:1;
+      color:var(--vermelho);
+      font-weight:900;
+      text-shadow:0 0 6px rgba(0,0,0,.18);
+      animation: hintBlink .6s ease-in-out 4 forwards;
+      pointer-events:none;
+      z-index: 5;
+      user-select:none;
+    }
+    .hint-left{ left: -6px; }
+    .hint-right{ right: -6px; }
+
+    @keyframes hintBlink{
+      0%, 100% { opacity: 0; transform: translateY(-50%) translateZ(0); }
+      50% { opacity: 1; transform: translateY(-45%) translateZ(0); }
+    }
+
+    /* Pequeno ajuste responsivo para telas muito estreitas */
+    @media (max-width: 420px){
+      .hint-left{ left: -2px; }
+      .hint-right{ right: -2px; }
+      .hint-arrow{ font-size:30px; }
+    }
   </style>
 </head>
 <body>
   <header class="top"><h1 class="title">Oração do Dia</h1></header>
 
   <main class="wrap">
+    <!-- Setas laterais (↓) — piscam 4x e desaparecem -->
+    <div class="hint-arrow hint-left" aria-hidden="true">↓</div>
+    <div class="hint-arrow hint-right" aria-hidden="true">↓</div>
+
     <img class="hero" id="hero" src="img/icone-horas.jpg" alt="Ícone"
          onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
     <div id="hero-chip" class="chip" style="display:none">Oração do Dia</div>
@@ -136,7 +170,7 @@
 
     <div class="wide-wrap">
       <!-- Calendário leva à página real -->
-      <a class="btn calendar" href="calendario.html">
+      <a class="btn calendar" href="calendario.html?from=horas">
         <img src="img/cruz3.png" alt="">
         <span class="label"><span class="line1">Calendário Litúrgico</span></span>
       </a>
@@ -146,7 +180,8 @@
   <div id="toast"></div>
 
   <footer>
-    <a class="back" href="javascript:history.back();" onclick="if(!document.referrer){this.href='index-teste.html'}">← Voltar</a>
+    <!-- Voltar SEMPRE para a avó -->
+    <a class="back" href="oracao.html">← Voltar</a>
   </footer>
 
   <script>
@@ -154,24 +189,27 @@
     const SALMOS_CSV_URL = 'https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv';
     /* ========================================================================= */
 
+    /* ======= utilitário de aviso ======= */
     function toast(msg){
       const t=document.getElementById('toast');
       t.textContent=msg; t.style.opacity=1;
       clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000);
     }
 
+    /* ======= normalizações ======= */
     const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
-    function toISO(d){
+    function toISO(d){ // dd/mm/yyyy ou yyyy/mm/dd -> yyyy-mm-dd
       const s=(d||'').replace(/[-.]/g,'/').trim();
       const parts=s.split('/');
       if(parts.length!==3) return null;
-      if(parts[0].length===4){
+      if(parts[0].length===4){ // yyyy/mm/dd
         const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
       }
       const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
     }
     function fmtBR(d){ return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
 
+    /* ======= parser CSV robusto ======= */
     function parseCSV(text){
       const rows=[]; let i=0, cur=[], val='', q=false;
       while(i<text.length){
@@ -191,8 +229,9 @@
       return rows;
     }
 
+    /* ======= fetch CSV (com cache-busting e fallback AllOrigins) ======= */
     async function fetchCSV(url){
-      const cb = Math.floor(Date.now()/60000);
+      const cb = Math.floor(Date.now()/60000); // muda a cada minuto
       const u1 = url + (url.includes('?')?'&':'?') + 'cb='+cb;
       try{
         const r=await fetch(u1,{mode:'cors'});
@@ -206,6 +245,7 @@
       }
     }
 
+    /* ======= lookup de link por (data, periodo) ======= */
     let _salmosRows=null, _salmosHeader=null;
     async function ensureSalmos(){
       if(_salmosRows) return;
@@ -222,88 +262,6 @@
     async function openSalmo(periodo, dateObj){
       try{
         await ensureSalmos();
-        const h=_salmosHeader, rs=_salmosRows;
-        const iData = findCol(h, ['data','date','dia']);
-        const iPer  = findCol(h, ['periodo','período','turno']);
-        const iLink = findCol(h, ['link_doc','link','url','doc','arquivo']);
-        if(iData<0 || iPer<0 || iLink<0){ toast('Planilha: cabeçalhos não encontrados'); return; }
+        c
 
-        const todayBR = fmtBR(dateObj);
-        const todayISO = toISO(todayBR);
-        const alvoPer = norm(periodo);
-
-        const row = rs.find(r=>{
-          const d = (r[iData]||'').trim();
-          const p = norm(r[iPer]);
-          const eq = (toISO(d)===todayISO) || (d===todayBR);
-          return eq && (
-            (alvoPer.startsWith('m') && (p===norm('manhã')||p===norm('manha'))) ||
-            (alvoPer.startsWith('t') && p.startsWith('t'))
-          );
-        });
-
-        if(!row){ toast('Não há referência para esta data/turno'); return; }
-        const link=(row[iLink]||'').trim();
-        if(!link){ toast('Link vazio na planilha'); return; }
-        window.open(link,'_blank');
-      }catch(e){
-        console.error(e); toast('Falha ao abrir referência');
-      }
-    }
-
-    function mkLink(href,l1,l2=''){
-      const a=document.createElement('a');
-      a.href=href; a.className='btn tall';
-      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
-        <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}
-      </span>`;
-      return a;
-    }
-    function mkSalmoBtn(turno,l2){
-      const a=document.createElement('a');
-      a.href='#'; a.className='btn tall'; a.dataset.salmo=turno;
-      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
-        <span class="line1">Salmo do Dia e Leitura</span>${l2?`<span class="line2">${l2}</span>`:''}
-      </span>`;
-      return a;
-    }
-
-    (function mountButtons(){
-      const c=document.getElementById('col');
-      c.append(mkLink('safro-hora.html','Safro','oração da manhã'));
-      c.append(mkSalmoBtn('manha','manhã'));
-      c.append(mkLink('terca-hora.html','Hora Terça','9 horas'));
-      c.append(mkLink('sexta-hora.html','Hora Sexta','12 horas'));
-      c.append(mkLink('nona-hora.html','Hora Nona','15 horas'));
-      c.append(mkLink('synaxarion.html','Synaxarion'));
-      c.append(mkLink('ramsho-hora.html','Ramsho','oração da tarde'));
-      c.append(mkSalmoBtn('tarde','tarde'));
-      c.append(mkLink('sutoro-hora.html','Sutoro','oração da noite'));
-      c.append(mkLink('lilyo-hora.html','Lilyo','vigílias'));
-    })();
-
-    document.addEventListener('click', async (e)=>{
-      const a=e.target.closest('a[data-salmo]');
-      if(!a) return;
-      e.preventDefault();
-      const turno=a.dataset.salmo;
-      await openSalmo(turno, currentDate);
-    });
-
-    let currentDate=new Date();
-    function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
-    function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
-    function updateDateBar(){
-      document.getElementById('date-text').textContent=formatDateBR(currentDate);
-      const wd = weekdayBR(currentDate); 
-      document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
-    }
-    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
-    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
-    updateDateBar();
-
-    document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
-  </script>
-</body>
-</html>
 
