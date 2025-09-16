@@ -1,0 +1,137 @@
+<!-- biblioteca.html — filha de Qurbono, mesmo layout da mãe -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca</title>
+  <meta name="theme-color" content="#1a2a40">
+  <style>
+    :root{
+      --azul:#1a2a40;
+      --vermelho:#a00000;
+      --turquesa:#40E0D0;
+      --dourado:#d6b25a;
+      --sombra:rgba(0,0,0,.15);
+      --fonte: Arial, Helvetica, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--fonte); color:#1b1b1b;
+      background: var(--azul);
+      background-image:
+        repeating-linear-gradient(45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px),
+        repeating-linear-gradient(-45deg, rgba(160,0,0,0.25) 0, rgba(160,0,0,0.25) 2px, transparent 2px, transparent 40px);
+      background-size:40px 40px;
+      display:flex; flex-direction:column; min-height:100vh;
+    }
+
+    .wrap{
+      width:100%; max-width:520px; margin:0 auto;
+      padding:4px 12px 10px;
+    }
+
+    .title{
+      text-align:center;
+      font-size: calc(2rem + 2pt);
+      font-weight:900;
+      color:var(--vermelho);
+      margin:4px 0 6px;
+      line-height:1.05;
+    }
+
+    .hero{
+      display:block; margin:0 auto 10px; max-width:100%; height:auto; max-height:420px;
+      border:6px solid var(--turquesa);
+      box-shadow:0 0 0 4px var(--dourado) inset;
+      border-radius:12px
+    }
+
+    .buttons{
+      display:flex; flex-direction:column; gap:10px;
+      margin:0 0 14px 0;
+    }
+
+    .btn{
+      position:relative; display:flex; align-items:center; justify-content:center; gap:8px;
+      cursor:pointer; background-color:rgba(255,255,255,0.95);
+      border:2.4px solid var(--turquesa);
+      box-shadow:0 0 0 1.6px var(--dourado) inset, 0 4px 10px var(--sombra);
+      border-radius:18px;
+      padding:9.9px 18px;
+      width:92%;
+      font-size:1rem; font-weight:bold;
+      color:var(--vermelho);
+      transition:transform .15s ease, background-color .2s ease;
+      text-decoration:none; margin:0 auto;
+      text-align:center;
+    }
+    .btn:hover{transform:scale(1.02); background:#fff3da}
+
+    .btn img{
+      position:absolute; left:12px;
+      width:26px; height:26px;
+      border-radius:50%; object-fit:cover;
+    }
+
+    footer{
+      margin-top:4px; text-align:center; padding:0 0 14px;
+    }
+    .voltar{
+      background:var(--vermelho);
+      color:#fff; font-size:.65rem; font-weight:bold;
+      border:none; border-radius:6px;
+      padding:.3rem .55rem; cursor:pointer;
+      display:inline-flex; align-items:center; gap:.4rem;
+      text-decoration:none;
+      transform:scale(0.6);         /* 40% menor */
+      transform-origin:center;
+    }
+    .voltar:hover{background:#c00000}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">Biblioteca</h1>
+
+    <!-- Mesmo ícone da página mãe (Qurbono) -->
+    <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone Biblioteca">
+
+    <section class="buttons" aria-label="Biblioteca — coleções">
+      <!-- Substitua cada href pelo link da sua planilha (shots) que abre o .doc -->
+      <a class="btn" href="LINK-PLANILHA-MISSAL-V1" target="_blank" rel="noopener">
+        <img src="img/cruz2.jpg" alt="">
+        Missal Maronita vol. 1
+      </a>
+
+      <a class="btn" href="LINK-PLANILHA-MISSAL-V2" target="_blank" rel="noopener">
+        <img src="img/cruz2.jpg" alt="">
+        Missal Maronita vol. 2
+      </a>
+
+      <a class="btn" href="LINK-PLANILHA-MISSAL-V3" target="_blank" rel="noopener">
+        <img src="img/cruz2.jpg" alt="">
+        Missal Maronita vol. 3
+      </a>
+
+      <a class="btn" href="LINK-PLANILHA-LECIONARIO-DOM-SANT" target="_blank" rel="noopener">
+        <img src="img/cruz2.jpg" alt="">
+        Lecionário Dominical e Santoral
+      </a>
+
+      <a class="btn" href="LINK-PLANILHA-LECIONARIO-FERIAL" target="_blank" rel="noopener">
+        <img src="img/cruz2.jpg" alt="">
+        Lecionário Ferial
+      </a>
+    </section>
+
+    <footer>
+      <a class="voltar" href="javascript:history.back()"
+         onclick="if(!document.referrer || !document.referrer.includes('qurbono-teste.html')) this.href='qurbono-teste.html'">
+        &#8592; Voltar
+      </a>
+    </footer>
+  </main>
+</body>
+</html>
