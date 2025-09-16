@@ -1,72 +1,42 @@
-<!-- sutoro-hora.html (AJUSTE: ícone um pouco mais alto ~3.5vh) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sutoro — Oração da Noite</title>
 <style>
-  body{
-    margin:0;font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(#001a33,#fff);color:#fff;
-    position:relative; overflow-x:hidden;
-  }
+  body{ margin:0;font-family:Arial,Helvetica,sans-serif; background:linear-gradient(#001a33,#fff); color:#fff; position:relative; overflow-x:hidden; }
   :root{ --dourado:#a9842b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
-
-  /* Lua 1/4 no canto superior direito */
   body::after{
-    content:""; position:fixed; top:-120px; right:-120px;
-    width:260px; height:260px; border-radius:50%;
+    content:""; position:fixed; top:-120px; right:-120px; width:260px; height:260px; border-radius:50%;
     background:radial-gradient(circle at 35% 35%, #ffffff 0%, #fef3d6 55%, #e6dfc2 75%, rgba(255,255,255,0) 76%);
     box-shadow:0 0 20px 6px rgba(255,255,255,.35), inset 0 0 60px rgba(255,255,255,.15);
     z-index:0; pointer-events:none;
   }
-
-  /* Cabeçalho compacto */
   header{ position:relative; z-index:1; text-align:center; padding:4px 12px 0; }
-  .titulo{
-    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:39px; color:#fff; -webkit-text-stroke:1px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10);
-  }
+  .titulo{ margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px; font-size:39px; color:#fff; -webkit-text-stroke:1px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.10); }
   .subtitulo{
     margin:2px 0 2px; font-size:29px; font-weight:700; line-height:1.1;
     background:linear-gradient(180deg,#7a8da6 0%, #b9c4d2 55%, #ffffff 100%);
-    -webkit-background-clip:text; background-clip:text;
-    -webkit-text-fill-color:transparent; color:transparent;
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;
   }
-
-  /* Ícone OVAL VERTICAL — ainda mais alto (~3.5vh) */
   .hero-oval{
-    display:block;
-    margin:clamp(2px, 3.5vh, 60px) auto 10px; /* antes: clamp(4px, 5vh, 80px) */
-    width:min(84vw, 622px);
-    aspect-ratio:3/4; border-radius:38% / 50%;
-    overflow:hidden; box-shadow:0 6px 18px var(--sombra);
+    display:block; margin:clamp(2px, 3.5vh, 60px) auto 10px; width:min(84vw, 622px);
+    aspect-ratio:3/4; border-radius:38% / 50%; overflow:hidden; box-shadow:0 6px 18px var(--sombra);
     position:relative; z-index:1; background:#000; border:6px solid var(--dourado);
   }
   .hero-oval .hero-img{ width:100%; height:100%; object-fit:cover; object-position:50% 45%; display:block; border:0; }
-
-  /* Botões */
-  .wrap{
-    max-width:600px; margin:0 auto; padding:16px 20px 4px;
-    display:flex; flex-direction:column; gap:12px; align-items:center; position:relative; z-index:1;
-  }
+  .wrap{ max-width:600px; margin:0 auto; padding:16px 20px 4px; display:flex; flex-direction:column; gap:12px; align-items:center; position:relative; z-index:1; }
   .btn{
-    position:relative; display:flex; align-items:center; justify-content:flex-start;
-    text-decoration:none; background:#fff; border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; min-height:36px; padding:4px 12px;
-    box-shadow:0 4px 10px var(--sombra); color:#001a33; text-align:center; font-weight:800;
+    position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff; border:2px solid var(--dourado); border-radius:14px;
+    width:55%; min-width:280px; min-height:36px; padding:4px 12px; box-shadow:0 4px 10px var(--sombra); color:#001a33; text-align:center; font-weight:800;
     transition:transform .08s ease-in-out, box-shadow .12s; overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-  .btn .icon-round{
-    width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto;
-  }
+  .btn .icon-round{ width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto; }
   .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
   .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
   .btn .sub{ font-size:14px; line-height:1.06; font-weight:700; -webkit-text-stroke:0; color:#000; }
 
-  /* Voltar */
   .wrap .btn:last-of-type{ margin-bottom:2px; }
   footer{ text-align:center; margin:10px 0 22px }
   .btn-voltar{
@@ -77,42 +47,21 @@
 </style>
 </head>
 <body>
-
   <header>
     <h1 class="titulo">Sutoro</h1>
     <div class="subtitulo">Oração da Noite</div>
-
-    <figure class="hero-oval">
-      <img class="hero-img" src="img/icone-sutoro.horas.jpg" alt="Ícone principal Sutoro">
-    </figure>
+    <figure class="hero-oval"><img class="hero-img" src="img/icone-sutoro.horas.jpg" alt="Ícone principal Sutoro"></figure>
   </header>
 
   <main class="wrap">
-    <a href="#" class="btn">
-      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label">
-        <span class="main">Sutoro</span>
-        <span class="sub">versão curta</span>
-      </span>
-    </a>
-
-    <a href="#" class="btn">
-      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label">
-        <span class="main">Sutoro</span>
-        <span class="sub">versão longa</span>
-      </span>
-    </a>
-
-    <a href="#" class="btn">
-      <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
-      <span class="label"><span class="main">Hinos e Melodias</span></span>
-    </a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Sutoro</span><span class="sub">versão curta</span></span></a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Sutoro</span><span class="sub">versão longa</span></span></a>
+    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
   </main>
 
   <footer>
-    <a class="btn-voltar" href="mapa-liturgico.html">← voltar</a>
+    <a class="btn-voltar" href="horas-teste.html">← voltar</a>
   </footer>
-
 </body>
 </html>
+
