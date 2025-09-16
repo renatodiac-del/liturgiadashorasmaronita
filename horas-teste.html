@@ -54,8 +54,8 @@
     .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
       background:#fff; border:2px solid #ff7a00; border-radius:20px;
-      padding:3px 22px;                  /* altura -50%, largura mantida */
-      font-size:0.58rem;                 /* fonte pequena */
+      padding:3px 22px;
+      font-size:0.58rem;
       color:#7a0000; cursor:pointer; transition:.2s
     }
     .datebtn:hover{ background:#fff3da; transform:translateY(-1px) }
@@ -99,7 +99,7 @@
     }
     .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
 
-    /* Botão vermelho Voltar */
+    /* Botão vermelho Voltar (da mãe) */
     footer{ margin-top: 0; text-align:center; font-size:.85rem; color:#7a6a55; padding:0 8px 8px }
     .back{
       display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff;
@@ -146,7 +146,7 @@
   <div id="toast"></div>
 
   <footer>
-    <a class="back" href="javascript:history.back();" onclick="if(!document.referrer || !document.referrer.includes('horas-teste.html')){this.href='horas-teste.html'}">← Voltar</a>
+    <a class="back" href="javascript:history.back();" onclick="if(!document.referrer){this.href='index-teste.html'}">← Voltar</a>
   </footer>
 
   <script>
@@ -154,30 +154,24 @@
     const SALMOS_CSV_URL = 'https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv';
     /* ========================================================================= */
 
-    /* ======= utilitário de aviso ======= */
     function toast(msg){
       const t=document.getElementById('toast');
       t.textContent=msg; t.style.opacity=1;
       clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000);
     }
 
-    /* ======= normalizações ======= */
     const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
-    function toISO(d){ // dd/mm/yyyy ou yyyy/mm/dd -> yyyy-mm-dd
+    function toISO(d){
       const s=(d||'').replace(/[-.]/g,'/').trim();
       const parts=s.split('/');
       if(parts.length!==3) return null;
-      if(parts[0].length===4){ // yyyy/mm/dd
+      if(parts[0].length===4){
         const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
       }
-      // dd/mm/yyyy
       const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
     }
-    function fmtBR(d){ // Date -> dd/mm/yyyy
-      return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
-    }
+    function fmtBR(d){ return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
 
-    /* ======= parser CSV robusto ======= */
     function parseCSV(text){
       const rows=[]; let i=0, cur=[], val='', q=false;
       while(i<text.length){
@@ -197,9 +191,8 @@
       return rows;
     }
 
-    /* ======= fetch CSV (com cache-busting e fallback AllOrigins) ======= */
     async function fetchCSV(url){
-      const cb = Math.floor(Date.now()/60000); // muda a cada minuto
+      const cb = Math.floor(Date.now()/60000);
       const u1 = url + (url.includes('?')?'&':'?') + 'cb='+cb;
       try{
         const r=await fetch(u1,{mode:'cors'});
@@ -213,7 +206,6 @@
       }
     }
 
-    /* ======= lookup de link por (data, periodo) ======= */
     let _salmosRows=null, _salmosHeader=null;
     async function ensureSalmos(){
       if(_salmosRows) return;
@@ -236,18 +228,18 @@
         const iLink = findCol(h, ['link_doc','link','url','doc','arquivo']);
         if(iData<0 || iPer<0 || iLink<0){ toast('Planilha: cabeçalhos não encontrados'); return; }
 
-        const todayBR = fmtBR(dateObj);        // dd/mm/yyyy
-        const todayISO = toISO(todayBR);       // yyyy-mm-dd
-        const alvoPer = norm(periodo);         // manha|tarde
+        const todayBR = fmtBR(dateObj);
+        const todayISO = toISO(todayBR);
+        const alvoPer = norm(periodo);
 
-        // aceita datas em BR ou ISO na planilha
         const row = rs.find(r=>{
           const d = (r[iData]||'').trim();
-          const dISO = toISO(d);
-          const dBR  = toISO(d) ? null : toISO(fmtBR(new Date(d))) ; // tentativa leve
           const p = norm(r[iPer]);
-          const eq = (toISO(d)===todayISO) || (toISO(d)===toISO(todayBR)) || (d===todayBR);
-          return eq && (p===alvoPer || p===norm('manhã') || p===norm('manha')) && (alvoPer.startsWith('t')? p.startsWith('t'): true);
+          const eq = (toISO(d)===todayISO) || (d===todayBR);
+          return eq && (
+            (alvoPer.startsWith('m') && (p===norm('manhã')||p===norm('manha'))) ||
+            (alvoPer.startsWith('t') && p.startsWith('t'))
+          );
         });
 
         if(!row){ toast('Não há referência para esta data/turno'); return; }
@@ -259,7 +251,6 @@
       }
     }
 
-    /* ======= montar botões (com HREFs reais) ======= */
     function mkLink(href,l1,l2=''){
       const a=document.createElement('a');
       a.href=href; a.className='btn tall';
@@ -291,16 +282,14 @@
       c.append(mkLink('lilyo-hora.html','Lilyo','vigílias'));
     })();
 
-    // clique nos dois botões de Salmo/Leitura (manhã/tarde)
     document.addEventListener('click', async (e)=>{
       const a=e.target.closest('a[data-salmo]');
       if(!a) return;
       e.preventDefault();
-      const turno=a.dataset.salmo; // 'manha' | 'tarde'
+      const turno=a.dataset.salmo;
       await openSalmo(turno, currentDate);
     });
 
-    /* ======= barra de data ======= */
     let currentDate=new Date();
     function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
     function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
@@ -313,8 +302,8 @@
     document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
     updateDateBar();
 
-    /* ======= ícone “chip” ======= */
     document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
   </script>
 </body>
 </html>
+
