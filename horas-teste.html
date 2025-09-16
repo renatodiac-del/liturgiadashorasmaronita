@@ -262,6 +262,95 @@
     async function openSalmo(periodo, dateObj){
       try{
         await ensureSalmos();
-        c
+        const h=_salmosHeader, rs=_salmosRows;
+        const iData = findCol(h, ['data','date','dia']);
+        const iPer  = findCol(h, ['periodo','período','turno']);
+        const iLink = findCol(h, ['link_doc','link','url','doc','arquivo']);
+        if(iData<0 || iPer<0 || iLink<0){ toast('Planilha: cabeçalhos não encontrados'); return; }
 
+        const todayBR = fmtBR(dateObj);        // dd/mm/yyyy
+        const todayISO = toISO(todayBR);       // yyyy-mm-dd
+        const alvoPer = norm(periodo);         // manha|tarde
 
+        const row = rs.find(r=>{
+          const d = (r[iData]||'').trim();
+          const p = norm(r[iPer]);
+          const eq = (toISO(d)===todayISO) || (d===todayBR);
+          const perOK = (alvoPer.startsWith('m') ? (p===norm('manhã')||p===norm('manha')) :
+                        alvoPer.startsWith('t') ? p.startsWith('t') : p===alvoPer);
+          return eq && perOK;
+        });
+
+        if(!row){ toast('Não há referência para esta data/turno'); return; }
+        const link=(row[iLink]||'').trim();
+        if(!link){ toast('Link vazio na planilha'); return; }
+        window.open(link,'_blank');
+      }catch(e){
+        console.error(e); toast('Falha ao abrir referência');
+      }
+    }
+
+    /* ======= montar botões (com HREFs reais) ======= */
+    function mkLink(href,l1,l2=''){
+      const a=document.createElement('a');
+      a.href=href; a.className='btn tall';
+      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
+        <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}
+      </span>`;
+      return a;
+    }
+    function mkSalmoBtn(turno,l2){
+      const a=document.createElement('a');
+      a.href='#'; a.className='btn tall'; a.dataset.salmo=turno;
+      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
+        <span class="line1">Salmo do Dia e Leitura</span>${l2?`<span class="line2">${l2}</span>`:''}
+      </span>`;
+      return a;
+    }
+
+    (function mountButtons(){
+      const c=document.getElementById('col');
+      c.append(mkLink('safro-hora.html?from=horas','Safro','oração da manhã'));
+      c.append(mkSalmoBtn('manha','manhã'));
+      c.append(mkLink('terca-hora.html?from=horas','Hora Terça','9 horas'));
+      c.append(mkLink('sexta-hora.html?from=horas','Hora Sexta','12 horas'));
+      c.append(mkLink('nona-hora.html?from=horas','Hora Nona','15 horas'));
+      c.append(mkLink('synaxarion.html?from=horas','Synaxarion'));
+      c.append(mkLink('ramsho-hora.html?from=horas','Ramsho','oração da tarde'));
+      c.append(mkSalmoBtn('tarde','tarde'));
+      c.append(mkLink('sutoro-hora.html?from=horas','Sutoro','oração da noite'));
+      c.append(mkLink('lilyo-hora.html?from=horas','Lilyo','vigílias'));
+    })();
+
+    // clique nos dois botões de Salmo/Leitura (manhã/tarde)
+    document.addEventListener('click', async (e)=>{
+      const a=e.target.closest('a[data-salmo]');
+      if(!a) return;
+      e.preventDefault();
+      const turno=a.dataset.salmo; // 'manha' | 'tarde'
+      await openSalmo(turno, currentDate);
+    });
+
+    /* ======= barra de data ======= */
+    let currentDate=new Date();
+    function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
+    function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
+    function updateDateBar(){
+      document.getElementById('date-text').textContent=formatDateBR(currentDate);
+      const wd = weekdayBR(currentDate);
+      document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
+    }
+    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
+    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
+    updateDateBar();
+
+    /* ======= ícone “chip” ======= */
+    document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+
+    /* ======= remover as setas após a animação (somem de vez) ======= */
+    for(const el of document.querySelectorAll('.hint-arrow')){
+      el.addEventListener('animationend', ()=>{ el.remove(); }, { once:true });
+    }
+  </script>
+</body>
+</html>
