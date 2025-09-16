@@ -1,4 +1,4 @@
-<!-- qurbono-festas.html — Neta de "Liturgia Eucaristia Durante o Ano" (ajustes: botão principal -20% altura, ícone -10%, voltar mais próximo) -->
+<!-- qurbono-festas.html — Neta de "Liturgia Eucaristia Durante o Ano" (fundo: begê → prata envelhecida; demais detalhes mantidos) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,31 +7,36 @@
 <meta name="theme-color" content="#7a6b53">
 <style>
 :root{
-  --bg:#efe7db; --txt:#2b1f16;
+  /* Begê suave + prata envelhecida */
+  --bege1:#eadfce; --prataEnvelhecida:#b8b1a6;
+  --txt:#2b1f16;
   --bordPrata:#b7b7b7; --dourado:#d6b25a; --vermelho:#a00000;
   --fonte: Arial, Helvetica, sans-serif; --shadow:rgba(0,0,0,.12);
 }
 *{box-sizing:border-box} html,body{height:100%}
 body{
   margin:0; font-family:var(--fonte); color:var(--txt);
-  background: var(--bg);
+  /* Degradê pedido + mantém as linhas decorativas por cima (detalhes mantidos) */
   background-image:
     repeating-linear-gradient(45deg, rgba(183,183,183,.25) 0 2px, transparent 2px 44px),
-    repeating-linear-gradient(-45deg, rgba(214,178,90,.18) 0 2px, transparent 2px 44px);
-  background-size:44px 44px; display:flex; flex-direction:column; min-height:100vh;
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.18) 0 2px, transparent 2px 44px),
+    linear-gradient(180deg, var(--bege1) 0%, var(--prataEnvelhecida) 100%);
+  background-size:44px 44px, 44px 44px, 100% 100%;
+  background-repeat:no-repeat, no-repeat, no-repeat;
+  display:flex; flex-direction:column; min-height:100vh;
 }
 .wrap{ width:100%; max-width:560px; margin:0 auto; padding:8px 14px 12px; display:flex; flex-direction:column; }
 
 .title{ text-align:center; font-weight:900; margin:4px 0 8px; font-size:2.1rem; color:var(--vermelho); }
 
-/* Ícone (hero) – agora 10% menor (de 494px para 444px) */
+/* Ícone — mantidos ajustes anteriores (−10% já aplicado em versão passada? aqui mantemos 444px se foi seu padrão) */
 .hero{
   display:block; margin:0 auto 12px; max-width:100%; height:auto; max-height:444px;
   border:6px solid var(--bordPrata); box-shadow:0 0 0 4px var(--dourado) inset, 0 6px 16px var(--shadow);
   border-radius:12px
 }
 
-/* BOTÃO principal (nome atual) – altura -20% (padding vertical 12px → 9.6px) */
+/* BOTÃO principal — mantém altura reduzida em 20% e tipografia maior */
 .main-btn{
   display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:default;
   background:#fff; color:#000; padding:9.6px 16px; border-radius:16px; width:92%; margin:0 auto 8px;
@@ -40,7 +45,7 @@ body{
 }
 .main-btn .big{ display:block; }
 
-/* NAV Anterior/Próximo */
+/* NAV Anterior/Próximo — mantido */
 .nav-strip{ display:flex; justify-content:center; gap:10px; margin:6px 0 10px; }
 .nav-btn{
   background:#fff; border:2px solid var(--bordPrata); box-shadow:0 0 0 2px var(--dourado) inset, 0 3px 8px var(--shadow);
@@ -48,13 +53,13 @@ body{
 }
 .nav-btn:hover{ background:#fff8ef }
 
-/* VOLTAR (50% do tamanho e mais próximo, sem colar) */
+/* VOLTAR — 50% do tamanho e bem próximo dos botões (sem colar) */
 footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
 .voltar{
   background:#a00000; color:#fff; font-weight:800; border:none; border-radius:6px; text-decoration:none;
   display:inline-flex; align-items:center; gap:.4rem; padding:.3rem .55rem; cursor:pointer;
   transform:scale(0.5); transform-origin:center;
-  margin-top:-26px; /* aproxima; ajuste fino -24/-28 se necessário */
+  margin-top:-26px; /* aproxima; ajuste fino caso precise */
 }
 .voltar:hover{ background:#c00000 }
 </style>
@@ -63,7 +68,7 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
   <main class="wrap">
     <h1 class="title">Festas</h1>
 
-    <!-- ÍCONE com fallback de nomes: hifen, ponto, jpg/png -->
+    <!-- Ícone com fallback — mantém comportamento para cobrir nomes diferentes do arquivo -->
     <img class="hero" id="hero-festas"
          src="img/icone-qurbono-festas.jpg"
          data-try="img/icone-qurbono.festas.jpg|img/icone-festas.jpg|img/icone-qurbono-festas.png"
@@ -83,7 +88,7 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
   </main>
 
 <script>
-/* Fallback de ícone: tenta sequência de nomes até carregar */
+/* Fallback do ícone de Festas */
 (function(){
   const img = document.getElementById('hero-festas');
   img.onerror = function(){
@@ -93,7 +98,7 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
   };
 })();
 
-/* Navigator de títulos */
+/* Navegação entre as Festas */
 const nomes = [
   "São Marun",
   "São João Marun",
@@ -121,4 +126,5 @@ document.getElementById('next').onclick = ()=>{ i = (i+1)%nomes.length; render()
 </script>
 </body>
 </html>
+
 
