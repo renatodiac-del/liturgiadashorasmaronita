@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -29,7 +30,8 @@ body{
 .angel svg{width:100%; height:100%}
 header{position:relative; z-index:1; text-align:center; padding:26px 10px 8px}
 .title{
-  color:var(--branco); font-weight:900; font-size:2rem;
+  /* +4pt no título e cor ouro-velho */
+  color:var(--ouro); font-weight:900; font-size:calc(2rem + 4pt);
   text-shadow:
     -1px -1px 0 var(--prata), 1px -1px 0 var(--prata),
     -1px  1px 0 var(--prata), 1px  1px 0 var(--prata);
@@ -43,7 +45,8 @@ header{position:relative; z-index:1; text-align:center; padding:26px 10px 8px}
 .btn{
   display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center;
   background:linear-gradient(to top, #fff 0%, #fffaf0 60%, #ffffff 100%);
-  color:var(--branco); text-decoration:none; font-weight:900; border:3px solid var(--ouro);
+  color:var(--ouro); /* cor dos botões em ouro-velho */
+  text-decoration:none; font-weight:900; border:3px solid var(--ouro);
   box-shadow:inset 0 0 0 3px var(--prata), 0 4px 10px var(--shadow);
   border-radius:18px; padding:6px 18px; width:94%; margin:0 auto; transition:transform .12s, filter .2s;
 }
@@ -53,7 +56,9 @@ header{position:relative; z-index:1; text-align:center; padding:26px 10px 8px}
   border:2px solid var(--ouro); box-shadow:inset 0 0 0 2px var(--prata); object-fit:cover;
 }
 .btn .label{
-  text-align:center; color:var(--branco);
+  /* fonte dos botões -3pt e cor ouro-velho */
+  font-size:calc(1rem - 3pt);
+  text-align:center; color:var(--ouro);
   text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata), -1px 1px 0 var(--prata), 1px 1px 0 var(--prata);
 }
 .btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
@@ -107,22 +112,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   <section class="list" aria-label="Ciclos do Natal">
     <a class="btn" href="natal-natividade-gloriosa.html">
-      <img class="icon" src="img/icone-natividade.png" alt="">
+      <img class="icon" src="img/cruz.png" alt="">
       <span class="label">Gloriosa Natividade do Senhor</span>
       <span class="slot"></span>
     </a>
     <a class="btn" href="natal-domingo1-apos-natividade.html">
-      <img class="icon" src="img/icone-natividade1.jpg" alt="">
+      <img class="icon" src="img/cruz.png" alt="">
       <span class="label">1º Domingo após à Natividade</span>
       <span class="slot"></span>
     </a>
     <a class="btn" href="natal-circuncisao.html">
-      <img class="icon" src="img/icone-circuncisão.png" alt="">
+      <img class="icon" src="img/cruz.png" alt="">
       <span class="label">Circuncisão do Senhor</span>
       <span class="slot"></span>
     </a>
     <a class="btn" href="natal-apresentacao-templo.html">
-      <img class="icon" src="img/icone-apresentação.png" alt="">
+      <img class="icon" src="img/cruz.png" alt="">
       <span class="label">Apresentação do Senhor no Templo</span>
       <span class="slot"></span>
     </a>
