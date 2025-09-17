@@ -9,11 +9,6 @@
     --bg1:#19a3a4; --bg2:#8be3e4; --txt:#0b2a4d;
     --bord:#d6b25a; --shadow:rgba(0,0,0,.15);
     --fonte: Arial, Helvetica, sans-serif;
-
-    /* Estrela (tamanho +50%) */
-    --star-size: 120px;            /* antes ~80px → agora 120px */
-    --star-tail-w: 260px;          /* cauda mais longa e mais espessa */
-    --star-tail-h: 8px;
   }
   *{box-sizing:border-box} html,body{height:100%}
   body{
@@ -21,22 +16,15 @@
     background: linear-gradient(180deg, var(--bg1), var(--bg2));
     display:flex; flex-direction:column; min-height:100vh;
   }
-  .wrap{position:relative; width:100%; max-width:560px; margin:0 auto; padding:8px 14px 10px}
+  .wrap{width:100%; max-width:560px; margin:0 auto; padding:8px 14px 10px}
   .title{text-align:center; font-weight:900; font-size:1.8rem; margin:4px 0 6px}
-  .hero{
-    display:block; margin:0 auto 12px; max-width:100%; height:auto; max-height:380px;
-    border:6px solid var(--bord); box-shadow:0 6px 16px var(--shadow); border-radius:12px
-  }
-
-  /* BOTÃO PRINCIPAL em “caixa” para ancorar as setas laterais */
-  .main-box{position:relative; width:94%; margin:0 auto 8px}
+  .hero{display:block; margin:0 auto 12px; max-width:100%; height:auto; max-height:380px;
+    border:6px solid var(--bord); box-shadow:0 6px 16px var(--shadow); border-radius:12px}
   .main{
-    display:block; width:100%;
-    padding:12px 14px; text-align:center; text-decoration:none;
+    display:block; width:94%; margin:0 auto 8px; padding:12px 14px; text-align:center; text-decoration:none;
     background:#fff; color:#0b2a4d; font-weight:900; font-size:1.05rem; border-radius:16px;
     border:3px solid #0b2a4d; box-shadow: inset 0 0 0 3px var(--bord), 0 6px 14px var(--shadow);
   }
-
   .nav{display:flex; justify-content:center; gap:10px; margin:8px 0 0}
   .nav button{
     background:#fff; color:#0b2a4d; font-weight:900; border-radius:12px; border:3px solid var(--bord);
@@ -44,45 +32,10 @@
   }
   .nav button:hover{background:#f4feff}
 
-  /* Setas cintilantes brancas ↓↓ (quatro piscadas e desaparecem) */
-  .hint{
-    position:absolute; top:-18px; font-size:1.8rem; line-height:1;
-    color:#ffffff; text-shadow:0 0 8px rgba(255,255,255,.95), 0 0 16px rgba(255,255,255,.75);
-    animation:blink 0.8s ease-in-out 4 forwards;
-    pointer-events:none; user-select:none; z-index:3;
-  }
-  .hint-left{ left:-6px }
-  .hint-right{ right:-6px }
-  @keyframes blink{ 0%,100%{opacity:0} 40%,60%{opacity:1} }
-
-  /* Estrela grande com cauda (decorativa) */
-  .shooting-star{
-    position:absolute; top:10px; right:8px; z-index:0; pointer-events:none;
-    width:var(--star-size); height:var(--star-size); border-radius:50%;
-    background:
-      radial-gradient(circle at 50% 50%, #ffffff 0%, #fff 55%, rgba(255,255,255,.0) 56%),
-      radial-gradient(circle at 50% 50%, rgba(255,255,255,.75), rgba(255,255,255,0) 60%);
-    filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 28px rgba(255,255,255,.85));
-  }
-  /* Cauda levemente mais baixa (+translateY) e tracejado mais espesso */
-  .shooting-star::after{
-    content:""; position:absolute;
-    left:calc(-1 * var(--star-tail-w) + 10px);
-    top:calc(50% + 10px); /* cauda baixada um pouco */
-    width:var(--star-tail-w); height:var(--star-tail-h);
-    background:
-      repeating-linear-gradient(
-        to right,
-        rgba(255,255,255,0.95) 0px, rgba(255,255,255,0.95) 20px,
-        rgba(255,255,255,0.0) 20px, rgba(255,255,255,0.0) 34px
-      );
-    transform:rotate(-18deg);
-    box-shadow:0 0 10px rgba(255,255,255,.85), 0 0 24px rgba(255,255,255,.55);
-    border-radius:999px;
-  }
-
-  /* Voltar (~50% menor) — mantém mais perto do conteúdo */
+  /* Aproxima o Voltar (~30% mais perto dos botões navegação) */
   footer{text-align:center; margin-top:14px; padding:10px 0 12px}
+
+  /* Voltar 50% menor */
   .back{
     background:#a00000;color:#fff;text-decoration:none;border:none;border-radius:8px;
     padding:.38rem .7rem;font-weight:900;
@@ -94,55 +47,33 @@
 </head>
 <body>
   <main class="wrap">
-    <!-- Estrela grande -->
-    <div class="shooting-star" aria-hidden="true"></div>
-
     <h1 class="title">Tempo do Anúncio</h1>
     <img class="hero" src="img/icone-qurbono-anuncio.jpg" alt="">
-
-    <!-- Bloco do botão principal + setas piscantes -->
-    <div class="main-box">
-      <a id="mainLink" class="main" href="#" target="_blank">—</a>
-      <div class="hint hint-left" aria-hidden="true">⬇</div>
-      <div class="hint hint-right" aria-hidden="true">⬇</div>
-    </div>
-
+    <a id="mainLink" class="main" href="#" target="_blank">—</a>
     <div class="nav">
       <button id="prev">← Anterior</button>
       <button id="next">Próximo →</button>
     </div>
   </main>
-
   <footer>
-    <a class="back" href="javascript:history.back()"
-       onclick="if(!document.referrer||!document.referrer.includes('liturgia-ano.html'))this.href='liturgia-ano.html'">← Voltar</a>
+    <a class="back" href="javascript:history.back()" onclick="if(!document.referrer||!document.referrer.includes('liturgia-ano.html'))this.href='liturgia-ano.html'">← Voltar</a>
   </footer>
 
 <script>
-/* Itens do tempo do Anúncio — José ajustado para “Revelação à José” */
 const itens = [
   {label:'Anúncio a Zacarias', href:'#'},
   {label:'Anúncio a Maria', href:'#'},
   {label:'Visitação a Isabel', href:'#'},
   {label:'Nascimento de João Batista', href:'#'},
-  {label:'Revelação à José', href:'#'},
+  {label:'Revelação a José', href:'#'},
   {label:'Genealogia de Jesus', href:'#'}
 ];
-
 let i=0;
 const link = document.getElementById('mainLink');
-function render(){
-  link.innerText = itens[i].label;
-  link.href = itens[i].href;
-}
+function render(){ link.innerText = itens[i].label; link.href = itens[i].href; }
 document.getElementById('prev').onclick=()=>{i=(i-1+itens.length)%itens.length; render();}
 document.getElementById('next').onclick=()=>{i=(i+1)%itens.length; render();}
 render();
-
-/* Remove as setas após terminar de piscar */
-document.querySelectorAll('.hint').forEach(el=>{
-  el.addEventListener('animationend', ()=>el.remove(), {once:true});
-});
 </script>
 </body>
 </html>
