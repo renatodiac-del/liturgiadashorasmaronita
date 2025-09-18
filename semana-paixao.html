@@ -120,4 +120,73 @@ function goBackOrMother(){
 
   <!-- Botão central com o item atual -->
   <a id="btn-item" class="btn" href="#" target="_blank" rel="noopener">
-    <img class="icon" src="img/ico
+    <img class="icon" src="img/icone-semana-paixao.png" alt="">
+    <span class="label" id="item-label">Sexta-Feira das Tentações de Cristo</span>
+    <span class="slot"></span>
+  </a>
+
+  <!-- Navegação -->
+  <div class="navrow">
+    <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
+    <button class="navbtn" id="next"><span>Próxima</span><span class="arr">→</span></button>
+  </div>
+
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
+</main>
+
+<script>
+/* Lista de itens (ordem de navegação) */
+const ITENS = [
+  'Sexta-Feira das Tentações de Cristo',
+  'Sábado de Lázaro',
+  'Domingo do Hosana — Rito da Lâmpada',
+  'Segunda-feira da Paixão',
+  'Terça-feira da Paixão',
+  'Quarta-feira da Paixão — Rito da Lâmpada',
+  'Quinta-feira dos Mistérios',
+  'Boa Sexta-feira',
+  'Sábado da Luz'
+];
+
+/* COLE AQUI os links (.doc) da planilha “shots” para cada item, na mesma ordem.
+   Use null para deixar desativado. */
+const LINKS = {
+  i0:null, i1:null, i2:null, i3:null, i4:null, i5:null, i6:null, i7:null, i8:null
+};
+
+let idx = 0;
+const label = document.getElementById('item-label');
+const btn   = document.getElementById('btn-item');
+
+function render(){
+  label.textContent = ITENS[idx];
+  const key = 'i'+idx;
+  const url = LINKS[key];
+
+  if(url){
+    btn.href = url;
+    btn.style.opacity = 1;
+    btn.style.pointerEvents = 'auto';
+    btn.title = 'Abrir Salmos e Leituras';
+  }else{
+    btn.href = '#';
+    btn.style.opacity = .55;
+    btn.style.pointerEvents = 'none';
+    btn.title = 'Link não configurado';
+  }
+}
+
+document.getElementById('prev').addEventListener('click',()=>{
+  idx = (idx-1+ITENS.length)%ITENS.length; render();
+});
+document.getElementById('next').addEventListener('click',()=>{
+  idx = (idx+1)%ITENS.length; render();
+});
+
+render();
+</script>
+</body>
+</html>
+
