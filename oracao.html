@@ -1,4 +1,4 @@
-<!-- oracao.html (com botão Voltar reduzido em 40%) -->
+<!-- oracao.html (Voltar sempre para index-teste.html) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -87,18 +87,15 @@
       <a class="btn" href="horas-teste.html"><img src="img/cedro.jpg" alt="">Oração do Dia</a>
       <a class="btn" href="ordinario.html"><img src="img/cedro.jpg" alt="">Ordinário</a>
       <a class="btn" href="santos.html"><img src="img/cedro.jpg" alt="">Comum dos Santos</a>
-      <!-- AQUI ESTAVA O ERRO: usar festas.data.html (com ponto) -->
+      <!-- usar festas.data.html (com ponto) -->
       <a class="btn" href="festas.data.html"><img src="img/cedro.jpg" alt="">Festas por Data</a>
       <a class="btn" href="biblos.html"><img src="img/cedro.jpg" alt="">Biblioteca</a>
     </section>
   </main>
 
   <footer>
-    <!-- Fallback para a home “mãe” se não houver histórico -->
-    <a class="voltar" href="javascript:history.back()"
-       onclick="if(history.length<=1){this.href='index-teste.html'}">
-      &#8592; Voltar
-    </a>
+    <!-- SEMPRE leva à home principal -->
+    <a class="voltar" href="index-teste.html">← Voltar</a>
   </footer>
 </body>
 </html>
