@@ -11,7 +11,7 @@
   --texto:#7a0b0b;        /* cor principal do texto */
   --roxo:#5b2a5f;         /* contorno do título (leve roxo) */
   --prata:#b0b0b0;        /* prata envelhecida (bordas externas) */
-  --branco:#ffffff;       /* filete branco interno */
+  --branco:#ffffff;       /* filete branco (REMOVIDO do ícone principal) */
   --shadow:rgba(0,0,0,.16);
   --fonte:Arial, Helvetica, sans-serif;
   --btnIcon:29.6px;
@@ -35,16 +35,16 @@ header{text-align:center;padding:24px 10px 8px}
 .title .line{display:block}
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 
-/* Ícone principal: CIRCULAR, +15% e com padding maior para não cortar as cruzes */
+/* Ícone principal: CIRCULAR, +15%, padding e FUNDO TRANSPARENTE dentro da borda */
 .hero-wrap{
   margin:10px auto 16px;
-  width:min(90vw, 414px);      /* ~15% maior que o padrão ~360px */
+  width:min(90vw, 414px);      /* ~15% maior que ~360px */
   aspect-ratio:1/1;
   border-radius:50%;
   border:4px solid var(--prata);
-  box-shadow:inset 0 0 0 4px var(--branco), 0 8px 16px var(--shadow);
-  padding:16px;                /* ↑ margem interna (antes ~10px) */
-  background:#fff;
+  box-shadow:0 8px 16px var(--shadow); /* remove o filete branco interno */
+  padding:16px;                /* margem interna (“respiro”) */
+  background:transparent;      /* deixa ver o fundo da página */
   overflow:hidden;
 }
 .hero-wrap .hero{
@@ -113,79 +113,11 @@ function goBackOrMother(){
 </header>
 
 <main class="wrap">
-  <!-- Ícone circular com margem interna maior -->
+  <!-- Ícone circular com margem interna e fundo transparente -->
   <figure class="hero-wrap">
     <img class="hero" src="img/icone-semana-paixao.png" alt="Ícone — Semana da Paixão" onerror="this.style.display='none'">
   </figure>
 
   <!-- Botão central com o item atual -->
   <a id="btn-item" class="btn" href="#" target="_blank" rel="noopener">
-    <img class="icon" src="img/icone-semana-paixao.png" alt="">
-    <span class="label" id="item-label">Sexta-Feira das Tentações de Cristo</span>
-    <span class="slot"></span>
-  </a>
-
-  <!-- Navegação -->
-  <div class="navrow">
-    <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
-    <button class="navbtn" id="next"><span>Próxima</span><span class="arr">→</span></button>
-  </div>
-
-  <div class="back-wrap">
-    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
-  </div>
-</main>
-
-<script>
-/* Lista de itens (ordem de navegação) */
-const ITENS = [
-  'Sexta-Feira das Tentações de Cristo',
-  'Sábado de Lázaro',
-  'Domingo do Hosana — Rito da Lâmpada',
-  'Segunda-feira da Paixão',
-  'Terça-feira da Paixão',
-  'Quarta-feira da Paixão — Rito da Lâmpada',
-  'Quinta-feira dos Mistérios',
-  'Boa Sexta-feira',
-  'Sábado da Luz'
-];
-
-/* COLE AQUI os links (.doc) da planilha “shots” para cada item, na mesma ordem.
-   Use null para deixar desativado. */
-const LINKS = {
-  i0:null, i1:null, i2:null, i3:null, i4:null, i5:null, i6:null, i7:null, i8:null
-};
-
-let idx = 0;
-const label = document.getElementById('item-label');
-const btn   = document.getElementById('btn-item');
-
-function render(){
-  label.textContent = ITENS[idx];
-  const key = 'i'+idx;
-  const url = LINKS[key];
-
-  if(url){
-    btn.href = url;
-    btn.style.opacity = 1;
-    btn.style.pointerEvents = 'auto';
-    btn.title = 'Abrir Salmos e Leituras';
-  }else{
-    btn.href = '#';
-    btn.style.opacity = .55;
-    btn.style.pointerEvents = 'none';
-    btn.title = 'Link não configurado';
-  }
-}
-
-document.getElementById('prev').addEventListener('click',()=>{
-  idx = (idx-1+ITENS.length)%ITENS.length; render();
-});
-document.getElementById('next').addEventListener('click',()=>{
-  idx = (idx+1)%ITENS.length; render();
-});
-
-render();
-</script>
-</body>
-</html>
+    <img class="icon" src="img/ico
