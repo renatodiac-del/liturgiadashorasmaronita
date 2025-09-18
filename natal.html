@@ -88,5 +88,55 @@ document.addEventListener('DOMContentLoaded', ()=>{
   </svg>`;
   const N=32;
   for(let i=0;i<N;i++){
-    const e=do
+    const e=document.createElement('div'); e.className='angel'; e.innerHTML=angelSVG;
+    const edge = Math.random();
+    let x=0,y=0;
+    if(edge<0.25){ x=2+Math.random()*6;  y=5+Math.random()*90; }          /* esquerda */
+    else if(edge<0.5){ x=92+Math.random()*6; y=5+Math.random()*90; }      /* direita */
+    else if(edge<0.75){ x=5+Math.random()*90; y=2+Math.random()*6; }      /* topo */
+    else { x=5+Math.random()*90; y=92+Math.random()*6; }                  /* rodapé */
+    e.style.left=x+'vw'; e.style.top=y+'vh';
+    e.style.transform=`rotate(${(Math.random()*30-15).toFixed(1)}deg)`;
+    d.appendChild(e);
+  }
+});
+</script>
+</head>
+<body>
+<div class="decor" aria-hidden="true"></div>
+
+<header><h1 class="title">Natal</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-natal.jpg" alt="Ícone — Natal" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Ciclos do Natal">
+    <a class="btn" href="natal-natividade-gloriosa.html">
+      <img class="icon" src="img/cruz.png" alt="">
+      <span class="label">Gloriosa Natividade do Senhor</span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" href="natal-domingo1-apos-natividade.html">
+      <img class="icon" src="img/cruz.png" alt="">
+      <span class="label">1º Domingo após à Natividade</span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" href="natal-circuncisao.html">
+      <img class="icon" src="img/cruz.png" alt="">
+      <span class="label">Circuncisão do Senhor</span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" href="natal-apresentacao-templo.html">
+      <img class="icon" src="img/cruz.png" alt="">
+      <span class="label">Apresentação do Senhor no Templo</span>
+      <span class="slot"></span>
+    </a>
+  </section>
+
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrBiblos()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
+</main>
+</body>
+</html>
 
