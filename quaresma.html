@@ -18,7 +18,6 @@
 body{
   margin:0; font-family:var(--fonte); color:var(--ink);
   background: var(--roxoMedio);
-  /* detalhes em “mosaico” (um pouco mais espessos) */
   background-image:
     repeating-linear-gradient(45deg, rgba(214,178,90,.30) 0 3px, transparent 3px 42px),
     repeating-linear-gradient(-45deg, rgba(214,178,90,.22) 0 3px, transparent 3px 42px);
@@ -30,7 +29,6 @@ body{
 header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
 .title{
   color:#b8860b; font-weight:900; margin:0; font-size:1.9rem;
-  /* borda ROXA no título (como você pediu) */
   text-shadow:
     -1px -1px 0 var(--roxoEscuro), 1px -1px 0 var(--roxoEscuro),
     -1px  1px 0 var(--roxoEscuro), 1px  1px 0 var(--roxoEscuro);
@@ -58,7 +56,6 @@ header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12p
   border:3px solid var(--roxoEscuro);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
   border-radius:18px;
-  /* +largura (~86%) e -altura (~20%) */
   width:86%; padding:7.2px 16px;
   font-size:.96rem;font-weight:bold;color:var(--roxoEscuro); text-align:center;
   transition:transform .15s ease,background-color .2s ease;
@@ -78,7 +75,6 @@ header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12p
 .arrow{
   font-size:1.7rem; line-height:1; color:var(--roxoEscuro);
   opacity:0;
-  /* leve brilho p/ destacar sobre o roxo */
   text-shadow:0 0 6px rgba(255,255,255,.6);
   margin:0 12px;
   animation:blink 1.2s ease-in-out 4;
@@ -91,11 +87,9 @@ footer{margin-top:6px;text-align:center;padding:6px 0 14px}
   display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
   border:1px solid #6f0000; padding:.38rem .64rem; border-radius:9px;
   font-weight:bold; font-size:.9rem;
-  transform: scale(.5); /* ↓ 50% no tamanho */
+  transform: scale(.5);
 }
 .back:hover{background:#c00000}
-
-/* Acessibilidade: Enter/Espaço abre <summary> (se houver) */
 </style>
 </head>
 <body>
@@ -109,7 +103,8 @@ footer{margin-top:6px;text-align:center;padding:6px 0 14px}
   <div id="hero-chip" class="chip" style="display:none">Quaresma</div>
 
   <section class="buttons" aria-label="Grande Quaresma — dias">
-    <a class="btn" href="domingo-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Domingo</span></a>
+    <!-- alterado: agora aponta para santa-grande-quaresma.html -->
+    <a class="btn" href="santa-grande-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Domingo</span></a>
     <a class="btn" href="segunda-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Segunda-feira</span></a>
     <a class="btn" href="terca-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Terça-feira</span></a>
     <a class="btn" href="quarta-quaresma.html"><img src="img/cruz6.jpeg" alt=""><span class="label">Quarta-feira</span></a>
