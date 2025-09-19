@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Festa de Pentecostes</title>
+<meta name="theme-color" content="#7a0b0b">
+<style>
+:root{
+  --bordo:#7a0b0b; --dourado:#d6b25a; --texto:#6d0000; --prata:#b0b0b0; --branco:#ffffff;
+  --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:30px;
+}
+*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
+body{
+  font-family:var(--fonte);
+  background:linear-gradient(to top, var(--bordo) 0%, #a33 45%, #c95 78%, var(--dourado) 100%);
+  min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; position:relative;
+}
+header{text-align:center;padding:24px 10px 8px}
+.title{
+  color:var(--texto); font-weight:900; font-size:1.9rem;
+  text-shadow:-1px -1px 0 var(--prata),1px -1px 0 var(--prata),-1px 1px 0 var(--prata),1px 1px 0 var(--prata);
+}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
+.hero{
+  display:block; margin:10px auto 16px; height:360px; width:auto; aspect-ratio:3/4;
+  object-fit:cover; max-height:560px;
+  border:4px solid var(--prata);
+  box-shadow:inset 0 0 0 4px var(--branco),0 8px 16px var(--shadow);
+  border-radius:14px
+}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{
+  display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center;
+  background:#fff; color:var(--texto); text-decoration:none; font-weight:900;
+  border:3px solid var(--prata); box-shadow:inset 0 0 0 3px var(--branco),0 4px 10px var(--shadow);
+  border-radius:18px; padding:6px 18px; width:94%; margin:0 auto; transition:transform .12s,filter .2s;
+}
+.btn:hover{transform:scale(1.02);filter:brightness(1.04)}
+.btn:focus-visible{outline:3px solid var(--dourado); outline-offset:3px}
+.btn[aria-disabled="true"]{opacity:.55; pointer-events:none; filter:grayscale(.2)}
+.btn .icon{
+  width:var(--btnIcon); height:var(--btnIcon); border-radius:50%;
+  border:2px solid var(--prata); box-shadow:inset 0 0 0 2px var(--branco); object-fit:cover
+}
+.btn .label{
+  text-align:center; color:var(--texto);
+  text-shadow:-1px -1px 0 var(--prata),1px -1px 0 var(--prata),-1px 1px 0 var(--prata),1px 1px 0 var(--prata)
+}
+.btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
+/* Voltar (filha → mãe) — 40% menor (scale .6) */
+.back-wrap{display:flex;justify-content:center;margin-top:6px;transform:scale(.6);transform-origin:center top}
+.btn-back{
+  display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff;
+  border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer
+}
+.btn-back .arr{font-size:18px; line-height:1}
+.btn-back:focus-visible{outline:3px solid var(--dourado); outline-offset:4px}
+@media (prefers-reduced-motion: reduce){
+  .btn,.btn:hover{transition:none; transform:none; filter:none}
+}
+</style>
+<script defer>
+/* Botão Voltar com fallback para a página-mãe definida em data-mother */
+function goBackOrMother(){
+  const mother = document.body.dataset.mother || 'pentecostes.html';
+  try{
+    const ref = document.referrer || '';
+    if (ref && (new URL(ref, location.href)).pathname.endsWith('/' + mother)) { history.back(); return; }
+    if (history.length > 1) { history.back(); return; }
+  }catch(e){}
+  location.href = mother;
+}
+</script>
+</head>
+<!-- Ajuste aqui a página-mãe, se necessário -->
+<body data-mother="pentecostes.html">
+<header><h1 class="title">Festa de Pentecostes</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-pentecostes.jpg" alt="Ícone — Pentecostes" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Ofícios">
+    <a class="btn" data-link="ramsho" href="#" target="_blank" rel="noopener noreferrer">
+      <img class="icon" src="img/icone-pentecostes.jpg" alt="Pentecostes"><span class="label">Ramsho</span><span class="slot" aria-hidden="true"></span>
+    </a>
+    <a class="btn" data-link="safro" href="#" target="_blank" rel="noopener noreferrer">
+      <img class="icon" src="img/icone-pentecostes.jpg" alt="Pentecostes"><span class="label">Safro</span><span class="slot" aria-hidden="true"></span>
+    </a>
+  </section>
+
+  <div class="back-wrap">
+    <button class="btn-back" type="button" onclick="goBackOrMother()" aria-label="Voltar para a página anterior ou mãe">
+      <span class="arr" aria-hidden="true">←</span><span>Voltar</span>
+    </button>
+  </div>
+</main>
+
+<script>
+/* COLE AQUI os links (.doc) da planilha “shots” */
+const LINKS = {
+  ramsho: null,
+  safro:  null
+};
+
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const key = a.getAttribute('data-link');
+  const url = LINKS[key];
+  if (url){
+    a.href = url;
+  }else{
+    a.setAttribute('aria-disabled','true');
+    a.removeAttribute('href');
+    a.title = 'Link não configurado';
+    a.tabIndex = -1;
+  }
+});
+</script>
+</body>
+</html>
 
