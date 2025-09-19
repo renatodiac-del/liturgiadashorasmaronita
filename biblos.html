@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biblioteca</title>
+<meta name="theme-color" content="#ffe6e6">
+<style>
+:root{
+  --vermelhoClaro:#ffe6e6;
+  --vermelho:#a00000;
+  --ouro:#d6b25a;
+  --texto:#3a0f0f;
+  --shadow:rgba(0,0,0,.14);
+  --fonte: Arial, Helvetica, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--fonte); background:var(--vermelhoClaro); color:var(--texto);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(160,0,0,.10) 0, rgba(160,0,0,.10) 2px, transparent 2px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(214,178,90,.14) 0, rgba(214,178,90,.14) 2px, transparent 2px, transparent 40px);
+  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
+}
+
+/* Cabeçalho */
+header{text-align:center;padding:12px 10px 6px}
+.title{
+  color:var(--vermelho); font-weight:900; font-size:2rem; margin:0;
+  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
+              -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+}
+
+/* Conteúdo */
+.wrap{
+  max-width:680px;margin:0 auto;padding:10px 16px 22px;width:100%;
+  position:relative; /* para posicionar as setas */
+}
+.hero{
+  display:block;margin:8px auto 16px;max-width:100%;height:auto;max-height:420px;
+  border:6px solid var(--ouro);
+  box-shadow:0 0 0 4px rgba(255,255,255,.0) inset, 0 8px 16px var(--shadow);
+  border-radius:14px
+}
+.hero[hidden]{display:none}
+
+/* Coluna única de botões (centralizados) */
+.grid{
+  display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:6px;
+}
+
+/* Botões 10% mais estreitos (90% da largura) */
+.btn{
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center; text-decoration:none; cursor:pointer;
+  background:#fff; color:var(--vermelho); font-weight:900;
+  border:3px solid var(--ouro);
+  box-shadow: inset 0 0 0 2.4px rgba(214,178,90,.75), 0 4px 10px var(--shadow);
+  border-radius:16px;
+  padding:12px 44px;     /* espaço para o ícone sem desalinho do rótulo */
+  min-height:48px;
+  width:90%;
+  max-width:560px;       /* limita em telas largas */
+  transition:transform .12s, background-color .2s;
+  margin:0 auto;
+}
+.btn:hover{transform:scale(1.02); background:#fff8ec}
+
+/* Rótulo central (100% de largura) */
+.btn .label{width:100%; pointer-events:none; text-align:center}
+
+/* Ícone redondo (cruz.png) à esquerda */
+.btn .icon{
+  position:absolute; left:12px; width:26px; height:26px; object-fit:cover;
+  border-radius:50%; border:2px solid var(--ouro);
+}
+
+/* ===== Setas laterais (uma de cada lado da COLUNA) ===== */
+.hint-arrow{
+  position:absolute; top:48%; transform:translateY(-50%);
+  font-size:1.8rem; line-height:1; color:var(--vermelho);
+  text-shadow:0 0 6px rgba(160,0,0,.35);
+  animation:blink 0.75s ease-in-out 4 forwards; /* pisca 4x e some */
+  pointer-events:none; user-select:none; z-index:5;
+}
+.hint-left{ left:-2px; }
+.hint-right{ right:-2px; }
+@keyframes blink{ 0%,100%{opacity:0} 50%{opacity:1} }
+
+/* Rodapé: botão Voltar (sempre oracao.html) */
+footer{margin-top:auto;text-align:center;padding:10px 0 16px}
+.back{
+  display:inline-flex; align-items:center; gap:8px;
+  background:#a00000; color:#fff; text-decoration:none;
+  border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px;
+  font-weight:bold; font-size:.9rem; transform:scale(.6); transform-origin:center;
+}
+.back:hover{background:#c00000}
+
+@media (max-width:480px){
+  .btn{max-width:100%}
+  .hint-left{ left:0 }
+  .hint-right{ right:0 }
+}
+</style>
+</head>
+<body>
+<header><h1 class="title">Biblioteca</h1></header>
+
+<main class="wrap">
+  <!-- Setas laterais únicas para a COLUNA -->
+  <div class="hint-arrow hint-left" aria-hidden="true">⬇</div>
+  <div class="hint-arrow hint-right" aria-hidden="true">⬇</div>
+
+  <img class="hero" src="img/icone-biblos.jpg" alt="Ícone — Biblioteca" onerror="this.hidden=true">
+
+  <section class="grid" aria-label="Seções da Biblioteca">
+    <a class="btn" href="domingos-igreja.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Domingos da Igreja</span>
+    </a>
+
+    <a class="btn" href="anuncio.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Anúncio</span>
+    </a>
+
+    <a class="btn" href="natal.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Natal</span>
+    </a>
+
+    <a class="btn" href="epifania.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Epifania</span>
+    </a>
+
+    <a class="btn" href="falecidos.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Domingos dos Falecidos</span>
+    </a>
+
+    <a class="btn" href="santa-grande-quaresma.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Grande Quaresma</span>
+    </a>
+
+    <a class="btn" href="semana-paixao.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Semana da Paixão</span>
+    </a>
+
+    <a class="btn" href="ressurreicao-pascoa.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Ressurreição</span>
+    </a>
+
+    <a class="btn" href="pentecostes.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Pentecostes</span>
+    </a>
+
+    <a class="btn" href="cruz.html">
+      <img class="icon" src="img/cruz.png" alt="Cruz">
+      <span class="label">Cruz</span>
+    </a>
+  </section>
+</main>
+
+<footer>
+  <!-- Sempre volta para oracao.html -->
+  <a class="back" href="oracao.html">← Voltar</a>
+</footer>
+
+<script>
+  // remove as setas do DOM após terminar de piscar (4x)
+  document.querySelectorAll('.hint-arrow').forEach(el=>{
+    el.addEventListener('animationend', ()=>el.remove(), {once:true});
+  });
+</script>
+</body>
+</html>
 
