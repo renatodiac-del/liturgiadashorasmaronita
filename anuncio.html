@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Anúncio · Biblioteca</title>
 <meta name="theme-color" content="#0b1836">
 <style>
 :root{
   --prata:#b0b0b0;         /* prata envelhecida */
   --branco:#ffffff;        /* branco brilhante */
+  --bordo:#7a0b0b;         /* vermelho bordô (para a 2ª linha dos botões) */
   --shadow:rgba(0,0,0,.16);
   --fonte:Arial, Helvetica, sans-serif;
   --btnIcon:29.6px;
@@ -27,13 +27,13 @@ body{
 .sky{position:fixed; inset:0; pointer-events:none; z-index:0}
 .bethlehem{
   position:absolute; top:8px; left:50%; transform:translateX(-50%);
-  color:var(--branco); font-size:45px; /* 30px → 45px (+50%) */
+  color:var(--branco); font-size:45px; /* +50% */
   text-shadow:0 0 10px rgba(255,255,255,.95), 0 0 14px rgba(255,255,255,.8);
 }
 .bethlehem::after{
   content:""; position:absolute;
-  left:24px; top:12px;                 /* cauda um pouco mais baixa */
-  width:42vw; height:4px;              /* mais comprida e mais espessa */
+  left:24px; top:28px;               /* cauda levemente mais baixa (era 12px) */
+  width:42vw; height:4px;            /* um pouco mais espessa */
   transform:rotate(10deg);
   background: repeating-linear-gradient(
     90deg,
@@ -58,7 +58,8 @@ header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
 .wrap{position:relative; z-index:1; max-width:640px; margin:0 auto; padding:12px 16px 22px; width:100%}
 .hero{
   display:block; margin:10px auto 16px; height:390px; width:auto; aspect-ratio:3/4; object-fit:cover; max-height:580px;
-  border:4px solid var(--prata); box-shadow: inset 0 0 0 4px var(--branco), 0 8px 16px var(--shadow); border-radius:14px
+  border:4px solid var(--prata); box-shadow: inset 0 0 0 4px var(--branco), 0 8px 16px var(--shadow); border-radius:14px;
+  transform:scale(1.10); transform-origin:center; /* +10% */
 }
 
 /* ===== Lista de botões (coluna única) ===== */
@@ -106,7 +107,11 @@ header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
   text-shadow:-1px -1px 0 var(--branco), 1px -1px 0 var(--branco), -1px 1px 0 var(--branco), 1px 1px 0 var(--branco)
 }
 .btn .line1{display:block}
-.btn .line2{display:block; font-weight:800; opacity:.95}
+/* >>> 2ª linha em vermelho bordô, mantendo o contorno/brilho herdado <<< */
+.btn .line2{
+  display:block; font-weight:800; opacity:.95;
+  color:var(--bordo);
+}
 .btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
 
 /* Voltar (padrão .48) */
