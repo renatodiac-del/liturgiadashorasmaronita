@@ -115,10 +115,11 @@ header{text-align:center;padding:26px 10px 2px}
 .navbtn:hover{transform:scale(1.03); filter:brightness(1.04)}
 .navbtn .arr{font-size:20px; line-height:1}
 
-/* Rodapé/Voltar: aproximado ~30% do fundo e sem sublinhado */
+/* Rodapé/Voltar: agora um pouco mais alto (meio-termo) e sem sublinhado */
 footer.footer{
-  margin-top:auto;                 /* empurra o footer para a base da tela */
-  padding:6px 0 8px;               /* pequeno respiro (≈ 30% menos espaço que antes) */
+  margin-top:auto;                 /* mantém no fim do fluxo */
+  margin-bottom:24px;              /* levanta ~meio do caminho */
+  padding:8px 0 8px;
   display:flex; justify-content:center;
 }
 .back-wrap{transform:scale(.48); transform-origin:center top}
@@ -126,7 +127,7 @@ footer.footer{
   display:inline-flex; align-items:center; gap:10px;
   background:#a00000; color:#fff; border:none; border-radius:999px;
   padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow);
-  cursor:pointer; text-decoration:none;   /* remove sublinhado */
+  cursor:pointer; text-decoration:none;   /* sem sublinhado */
 }
 .btn-back .arr{font-size:18px; line-height:1}
 </style>
