@@ -39,12 +39,26 @@ header{text-align:center;padding:12px 12px 0}
 .line1{display:block;color:var(--ouro);font-size:1.0rem; line-height:1.05}
 .line2{display:block;color:#000;font-size:.80rem; line-height:1.05}
 
-footer{margin-top:6px;text-align:center;padding:6px 0 10px}
+/* Rodapé */
+footer{margin-top:6px;text-align:center;padding:6px 0 14px}
 .back{
   display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;text-decoration:none;
   border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39)
 }
 .back:hover{background:#c00000}
+
+/* Mini-links (anúncio/epifania/pentecostes/cruz) */
+.mini-links{
+  margin:6px auto 0; padding-top:6px; max-width:640px;
+  display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+  border-top:2px dashed rgba(88,44,12,.35);
+}
+.mini-links a{
+  display:inline-block; text-decoration:none; font-weight:800; font-size:.78rem; line-height:1;
+  color:#7a0b0b; background:#fff; border:2px solid var(--marrom); border-radius:999px;
+  padding:.30rem .62rem; box-shadow:inset 0 0 0 2px var(--ouro), 0 2px 6px var(--shadow);
+}
+.mini-links a:hover{background:#fff9f0; transform:scale(1.02)}
 </style>
 </head>
 <body>
@@ -54,25 +68,33 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
   <img class="hero" src="img/icone-tempos.jpg" alt="Ícone — Tempos">
 
   <section class="buttons" aria-label="Ações do dia">
-  <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
-    </a>
-    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
-    </a>
     <a class="btn" data-link="safro-curta"  href="#" target="_blank" rel="noopener">
       <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
     </a>
     <a class="btn" data-link="safro-longa"  href="#" target="_blank" rel="noopener">
       <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span>
     </a>
-    
+    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
+    </a>
+    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
+    </a>
   </section>
 </main>
 
 <footer>
+  <!-- Voltar (mantido) -->
   <a class="back" href="javascript:history.back()"
      onclick="if(!document.referrer || !document.referrer.includes('tempos.html')){this.href='tempos.html'}">← Voltar</a>
+
+  <!-- Mini-links novos -->
+  <nav class="mini-links" aria-label="Atalhos de Tempos">
+    <a href="anuncio.html">Tempo do Anúncio</a>
+    <a href="epifania.html">Tempo da Epifania</a>
+    <a href="pentecostes.html">Tempo de Pentecostes</a>
+    <a href="cruz.html">Tempo da Cruz</a>
+  </nav>
 </footer>
 
 <script>
