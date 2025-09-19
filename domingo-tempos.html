@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -25,27 +24,39 @@ header{text-align:center;padding:12px 12px 0}
   display:block;margin:8px auto 14px;max-width:100%;height:auto;max-height:380px;
   border:6px solid var(--marrom);box-shadow:0 0 0 4px var(--ouro) inset,0 6px 16px var(--shadow);border-radius:14px
 }
+
+/* Lista de botões */
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center}
+.btn-row{position:relative;width:100%;display:flex;justify-content:center;align-items:center}
+.blink-arr{
+  position:absolute; top:-8px; font-size:22px; line-height:1; color:#a00000;
+  text-shadow:0 1px 0 rgba(0,0,0,.15);
+  animation:blink 0.6s ease-in-out 4 forwards;
+}
+.blink-arr.left{left:6px}
+.blink-arr.right{right:6px}
+@keyframes blink{ 0%,100%{opacity:0} 50%{opacity:1} }
+
 .btn{
-  /* Altura visual ~ -30% */
   position:relative;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;
   color:var(--marrom);background:#fff;font-weight:900;border:3px solid var(--marrom);border-radius:18px;
-  padding:7px 18px; /* 10px -> 7px */
-  width:78%;box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow);transition:.15s
+  padding:7px 18px; width:78%;
+  box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow);transition:.15s;
 }
 .btn:hover{transform:scale(1.02);background:#fff9f0}
 .btn img{
-  position:absolute;left:12px;width:18px;height:18px; /* ~ -30% do antigo 26px */
+  position:absolute;left:12px;width:18px;height:18px;
   border-radius:50%;object-fit:cover;border:2px solid var(--ouro)
 }
 .label{width:100%}
 .line1{display:block;color:var(--ouro);font-size:1.0rem; line-height:1.05}
 .line2{display:block;color:#000;font-size:.80rem; line-height:1.05}
 
-footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do último botão, sem encostar */
+/* Voltar pequeno, perto do último botão */
+footer{margin-top:6px;text-align:center;padding:6px 0 10px}
 .back{
   display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;text-decoration:none;
-  border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39) /* 0.3 -> 0.39 (+30%) */
+  border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39)
 }
 .back:hover{background:#c00000}
 </style>
@@ -57,18 +68,59 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do últi
   <img class="hero" src="img/icone-tempos.jpg" alt="Ícone — Tempos">
 
   <section class="buttons" aria-label="Ações do dia">
-    <a class="btn" data-link="safro-curta"  href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
-    </a>
-    <a class="btn" data-link="safro-longa"  href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span>
-    </a>
-    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
-    </a>
-    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
-    </a>
+    <!-- 1) Tempo do Anúncio -->
+    <div class="btn-row">
+      <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
+      <a class="btn" href="anuncio.html">
+        <img src="img/icone-tempos.jpg" alt="">
+        <span class="label"><span class="line1">Tempo do Anúncio</span></span>
+      </a>
+    </div>
+
+    <!-- 2) Tempo Epifania -->
+    <div class="btn-row">
+      <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
+      <a class="btn" href="tempos-tempos.html">
+        <img src="img/icone-tempos.jpg" alt="">
+        <span class="label"><span class="line1">Tempo Epifania</span></span>
+      </a>
+    </div>
+
+    <!-- 3) Tempo Pentecostes -->
+    <div class="btn-row">
+      <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
+      <a class="btn" href="tempos-tempos.html">
+        <img src="img/icone-tempos.jpg" alt="">
+        <span class="label"><span class="line1">Tempo Pentecostes</span></span>
+      </a>
+    </div>
+
+    <!-- 4) Tempo da Cruz -->
+    <div class="btn-row">
+      <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
+      <a class="btn" href="tempos-tempos.html">
+        <img src="img/icone-tempos.jpg" alt="">
+        <span class="label"><span class="line1">Tempo da Cruz</span></span>
+      </a>
+    </div>
+
+    <!-- 5) Ramsho (versão longa) — via shots -->
+    <div class="btn-row">
+      <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
+      <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz2.jpg" alt="">
+        <span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
+      </a>
+    </div>
+
+    <!-- 6) Safro (versão longa) — via shots -->
+    <div class="btn-row">
+      <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
+      <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz2.jpg" alt="">
+        <span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span>
+      </a>
+    </div>
   </section>
 </main>
 
@@ -78,18 +130,23 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do últi
 </footer>
 
 <script>
-/* COLE AQUI AS 4 URLs DESTE DIA */
+/* 2 LINKS via planilha “shots” (que apontarão para .doc) */
 const LINKS = {
-  'safro-curta' : 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D1',
-  'safro-longa' : 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D2',
-  'ramsho-curta': 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D3',
-  'ramsho-longa': 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D4'
+  'ramsho-longa': 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D3',
+  'safro-longa' : 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D4'
 };
+
 document.querySelectorAll('[data-link]').forEach(a=>{
-  const key=a.getAttribute('data-link');
-  if(LINKS[key]) a.href=LINKS[key];
-  else {a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
+  const k=a.getAttribute('data-link');
+  if (LINKS[k]) a.href = LINKS[k];
+  else { a.style.opacity=.6; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+});
+
+/* Remover as setas após piscar 4x */
+document.querySelectorAll('.blink-arr').forEach(el=>{
+  el.addEventListener('animationend', ()=>{ el.style.display='none'; }, {once:true});
 });
 </script>
 </body>
 </html>
+
