@@ -19,7 +19,6 @@
 html,body{height:100%}
 body{
   font-family:var(--fonte);
-  /* Gradiente ouro-velho → prata envelhecida */
   background:linear-gradient(
     to top,
     var(--ouro-esc) 0%,
@@ -31,18 +30,29 @@ body{
 }
 
 /* Cabeçalho */
-header{text-align:center;padding:26px 10px 8px}
+header{text-align:center;padding:26px 10px 2px}
 .title{
   color:var(--branco); font-weight:900; font-size:2rem; line-height:1.15; margin:0;
-  /* contorno ouro-velho (efeito “bordas”) */
   text-shadow:
     -1px -1px 0 var(--ouro),  1px -1px 0 var(--ouro),
     -1px  1px 0 var(--ouro),  1px  1px 0 var(--ouro),
      0    0   12px rgba(255,255,255,.35);
 }
+/* Subtítulo: dourado com borda branca, 5pt menor que o título */
+.subtitle{
+  margin:2px 0 0;
+  color:var(--ouro);
+  font-weight:900;
+  font-size:calc(2rem - 5pt);
+  line-height:1.1;
+  text-shadow:
+    -1px -1px 0 var(--branco),  1px -1px 0 var(--branco),
+    -1px  1px 0 var(--branco),  1px  1px 0 var(--branco),
+     0    0   10px rgba(255,255,255,.35);
+}
 
 /* Área principal */
-.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 10px;width:100%}
 
 /* Ícone principal — circular, com bordas e sem “miolo” branco */
 .hero-wrap{
@@ -58,9 +68,8 @@ header{text-align:center;padding:26px 10px 8px}
 }
 .hero{
   width:100%; height:100%; display:block;
-  /* aumenta o conteúdo 60% mantendo a moldura do mesmo tamanho */
-  object-fit:cover; object-position:center;
-  transform:scale(1.6);
+  object-fit:cover; object-position:center; /* preenche e corta periferia */
+  transform:scale(1.6);                     /* +60% sem mudar a moldura */
   transform-origin:center center;
   will-change:transform;
   border-radius:50%;
@@ -71,11 +80,10 @@ header{text-align:center;padding:26px 10px 8px}
   display:flex; align-items:center; justify-content:center;
   min-height:var(--btnH); padding:10px 18px; width:94%; margin:0 auto 10px;
   text-decoration:none; cursor:pointer; border-radius:18px; font-weight:900;
-  /* fundo mais escuro para dar contraste no texto branco */
   background:linear-gradient(to top, #6a4a0f 0%, #b88a2a 60%, #d6b25a 100%);
   color:var(--branco);
-  border:3px solid var(--ouro);      /* borda ouro */
-  box-shadow:0 0 0 3px var(--prata), 0 4px 10px var(--shadow); /* aro prata + sombra */
+  border:3px solid var(--ouro);
+  box-shadow:0 0 0 3px var(--prata), 0 4px 10px var(--shadow);
   transition:transform .12s, filter .2s;
 }
 .mainbtn:hover{transform:scale(1.02); filter:brightness(1.04)}
@@ -107,18 +115,27 @@ header{text-align:center;padding:26px 10px 8px}
 .navbtn:hover{transform:scale(1.03); filter:brightness(1.04)}
 .navbtn .arr{font-size:20px; line-height:1}
 
-/* Voltar (sempre para a mãe biblos.html) */
-.back-wrap{display:flex; justify-content:center; margin-top:10px; transform:scale(.48); transform-origin:center top}
+/* Rodapé/Voltar: aproximado ~30% do fundo e sem sublinhado */
+footer.footer{
+  margin-top:auto;                 /* empurra o footer para a base da tela */
+  padding:6px 0 8px;               /* pequeno respiro (≈ 30% menos espaço que antes) */
+  display:flex; justify-content:center;
+}
+.back-wrap{transform:scale(.48); transform-origin:center top}
 .btn-back{
   display:inline-flex; align-items:center; gap:10px;
   background:#a00000; color:#fff; border:none; border-radius:999px;
-  padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer;
+  padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow);
+  cursor:pointer; text-decoration:none;   /* remove sublinhado */
 }
 .btn-back .arr{font-size:18px; line-height:1}
 </style>
 </head>
 <body>
-<header><h1 class="title">Tempo da Ressurreição</h1></header>
+<header>
+  <h1 class="title">Tempo da Ressurreição</h1>
+  <div class="subtitle">Salmo e Leituras</div>
+</header>
 
 <main class="wrap">
   <!-- Ícone circular com bordas ouro + prata; conteúdo ampliado 60% -->
@@ -136,12 +153,14 @@ header{text-align:center;padding:26px 10px 8px}
     <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
     <button class="navbtn" id="next"><span>Próximo</span><span class="arr">→</span></button>
   </div>
+</main>
 
-  <!-- Voltar: sempre retorna para a mãe -->
+<!-- Voltar: sempre retorna para a mãe -->
+<footer class="footer">
   <div class="back-wrap">
     <a class="btn-back" href="biblos.html"><span class="arr">←</span><span>Voltar</span></a>
   </div>
-</main>
+</footer>
 
 <script>
 /* Itens do ciclo de navegação, na ordem pedida */
@@ -188,4 +207,5 @@ render();
 </script>
 </body>
 </html>
+
 
