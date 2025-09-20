@@ -52,10 +52,11 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
     </section>
 </main>
 <footer>
-  <a clas<nav class="santa-mini" aria-label="Ir para o Domingo da Grande Quaresma">
+  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('quaresma.html')){this.href='quaresma.html'}">← Voltar</a>
+  <!-- (seu botão Voltar aqui, se houver) -->
+  <nav class="santa-mini" aria-label="Ir para o Domingo da Grande Quaresma">
     <a href="santa-grande-quaresma.html"><span class="arr">✛</span> Domingo (Grande Quaresma)</a>
-  </nav>s="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('quaresma.html')){this.href='quaresma.html'}">← Voltar</a>
-
+  </nav>
 </footer>
 <script>
 const LINKS={'safro-curta':null,'safro-longa':null,'ramsho-curta':null,'ramsho-longa':null};
