@@ -20,6 +20,24 @@ header{text-align:center;padding:12px 12px 0}
 footer{margin-top:6px;text-align:center;padding:6px 0 10px}
 .back{ display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;text-decoration:none; border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39) }
 .back:hover{background:#c00000}
+
+  /* MINI-BOTÃO: Domingo (Grande Quaresma) */
+.santa-mini{
+  margin:8px auto 0; padding-top:6px; max-width:640px;
+  display:flex; justify-content:center;
+  border-top:2px dashed rgba(0,0,0,.15);
+}
+.santa-mini a{
+  display:inline-flex; align-items:center; gap:8px;
+  text-decoration:none; font-weight:800; font-size:.82rem; line-height:1;
+  color:var(--bordo, #7a0b0b); background:#fff;
+  border:2px solid var(--bordo, #7a0b0b);
+  border-radius:999px; padding:.36rem .70rem;
+  box-shadow:inset 0 0 0 2px var(--ouro, #d6b25a), 0 2px 6px var(--shadow, rgba(0,0,0,.16));
+}
+.santa-mini a:hover{background:#fff9f0; transform:scale(1.02)}
+.santa-mini .arr{font-size:14px; line-height:1}
+
 </style>
 </head>
 <body>
@@ -27,14 +45,17 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
 <main class="wrap">
   <img class="hero" src="img/icone-quaresma.jpg" alt="Ícone — Quaresma">
   <section class="buttons" aria-label="Ações do dia">
-    <a class="btn" data-link="safro-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
-    <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
     <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
     <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
-  </section>
+     <a class="btn" data-link="safro-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
+    </section>
 </main>
 <footer>
-  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('quaresma.html')){this.href='quaresma.html'}">← Voltar</a>
+  <a clas<nav class="santa-mini" aria-label="Ir para o Domingo da Grande Quaresma">
+    <a href="santa-grande-quaresma.html"><span class="arr">✛</span> Domingo (Grande Quaresma)</a>
+  </nav>s="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('quaresma.html')){this.href='quaresma.html'}">← Voltar</a>
+
 </footer>
 <script>
 const LINKS={'safro-curta':null,'safro-longa':null,'ramsho-curta':null,'ramsho-longa':null};
