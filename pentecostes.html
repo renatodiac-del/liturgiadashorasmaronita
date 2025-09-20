@@ -49,8 +49,21 @@ header{text-align:center;padding:26px 10px 10px}
 .btn .line1{display:block}
 .btn .line2{display:block; font-weight:800; opacity:.95}
 .btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+
+/* Mini-link: ofício próprio do tempo */
+.tempo-mini{
+  margin:10px auto 0; padding-top:8px; max-width:640px;
+  display:flex; justify-content:center; border-top:2px dashed rgba(0,0,0,.15);
+}
+.tempo-mini a{
+  display:inline-block; text-decoration:none; font-weight:800; font-size:.82rem; line-height:1;
+  color:var(--texto); background:#fff; border:2px solid var(--texto); border-radius:999px;
+  padding:.38rem .72rem; box-shadow:inset 0 0 0 2px var(--branco), 0 2px 6px var(--shadow);
+}
+.tempo-mini a:hover{background:#fff8f8; transform:scale(1.02)}
+
 /* Voltar (mãe → biblos) */
-.back-wrap{display:flex;justify-content:center;margin-top:6px;transform:scale(.48);transform-origin:center top}
+.back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
 .btn-back{
   display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
   padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer
@@ -85,6 +98,11 @@ function goBackOrBiblos(){
       <span class="slot"></span>
     </a>
   </section>
+
+  <!-- Mini-link: ofício próprio do tempo -->
+  <nav class="tempo-mini" aria-label="Ofício próprio do tempo">
+    <a href="tempos.html">ofício próprio do tempo</a>
+  </nav>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrBiblos()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
