@@ -13,6 +13,7 @@
   --shadow:rgba(0,0,0,.16);
   --fonte:Arial, Helvetica, sans-serif;
   --btnIcon:32.6px;       /* +10% em relação a 29.6 */
+  --gapY:18px;            /* espaçamento vertical entre ícone↔botão e entre botões */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -24,7 +25,6 @@ body{
 header{text-align:center;padding:18px 10px 4px}
 .title{
   color:var(--prata); font-weight:900; font-size:calc(2rem + 4pt);
-  /* contorno roxo + brilho branco (sem bordô) */
   text-shadow:
     -1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo),
     -1px  1px 0 var(--roxo), 1px  1px 0 var(--roxo),
@@ -32,11 +32,10 @@ header{text-align:center;padding:18px 10px 4px}
 }
 .wrap{
   max-width:640px; margin:0 auto;
-  /* respiro nas laterais e embaixo */
-  padding:12px 18px 24px; width:100%;
+  padding:12px 18px calc(24px + var(--gapY)); width:100%;
 }
 .hero{
-  display:block; margin:8px auto 12px; /* 12px para não encostar no primeiro botão */
+  display:block; margin:8px auto var(--gapY);
   height:414px; width:auto; aspect-ratio:3/4; object-fit:cover; max-height:560px;
   border:4px solid var(--prata);
   box-shadow:
@@ -48,7 +47,7 @@ header{text-align:center;padding:18px 10px 4px}
 /* lista de botões (6 itens) */
 .list{
   display:flex; flex-direction:column;
-  gap:12px;               /* mínimo que separa as molduras externas (6px+6px) */
+  gap:var(--gapY);               /* separação garantida “moldura a moldura” */
   margin-top:4px;
 }
 .btn{
@@ -61,8 +60,8 @@ header{text-align:center;padding:18px 10px 4px}
     0 0 0 6px var(--bordo),
     0 4px 10px var(--shadow);
   border-radius:18px;
-  width:95%;                 /* -5% de largura */
-  padding:5px 18px;          /* -7% de altura */
+  width:95%;                 /* largura já ajustada segundo sua opção anterior */
+  padding:5px 18px;          /* altura já reduzida (−7%) */
   margin:0 auto;
   transition:transform .12s, filter .2s;
 }
@@ -88,7 +87,7 @@ header{text-align:center;padding:18px 10px 4px}
 .btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
 
 /* Voltar (padrão) */
-.back-wrap{display:flex;justify-content:center;margin-top:10px;transform:scale(.48);transform-origin:center top}
+.back-wrap{display:flex;justify-content:center;margin-top:calc(var(--gapY) - 8px);transform:scale(.48);transform-origin:center top}
 .btn-back{
   display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
   padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer
@@ -171,4 +170,5 @@ function goBackOrBiblos(){
 </script>
 </body>
 </html>
+
 
