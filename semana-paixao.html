@@ -33,5 +33,176 @@ header{text-align:center;padding:24px 10px 8px}
     -1px  1px 0 var(--roxo), 1px  1px 0 var(--roxo);
 }
 .title .line{display:block}
-.wrap{max-width:640px;margin:0 auto;padding:1
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 
+/* Ícone principal: CIRCULAR, +15%, padding e FUNDO TRANSPARENTE dentro da borda */
+.hero-wrap{
+  margin:10px auto 16px;
+  width:min(90vw, 414px);      /* ~15% maior que ~360px */
+  aspect-ratio:1/1;
+  border-radius:50%;
+  border:4px solid var(--prata);
+  box-shadow:0 8px 16px var(--shadow); /* remove o filete branco interno */
+  padding:16px;                /* margem interna (“respiro”) */
+  background:transparent;      /* deixa ver o fundo da página */
+  overflow:hidden;
+}
+.hero-wrap .hero{
+  width:100%; height:100%;
+  object-fit:contain;          /* exibe a imagem inteira, sem cortar topo/rodapé */
+  border-radius:50%;
+}
+
+/* Botão central (data/rito atual) */
+.btn{
+  display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center;
+  background:#fff; color:var(--texto); text-decoration:none; font-weight:900;
+  border:3px solid var(--prata); box-shadow:inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow);
+  border-radius:18px; padding:8px 18px; width:94%; margin:0 auto 12px;
+  transition:transform .12s, filter .2s;
+}
+.btn:hover{transform:scale(1.02); filter:brightness(1.04)}
+.btn .icon{
+  width:var(--btnIcon); height:var(--btnIcon); border-radius:50%;
+  border:2px solid var(--prata); box-shadow:inset 0 0 0 2px var(--branco); object-fit:cover;
+}
+.btn .label{
+  text-align:center; color:var(--texto);
+  text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata),
+              -1px  1px 0 var(--prata), 1px  1px 0 var(--prata);
+}
+.btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
+
+/* Navegação Anterior / Próxima */
+.navrow{
+  display:flex; justify-content:space-between; gap:16px; max-width:94%; margin:0 auto 6px;
+}
+.navbtn{
+  display:inline-flex; align-items:center; justify-content:center; min-width:46px; height:46px; padding:0 14px; gap:8px;
+  background:#fff; color:var(--texto); border:3px solid var(--prata); border-radius:999px;
+  box-shadow:inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow);
+  font-weight:900; cursor:pointer; transition:transform .12s, filter .2s;
+}
+.navbtn:hover{transform:scale(1.03); filter:brightness(1.04)}
+.navbtn .arr{font-size:20px; line-height:1}
+
+/* Mini-link: ofício próprio do tempo */
+.tempo-mini{
+  margin:10px auto 0; padding-top:8px; max-width:640px;
+  display:flex; justify-content:center; border-top:2px dashed rgba(0,0,0,.15);
+}
+.tempo-mini a{
+  display:inline-block; text-decoration:none; font-weight:800; font-size:.82rem; line-height:1;
+  color:var(--texto); background:#fff; border:2px solid var(--texto); border-radius:999px;
+  padding:.38rem .72rem; box-shadow:inset 0 0 0 2px var(--branco), 0 2px 6px var(--shadow);
+}
+.tempo-mini a:hover{background:#fff8f8; transform:scale(1.02)}
+
+/* Voltar (padrão; filha → mãe biblos) */
+.back-wrap{display:flex; justify-content:center; margin-top:10px; transform:scale(.48); transform-origin:center top}
+.btn-back{
+  display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px;
+  padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer;
+}
+.btn-back .arr{font-size:18px; line-height:1}
+</style>
+<script>
+function goBackOrMother(){
+  try{
+    if (document.referrer && document.referrer.includes('biblos.html')) { history.back(); return; }
+    if (history.length>1) { history.back(); return; }
+  }catch(e){}
+  location.href='biblos.html';
+}
+</script>
+</head>
+<body>
+<header>
+  <h1 class="title">
+    <span class="line">Semana da Paixão</span>
+    <span class="line">Leituras</span>
+  </h1>
+</header>
+
+<main class="wrap">
+  <!-- Ícone circular com margem interna e fundo transparente -->
+  <figure class="hero-wrap">
+    <img class="hero" src="img/icone-semana-paixao.png" alt="Ícone — Semana da Paixão" onerror="this.style.display='none'">
+  </figure>
+
+  <!-- Botão central com o item atual -->
+  <a id="btn-item" class="btn" href="#" target="_blank" rel="noopener">
+    <img class="icon" src="img/icone-semana-paixao.png" alt="">
+    <span class="label" id="item-label">Sexta-Feira das Tentações de Cristo</span>
+    <span class="slot"></span>
+  </a>
+
+  <!-- Navegação -->
+  <div class="navrow">
+    <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
+    <button class="navbtn" id="next"><span>Próxima</span><span class="arr">→</span></button>
+  </div>
+
+  <!-- Mini-link: ofício próprio do tempo -->
+  <nav class="tempo-mini" aria-label="Ofício próprio do tempo">
+    <a href="paixao.html">ofício próprio do tempo</a>
+  </nav>
+
+  <div class="back-wrap">
+    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
+  </div>
+</main>
+
+<script>
+/* Lista de itens (ordem de navegação) */
+const ITENS = [
+  'Sexta-Feira das Tentações de Cristo',
+  'Sábado de Lázaro',
+  'Domingo do Hosana — Rito da Lâmpada',
+  'Segunda-feira da Paixão',
+  'Terça-feira da Paixão',
+  'Quarta-feira da Paixão — Rito da Lâmpada',
+  'Quinta-feira dos Mistérios',
+  'Boa Sexta-feira',
+  'Sábado da Luz'
+];
+
+/* COLE AQUI os links (.doc) da planilha “shots” para cada item, na mesma ordem.
+   Use null para deixar desativado. */
+const LINKS = {
+  i0:null, i1:null, i2:null, i3:null, i4:null, i5:null, i6:null, i7:null, i8:null
+};
+
+let idx = 0;
+const label = document.getElementById('item-label');
+const btn   = document.getElementById('btn-item');
+
+function render(){
+  label.textContent = ITENS[idx];
+  const key = 'i'+idx;
+  const url = LINKS[key];
+
+  if(url){
+    btn.href = url;
+    btn.style.opacity = 1;
+    btn.style.pointerEvents = 'auto';
+    btn.title = 'Abrir Salmos e Leituras';
+  }else{
+    btn.href = '#';
+    btn.style.opacity = .55;
+    btn.style.pointerEvents = 'none';
+    btn.title = 'Link não configurado';
+  }
+}
+
+document.getElementById('prev').addEventListener('click',()=>{
+  idx = (idx-1+ITENS.length)%ITENS.length; render();
+});
+document.getElementById('next').addEventListener('click',()=>{
+  idx = (idx+1)%ITENS.length; render();
+});
+
+render();
+</script>
+</body>
+</html>
