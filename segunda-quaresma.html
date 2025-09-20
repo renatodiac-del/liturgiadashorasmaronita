@@ -43,12 +43,12 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
 <body>
 <header><h1 class="title">Segunda-feira · Quaresma</h1></header>
 <main class="wrap">
-  <img class="hero" src="img/icone-quaresma.jpg" alt="Ícone — Quaresma">
+  <img class="hero" src="img/icone-segunda-quaresma.jpg" alt="Ícone — Quaresma">
   <section class="buttons" aria-label="Ações do dia">
-    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
-    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
-     <a class="btn" data-link="safro-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
-    <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
+    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz3.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz3.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
+     <a class="btn" data-link="safro-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz3.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
     </section>
 </main>
 <footer>
@@ -59,7 +59,7 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
   </nav>
 </footer>
 <script>
-const LINKS={'safro-curta':null,'safro-longa':null,'ramsho-curta':null,'ramsho-longa':null};
+const LINKS={'ramsho-curta':null,'ramsho-longa':null'safro-curta':null,'safro-longa':null,};
 document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}});
 </script>
 </body>
