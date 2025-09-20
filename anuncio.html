@@ -8,7 +8,7 @@
 :root{
   --prata:#b0b0b0;         /* prata envelhecida */
   --branco:#ffffff;        /* branco brilhante */
-  --bordo:#7a0b0b;         /* vermelho bordô (para a 2ª linha dos botões) */
+  --bordo:#7a0b0b;         /* vermelho bordô (para a 2ª linha dos botões e mini-link) */
   --shadow:rgba(0,0,0,.16);
   --fonte:Arial, Helvetica, sans-serif;
   --btnIcon:29.6px;
@@ -107,12 +107,23 @@ header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
   text-shadow:-1px -1px 0 var(--branco), 1px -1px 0 var(--branco), -1px 1px 0 var(--branco), 1px 1px 0 var(--branco)
 }
 .btn .line1{display:block}
-/* >>> 2ª linha em vermelho bordô, mantendo o contorno/brilho herdado <<< */
 .btn .line2{
   display:block; font-weight:800; opacity:.95;
   color:var(--bordo);
 }
 .btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
+
+/* Mini-link: ofício próprio do tempo */
+.tempo-mini{
+  margin:10px auto 0; padding-top:8px; max-width:640px;
+  display:flex; justify-content:center; border-top:2px dashed rgba(255,255,255,.25);
+}
+.tempo-mini a{
+  display:inline-block; text-decoration:none; font-weight:800; font-size:.82rem; line-height:1;
+  color:var(--bordo); background:#fff; border:2px solid var(--bordo); border-radius:999px;
+  padding:.38rem .72rem; box-shadow:inset 0 0 0 2px var(--branco), 0 2px 6px var(--shadow);
+}
+.tempo-mini a:hover{background:#fff9f3; transform:scale(1.02)}
 
 /* Voltar (padrão .48) */
 .back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
@@ -198,6 +209,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
       <span class="slot"></span>
     </a>
   </section>
+
+  <!-- Mini-link: ofício próprio do tempo -->
+  <nav class="tempo-mini" aria-label="Ofício próprio do tempo">
+    <a href="tempos.html">ofício próprio do tempo</a>
+  </nav>
 
   <div class="back-wrap">
     <button class="btn-back" onclick="goBackOrBiblos()"><span class="arr">←</span><span>Voltar</span></button>
