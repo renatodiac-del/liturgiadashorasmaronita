@@ -1,4 +1,3 @@
-<!-- patristica.html — versão com 4 botões fixos + integração ao Google Sheets (CSV) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,27 +8,28 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{ font-family:var(--sans); color:#2b2114; background:
-radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,.8), transparent 60%),
-radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,.75), transparent 60%),
-radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.7), transparent 60%),
-radial-gradient(1px 1px at 28% 58%, rgba(255,255,255,.8), transparent 60%),
-linear-gradient(to top, var(--areia-escura), var(--areia-media), var(--areia-clara));
-display:flex; flex-direction:column; min-height:100vh; }
+    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,.8), transparent 60%),
+    radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,.75), transparent 60%),
+    radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.7), transparent 60%),
+    radial-gradient(1px 1px at 28% 58%, rgba(255,255,255,.8), transparent 60%),
+    linear-gradient(to top, var(--areia-escura), var(--areia-media), var(--areia-clara));
+  display:flex; flex-direction:column; min-height:100vh; }
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 .title{ text-align:center; font-size:calc(1.9rem + 3pt); font-weight:900; color:var(--preto);
-text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro); margin-bottom:8px;}
+  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro); margin-bottom:8px;}
 .hero{ display:block;margin:8px auto 16px; max-width:100%; width:100%; height:340px; object-fit:contain; border:6px solid var(--ouro); border-radius:40% / 18%; box-shadow:0 8px 18px var(--shadow); background:#fff7e6; }
 .centerbox{display:flex; flex-direction:column; align-items:center; gap:14px}
 .nameBtn{ display:flex; align-items:center; justify-content:center; text-align:center; padding:12px 20px; min-width:260px; border-radius:16px; background:#fff; color:#2b2114; font-weight:900; font-size:calc(1.15rem + 2pt); cursor:pointer; user-select:none; border:3px solid var(--ouro); box-shadow: inset 0 0 0 3px rgba(180,146,58,.55), 0 3px 8px var(--shadow); transition:transform .12s, background-color .2s; }
 .nameBtn:hover{transform:scale(1.02); background:#fffdf4}
 .navrow{ display:flex; justify-content:center; gap:14px; margin-top:10px; }
 .navbtn{ background:#fff; color:#2b2114; font-weight:900; padding:9px 14px; border-radius:12px; cursor:pointer; border:3px solid var(--ouro); box-shadow: inset 0 0 0 3px rgba(180,146,58,.5), 0 2px 6px var(--shadow); transition:background-color .2s, transform .12s; }
+.navbtn[disabled]{ opacity:.4; filter:grayscale(1); cursor:not-allowed; }
 .navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
 .actions{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
 @media(min-width:600px){ .actions{ gap:14px; } }
 .actionBtn{ display:flex; align-items:center; justify-content:center; text-align:center; min-height:76px; padding:12px; border-radius:16px; text-decoration:none; background:#fff; color:#2b2114; font-weight:800; border:3px solid var(--ouro); box-shadow: inset 0 0 0 3px rgba(180,146,58,.45), 0 3px 8px var(--shadow); }
 .actionBtn[aria-disabled="true"]{ opacity:.45; pointer-events:none; }
-.actionBtn small{ display:block; font-weight:600; opacity:.85; }
+.alert{margin:8px auto 0; width:90%; text-align:center; font-size:.9rem; background:#fff3cd; color:#7c5b00; border:1px solid #ffe08a; border-radius:10px; padding:6px 10px; display:none}
 footer{ margin-top:auto; padding:16px 0 36px; text-align:center; }
 .voltar{ background:var(--vermelho); color:#fff; font-size:.65rem; font-weight:bold; border:none; border-radius:6px; padding:.3rem .55rem; cursor:pointer; display:inline-flex; align-items:center; gap:.4rem; text-decoration:none; transform:scale(0.6); transform-origin:center; }
 .voltar:hover{background:#c00000}
@@ -37,33 +37,118 @@ footer{ margin-top:auto; padding:16px 0 36px; text-align:center; }
 </style>
 </head>
 <body>
-<main class="wrap">
-<h1 class="title">Patrística Siríaca</h1>
+  <main class="wrap">
+    <h1 class="title">Patrística Siríaca</h1>
+    <img class="hero" src="img/icone-patristica.png" alt="Patrística Siríaca" onerror="this.hidden=true">
 
+    <div id="alert" class="alert"></div>
 
-<img class="hero" src="img/icone-patristica.png" alt="Patrística Siríaca" onerror="this.hidden=true">
+    <section class="centerbox" aria-label="Navegação por autores siríacos">
+      <button id="nameBtn" class="nameBtn" type="button">—</button>
+      <div class="navrow">
+        <button id="prev" class="navbtn" type="button">← Anterior</button>
+        <button id="next" class="navbtn" type="button">Próximo →</button>
+      </div>
+    </section>
 
+    <section id="actions" class="actions" aria-label="Ações do autor"><!-- js --></section>
+  </main>
 
-<section class="centerbox" aria-label="Navegação por autores siríacos">
-<button id="nameBtn" class="nameBtn" type="button">—</button>
-<div class="navrow">
-<button id="prev" class="navbtn" type="button">← Anterior</button>
-<button id="next" class="navbtn" type="button">Próximo →</button>
-</div>
-</section>
-
-
-<section id="actions" class="actions" aria-label="Ações do autor">
-<!-- preenchido via JS -->
-</section>
-</main>
-
-
-<footer>
-<a class="voltar" href="javascript:history.back()">&#8592; Voltar</a>
-<div style="margin-top:8px;color:#5b4b1c;font-size:.9rem">Patrística — <strong>FINALIZADO</strong></div>
-</footer>
-
+  <footer>
+    <a class="voltar" href="javascript:history.back()">&#8592; Voltar</a>
+    <div style="margin-top:8px;color:#5b4b1c;font-size:.9rem">Patrística — <strong>FINALIZADO</strong></div>
+  </footer>
 
 <script>
-// URLs públicas das abas (CSV) — fornecidas por você
+// === URLs PÚBLICAS DAS SUAS ABAS CSV ===
+const CSV_AUTHORS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=161703440&single=true&output=csv';
+const CSV_LINKS   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=101845558&single=true&output=csv';
+
+// Ordem fixa dos 4 botões
+const BUTTON_ORDER = ['biografia','homilias','hinos','obras'];
+const DEFAULT_LABELS = { biografia:'Biografia', homilias:'Homilias', hinos:'Hinos', obras:'Obras selecionadas' };
+
+// Utilidades (parser robusto de CSV com aspas)
+const $ = (s,el=document)=>el.querySelector(s);
+function parseCSV(text){
+  const lines = text.replace(/^\uFEFF/, '').split(/\r?\n/); // remove BOM
+  const rows = [];
+  for(const line of lines){ if(line.trim()==='') continue; const out=[]; let cur=''; let q=false; for(let i=0;i<line.length;i++){ const c=line[i]; if(c==='"'){ if(q && line[i+1]==='"'){ cur+='"'; i++; } else { q=!q; } } else if(c===',' && !q){ out.push(cur); cur=''; } else { cur+=c; } } out.push(cur); rows.push(out); }
+  return rows;
+}
+async function fetchCSV(url){ const r=await fetch(url+(url.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('CSV HTTP '+r.status); const txt=await r.text(); const [head,...rows]=parseCSV(txt); const map=Object.fromEntries(head.map((h,i)=>[h.trim(),i])); return {rows, map, head}; }
+function slugify(str){ return (str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+
+// Estado
+let autores=[], linksMap={}; let idx=0;
+const nameBtn=$('#nameBtn'), prevBt=$('#prev'), nextBt=$('#next'), actions=$('#actions'), alertBox=$('#alert');
+
+function setNavDisabled(dis){ prevBt.disabled=dis; nextBt.disabled=dis; }
+
+function renderAuthor(){
+  if(!autores.length){ nameBtn.textContent='—'; actions.innerHTML=''; setNavDisabled(true); return; }
+  setNavDisabled(false);
+  const a=autores[idx];
+  nameBtn.textContent=a.author_name||'—';
+  const byAuthor=linksMap[a.author_slug]||{}; actions.innerHTML='';
+  BUTTON_ORDER.forEach(key=>{
+    const data = byAuthor[key] || {label:DEFAULT_LABELS[key], url:'', enabled:'0'};
+    const A=document.createElement('a'); A.className='actionBtn'; A.textContent=data.label||DEFAULT_LABELS[key]||key;
+    if(data.url && (data.enabled==1 || data.enabled==='1')){ A.href=data.url; A.target='_blank'; A.rel='noopener'; }
+    else { A.href='#'; A.setAttribute('aria-disabled','true'); }
+    actions.appendChild(A);
+  });
+}
+
+function openPrimary(){
+  if(!autores.length) return;
+  const a=autores[idx]; const byAuthor=linksMap[a.author_slug]||{};
+  for(const key of BUTTON_ORDER){ const it=byAuthor[key]; if(it && it.url && (it.enabled==1 || it.enabled==='1')){ window.open(it.url,'_blank'); return; } }
+  location.hash = a.author_slug ? ('#'+a.author_slug) : '#';
+}
+
+prevBt.addEventListener('click', ()=>{ if(!autores.length) return; idx=(idx-1+autores.length)%autores.length; renderAuthor(); });
+nextBt.addEventListener('click', ()=>{ if(!autores.length) return; idx=(idx+1)%autores.length; renderAuthor(); });
+nameBtn.addEventListener('click', openPrimary);
+
+(async function init(){
+  try{
+    // Carrega autores
+    const {rows:rowsA, map:ma, head:ha} = await fetchCSV(CSV_AUTHORS);
+    if(!(ma.author_name)) throw new Error('Cabeçalho "author_name" ausente na aba patristica-autores. Cabeçalhos atuais: '+ha.join(', '));
+    autores = rowsA.map(r=>({
+      author_name: (r[ma.author_name]||'').trim(),
+      author_slug: (r[ma.author_slug]!=null && r[ma.author_slug]!=='' ? r[ma.author_slug] : slugify(r[ma.author_name]||'')).trim(),
+      order: parseInt((r[ma.order]||'999'),10),
+      enabled: (r[ma.enabled]==1 || r[ma.enabled]=='1') ? 1 : 0,
+      icon: ma.icon!=null ? (r[ma.icon]||'') : ''
+    })).filter(a=>a.author_name && a.enabled).sort((x,y)=>x.order-y.order);
+
+    // Carrega links
+    const {rows:rowsL, map:ml, head:hl} = await fetchCSV(CSV_LINKS);
+    if(!(ml.author_slug && ml.button_key)) throw new Error('Cabeçalhos mínimos ausentes em patristica-links. Esperado: author_slug, button_key, label, url, enabled. Recebido: '+hl.join(', '));
+    linksMap={}; rowsL.forEach(r=>{ const aslug=(r[ml.author_slug]||'').trim(); const key=(r[ml.button_key]||'').trim().toLowerCase(); if(!aslug||!key) return; (linksMap[aslug] ||= {}); linksMap[aslug][key] = { label:(ml.label!=null ? (r[ml.label]||'') : '')||DEFAULT_LABELS[key]||key, url:(ml.url!=null ? (r[ml.url]||'') : ''), enabled:(ml.enabled!=null ? r[ml.enabled] : '1') }; });
+
+    // Autor inicial via hash
+    const h=(location.hash||'').replace(/^#/,''), pos = h ? autores.findIndex(x=>x.author_slug===h) : -1; idx = pos>=0 ? pos : 0;
+
+    if(!autores.length){ throw new Error('Nenhum autor habilitado encontrado na planilha.'); }
+    alertBox.style.display='none';
+  }catch(err){
+    console.warn('[Patrística] Problema ao carregar CSV:', err);
+    alertBox.textContent = 'Não foi possível carregar a planilha. Usando lista local provisória.'; alertBox.style.display='block';
+    // Fallback: lista estática (se CSV falhar ou vier vazio)
+    autores = [
+      {author_name:'Santo Efrém', author_slug:'santo-efrem', order:1, enabled:1},
+      {author_name:'Narsai de Nisibis', author_slug:'narsai-de-nisibis', order:2, enabled:1},
+      {author_name:'Jacó de Serugh', author_slug:'jaco-de-serugh', order:3, enabled:1},
+      {author_name:'Isaque de Nínive', author_slug:'isaque-de-ninive', order:4, enabled:1}
+    ];
+    linksMap = {}; // sem links → botões desativados
+  }
+  renderAuthor();
+})();
+</script>
+</body>
+</html>
+
