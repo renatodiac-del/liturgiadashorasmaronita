@@ -1,44 +1,111 @@
-<!-- calendario.html — integrado ao Google Sheets (CSV) com 3 botões (2024, 2025, 2026) -->
-<section id="anos" class="grid-3" aria-label="Calendários por ano">
-<!-- preenchido via JS -->
-</section>
-</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calendário Litúrgico</title>
+<meta name="theme-color" content="#0b1f3d">
+<style>
+  :root{
+    --azul:#0b1f3d; --bordo:#6b0010; --ouro:#b4923a; --shadow:rgba(0,0,0,.18);
+    --fonte: Arial, Helvetica, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:var(--fonte); color:#fff;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,.9) 1.6px, transparent 2.4px) 0 0/36px 36px,
+      radial-gradient(circle at 70% 60%, rgba(255,255,255,.8) 1.6px, transparent 2.4px) 0 0/36px 36px,
+      radial-gradient(circle at 40% 80%, rgba(255,255,255,.65) 1.2px, transparent 2.2px) 0 0/28px 28px,
+      radial-gradient(circle at 85% 25%, rgba(255,255,255,.5) 1.2px, transparent 2.2px) 0 0/28px 28px,
+      var(--azul);
+    display:flex; flex-direction:column; min-height:100vh;
+  }
 
+  header{text-align:center; padding:10px 12px 6px}
+  .title{
+    font-size: calc(1.8rem + 4pt);
+    font-weight:900; margin:0;
+    color:var(--bordo);
+    text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro);
+  }
 
+  .wrap{max-width:640px; margin:0 auto; padding:8px 16px 20px; width:100%}
+
+  .hero{
+    display:block; margin:8px auto 14px; max-width:100%; height:auto; max-height:630px;
+    border:6px solid var(--bordo);
+    box-shadow: 0 0 0 4px var(--ouro), 0 6px 16px var(--shadow);
+    border-radius:14px;
+  }
+
+  .buttons{display:flex; flex-direction:column; gap:12px; margin-top:6px}
+  .btn{
+    position:relative; display:flex; align-items:center; justify-content:center; text-align:center;
+    text-decoration:none; cursor:pointer; background:#fff;
+    color:var(--bordo); font-weight:800; width:70%; margin:0 auto;
+    padding:9px 18px; min-height:48px;
+    border:3px solid var(--bordo);
+    box-shadow: 0 0 0 3px var(--ouro), inset 0 0 0 2.4px rgba(0,0,0,.06), 0 4px 10px var(--shadow);
+    border-radius:18px;
+    transition:transform .15s ease, background-color .2s ease;
+  }
+  .btn:hover{transform:scale(1.02); background:#fffdf5}
+  .btn--primeiro{margin-top:14px;}
+  .btn .icon{ position:absolute; left:14px; top:50%; transform:translateY(-50%); width:30px; height:30px; border-radius:50%; object-fit:cover; }
+
+  footer{ margin-top:20px; padding:10px 0 24px; text-align:center }
+  .back{
+    display:inline-flex; align-items:center; gap:6px; background:#a00000; color:#fff; text-decoration:none; font-weight:800;
+    border:1px solid #6f0000; border-radius:8px; padding:.3rem .55rem; font-size:.65rem;
+    transform:scale(0.6); transform-origin:center;
+  }
+  .back svg{width:12px; height:12px; fill:#fff}
+</style>
 <script>
-// URL pública da aba "calendario" (CSV)
-const CSV_CALEND = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=630771061&single=true&output=csv';
-
-
-// utilidades
-const $ = (s,el=document)=>el.querySelector(s);
-const csvToRows = (csv)=>csv.trim().split(/\r?\n/).map(l=>l.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(s=>s.replace(/^"|"$/g,'')));
-async function loadCSV(url){ const r=await fetch(url+'&t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('CSV'); const t=await r.text(); const [h,...rs]=csvToRows(t); return rs.map(r=>Object.fromEntries(h.map((k,i)=>[k.trim(),(r[i]||'').trim()]))); }
-
-
-// Voltar com fallback simples → index-teste.html se não houver histórico
-(function(){ const b=$('#btn-voltar'); if(!b) return; b.onclick=(e)=>{ e.preventDefault(); const ref=document.referrer||''; if(ref){ history.back(); } else { location.href='index-teste.html?from=fallback'; } }; })();
-
-
-(async function(){
-const rows = await loadCSV(CSV_CALEND);
-// Esperado: module,page,button_key,url,enabled
-// Filtra só linhas enabled
-const enabled = rows.filter(r=> (r.enabled==1||r.enabled==='1') );
-// Ordena pela chave (ano_YYYY)
-enabled.sort((a,b)=> (a.button_key||'').localeCompare(b.button_key||''));
-const box = document.getElementById('anos'); box.innerHTML='';
-const labels = { ano_2024:'Calendário 2024', ano_2025:'Calendário 2025', ano_2026:'Calendário 2026' };
-enabled.forEach(it=>{
-const a=document.createElement('a');
-a.className='card';
-const lbl = labels[it.button_key] || (it.button_key||'').replace('ano_','Calendário ');
-a.textContent = lbl;
-if(it.url){ a.href=it.url; a.target='_blank'; a.rel='noopener'; }
-else { a.href='#'; a.setAttribute('aria-disabled','true'); }
-box.appendChild(a);
-});
-})();
+  function goBackCalendar(){
+    try{
+      const ref = document.referrer || '';
+      if(ref.includes('horas-teste.html')){ location.href='horas-teste.html'; return; }
+      if(history.length>1){ history.back(); return; }
+      location.href='index-teste.html';
+    }catch(e){
+      location.href='index-teste.html';
+    }
+  }
 </script>
+</head>
+<body>
+  <header>
+    <h1 class="title">Calendário Litúrgico</h1>
+  </header>
+
+  <main class="wrap">
+    <img class="hero" src="img/icone-calendario.png" alt="Ícone — Calendário">
+
+    <section class="buttons" aria-label="Escolha do ano">
+      <a class="btn btn--primeiro" href="#">
+        <img class="icon" src="img/cruz.png" alt="">
+        <span class="label">2024</span>
+      </a>
+
+      <a class="btn" href="#">
+        <img class="icon" src="img/cruz.png" alt="">
+        <span class="label">2025</span>
+      </a>
+
+      <a class="btn" href="#">
+        <img class="icon" src="img/cruz.png" alt="">
+        <span class="label">2026</span>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="back" href="#" onclick="goBackCalendar()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      Voltar
+    </a>
+  </footer>
 </body>
 </html>
