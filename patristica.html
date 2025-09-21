@@ -1,125 +1,48 @@
-<!-- patristica.html (FINALIZADO, fundo degradê mais escuro na base) -->
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Patrística Siríaca</title>
-<style>
-:root{
-  --areia-clara:#efe1c7;   /* areia clara */
-  --areia-media:#e6d6b4;   /* areia média */
-  --areia-escura:#c2a772;  /* areia bem mais escura para o rodapé */
-  --ouro:#b4923a;
-  --preto:#111;
-  --shadow:rgba(0,0,0,.18);
-  --sans: Arial, Helvetica, sans-serif;
-  --vermelho:#a00000;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:var(--sans); color:#2b2114;
-  /* fundo em degradê + estrelas */
-  background:
-    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,.8), transparent 60%),
-    radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,.75), transparent 60%),
-    radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.7), transparent 60%),
-    radial-gradient(1px 1px at 28% 58%, rgba(255,255,255,.8), transparent 60%),
-    linear-gradient(to top, var(--areia-escura), var(--areia-media), var(--areia-clara));
-  display:flex; flex-direction:column; min-height:100vh;
-}
-.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
-.title{
-  text-align:center; font-size:calc(1.9rem + 3pt); font-weight:900; color:var(--preto);
-  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
-              -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
-  margin-bottom:8px;
-}
-.hero{
-  display:block;margin:8px auto 16px; max-width:100%;
-  width:100%; height:340px; object-fit:contain;
-  border:6px solid var(--ouro); border-radius:40% / 18%;
-  box-shadow:0 8px 18px var(--shadow); background:#fff7e6;
-}
-.centerbox{display:flex; flex-direction:column; align-items:center; gap:14px}
-.nameBtn{
-  display:flex; align-items:center; justify-content:center; text-align:center;
-  padding:12px 20px; min-width:260px; border-radius:16px;
-  background:#fff; color:#2b2114; font-weight:900;
-  font-size:calc(1.15rem + 2pt);
-  cursor:pointer; user-select:none;
-  border:3px solid var(--ouro);
-  box-shadow: inset 0 0 0 3px rgba(180,146,58,.55), 0 3px 8px var(--shadow);
-  transition:transform .12s, background-color .2s;
-}
-.nameBtn:hover{transform:scale(1.02); background:#fffdf4}
-.navrow{
-  display:flex; justify-content:center; gap:14px;
-  margin-top:10px;
-}
-.navbtn{
-  background:#fff; color:#2b2114; font-weight:900; padding:9px 14px; border-radius:12px; cursor:pointer;
-  border:3px solid var(--ouro);
-  box-shadow: inset 0 0 0 3px rgba(180,146,58,.5), 0 2px 6px var(--shadow);
-  transition:background-color .2s, transform .12s;
-}
-.navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
-footer{
-  margin-top:auto;
-  padding:16px 0 36px; /* botão um pouco mais alto que o rodapé */
-  text-align:center;
-}
-.voltar{
-  background:var(--vermelho); color:#fff; font-size:.65rem; font-weight:bold;
-  border:none; border-radius:6px; padding:.3rem .55rem; cursor:pointer;
-  display:inline-flex; align-items:center; gap:.4rem; text-decoration:none;
-  transform:scale(0.6); transform-origin:center;
-}
-.voltar:hover{background:#c00000}
-</style>
-</head>
-<body>
-  <main class="wrap">
-    <h1 class="title">Patrística Siríaca</h1>
+<!-- patristica.html — versão com 4 botões fixos + integração a Google Sheets (CSV) -->
+.map(r=>({
+author_name: r.author_name || r.name || '',
+author_slug: r.author_slug || slugify(r.author_name||''),
+order: parseInt(r.order||'999',10),
+enabled: (r.enabled==1||r.enabled==='1')?1:0,
+icon: r.icon||''
+}))
+.filter(a=>a.author_name && a.enabled)
+.sort((a,b)=>a.order-b.order);
 
-    <img class="hero" src="img/icone-patristica.png" alt="Patrística Siríaca">
 
-    <section class="centerbox" aria-label="Navegação por autores siríacos">
-      <button id="nameBtn" class="nameBtn" type="button">—</button>
-      <div class="navrow">
-        <button id="prev" class="navbtn" type="button">← Anterior</button>
-        <button id="next" class="navbtn" type="button">Próximo →</button>
-      </div>
-    </section>
-  </main>
+// Carrega links por autor
+const linksRows = await fetchCSV(CSV_LINKS);
+linksMap = {};
+linksRows.forEach(r=>{
+const aslug = (r.author_slug||'').trim();
+const key = (r.button_key||'').trim().toLowerCase();
+if(!aslug || !key) return;
+(linksMap[aslug] ||= {});
+linksMap[aslug][key] = {
+label: r.label||DEFAULT_LABELS[key]||key,
+url: (r.url||'').trim(),
+enabled: r.enabled
+};
+});
 
-  <footer>
-    <a class="voltar" href="javascript:history.back()">&#8592; Voltar</a>
-    <div style="margin-top:8px;color:#5b4b1c;font-size:.9rem">Patrística — <strong>FINALIZADO</strong></div>
-  </footer>
 
-<script>
-const autores = [
-  "Santo Efrém",
-  "Narsai de Nisibis",
-  "Jacó de Serugh",
-  "Isaque de Nínive"
+// Seleciona o autor inicial: hash na URL ou o primeiro da lista
+const h = (location.hash||'').replace(/^#/,'');
+const pos = h ? autores.findIndex(x=>x.author_slug===h) : -1;
+idx = pos>=0 ? pos : 0;
+}catch(err){
+console.warn('[Patrística] usando fallback estático. Motivo:', err);
+// Fallback estático mínimo (mantém página funcional)
+autores = [
+{author_name:'Santo Efrém', author_slug:'santo-efrem', order:1, enabled:1},
+{author_name:'Narsai de Nisibis', author_slug:'narsai-de-nisibis', order:2, enabled:1},
+{author_name:'Jacó de Serugh', author_slug:'jaco-de-serugh', order:3, enabled:1},
+{author_name:'Isaque de Nínive', author_slug:'isaque-de-ninive', order:4, enabled:1}
 ];
-const nameBtn = document.getElementById('nameBtn');
-const prevBt = document.getElementById('prev');
-const nextBt = document.getElementById('next');
-let idx = 0;
-
-function render(){ nameBtn.textContent = autores[idx]; }
-function linkDoAutor(nome){
-  const slug = nome.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-               .toLowerCase().replace(/[^\w]+/g,'-').replace(/^-+|-+$/g,'');
-  return `#${slug}`;
+linksMap = {}; // sem links → botões desabilitados
 }
-nameBtn.addEventListener('click', ()=>{ window.open(linkDoAutor(autores[idx]), '_blank'); });
-prevBt.addEventListener('click', ()=>{ idx=(idx-1+autores.length)%autores.length; render(); });
-nextBt.addEventListener('click', ()=>{ idx=(idx+1)%autores.length; render(); });
-render();
+renderAuthor();
+})();
 </script>
 </body>
 </html>
