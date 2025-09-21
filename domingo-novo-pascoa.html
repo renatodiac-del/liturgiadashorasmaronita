@@ -59,6 +59,14 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
   <img class="hero" src="img/icone-ressurreicao.jpg" alt="Ícone — Ressurreição">
 
   <section class="buttons" aria-label="Ações do dia">
+     <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz2.jpg" alt="">
+      <span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
+    </a>
+    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz2.jpg" alt="">
+      <span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
+    </a>
     <a class="btn" data-link="safro-curta"  href="#" target="_blank" rel="noopener">
       <img src="img/cruz2.jpg" alt="">
       <span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
@@ -67,14 +75,7 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
       <img src="img/cruz2.jpg" alt="">
       <span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span>
     </a>
-    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt="">
-      <span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
-    </a>
-    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
-      <img src="img/cruz2.jpg" alt="">
-      <span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
-    </a>
+   
   </section>
 </main>
 
@@ -86,10 +87,11 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
 <script>
 /* COLE AQUI AS 4 URLs; se vazio, botão desativa */
 const LINKS = {
-  'safro-curta' : null,
-  'safro-longa' : null,
   'ramsho-curta': null,
   'ramsho-longa': null
+  'safro-curta' : null,
+  'safro-longa' : null,
+ 
 };
 document.querySelectorAll('[data-link]').forEach(a=>{
   const key=a.getAttribute('data-link');
