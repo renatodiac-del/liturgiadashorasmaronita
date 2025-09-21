@@ -51,6 +51,7 @@
     transition:transform .15s ease, background-color .2s ease;
   }
   .btn:hover{transform:scale(1.02); background:#fffdf5}
+  .btn[aria-disabled="true"]{opacity:.45; pointer-events:none}
   .btn--primeiro{margin-top:14px;}
   .btn .icon{ position:absolute; left:14px; top:50%; transform:translateY(-50%); width:30px; height:30px; border-radius:50%; object-fit:cover; }
 
@@ -61,6 +62,9 @@
     transform:scale(0.6); transform-origin:center;
   }
   .back svg{width:12px; height:12px; fill:#fff}
+
+  /* mini alerta (erro de carga) */
+  .alert{margin:10px auto 0; width:70%; text-align:center; font-size:.85rem; background:#fff3cd; color:#7c5b00; border:1px solid #ffe08a; border-radius:10px; padding:6px 10px; display:none}
 </style>
 <script>
   function goBackCalendar(){
@@ -69,9 +73,7 @@
       if(ref.includes('horas-teste.html')){ location.href='horas-teste.html'; return; }
       if(history.length>1){ history.back(); return; }
       location.href='index-teste.html';
-    }catch(e){
-      location.href='index-teste.html';
-    }
+    }catch(e){ location.href='index-teste.html'; }
   }
 </script>
 </head>
@@ -81,20 +83,22 @@
   </header>
 
   <main class="wrap">
-    <img class="hero" src="img/icone-calendario.png" alt="Ícone — Calendário">
+    <img class="hero" src="img/icone-calendario.png" alt="Ícone — Calendário" onerror="this.hidden=true">
+
+    <div id="alert" class="alert">Não foi possível carregar a planilha agora. Os botões abaixo podem ficar desativados.</div>
 
     <section class="buttons" aria-label="Escolha do ano">
-      <a class="btn btn--primeiro" href="#">
+      <a id="btn2024" class="btn btn--primeiro" href="#" data-key="ano_2024">
         <img class="icon" src="img/cruz.png" alt="">
         <span class="label">2024</span>
       </a>
 
-      <a class="btn" href="#">
+      <a id="btn2025" class="btn" href="#" data-key="ano_2025">
         <img class="icon" src="img/cruz.png" alt="">
         <span class="label">2025</span>
       </a>
 
-      <a class="btn" href="#">
+      <a id="btn2026" class="btn" href="#" data-key="ano_2026">
         <img class="icon" src="img/cruz.png" alt="">
         <span class="label">2026</span>
       </a>
@@ -107,5 +111,57 @@
       Voltar
     </a>
   </footer>
+
+<script>
+// URL da sua aba "calendario" publicada em CSV
+const CSV_CALEND = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=630771061&single=true&output=csv';
+
+// Parser robusto (suporta vírgulas entre aspas)
+const csvToRows = (csv)=>csv.trim().split(/\r?\n/).map(line=>{
+  const out=[]; let cur=''; let q=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'){ if(q && line[i+1]==='"'){ cur+='"'; i++; } else { q=!q; } }
+    else if(c===',' && !q){ out.push(cur); cur=''; }
+    else { cur+=c; }
+  }
+  out.push(cur); return out;
+});
+
+function setBtnFrom(row, mapIdx){
+  const key = row[mapIdx.button_key];
+  const url = row[mapIdx.url];
+  const enabled = row[mapIdx.enabled];
+  const btn = document.querySelector(`a[data-key="${key}"]`);
+  if(!btn) return;
+  if(url && (enabled==='1' || enabled===1)){
+    btn.href = url; btn.target = '_blank'; btn.removeAttribute('aria-disabled');
+  } else {
+    btn.href = '#'; btn.setAttribute('aria-disabled','true');
+  }
+}
+
+(async()=>{
+  const alertBox = document.getElementById('alert');
+  try{
+    const res = await fetch(CSV_CALEND + '&t=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const text = await res.text();
+    const [head,...rows] = csvToRows(text);
+    const idx = Object.fromEntries(head.map((h,i)=>[h.trim(), i]));
+    // Esperado: module,page,button_key,url,enabled
+    rows.forEach(r=> setBtnFrom(r, idx));
+  }catch(err){
+    console.warn('[Calendário] Falha ao carregar CSV:', err);
+    alertBox.style.display = 'block';
+    // Mantém os botões visuais, porém desativados
+    ['btn2024','btn2025','btn2026'].forEach(id=>{
+      const el=document.getElementById(id); if(!el) return; el.href='#'; el.setAttribute('aria-disabled','true');
+    });
+  }
+})();
+</script>
 </body>
 </html>
+
+
