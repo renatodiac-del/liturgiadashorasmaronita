@@ -1,4 +1,4 @@
-<!-- patristica.html — Índice com ícones redondos + borda dourada, Efrém rotacionado, Voltar abaixo da grade (vai para index-teste.html) -->
+<!-- patristica.html — Índice com ícones redondos + borda dourada, Efrém rotacionado, Voltar abaixo da grade (50% menor) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -45,7 +45,7 @@ body{
   color:#2b2114; font-weight:900;
 }
 .card:hover{ transform:scale(1.02); background:#fffdf4 }
-/* Ícones 50% maiores (46→69), redondos, borda e aro dourado */
+/* Ícones maiores, redondos, com borda dourada */
 .card img{
   width:69px; height:69px; border-radius:50%; object-fit:cover; flex:0 0 69px;
   border:3px solid var(--ouro); box-shadow:0 0 0 3px rgba(180,146,58,.35);
@@ -55,12 +55,14 @@ body{
 
 .card span{ line-height:1.2 }
 
-/* Voltar abaixo dos cards, com respiro do rodapé */
+/* Voltar abaixo dos cards — 50% menor */
 .bottom-actions{display:flex; justify-content:center; margin:14px 0 18px;}
 .voltar{
-  background:var(--vermelho); color:#fff; font-size:.8rem; font-weight:bold;
-  border:none; border-radius:10px; padding:.45rem .8rem; cursor:pointer;
-  text-decoration:none; display:inline-flex; align-items:center; gap:.45rem;
+  background:var(--vermelho); color:#fff; font-weight:bold;
+  font-size:.4rem; /* antes .8rem */
+  border:none; border-radius:8px; /* antes 10px */
+  padding:.25rem .4rem; /* antes .45rem .8rem */
+  cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:.3rem; /* antes .45rem */
   box-shadow:0 2px 6px var(--shadow);
 }
 .voltar:hover{background:#c00000}
