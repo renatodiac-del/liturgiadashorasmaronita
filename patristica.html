@@ -1,4 +1,4 @@
-<!-- patristica.html — diagnóstico visual: parser robusto + painel de debug + links ativos -->
+<!-- patristica.html — aceita CSV em formato TABELA ou VERTICAL (chave→valor), com diagnóstico visual -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -105,7 +105,7 @@ var CSV_LINKS   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyP
 var BUTTON_ORDER = ['biografia','homilias','hinos','obras'];
 var LABELS = { biografia:'Biografia', homilias:'Homilias', hinos:'Hinos', obras:'Obras selecionadas' };
 
-// Fallback de ícones por slug (quando a planilha não trouxer `icon`)
+// Fallback de ícones por slug
 var ICON_BY_SLUG = {
   'santo-efrem':'efrem.png',
   'narsai-de-nisibis':'narsai-nisibis.png',
@@ -142,7 +142,6 @@ function parseCSV(text){
   var lines = text.split(/\r?\n/).filter(function(l){return l.trim()!==''});
   if(!lines.length) return [];
   var delim = detectDelimiter(lines[0]);
-  console.log('[CSV] delimitador detectado:', JSON.stringify(delim));
   var rows=[];
   for(var li=0; li<lines.length; li++){
     var line=lines[li], cur='', q=false, row=[];
@@ -164,37 +163,144 @@ function splitSmart(s){
 }
 function expandCollapsed(arr){
   if(!arr || !arr.length) return arr;
-  if(arr[0].length===1 && (arr[0][0].indexOf(',')>-1 || arr[0][0].indexOf('\t')>-1 || arr[0][0].indexOf(';')>-1)){
+  if(arr[0].length===1 && (arr[0][0].includes(',')||arr[0][0].includes('\t')||arr[0][0].includes(';'))){
     arr[0] = splitSmart(arr[0][0]);
   }
   for(var r=1;r<arr.length;r++){
-    if(arr[r].length===1 && (arr[r][0].indexOf(',')>-1 || arr[r][0].indexOf('\t')>-1 || arr[r][0].indexOf(';')>-1)){
+    if(arr[r].length===1 && (arr[r][0].includes(',')||arr[r][0].includes('\t')||arr[r][0].includes(';'))){
       arr[r] = splitSmart(arr[r][0]);
     }
   }
   return arr;
 }
+
+// Detecta se o CSV está em formato VERTICAL (chave→valor)
+function isKV(rows){
+  if(!rows.length) return false;
+  // se cada linha tem 2 colunas e a primeira parece chave conhecida, assume KV
+  var keys = new Set(['author_name','author_slug','order','enabled','icon','button_key','label','url']);
+  var sample = rows.slice(0,6);
+  var score = 0;
+  for(var i=0;i<sample.length;i++){
+    var r = sample[i];
+    if(r && r.length===2 && keys.has(normHeader(r[0]))) score++;
+  }
+  return score>=3;
+}
+
+// Constrói autores a partir de TABELA horizontal
+function buildAuthorsFromTable(head, rows){
+  var map={}; for(var i=0;i<head.length;i++) map[normHeader(head[i])]=i;
+  if(map.author_name==null) return null;
+  var out=[];
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    var nm=(r[map.author_name]||'').trim(); if(!nm) continue;
+    var en=(map.enabled!=null? String(r[map.enabled]||'').trim():'1'); if(en!=='1') continue;
+    var sl=(map.author_slug!=null? (r[map.author_slug]||'').trim() : ''); if(!sl) sl=slugify(nm);
+    var ic=(map.icon!=null? (r[map.icon]||'').trim() : '');
+    out.push({author_name:nm,author_slug:sl,icon:ic});
+  }
+  return out;
+}
+
+// Constrói autores a partir de KV (chave→valor), aceitando “linha colada”
+function buildAuthorsFromKV(rows){
+  var out=[]; var cur={};
+  function flush(){
+    if(cur && cur.author_name){
+      var nm=cur.author_name.trim();
+      var sl=(cur.author_slug||'').trim(); if(!sl) sl=slugify(nm);
+      var en=(cur.enabled||'1').trim(); if(en==='1'){
+        out.push({author_name:nm, author_slug:sl, icon:(cur.icon||'').trim()});
+      }
+    }
+    cur={};
+  }
+  for(var i=0;i<rows.length;i++){
+    var k=normHeader(rows[i][0]||''), v=(rows[i][1]||'').trim();
+    if(!k) continue;
+    if(k==='author_name'){
+      // Se veio colado: "nome,slug,order,enabled,icon"
+      if(v.includes(',') && !rows[i][1].includes('http')){
+        var parts=v.split(',').map(function(s){return s.trim();});
+        cur.author_name = parts[0]||'';
+        cur.author_slug = parts[1]||'';
+        cur.order       = parts[2]||'';
+        cur.enabled     = parts[3]||'1';
+        cur.icon        = parts.slice(4).join(',').trim();
+      }else{
+        // Normal KV: só o nome
+        // Antes de começar um novo, salva o anterior
+        if(cur.author_name) flush();
+        cur.author_name = v;
+      }
+    } else if(k==='author_slug'){ cur.author_slug=v; }
+    else if(k==='order'){ cur.order=v; }
+    else if(k==='enabled'){ cur.enabled=v; }
+    else if(k==='icon'){ cur.icon=v; }
+    // Quando detectar que um bloco terminou: se próxima linha for novo author_name, o flush ocorre no começo do próximo loop
+  }
+  // último
+  flush();
+  return out;
+}
+
+// Constrói links a partir de TABELA horizontal
+function buildLinksFromTable(head, rows){
+  var map={}; for(var i=0;i<head.length;i++) map[normHeader(head[i])]=i;
+  if(map.author_slug==null || map.button_key==null) return {};
+  var out={};
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    var as=(r[map.author_slug]||'').trim(); if(!as) continue;
+    var key=(r[map.button_key]||'').trim().toLowerCase(); if(!key) continue;
+    (out[as]||(out[as]={}))[key]={
+      label:(map.label!=null?(r[map.label]||''):'').trim()||LABELS[key]||key,
+      url:(map.url!=null?(r[map.url]||''):'').trim(),
+      enabled:String(map.enabled!=null?(r[map.enabled]||'1'):'1').trim()
+    };
+  }
+  return out;
+}
+
+// Constrói links a partir de KV (chave→valor)
+function buildLinksFromKV(rows){
+  var out={}; var cur={};
+  function flush(){
+    if(cur.author_slug && cur.button_key){
+      var as=cur.author_slug.trim(), key=cur.button_key.trim().toLowerCase();
+      (out[as]||(out[as]={}))[key]={
+        label:(cur.label||LABELS[key]||key),
+        url:(cur.url||''),
+        enabled:String(cur.enabled||'1').trim()
+      };
+    }
+    cur={};
+  }
+  for(var i=0;i<rows.length;i++){
+    var k=normHeader(rows[i][0]||''), v=(rows[i][1]||'').trim();
+    if(!k) continue;
+    if(k==='author_slug'){ if(cur.author_slug) flush(); cur.author_slug=v; }
+    else if(k==='button_key'){ cur.button_key=v; }
+    else if(k==='label'){ cur.label=v; }
+    else if(k==='url'){ cur.url=v; }
+    else if(k==='enabled'){ cur.enabled=v; }
+    else if(k==='order'){ cur.order=v; }
+  }
+  flush();
+  return out;
+}
+
 function fetchCSV(url){
   var real=url + (url.indexOf('?')>-1?'&':'?') + 't=' + Date.now();
   return fetch(real, {cache:'no-store'})
     .then(function(res){ if(!res.ok) throw new Error('CSV '+res.status); return res.text(); })
     .then(function(txt){
-      console.log('[CSV] bruto (200 chars):', txt.slice(0,200));
       var arr = expandCollapsed(parseCSV(txt));
       var head = arr.length? arr[0] : [];
       var rows = arr.length>1? arr.slice(1) : [];
-      console.log('[CSV] head:', head);
-      console.log('[CSV] row1:', rows[0]);
-      console.log('[CSV] row2:', rows[1]);
-      var hasAuthorName = head.some(function(h){ return normHeader(h)==='author_name'; });
-      var map = {};
-      if(hasAuthorName){
-        for(var i=0;i<head.length;i++){ map[normHeader(head[i])] = i; }
-      }else{
-        map = { author_name:0, author_slug:1, order:2, enabled:3, icon:4 };
-        if(head.length){ rows.unshift(head); }
-      }
-      return {rows:rows, map:map, head:head};
+      return {head:head, rows:rows, kv:isKV(arr)};
     });
 }
 function slugify(s){
@@ -221,20 +327,21 @@ function updateHero(a){
   hero.src = 'img/' + file;
 }
 function renderDebug(a, byAuthor){
+  function esc(x){return (x||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
   var rows = BUTTON_ORDER.map(function(k){
     var d = byAuthor[k] || {};
     var ok = (!!d.url) && (String(d.enabled).trim()==='1');
     var reason = ok ? 'ok' :
       (!d.url ? 'sem url' : (String(d.enabled).trim()!=='1' ? 'enabled ≠ 1' : 'desconhecido'));
-    return '<tr><th>'+k+'</th><td>'+ (d.label||'') +'</td><td>'+ (d.enabled||'') +'</td><td>'+ (d.url||'') +
-           '</td><td class=\"'+(ok?'ok': 'bad')+'\">'+ (ok?'ligado':'OFF — '+reason) +'</td></tr>';
+    return '<tr><th>'+k+'</th><td>'+ esc(d.label||'') +'</td><td>'+ esc(d.enabled||'') +'</td><td>'+ esc(d.url||'') +
+           '</td><td class="'+(ok?'ok': 'bad')+'">'+ (ok?'ligado':'OFF — '+reason) +'</td></tr>';
   }).join('');
   dbgBox.innerHTML =
     '<table>'+
-    '<tr><th style=\"width:120px\">author_name</th><td>'+ (a.author_name||'') +'</td></tr>'+
-    '<tr><th>author_slug</th><td>'+ (a.author_slug||'') +'</td></tr>'+
-    '<tr><th>icon</th><td>'+ ((a.icon||'') || ('/img/'+(ICON_BY_SLUG[a.author_slug]||'icone-patristica.png'))) +'</td></tr>'+
-    '<tr><th colspan=\"2\">—</th></tr>'+
+    '<tr><th style="width:120px">author_name</th><td>'+ esc(a.author_name||'') +'</td></tr>'+
+    '<tr><th>author_slug</th><td>'+ esc(a.author_slug||'') +'</td></tr>'+
+    '<tr><th>icon</th><td>'+ esc((a.icon||'') || ('/img/'+(ICON_BY_SLUG[a.author_slug]||'icone-patristica.png'))) +'</td></tr>'+
+    '<tr><th colspan="2">—</th></tr>'+
     '<tr><th>button_key</th><th>label</th><th>enabled</th><th>url</th><th>status</th></tr>'+
     rows+
     '</table>';
@@ -293,43 +400,22 @@ dbgBtn.addEventListener('click', function(){
 (function init(){
   Promise.all([fetchCSV(CSV_AUTHORS), fetchCSV(CSV_LINKS)])
     .then(function(all){
-      var A = all[0].map, rowsA = all[0].rows;
-      var L = all[1].map, rowsL = all[1].rows;
+      var A = all[0], L = all[1];
 
       // ------- Autores -------
-      autores = [];
-      for(var i=0;i<rowsA.length;i++){
-        var r = rowsA[i] || [];
-        if(r.length===1 && (r[0]||'').indexOf(',')>-1){ r = splitSmart(r[0]); }
-        var nm = ((r[A.author_name]||'')+'').trim();
-        if(!nm) continue;
-        var en = (A.enabled!=null? String(r[A.enabled]||'').trim() : '1');
-        if(en!=='1') continue;
-        var sl = A.author_slug!=null ? (r[A.author_slug]||'').trim() : '';
-        if(!sl) sl = slugify(nm);
-        var ic = A.icon!=null ? (r[A.icon]||'').trim() : '';
-        autores.push({author_name:nm, author_slug:sl, icon:ic});
+      if(A.kv){
+        autores = buildAuthorsFromKV(A.rows);
+      }else{
+        autores = buildAuthorsFromTable(A.head, A.rows) || [];
       }
-      if(!autores.length) throw new Error('Sem autores válidos (verifique cabeçalho/linhas e enabled=1).');
-      console.log('[OK] autores:', autores.map(function(a){return a.author_slug;}));
+      if(!autores.length) throw new Error('Sem autores válidos (tente conferir a aba patristica-autores).');
 
       // ------- Links -------
-      linksMap = {};
-      if(L.author_slug!=null && L.button_key!=null){
-        for(var j=0;j<rowsL.length;j++){
-          var rL = rowsL[j] || [];
-          if(rL.length===1 && (rL[0]||'').indexOf(',')>-1){ rL = splitSmart(rL[0]); }
-          var as = ((rL[L.author_slug]||'')+'').trim(); if(!as) continue;
-          var key = ((rL[L.button_key]||'')+'').trim().toLowerCase(); if(!key) continue;
-          if(!linksMap[as]) linksMap[as] = {};
-          linksMap[as][key] = {
-            label: (L.label!=null ? (rL[L.label]||'') : '').trim() || LABELS[key] || key,
-            url:   (L.url  !=null ? (rL[L.url  ]||'') : '').trim(),
-            enabled: String(L.enabled!=null ? (rL[L.enabled]||'1') : '1').trim()
-          };
-        }
+      if(L.kv){
+        linksMap = buildLinksFromKV(L.rows);
+      }else{
+        linksMap = buildLinksFromTable(L.head, L.rows) || {};
       }
-      console.log('[OK] links para', Object.keys(linksMap).length, 'autores');
 
       // Autor inicial via hash
       var h = (location.hash||'').replace(/^#/,'');
@@ -355,4 +441,5 @@ dbgBtn.addEventListener('click', function(){
 </script>
 </body>
 </html>
+
 
