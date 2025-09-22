@@ -1,5 +1,4 @@
-
-<!-- patristica.html — super defensivo: autodetecta delimitador, descola linhas, aceita dados sem cabeçalho -->
+<!-- patristica.html — versão DIAGNÓSTICA: parser robusto + logs detalhados no console -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -86,13 +85,14 @@ footer{margin-top:auto;padding:16px 0 36px;text-align:center}
 
 <script>
 // =================== CONFIG ===================
+var DEBUG=true; // deixe true por enquanto (mostra logs no Console)
 var CSV_AUTHORS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=161703440&single=true&output=csv";
 var CSV_LINKS   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=101845558&single=true&output=csv";
 
 var BUTTON_ORDER = ['biografia','homilias','hinos','obras'];
 var LABELS = { biografia:'Biografia', homilias:'Homilias', hinos:'Hinos', obras:'Obras selecionadas' };
 
-// Fallback de ícones por slug (usados se a planilha não trouxer `icon`)
+// Fallback de ícones por slug (quando a planilha não trouxer `icon`)
 var ICON_BY_SLUG = {
   'santo-efrem':'efrem.png',
   'narsai-de-nisibis':'narsai-nisibis.png',
@@ -101,7 +101,10 @@ var ICON_BY_SLUG = {
 };
 
 // =================== UTILS ===================
-// normaliza cabeçalho (remove acentos e espaços)
+function log(){ if(DEBUG) try{ console.log.apply(console, arguments); }catch(_){} }
+function warn(){ if(DEBUG) try{ console.warn.apply(console, arguments); }catch(_){} }
+
+// normaliza cabeçalho
 function normHeader(h){
   if(!h) return '';
   var s = (''+h).toLowerCase();
@@ -112,7 +115,7 @@ function normHeader(h){
   return s;
 }
 
-// detecta o melhor delimitador (vírgula, ponto-e-vírgula ou tab)
+// detecta o melhor delimitador
 function detectDelimiter(line){
   if(!line) return ',';
   var cand=[',',';','\t'];
@@ -129,12 +132,13 @@ function detectDelimiter(line){
   return best;
 }
 
-// parser genérico (aspas, delimitador detectado, remove BOM)
+// parser (aspas + delimitador) + limpeza de NBSPs
 function parseCSV(text){
-  text = (text||'').replace(/^\uFEFF/, '');
+  text = (text||'').replace(/^\uFEFF/, '').replace(/\u00A0/g,' ');
   var lines = text.split(/\r?\n/).filter(function(l){return l.trim()!==''});
   if(!lines.length) return [];
   var delim = detectDelimiter(lines[0]);
+  log('[CSV] delimitador detectado:', JSON.stringify(delim));
   var rows=[];
   for(var li=0; li<lines.length; li++){
     var line=lines[li], cur='', q=false, row=[];
@@ -151,41 +155,45 @@ function parseCSV(text){
   return rows;
 }
 
-// descola cabeçalho/linhas se vierem em 1 célula
+function splitSmart(s){
+  var d = detectDelimiter(s);
+  return s.replace(/^"|"$|^'|'$/g,'').split(d).map(function(t){return t.trim();});
+}
+
+// descola se vier “colado”
 function expandCollapsed(arr){
   if(!arr || !arr.length) return arr;
-  function smartSplit(s){
-    // tenta detectar delimitador e dividir
-    var d = detectDelimiter(s);
-    return s.replace(/^"|"$|^'|'$/g,'').split(d).map(function(t){return t.trim();});
-  }
-  if(arr[0].length===1 && arr[0][0].indexOf(',')>-1 || arr[0].length===1 && arr[0][0].indexOf('\t')>-1 || arr[0].length===1 && arr[0][0].indexOf(';')>-1){
-    arr[0] = smartSplit(arr[0][0]);
+  if(arr[0].length===1 && (arr[0][0].indexOf(',')>-1 || arr[0][0].indexOf('\t')>-1 || arr[0][0].indexOf(';')>-1)){
+    arr[0] = splitSmart(arr[0][0]);
   }
   for(var r=1;r<arr.length;r++){
     if(arr[r].length===1 && (arr[r][0].indexOf(',')>-1 || arr[r][0].indexOf('\t')>-1 || arr[r][0].indexOf(';')>-1)){
-      arr[r] = smartSplit(arr[r][0]);
+      arr[r] = splitSmart(arr[r][0]);
     }
   }
   return arr;
 }
 
 function fetchCSV(url){
-  return fetch(url + (url.indexOf('?')>-1?'&':'?') + 't=' + Date.now(), {cache:'no-store'})
+  var real=url + (url.indexOf('?')>-1?'&':'?') + 't=' + Date.now();
+  return fetch(real, {cache:'no-store'})
     .then(function(res){ if(!res.ok) throw new Error('CSV '+res.status); return res.text(); })
     .then(function(txt){
+      log('[CSV] bruto (primeiros 200 chars):', txt.slice(0,200));
       var arr = expandCollapsed(parseCSV(txt));
       var head = arr.length? arr[0] : [];
       var rows = arr.length>1? arr.slice(1) : [];
-      // Se a "linha 1" parece dados (ex.: começa com "Santo " e não tem author_name), assume ordem padrão
-      var hasHeader = head.some(function(h){ return normHeader(h)==='author_name'; });
+      log('[CSV] head:', head);
+      log('[CSV] row1:', rows[0]);
+      log('[CSV] row2:', rows[1]);
+
+      var hasAuthorName = head.some(function(h){ return normHeader(h)==='author_name'; });
       var map = {};
-      if(hasHeader){
+      if(hasAuthorName){
         for(var i=0;i<head.length;i++){ map[normHeader(head[i])] = i; }
       }else{
-        // ordem padrão: author_name, author_slug, order, enabled, icon
+        // Se a primeira "row" parece dados de autor (tem pelo menos 2 campos e o 2º é um slug), assume ordem padrão
         map = { author_name:0, author_slug:1, order:2, enabled:3, icon:4 };
-        // Insere de volta a "head" como primeira linha de dados, se for necessário
         if(head.length){ rows.unshift(head); }
       }
       return {rows:rows, map:map, head:head};
@@ -268,12 +276,14 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
       var A = all[0].map, rowsA = all[0].rows;
       var L = all[1].map, rowsL = all[1].rows;
 
-      // Autores
+      // ------- Autores -------
       autores = [];
       for(var i=0;i<rowsA.length;i++){
-        var r = rowsA[i];
-        var nm = (r[A.author_name]||'').trim();
-        if(!nm) continue;
+        var r = rowsA[i] || [];
+        // Se uma linha ainda veio "colada" num campo só, tenta descolar aqui
+        if(r.length===1 && (r[0]||'').indexOf(',')>-1){ r = splitSmart(r[0]); }
+        var nm = ((r[A.author_name]||'')+'').trim();
+        if(!nm){ continue; }
         var en = (A.enabled!=null? String(r[A.enabled]||'').trim() : '1');
         if(en!=='1') continue;
         var sl = A.author_slug!=null ? (r[A.author_slug]||'').trim() : '';
@@ -282,14 +292,16 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
         autores.push({author_name:nm, author_slug:sl, icon:ic});
       }
       if(!autores.length) throw new Error('Sem autores válidos (verifique cabeçalho/linhas e enabled=1).');
+      log('[OK] autores:', autores.map(function(a){return a.author_slug;}));
 
-      // Links
+      // ------- Links -------
       linksMap = {};
       if(L.author_slug!=null && L.button_key!=null){
         for(var j=0;j<rowsL.length;j++){
-          var rL = rowsL[j];
-          var as = (rL[L.author_slug]||'').trim(); if(!as) continue;
-          var key = (rL[L.button_key]||'').trim().toLowerCase(); if(!key) continue;
+          var rL = rowsL[j] || [];
+          if(rL.length===1 && (rL[0]||'').indexOf(',')>-1){ rL = splitSmart(rL[0]); }
+          var as = ((rL[L.author_slug]||'')+'').trim(); if(!as) continue;
+          var key = ((rL[L.button_key]||'')+'').trim().toLowerCase(); if(!key) continue;
           if(!linksMap[as]) linksMap[as] = {};
           linksMap[as][key] = {
             label: (L.label!=null ? (rL[L.label]||'') : '').trim() || LABELS[key] || key,
@@ -298,6 +310,7 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
           };
         }
       }
+      log('[OK] links para', Object.keys(linksMap).length, 'autores');
 
       // Autor inicial via hash
       var h = (location.hash||'').replace(/^#/,'');
@@ -309,7 +322,7 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
       render();
     })
     .catch(function(err){
-      console.warn('[Patrística] Falha ao carregar CSV. Usando fallback. Motivo:', err);
+      warn('[Patrística] Falha ao carregar CSV. Usando fallback. Motivo:', err);
       if(alertBx){ alertBx.textContent='Não foi possível carregar a planilha. Usando lista local provisória.'; alertBx.style.display='block'; }
       autores=[
         {author_name:'Santo Efrém',author_slug:'santo-efrem',icon:'efrem.png'},
@@ -323,3 +336,4 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
 </script>
 </body>
 </html>
+
