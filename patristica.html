@@ -1,4 +1,4 @@
-<!-- patristica.html — versão DIAGNÓSTICA: parser robusto + logs detalhados no console -->
+<!-- patristica.html — diagnóstico visual: parser robusto + painel de debug + links ativos -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -60,6 +60,15 @@ footer{margin-top:auto;padding:16px 0 36px;text-align:center}
   transform:scale(0.6);transform-origin:center
 }
 .voltar:hover{background:#c00000}
+
+/* Painel Debug */
+.debug-toggle{margin:10px auto 0;max-width:640px;width:100%;display:flex;justify-content:center}
+.debug-btn{font-size:.8rem;border:2px dashed #b97a00;background:#fff7e0;color:#7a5200;border-radius:8px;padding:.3rem .6rem;cursor:pointer}
+.debug{display:none;margin:10px auto 0;max-width:640px;width:100%;background:#fffef7;border:1px solid #ffe3a6;border-radius:10px;padding:10px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem;line-height:1.35}
+.debug table{width:100%;border-collapse:collapse}
+.debug td,.debug th{border-bottom:1px dotted #f0d58a;padding:6px 4px;vertical-align:top}
+.debug th{text-align:left;color:#6a4b00}
+.ok{color:#116611} .warn{color:#995500} .bad{color:#aa0000}
 </style>
 </head>
 <body>
@@ -77,6 +86,11 @@ footer{margin-top:auto;padding:16px 0 36px;text-align:center}
     </section>
 
     <section id="actions" class="actions" aria-label="Links do autor"></section>
+
+    <div class="debug-toggle">
+      <button id="dbgBtn" class="debug-btn" type="button">🔎 Debug</button>
+    </div>
+    <div id="debug" class="debug" aria-live="polite"></div>
   </main>
 
   <footer>
@@ -85,7 +99,6 @@ footer{margin-top:auto;padding:16px 0 36px;text-align:center}
 
 <script>
 // =================== CONFIG ===================
-var DEBUG=true; // deixe true por enquanto (mostra logs no Console)
 var CSV_AUTHORS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=161703440&single=true&output=csv";
 var CSV_LINKS   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=101845558&single=true&output=csv";
 
@@ -101,10 +114,6 @@ var ICON_BY_SLUG = {
 };
 
 // =================== UTILS ===================
-function log(){ if(DEBUG) try{ console.log.apply(console, arguments); }catch(_){} }
-function warn(){ if(DEBUG) try{ console.warn.apply(console, arguments); }catch(_){} }
-
-// normaliza cabeçalho
 function normHeader(h){
   if(!h) return '';
   var s = (''+h).toLowerCase();
@@ -114,12 +123,9 @@ function normHeader(h){
   if(s==='slug'||s==='autor_slug'||s==='authorslug') s='author_slug';
   return s;
 }
-
-// detecta o melhor delimitador
 function detectDelimiter(line){
   if(!line) return ',';
-  var cand=[',',';','\t'];
-  var best=',', bestScore=-1;
+  var cand=[',',';','\t'], best=',', bestScore=-1;
   for(var i=0;i<cand.length;i++){
     var d=cand[i], count=0, q=false;
     for(var j=0;j<line.length;j++){
@@ -131,14 +137,12 @@ function detectDelimiter(line){
   }
   return best;
 }
-
-// parser (aspas + delimitador) + limpeza de NBSPs
 function parseCSV(text){
   text = (text||'').replace(/^\uFEFF/, '').replace(/\u00A0/g,' ');
   var lines = text.split(/\r?\n/).filter(function(l){return l.trim()!==''});
   if(!lines.length) return [];
   var delim = detectDelimiter(lines[0]);
-  log('[CSV] delimitador detectado:', JSON.stringify(delim));
+  console.log('[CSV] delimitador detectado:', JSON.stringify(delim));
   var rows=[];
   for(var li=0; li<lines.length; li++){
     var line=lines[li], cur='', q=false, row=[];
@@ -154,13 +158,10 @@ function parseCSV(text){
   }
   return rows;
 }
-
 function splitSmart(s){
   var d = detectDelimiter(s);
   return s.replace(/^"|"$|^'|'$/g,'').split(d).map(function(t){return t.trim();});
 }
-
-// descola se vier “colado”
 function expandCollapsed(arr){
   if(!arr || !arr.length) return arr;
   if(arr[0].length===1 && (arr[0][0].indexOf(',')>-1 || arr[0][0].indexOf('\t')>-1 || arr[0][0].indexOf(';')>-1)){
@@ -173,33 +174,29 @@ function expandCollapsed(arr){
   }
   return arr;
 }
-
 function fetchCSV(url){
   var real=url + (url.indexOf('?')>-1?'&':'?') + 't=' + Date.now();
   return fetch(real, {cache:'no-store'})
     .then(function(res){ if(!res.ok) throw new Error('CSV '+res.status); return res.text(); })
     .then(function(txt){
-      log('[CSV] bruto (primeiros 200 chars):', txt.slice(0,200));
+      console.log('[CSV] bruto (200 chars):', txt.slice(0,200));
       var arr = expandCollapsed(parseCSV(txt));
       var head = arr.length? arr[0] : [];
       var rows = arr.length>1? arr.slice(1) : [];
-      log('[CSV] head:', head);
-      log('[CSV] row1:', rows[0]);
-      log('[CSV] row2:', rows[1]);
-
+      console.log('[CSV] head:', head);
+      console.log('[CSV] row1:', rows[0]);
+      console.log('[CSV] row2:', rows[1]);
       var hasAuthorName = head.some(function(h){ return normHeader(h)==='author_name'; });
       var map = {};
       if(hasAuthorName){
         for(var i=0;i<head.length;i++){ map[normHeader(head[i])] = i; }
       }else{
-        // Se a primeira "row" parece dados de autor (tem pelo menos 2 campos e o 2º é um slug), assume ordem padrão
         map = { author_name:0, author_slug:1, order:2, enabled:3, icon:4 };
         if(head.length){ rows.unshift(head); }
       }
       return {rows:rows, map:map, head:head};
     });
 }
-
 function slugify(s){
   s = s||'';
   if(s.normalize){ s = s.normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
@@ -207,15 +204,15 @@ function slugify(s){
 }
 
 // =================== ESTADO / REFS ===================
-var autores = [];            // [{author_name, author_slug, icon}]
-var linksMap = {};           // { slug: { key: {label,url,enabled} } }
-var idx = 0;
-var hero    = document.getElementById('hero');
-var alertBx = document.getElementById('alert');
-var nameBtn = document.getElementById('nameBtn');
-var prevBt  = document.getElementById('prev');
-var nextBt  = document.getElementById('next');
-var actions = document.getElementById('actions');
+var autores=[], linksMap={}, idx=0;
+var hero=document.getElementById('hero');
+var alertBx=document.getElementById('alert');
+var nameBtn=document.getElementById('nameBtn');
+var prevBt=document.getElementById('prev');
+var nextBt=document.getElementById('next');
+var actions=document.getElementById('actions');
+var dbgBtn=document.getElementById('dbgBtn');
+var dbgBox=document.getElementById('debug');
 
 // =================== RENDER ===================
 function updateHero(a){
@@ -223,7 +220,25 @@ function updateHero(a){
   hero.alt = a.author_name || 'Patrística Siríaca';
   hero.src = 'img/' + file;
 }
-
+function renderDebug(a, byAuthor){
+  var rows = BUTTON_ORDER.map(function(k){
+    var d = byAuthor[k] || {};
+    var ok = (!!d.url) && (String(d.enabled).trim()==='1');
+    var reason = ok ? 'ok' :
+      (!d.url ? 'sem url' : (String(d.enabled).trim()!=='1' ? 'enabled ≠ 1' : 'desconhecido'));
+    return '<tr><th>'+k+'</th><td>'+ (d.label||'') +'</td><td>'+ (d.enabled||'') +'</td><td>'+ (d.url||'') +
+           '</td><td class=\"'+(ok?'ok': 'bad')+'\">'+ (ok?'ligado':'OFF — '+reason) +'</td></tr>';
+  }).join('');
+  dbgBox.innerHTML =
+    '<table>'+
+    '<tr><th style=\"width:120px\">author_name</th><td>'+ (a.author_name||'') +'</td></tr>'+
+    '<tr><th>author_slug</th><td>'+ (a.author_slug||'') +'</td></tr>'+
+    '<tr><th>icon</th><td>'+ ((a.icon||'') || ('/img/'+(ICON_BY_SLUG[a.author_slug]||'icone-patristica.png'))) +'</td></tr>'+
+    '<tr><th colspan=\"2\">—</th></tr>'+
+    '<tr><th>button_key</th><th>label</th><th>enabled</th><th>url</th><th>status</th></tr>'+
+    rows+
+    '</table>';
+}
 function render(){
   if(!autores.length){
     nameBtn.textContent='—';
@@ -239,19 +254,22 @@ function render(){
 
   actions.innerHTML='';
   var byAuthor = linksMap[a.author_slug] || {};
-  for(var bi=0; bi<BUTTON_ORDER.length; bi++){
-    var key = BUTTON_ORDER[bi];
+  BUTTON_ORDER.forEach(function(key){
     var d = byAuthor[key] || {label:LABELS[key], url:'', enabled:'0'};
     var A = document.createElement('a');
     A.className = 'actionBtn';
     A.textContent = d.label || LABELS[key] || key;
+    A.title = (d.url||'(sem url)') + ' — enabled=' + (d.enabled||'');
     var on = d.url && String(d.enabled).trim()==='1';
     if(on){ A.href=d.url; A.target='_blank'; A.rel='noopener'; }
     else { A.href='#'; A.setAttribute('aria-disabled','true'); }
     actions.appendChild(A);
-  }
+  });
+
+  if(dbgBox.style.display==='block'){ renderDebug(a, byAuthor); }
 }
 
+// =================== EVENTOS ===================
 function openPrimary(){
   if(!autores.length) return;
   var a = autores[idx];
@@ -263,11 +281,13 @@ function openPrimary(){
   }
   location.hash = a.author_slug || '#';
 }
-
-// =================== EVENTOS ===================
 nameBtn.addEventListener('click', openPrimary);
 prevBt.addEventListener('click', function(){ if(!autores.length) return; idx=(idx-1+autores.length)%autores.length; render(); });
 nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(idx+1)%autores.length; render(); });
+dbgBtn.addEventListener('click', function(){
+  dbgBox.style.display = (dbgBox.style.display==='block' ? 'none' : 'block');
+  render();
+});
 
 // =================== BOOT ===================
 (function init(){
@@ -280,10 +300,9 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
       autores = [];
       for(var i=0;i<rowsA.length;i++){
         var r = rowsA[i] || [];
-        // Se uma linha ainda veio "colada" num campo só, tenta descolar aqui
         if(r.length===1 && (r[0]||'').indexOf(',')>-1){ r = splitSmart(r[0]); }
         var nm = ((r[A.author_name]||'')+'').trim();
-        if(!nm){ continue; }
+        if(!nm) continue;
         var en = (A.enabled!=null? String(r[A.enabled]||'').trim() : '1');
         if(en!=='1') continue;
         var sl = A.author_slug!=null ? (r[A.author_slug]||'').trim() : '';
@@ -292,7 +311,7 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
         autores.push({author_name:nm, author_slug:sl, icon:ic});
       }
       if(!autores.length) throw new Error('Sem autores válidos (verifique cabeçalho/linhas e enabled=1).');
-      log('[OK] autores:', autores.map(function(a){return a.author_slug;}));
+      console.log('[OK] autores:', autores.map(function(a){return a.author_slug;}));
 
       // ------- Links -------
       linksMap = {};
@@ -310,7 +329,7 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
           };
         }
       }
-      log('[OK] links para', Object.keys(linksMap).length, 'autores');
+      console.log('[OK] links para', Object.keys(linksMap).length, 'autores');
 
       // Autor inicial via hash
       var h = (location.hash||'').replace(/^#/,'');
@@ -322,7 +341,7 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
       render();
     })
     .catch(function(err){
-      warn('[Patrística] Falha ao carregar CSV. Usando fallback. Motivo:', err);
+      console.warn('[Patrística] Falha ao carregar CSV. Usando fallback. Motivo:', err);
       if(alertBx){ alertBx.textContent='Não foi possível carregar a planilha. Usando lista local provisória.'; alertBx.style.display='block'; }
       autores=[
         {author_name:'Santo Efrém',author_slug:'santo-efrem',icon:'efrem.png'},
