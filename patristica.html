@@ -1,4 +1,4 @@
-<!-- patristica.html — parser CSV robusto + links ativos + ícones por autor (sem texto no rodapé) -->
+<!-- patristica.html — parser CSV robusto + descolagem de linhas + links ativos + ícones por autor -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -84,15 +84,14 @@ footer{margin-top:auto;padding:16px 0 36px;text-align:center}
   </footer>
 
 <script>
-// CSVs publicados
+// =================== CONFIG ===================
 var CSV_AUTHORS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=161703440&single=true&output=csv";
 var CSV_LINKS   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=101845558&single=true&output=csv";
 
-// Botões fixos
 var BUTTON_ORDER = ['biografia','homilias','hinos','obras'];
 var LABELS = { biografia:'Biografia', homilias:'Homilias', hinos:'Hinos', obras:'Obras selecionadas' };
 
-// Ícones por autor (fallback se planilha não trouxer `icon`)
+// Fallback de ícones por slug (usados se a planilha não trouxer `icon`)
 var ICON_BY_SLUG = {
   'santo-efrem':'efrem.png',
   'narsai-de-nisibis':'narsai-nisibis.png',
@@ -100,7 +99,7 @@ var ICON_BY_SLUG = {
   'isaque-de-ninive':'isaque-ninive.jpeg'
 };
 
-// -------- Utils --------
+// =================== UTILS ===================
 function normHeader(h){
   if(!h) return '';
   var s = (''+h).toLowerCase();
@@ -110,6 +109,8 @@ function normHeader(h){
   if(s==='slug'||s==='autor_slug'||s==='authorslug') s='author_slug';
   return s;
 }
+
+// Parser CSV (aspas, vírgulas internas, remove BOM)
 function parseCSV(text){
   text = (text||'').replace(/^\uFEFF/, '');
   var lines = text.split(/\r?\n/).filter(function(l){return l.trim()!==''});
@@ -128,11 +129,27 @@ function parseCSV(text){
   }
   return rows;
 }
+
+// Se o CSV vier "colado" em 1 célula, descola
+function expandCollapsed(arr){
+  if(!arr || !arr.length) return arr;
+  if(arr[0].length===1 && arr[0][0].indexOf(',')>-1){
+    arr[0] = arr[0][0].replace(/^"|"$|^'|'$/g,'').split(',').map(function(t){return t.trim();});
+  }
+  for(var r=1;r<arr.length;r++){
+    if(arr[r].length===1 && arr[r][0].indexOf(',')>-1){
+      arr[r] = arr[r][0].replace(/^"|"$|^'|'$/g,'').split(',').map(function(t){return t.trim();});
+    }
+  }
+  return arr;
+}
+
 function fetchCSV(url){
   return fetch(url + (url.indexOf('?')>-1?'&':'?') + 't=' + Date.now(), {cache:'no-store'})
     .then(function(res){ if(!res.ok) throw new Error('CSV '+res.status); return res.text(); })
     .then(function(txt){
       var arr = parseCSV(txt);
+      arr = expandCollapsed(arr);
       var head = arr.length? arr[0] : [];
       var rows = arr.length>1? arr.slice(1) : [];
       var map = {};
@@ -140,13 +157,14 @@ function fetchCSV(url){
       return {rows:rows, map:map, head:head};
     });
 }
+
 function slugify(s){
   s = s||'';
   if(s.normalize){ s = s.normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
   return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 }
 
-// -------- Estado / Refs --------
+// =================== ESTADO / REFS ===================
 var autores = [];            // [{author_name, author_slug, icon}]
 var linksMap = {};           // { slug: { key: {label,url,enabled} } }
 var idx = 0;
@@ -157,11 +175,13 @@ var prevBt  = document.getElementById('prev');
 var nextBt  = document.getElementById('next');
 var actions = document.getElementById('actions');
 
+// =================== RENDER ===================
 function updateHero(a){
   var file = (a.icon && a.icon.trim()) || ICON_BY_SLUG[a.author_slug] || 'icone-patristica.png';
   hero.alt = a.author_name || 'Patrística Siríaca';
   hero.src = 'img/' + file;
 }
+
 function render(){
   if(!autores.length){
     nameBtn.textContent='—';
@@ -189,6 +209,7 @@ function render(){
     actions.appendChild(A);
   }
 }
+
 function openPrimary(){
   if(!autores.length) return;
   var a = autores[idx];
@@ -201,11 +222,12 @@ function openPrimary(){
   location.hash = a.author_slug || '#';
 }
 
+// =================== EVENTOS ===================
 nameBtn.addEventListener('click', openPrimary);
 prevBt.addEventListener('click', function(){ if(!autores.length) return; idx=(idx-1+autores.length)%autores.length; render(); });
 nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(idx+1)%autores.length; render(); });
 
-// -------- Boot --------
+// =================== BOOT ===================
 (function init(){
   Promise.all([fetchCSV(CSV_AUTHORS), fetchCSV(CSV_LINKS)])
     .then(function(all){
