@@ -1,4 +1,5 @@
-<!-- patristica.html — parser CSV robusto + descolagem de linhas + links ativos + ícones por autor -->
+
+<!-- patristica.html — super defensivo: autodetecta delimitador, descola linhas, aceita dados sem cabeçalho -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -100,6 +101,7 @@ var ICON_BY_SLUG = {
 };
 
 // =================== UTILS ===================
+// normaliza cabeçalho (remove acentos e espaços)
 function normHeader(h){
   if(!h) return '';
   var s = (''+h).toLowerCase();
@@ -110,18 +112,37 @@ function normHeader(h){
   return s;
 }
 
-// Parser CSV (aspas, vírgulas internas, remove BOM)
+// detecta o melhor delimitador (vírgula, ponto-e-vírgula ou tab)
+function detectDelimiter(line){
+  if(!line) return ',';
+  var cand=[',',';','\t'];
+  var best=',', bestScore=-1;
+  for(var i=0;i<cand.length;i++){
+    var d=cand[i], count=0, q=false;
+    for(var j=0;j<line.length;j++){
+      var c=line[j];
+      if(c=='"'){ if(q && line[j+1]=='"'){ j++; } else { q=!q; } }
+      else if(c===d && !q){ count++; }
+    }
+    if(count>bestScore){ bestScore=count; best=d; }
+  }
+  return best;
+}
+
+// parser genérico (aspas, delimitador detectado, remove BOM)
 function parseCSV(text){
   text = (text||'').replace(/^\uFEFF/, '');
   var lines = text.split(/\r?\n/).filter(function(l){return l.trim()!==''});
-  var rows = [];
+  if(!lines.length) return [];
+  var delim = detectDelimiter(lines[0]);
+  var rows=[];
   for(var li=0; li<lines.length; li++){
     var line=lines[li], cur='', q=false, row=[];
     for(var i=0;i<line.length;i++){
       var c=line[i];
-      if(c==='"'){
-        if(q && line[i+1]==='"'){ cur+='"'; i++; } else { q=!q; }
-      } else if(c===',' && !q){ row.push(cur); cur=''; }
+      if(c=='"'){
+        if(q && line[i+1]=='"'){ cur+='"'; i++; } else { q=!q; }
+      } else if(c===delim && !q){ row.push(cur); cur=''; }
       else { cur+=c; }
     }
     row.push(cur);
@@ -130,15 +151,20 @@ function parseCSV(text){
   return rows;
 }
 
-// Se o CSV vier "colado" em 1 célula, descola
+// descola cabeçalho/linhas se vierem em 1 célula
 function expandCollapsed(arr){
   if(!arr || !arr.length) return arr;
-  if(arr[0].length===1 && arr[0][0].indexOf(',')>-1){
-    arr[0] = arr[0][0].replace(/^"|"$|^'|'$/g,'').split(',').map(function(t){return t.trim();});
+  function smartSplit(s){
+    // tenta detectar delimitador e dividir
+    var d = detectDelimiter(s);
+    return s.replace(/^"|"$|^'|'$/g,'').split(d).map(function(t){return t.trim();});
+  }
+  if(arr[0].length===1 && arr[0][0].indexOf(',')>-1 || arr[0].length===1 && arr[0][0].indexOf('\t')>-1 || arr[0].length===1 && arr[0][0].indexOf(';')>-1){
+    arr[0] = smartSplit(arr[0][0]);
   }
   for(var r=1;r<arr.length;r++){
-    if(arr[r].length===1 && arr[r][0].indexOf(',')>-1){
-      arr[r] = arr[r][0].replace(/^"|"$|^'|'$/g,'').split(',').map(function(t){return t.trim();});
+    if(arr[r].length===1 && (arr[r][0].indexOf(',')>-1 || arr[r][0].indexOf('\t')>-1 || arr[r][0].indexOf(';')>-1)){
+      arr[r] = smartSplit(arr[r][0]);
     }
   }
   return arr;
@@ -148,12 +174,20 @@ function fetchCSV(url){
   return fetch(url + (url.indexOf('?')>-1?'&':'?') + 't=' + Date.now(), {cache:'no-store'})
     .then(function(res){ if(!res.ok) throw new Error('CSV '+res.status); return res.text(); })
     .then(function(txt){
-      var arr = parseCSV(txt);
-      arr = expandCollapsed(arr);
+      var arr = expandCollapsed(parseCSV(txt));
       var head = arr.length? arr[0] : [];
       var rows = arr.length>1? arr.slice(1) : [];
+      // Se a "linha 1" parece dados (ex.: começa com "Santo " e não tem author_name), assume ordem padrão
+      var hasHeader = head.some(function(h){ return normHeader(h)==='author_name'; });
       var map = {};
-      for(var i=0;i<head.length;i++){ map[normHeader(head[i])] = i; }
+      if(hasHeader){
+        for(var i=0;i<head.length;i++){ map[normHeader(head[i])] = i; }
+      }else{
+        // ordem padrão: author_name, author_slug, order, enabled, icon
+        map = { author_name:0, author_slug:1, order:2, enabled:3, icon:4 };
+        // Insere de volta a "head" como primeira linha de dados, se for necessário
+        if(head.length){ rows.unshift(head); }
+      }
       return {rows:rows, map:map, head:head};
     });
 }
@@ -234,22 +268,20 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
       var A = all[0].map, rowsA = all[0].rows;
       var L = all[1].map, rowsL = all[1].rows;
 
-      if(A.author_name==null){ throw new Error('Cabeçalho author_name ausente na aba patristica-autores.'); }
-
       // Autores
       autores = [];
       for(var i=0;i<rowsA.length;i++){
         var r = rowsA[i];
-        var en = (A.enabled!=null? String(r[A.enabled]||'').trim() : '1');
         var nm = (r[A.author_name]||'').trim();
-        if(en==='1' && nm){
-          var sl = A.author_slug!=null ? (r[A.author_slug]||'').trim() : '';
-          if(!sl) sl = slugify(nm);
-          var ic = A.icon!=null ? (r[A.icon]||'').trim() : '';
-          autores.push({author_name:nm, author_slug:sl, icon:ic});
-        }
+        if(!nm) continue;
+        var en = (A.enabled!=null? String(r[A.enabled]||'').trim() : '1');
+        if(en!=='1') continue;
+        var sl = A.author_slug!=null ? (r[A.author_slug]||'').trim() : '';
+        if(!sl) sl = slugify(nm);
+        var ic = A.icon!=null ? (r[A.icon]||'').trim() : '';
+        autores.push({author_name:nm, author_slug:sl, icon:ic});
       }
-      if(!autores.length){ throw new Error('Nenhum autor habilitado encontrado.'); }
+      if(!autores.length) throw new Error('Sem autores válidos (verifique cabeçalho/linhas e enabled=1).');
 
       // Links
       linksMap = {};
@@ -291,4 +323,3 @@ nextBt.addEventListener('click', function(){ if(!autores.length) return; idx=(id
 </script>
 </body>
 </html>
-
