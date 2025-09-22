@@ -1,4 +1,4 @@
-<!-- patristica-autor.html — oval vertical, sem “alterar autor”, Efrém rotacionado, Voltar fixo para patristica.html -->
+<!-- patristica-autor.html — hero redondo, botões com ícone cruz3.png (borda dourada), sem subtítulo, Voltar perto dos botões (para patristica.html) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -25,34 +25,42 @@ body{
               -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
   margin-bottom:8px;
 }
-/* HERO oval vertical (elipse “em pé”) */
+/* HERO redondo com borda dourada */
 .hero{
-  display:block;margin:8px auto 12px; max-width:100%;
-  width:100%; height:320px; object-fit:contain;
+  display:block;margin:8px auto 10px;
+  width:260px; height:260px; object-fit:cover; object-position:center;
   border:6px solid var(--ouro);
   box-shadow:0 8px 18px var(--shadow), 0 0 0 4px rgba(180,146,58,.45);
-  border-radius:18% / 40%;
+  border-radius:50%;
   background:#fff7e6;
 }
 .rotate-left-90{ transform:rotate(-90deg); }
 
-.subtitle{ text-align:center; font-weight:800; margin-bottom:6px }
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;width:100%}
-.actionBtn{
-  display:flex;align-items:center;justify-content:center;text-align:center;min-height:64px;
-  padding:12px;border-radius:14px;text-decoration:none;background:#fff;color:#2b2114;font-weight:800;
-  border:3px solid var(--ouro);box-shadow:inset 0 0 0 3px rgba(180,146,58,.45),0 3px 8px var(--shadow)
-}
-.actionBtn[aria-disabled="true"]{opacity:.45;pointer-events:none}
-.alert{margin:10px auto;width:90%;max-width:520px;background:#fff3cd;color:#7c5b00;border:1px solid #ffe08a;padding:6px 10px;font-size:.9rem;border-radius:8px;text-align:center;display:none}
-footer{ margin-top:auto; padding:16px 0 36px; text-align:center }
+/* Voltar perto dos botões */
+.top-actions{display:flex; justify-content:center; margin:6px 0 10px;}
 .voltar{
-  background:var(--vermelho); color:#fff; font-size:.65rem; font-weight:bold;
-  border:none; border-radius:6px; padding:.3rem .55rem; cursor:pointer;
-  display:inline-flex; align-items:center; gap:.4rem; text-decoration:none;
-  transform:scale(0.6); transform-origin:center;
+  background:var(--vermelho); color:#fff; font-size:.8rem; font-weight:bold;
+  border:none; border-radius:10px; padding:.45rem .8rem; cursor:pointer;
+  text-decoration:none; display:inline-flex; align-items:center; gap:.45rem;
+  box-shadow:0 2px 6px var(--shadow);
 }
 .voltar:hover{background:#c00000}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;width:100%}
+.actionBtn{
+  position:relative; display:flex; align-items:center; justify-content:center; gap:10px;
+  text-align:center; min-height:64px; padding:12px 14px 12px 56px;
+  border-radius:14px; text-decoration:none; background:#fff; color:#2b2114; font-weight:800;
+  border:3px solid var(--ouro); box-shadow:inset 0 0 0 3px rgba(180,146,58,.45), 0 3px 8px var(--shadow);
+}
+.actionBtn[aria-disabled="true"]{opacity:.45;pointer-events:none}
+/* Ícone cruz3 dentro do botão (esquerda), redondo com borda dourada */
+.actionBtn .mini{
+  position:absolute; left:12px; width:32px; height:32px; border-radius:50%; object-fit:cover;
+  border:3px solid var(--ouro); box-shadow:0 0 0 2px rgba(180,146,58,.35);
+}
+
+.alert{margin:10px auto;width:90%;max-width:520px;background:#fff3cd;color:#7c5b00;border:1px solid #ffe08a;padding:6px 10px;font-size:.9rem;border-radius:8px;text-align:center;display:none}
 </style>
 </head>
 <body>
@@ -61,14 +69,12 @@ footer{ margin-top:auto; padding:16px 0 36px; text-align:center }
     <img id="hero" class="hero" src="img/icone-patristica.png" alt="Autor">
     <div id="alert" class="alert"></div>
 
-    <div id="subtitle" class="subtitle"></div>
+    <div class="top-actions">
+      <a class="voltar" href="patristica.html">&#8592; Voltar</a>
+    </div>
 
     <section id="actions" class="actions" aria-label="Links do autor"></section>
   </main>
-
-  <footer>
-    <a class="voltar" href="patristica.html">&#8592; Voltar</a>
-  </footer>
 
 <script>
 // ====== CONFIG ======
@@ -120,7 +126,6 @@ function normHeader(h){
 
 // ====== RENDER ======
 var titleEl=document.getElementById('title');
-var subtitleEl=document.getElementById('subtitle');
 var hero=document.getElementById('hero');
 var actions=document.getElementById('actions');
 var alertBx=document.getElementById('alert');
@@ -128,7 +133,6 @@ var alertBx=document.getElementById('alert');
 function renderAuthorHeader(slug){
   var meta = AUTHOR_META[slug] || {name:slug, icon:'img/icone-patristica.png'};
   titleEl.textContent = meta.name;
-  subtitleEl.textContent = meta.name;
   hero.src = meta.icon;
   hero.alt = meta.name;
   if(meta.rotate){ hero.classList.add('rotate-left-90'); } else { hero.classList.remove('rotate-left-90'); }
@@ -156,7 +160,17 @@ function buildButtonsFor(slug, rows){
     var d = byKey[key] || {label:LABELS[key], url:'', enabled:'0'};
     var A=document.createElement('a');
     A.className='actionBtn';
-    A.textContent=d.label||LABELS[key]||key;
+    // ícone cruz à esquerda
+    var img=document.createElement('img');
+    img.src='img/cruz3.png';
+    img.alt='';
+    img.className='mini';
+    A.appendChild(img);
+    // rótulo
+    var span=document.createElement('span');
+    span.textContent=d.label||LABELS[key]||key;
+    A.appendChild(span);
+    // habilita/ desabilita
     var on=d.url && d.enabled==='1';
     if(on){ A.href=d.url; A.target='_blank'; A.rel='noopener'; }
     else{ A.href='#'; A.setAttribute('aria-disabled','true'); }
@@ -191,3 +205,4 @@ function buildButtonsFor(slug, rows){
 </script>
 </body>
 </html>
+
