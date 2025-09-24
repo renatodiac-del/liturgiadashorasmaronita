@@ -135,9 +135,9 @@
   </footer>
 
   <script>
-    /* ===================== CSVs PUBLICADOS ===================== */
-    const HORAS_REFS_CSV_URL = 'https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv'; // aba horas-refs
-    /* =========================================================== */
+    /* ===================== CSV publicado da aba horas-refs ===================== */
+    const HORAS_REFS_CSV_URL = 'https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv';
+    /* ========================================================================== */
 
     function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.opacity=1; clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000); }
     const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
@@ -218,7 +218,7 @@
       return a;
     }
 
-    // data selecionada (default: hoje)
+    // data selecionada (default: hoje ou ?d=)
     let currentDate=new Date();
     const urlD = new URLSearchParams(location.search).get('d');
     if(urlD && /^\d{4}-\d{2}-\d{2}$/.test(urlD)){
@@ -230,7 +230,7 @@
       document.getElementById('date-text').textContent=formatDateBR(currentDate);
       const wd = weekdayBR(currentDate);
       document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
-      mountButtons(); // re-render para atualizar os ?d=...
+      mountButtons(); // atualiza os ?d=...
     }
     document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
     document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
@@ -246,7 +246,7 @@
       c.append(mkLink(`sexta-hora.html?from=horas&d=${d}`,'Hora Sexta','12 horas'));
       c.append(mkLink(`nona-hora.html?from=horas&d=${d}`,'Hora Nona','15 horas'));
 
-      // Synaxarion agora abre o .doc do dia
+      // Synaxarion abre o .doc do dia
       c.append(mkAction('Synaxarion','', ()=>openRefs('synaxarion','', currentDate)));
 
       c.append(mkLink(`ramsho-hora.html?from=horas&d=${d}`,'Ramsho','oração da tarde'));
@@ -254,9 +254,7 @@
       c.append(mkLink(`sutoro-hora.html?from=horas&d=${d}`,'Sutoro','oração da noite'));
       c.append(mkLink(`lilyo-hora.html?from=horas&d=${d}`,'Lilyo','vigílias'));
 
-      // Calendário preserva origem
-      const btnCal = document.getElementById('btn-cal');
-      btnCal.href = 'calendario.html?from=horas';
+      document.getElementById('btn-cal').href = 'calendario.html?from=horas';
     }
 
     updateDateBar();
@@ -266,3 +264,4 @@
   </script>
 </body>
 </html>
+
