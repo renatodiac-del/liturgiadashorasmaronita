@@ -56,13 +56,64 @@
   </header>
 
   <main class="wrap">
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Oração</span></span></a>
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
+    <a id="btn-oracao" href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Oração</span></span></a>
+    <a id="btn-hinos" href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
   </main>
 
   <footer>
     <a class="btn-voltar" href="horas-teste.html">← voltar</a>
   </footer>
+
+<script>
+const HORAS_MENU_CSV_URL='https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv';
+const PAGE_SLUG='sexta';
+
+const norm=s=> (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+function toISO(d){const s=(d||'').replace(/[-.]/g,'/').trim();const p=s.split('/');if(p.length!==3)return null;if(p[0].length===4){const[y,m,da]=p;return`${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;}const[da,m,y]=p;return`${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;}
+function parseCSV(t){const r=[];let i=0,c=[],v='',q=false;while(i<t.length){const ch=t[i++];if(q){if(ch=='"'&&t[i]=='"'){v+='"';i++;}else if(ch=='"'){q=false;}else v+=ch;}else{if(ch===','){c.push(v);v='';}else if(ch=='"'){q=true;}else if(ch=='\n'){c.push(v);r.push(c);c=[];v='';}else if(ch!=='\r'){v+=ch;}}}if(v.length||c.length){c.push(v);r.push(c);}return r;}
+async function fetchCSV(u){const cb=Math.floor(Date.now()/60000);const u1=u+(u.includes('?')?'&':'?')+'cb='+cb;try{const r=await fetch(u1);if(!r.ok)throw new Error(r.status);return await r.text();}catch(e){const p='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);const r=await fetch(p);if(!r.ok)throw new Error('fallback '+r.status);return await r.text();}}
+function q(name){return new URLSearchParams(location.search).get(name)}
+function todayISO(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0');return`${y}-${m}-${da}`;}
+
+(async function(){
+  const iso = q('d')&&/^\d{4}-\d{2}-\d{2}$/.test(q('d'))? q('d'): todayISO();
+  const txt = await fetchCSV(HORAS_MENU_CSV_URL);
+  const rows = parseCSV(txt).filter(r=>r.join('').trim()!=='');
+  const head = rows.shift().map(h=>norm(h));
+  const idx = (names)=> names.map(n=>head.indexOf(norm(n))).find(i=>i>=0);
+
+  const iDate=idx(['date','data','dia']);
+  const iSlug=idx(['page_slug','pagina','page']);
+  const iKey =idx(['option_key','key','opcao','opção']);
+  const iLab =idx(['label','rotulo','rótulo']);
+  const iUrl =idx(['url','link','doc','arquivo']);
+  const iTgt =idx(['target','alvo']);
+  const iOrd =idx(['order','ordem','pos']);
+  const iEn  =idx(['enabled','ativo','publicado']);
+
+  const all = rows.filter(r=>norm(r[iSlug])===norm(PAGE_SLUG) && (iEn<0 || String(r[iEn]).trim()!=='0'));
+  const today = all.filter(r=>{const d=(iDate>=0?(r[iDate]||''): '').trim(); return d && toISO(d)===iso;});
+  const base  = all.filter(r=>{const d=(iDate>=0?(r[iDate]||''): '').trim(); return !d;});
+  const use = (today.length? today: base).map(r=>({
+    key: iKey>=0?(r[iKey]||''):'',
+    label: r[iLab]||'',
+    url: iUrl>=0?(r[iUrl]||''):'',
+    target: (iTgt>=0?(r[iTgt]||''):'_blank')||'_blank',
+    order: iOrd>=0? Number(r[iOrd]||0): 0
+  })).sort((a,b)=>a.order-b.order);
+
+  const map = {'oracao':'btn-oracao','hinos-melodias':'btn-hinos'};
+  use.forEach(it=>{
+    const a = document.getElementById(map[it.key]);
+    if(!a) return;
+    a.href = it.url || '#';
+    a.target = it.target || '_blank';
+    if(it.label){ a.querySelector('.main')?.replaceChildren(it.label); }
+    if(!it.url){ a.setAttribute('aria-disabled','true'); a.style.opacity='.45'; a.style.pointerEvents='none';}
+  });
+})();
+</script>
 </body>
 </html>
+
 
