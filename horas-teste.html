@@ -114,21 +114,15 @@
       opacity:0; pointer-events:none; transition:.2s
     }
 
-    /* Hints (setas laterais) */
+    /* Hints (setas vermelhas) */
     .hint-arrow{
-      position:absolute; top: 48%; transform: translateY(-50%); font-size:36px; line-height:1;
+      position:absolute; top:48%; transform:translateY(-50%); font-size:36px; line-height:1;
       color:var(--vermelho); font-weight:900; text-shadow:0 0 6px rgba(0,0,0,.18);
-      animation: hintBlink .6s ease-in-out 4 forwards; pointer-events:none; z-index: 5; user-select:none;
+      animation: hintBlink .6s ease-in-out 4 forwards; pointer-events:none; z-index:5; user-select:none;
     }
-    .hint-left{ left: -6px; }
-    .hint-right{ right: -6px; }
-    @keyframes hintBlink{ 0%, 100% { opacity: 0; transform: translateY(-50%) translateZ(0); } 50% { opacity: 1; transform: translateY(-45%) translateZ(0); } }
-
-    @media (max-width: 420px){
-      .hint-left{ left: -2px; }
-      .hint-right{ right: -2px; }
-      .hint-arrow{ font-size:30px; }
-    }
+    .hint-left{ left:-6px } .hint-right{ right:-6px }
+    @keyframes hintBlink{ 0%,100%{opacity:0;transform:translateY(-50%) } 50%{opacity:1;transform:translateY(-45%)} }
+    @media (max-width:420px){ .hint-left{left:-2px}.hint-right{right:-2px}.hint-arrow{font-size:30px} }
   </style>
 </head>
 <body>
@@ -156,7 +150,7 @@
 
     <div class="wide-wrap">
       <!-- Calendário leva à página real -->
-      <a class="btn calendar" id="cal-btn" href="calendario.html?from=horas">
+      <a class="btn calendar" href="calendario.html?from=horas">
         <img src="img/cruz3.png" alt="">
         <span class="label"><span class="line1">Calendário Litúrgico</span></span>
       </a>
@@ -166,201 +160,228 @@
   <div id="toast"></div>
 
   <footer>
-    <!-- Voltar SEMPRE para a bisavó -->
+    <!-- Voltar SEMPRE para a avó -->
     <a class="back" href="oracao.html">← Voltar</a>
   </footer>
 
-<script>
-/* ===================== CSV dos Salmos/Leituras ===================== */
-const SALMOS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1159278730&single=true&output=csv';
-/* ================================================================== */
+  <script>
+    /* ===================== CSVs PUBLICADOS ===================== */
+    // horas-refs (Salmos & Leitura manhã/tarde)
+    const SALMOS_CSV_URL =
+      'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1159278730&single=true&output=csv';
+    /* =========================================================== */
 
-/* ======= utilitário de aviso ======= */
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.style.opacity=1;
-  clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000);
-}
-
-/* ======= normalizações ======= */
-const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
-function toISO(d){ // dd/mm/yyyy ou yyyy/mm/dd -> yyyy-mm-dd
-  const s=(d||'').replace(/[-.]/g,'/').trim();
-  const parts=s.split('/');
-  if(parts.length!==3) return null;
-  if(parts[0].length===4){ // yyyy/mm/dd
-    const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
-  }
-  const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
-}
-function fmtBR(d){ return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
-
-/* ======= parser CSV robusto ======= */
-function parseCSV(text){
-  const rows=[]; let i=0, cur=[], val='', q=false;
-  while(i<text.length){
-    const c=text[i++];
-    if(q){
-      if(c==='"' && text[i]==='"'){ val+='"'; i++; }
-      else if(c==='"'){ q=false; }
-      else val+=c;
-    }else{
-      if(c===','){ cur.push(val); val=''; }
-      else if(c==='"'){ q=true; }
-      else if(c==='\n'){ cur.push(val); rows.push(cur); cur=[]; val=''; }
-      else if(c!=='\r'){ val+=c; }
+    /* ======= utilitário de aviso ======= */
+    function toast(msg){
+      const t=document.getElementById('toast');
+      t.textContent=msg; t.style.opacity=1;
+      clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000);
     }
-  }
-  if(val.length||cur.length) { cur.push(val); rows.push(cur); }
-  return rows;
-}
 
-/* ======= fetch CSV (com cache-busting e fallback AllOrigins) ======= */
-async function fetchCSV(url){
-  const cb = Math.floor(Date.now()/60000); // muda a cada minuto
-  const u1 = url + (url.includes('?')?'&':'?') + 'cb='+cb;
-  try{
-    const r=await fetch(u1,{mode:'cors'});
-    if(!r.ok) throw new Error(r.status);
-    return await r.text();
-  }catch(e){
-    const prox='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);
-    const r=await fetch(prox);
-    if(!r.ok) throw new Error('fallback '+r.status);
-    return await r.text();
-  }
-}
+    /* ======= normalizações ======= */
+    const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
 
-/* ======= lookup de link por (data, periodo) ======= */
-let _salmosRows=null, _salmosHeader=null;
-async function ensureSalmos(){
-  if(_salmosRows) return;
-  toast('Carregando referências…');
-  const txt = await fetchCSV(SALMOS_CSV_URL);
-  const rows = parseCSV(txt).filter(r=>r.length && r.join('').trim()!=='');
-  const header = rows.shift().map(h=>norm(h));
-  _salmosHeader=header; _salmosRows=rows;
-}
-function findCol(header, candidates){
-  for(const c of candidates){ const i=header.indexOf(norm(c)); if(i>=0) return i; }
-  return -1;
-}
-async function openSalmo(periodo, dateObj){
-  try{
-    await ensureSalmos();
-    const h=_salmosHeader, rs=_salmosRows;
-    const iData = findCol(h, ['data','date','dia']);
-    const iPer  = findCol(h, ['periodo','período','turno']);
-    const iLink = findCol(h, ['link_doc','link','url','doc','arquivo']);
-    if(iData<0 || iPer<0 || iLink<0){ toast('Planilha: cabeçalhos não encontrados'); return; }
+    // dd/mm/aaaa ou yyyy/mm/dd -> yyyy-mm-dd
+    function toISO(d){
+      const s=(d||'').replace(/[-.]/g,'/').trim();
+      const parts=s.split('/');
+      if(parts.length!==3) return null;
+      if(parts[0].length===4){ // yyyy/mm/dd
+        const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+      }
+      const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+    }
 
-    const todayBR = fmtBR(dateObj);        // dd/mm/yyyy
-    const todayISO = toISO(todayBR);       // yyyy-mm-dd
-    const alvoPer = norm(periodo);         // manha|tarde
+    // Converte valores de data vindos do CSV para ISO yyyy-mm-dd (aceita DDMMAAAA)
+    function toISOfromCSV(val){
+      const s=(val||'').toString().trim();
+      if(/^\d{8}$/.test(s)){ // DDMMAAAA
+        const dd=s.slice(0,2), mm=s.slice(2,4), yyyy=s.slice(4,8);
+        return `${yyyy}-${mm}-${dd}`;
+      }
+      const t=s.replace(/[-.]/g,'/'); // normaliza separadores
+      const parts=t.split('/');
+      if(parts.length===3){
+        if(parts[0].length===4){ const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`; }
+        else{ const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`; }
+      }
+      if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+      return null;
+    }
 
-    const row = rs.find(r=>{
-      const d = (r[iData]||'').trim();
-      const p = norm(r[iPer]);
-      const eq = (toISO(d)===todayISO) || (d===todayBR);
-      const perOK = (alvoPer.startsWith('m') ? (p===norm('manhã')||p===norm('manha')) :
-                    alvoPer.startsWith('t') ? p.startsWith('t') : p===alvoPer);
-      return eq && perOK;
+    function fmtBR(d){ return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+
+    /* ======= parser CSV robusto ======= */
+    function parseCSV(text){
+      const rows=[]; let i=0, cur=[], val='', q=false;
+      while(i<text.length){
+        const c=text[i++];
+        if(q){
+          if(c==='"' && text[i]==='"'){ val+='"'; i++; }
+          else if(c==='"'){ q=false; }
+          else val+=c;
+        }else{
+          if(c===','){ cur.push(val); val=''; }
+          else if(c==='"'){ q=true; }
+          else if(c==='\n'){ cur.push(val); rows.push(cur); cur=[]; val=''; }
+          else if(c!=='\r'){ val+=c; }
+        }
+      }
+      if(val.length||cur.length) { cur.push(val); rows.push(cur); }
+      return rows;
+    }
+
+    /* ======= fetch CSV (com cache-busting e fallback AllOrigins) ======= */
+    async function fetchCSV(url){
+      const cb = Math.floor(Date.now()/60000); // muda a cada minuto
+      const u1 = url + (url.includes('?')?'&':'?') + 'cb='+cb;
+      try{
+        const r=await fetch(u1,{mode:'cors'});
+        if(!r.ok) throw new Error(r.status);
+        return await r.text();
+      }catch(e){
+        const prox='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);
+        const r=await fetch(prox);
+        if(!r.ok) throw new Error('fallback '+r.status);
+        return await r.text();
+      }
+    }
+
+    /* ======= lookup de link por (data, periodo) ======= */
+    let _salmosRows=null, _salmosHeader=null;
+    async function ensureSalmos(){
+      if(_salmosRows) return;
+      toast('Carregando referências…');
+      const txt = await fetchCSV(SALMOS_CSV_URL);
+      const rows = parseCSV(txt).filter(r=>r.length && r.join('').trim()!=='');
+      const header = rows.shift().map(h=>norm(h));
+      _salmosHeader=header; _salmosRows=rows;
+    }
+    function findCol(header, candidates){
+      for(const c of candidates){ const i=header.indexOf(norm(c)); if(i>=0) return i; }
+      return -1;
+    }
+    async function openSalmo(periodo, dateObj){
+      try{
+        await ensureSalmos();
+        const h=_salmosHeader, rs=_salmosRows;
+
+        const iData = findCol(h, ['data','date','dia']);
+        const iPer  = findCol(h, ['periodo','período','turno']);
+        const iLink = findCol(h, ['link_doc','link','url','doc','arquivo']);
+        const iEn   = findCol(h, ['enabled','ativo','publicado']); // opcional
+
+        if(iData<0 || iPer<0 || iLink<0){
+          toast('Planilha: cabeçalhos não encontrados (data/periodo/link)');
+          return;
+        }
+
+        // Data alvo em ISO
+        const y = dateObj.getFullYear();
+        const m = String(dateObj.getMonth()+1).padStart(2,'0');
+        const d = String(dateObj.getDate()).padStart(2,'0');
+        const targetISO = `${y}-${m}-${d}`;
+
+        const alvoPer = (periodo||'').toString().toLowerCase();
+
+        const row = rs.find(r=>{
+          const rowISO = toISOfromCSV(r[iData]);
+          if(rowISO !== targetISO) return false;
+
+          const p = (r[iPer]||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+          const perOK =
+            (alvoPer.startsWith('m') && (p==='manha' || p==='manhã')) ||
+            (alvoPer.startsWith('t') && p.startsWith('tarde')) ||
+            (p === alvoPer);
+
+          if(!perOK) return false;
+
+          if(iEn>=0){
+            const en = String(r[iEn]||'1').trim();
+            if(en==='0' || en.toLowerCase()==='false') return false;
+          }
+          return true;
+        });
+
+        if(!row){ toast('Não há referência para esta data/turno na planilha'); return; }
+
+        const link=(row[iLink]||'').toString().trim();
+        if(!link){ toast('Link vazio na planilha'); return; }
+
+        window.open(link,'_blank','noopener');
+      }catch(e){
+        console.error(e);
+        toast('Falha ao abrir referência (ver console)');
+      }
+    }
+
+    /* ======= montar botões (com HREFs reais) ======= */
+    function mkLink(href,l1,l2=''){
+      const a=document.createElement('a');
+      a.href=href; a.className='btn tall';
+      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
+        <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}
+      </span>`;
+      return a;
+    }
+    function mkSalmoBtn(turno,l2){
+      const a=document.createElement('a');
+      a.href='#'; a.className='btn tall'; a.dataset.salmo=turno;
+      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
+        <span class="line1">Salmo do Dia e Leitura</span>${l2?`<span class="line2">${l2}</span>`:''}
+      </span>`;
+      return a;
+    }
+
+    (function mountButtons(){
+      const c=document.getElementById('col');
+      c.append(mkLink('safro-hora.html?from=horas','Safro','oração da manhã'));
+      c.append(mkSalmoBtn('manha','manhã'));
+      c.append(mkLink('terca-hora.html?from=horas','Hora Terça','9 horas'));
+      c.append(mkLink('sexta-hora.html?from=horas','Hora Sexta','12 horas'));
+      c.append(mkLink('nona-hora.html?from=horas','Hora Nona','15 horas'));
+      c.append(mkLink('#','Synaxarion')); // href atualizado no updateDateBar()
+      c.append(mkLink('ramsho-hora.html?from=horas','Ramsho','oração da tarde'));
+      c.append(mkSalmoBtn('tarde','tarde'));
+      c.append(mkLink('sutoro-hora.html?from=horas','Sutoro','oração da noite'));
+      c.append(mkLink('lilyo-hora.html?from=horas','Lilyo','vigílias'));
+    })();
+
+    // clique nos dois botões de Salmo/Leitura (manhã/tarde)
+    document.addEventListener('click', async (e)=>{
+      const a=e.target.closest('a[data-salmo]');
+      if(!a) return;
+      e.preventDefault();
+      const turno=a.dataset.salmo; // 'manha' | 'tarde'
+      await openSalmo(turno, currentDate);
     });
 
-    if(!row){ toast('Não há referência para esta data/turno'); return; }
-    const link=(row[iLink]||'').trim();
-    if(!link){ toast('Link vazio na planilha'); return; }
-    window.open(link,'_blank');
-  }catch(e){
-    console.error(e); toast('Falha ao abrir referência');
-  }
-}
+    /* ======= barra de data ======= */
+    let currentDate=new Date();
+    function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
+    function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
+    function updateDateBar(){
+      document.getElementById('date-text').textContent=formatDateBR(currentDate);
+      const wd = weekdayBR(currentDate);
+      document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
 
-/* ======= estado de data (deve vir antes de montar os botões) ======= */
-function q(name){return new URLSearchParams(location.search).get(name)}
-function todayISO(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${da}`;}
-let currentDate = (()=>{ const d=q('d'); return (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) ? new Date(d+'T00:00:00') : new Date(); })();
+      // Atualiza o link do Synaxarion para a data atualmente selecionada
+      const y=currentDate.getFullYear(), m=String(currentDate.getMonth()+1).padStart(2,'0'), da=String(currentDate.getDate()).padStart(2,'0');
+      const syn = Array.from(document.querySelectorAll('.btn')).find(b=>b.textContent.trim()==='Synaxarion');
+      if(syn){ syn.href = `synaxarion.html?data=${y}-${m}-${da}&from=horas`; }
+    }
+    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
+    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
+    updateDateBar();
 
-/* ======= montar botões (com HREFs incluindo ?d=YYYY-MM-DD) ======= */
-function mkLink(href,l1,l2=''){
-  const iso = toISO(currentDate.toLocaleDateString('pt-BR'));
-  const url = href + (href.includes('?')?'&':'?') + 'd=' + iso;
-  const a=document.createElement('a');
-  a.href=url; a.className='btn tall';
-  a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
-    <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}
-  </span>`;
-  return a;
-}
-function mkSalmoBtn(turno,l2){
-  const a=document.createElement('a');
-  a.href='#'; a.className='btn tall'; a.dataset.salmo=turno;
-  a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
-    <span class="line1">Salmo do Dia e Leitura</span>${l2?`<span class="line2">${l2}</span>`:''}
-  </span>`;
-  return a;
-}
+    /* ======= ícone “chip” ======= */
+    document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
 
-(function mountButtons(){
-  const c=document.getElementById('col');
-  c.append(mkLink('safro-hora.html','Safro','oração da manhã'));
-  c.append(mkSalmoBtn('manha','manhã'));
-  c.append(mkLink('terca-hora.html','Hora Terça','9 horas'));
-  c.append(mkLink('sexta-hora.html','Hora Sexta','12 horas'));
-  c.append(mkLink('nona-hora.html','Hora Nona','15 horas'));
-  c.append(mkLink('synaxarion.html','Synaxarion'));
-  c.append(mkLink('ramsho-hora.html','Ramsho','oração da tarde'));
-  c.append(mkSalmoBtn('tarde','tarde'));
-  c.append(mkLink('sutoro-hora.html','Sutoro','oração da noite'));
-  c.append(mkLink('lilyo-hora.html','Lilyo','vigílias'));
-
-  // calendário: também preserva a data
-  const iso = toISO(currentDate.toLocaleDateString('pt-BR'));
-  const cal = document.getElementById('cal-btn');
-  cal.href = `calendario.html?from=horas&d=${iso}`;
-})();
-
-// clique nos dois botões de Salmo/Leitura (manhã/tarde)
-document.addEventListener('click', async (e)=>{
-  const a=e.target.closest('a[data-salmo]');
-  if(!a) return;
-  e.preventDefault();
-  const turno=a.dataset.salmo; // 'manha' | 'tarde'
-  await openSalmo(turno, currentDate);
-});
-
-/* ======= barra de data ======= */
-function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
-function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
-function updateDateBar(){
-  document.getElementById('date-text').textContent=formatDateBR(currentDate);
-  const wd = weekdayBR(currentDate);
-  document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
-
-  // atualizar HREFs com nova data
-  document.querySelectorAll('.col a[href]').forEach(a=>{
-    const url=new URL(a.href, location.href);
-    url.searchParams.set('d', toISO(currentDate.toLocaleDateString('pt-BR')));
-    a.href = url.pathname + '?' + url.searchParams.toString();
-  });
-  // calendário também
-  const cal = document.getElementById('cal-btn');
-  const url=new URL(cal.href, location.href);
-  url.searchParams.set('d', toISO(currentDate.toLocaleDateString('pt-BR')));
-  cal.href = url.pathname + '?' + url.searchParams.toString();
-}
-document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
-document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
-updateDateBar();
-
-/* ======= ícone “chip” ======= */
-document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
-
-/* ======= remover as setas após a animação ======= */
-for(const el of document.querySelectorAll('.hint-arrow')){
-  el.addEventListener('animationend', ()=>{ el.remove(); }, { once:true });
-}
-</script>
+    /* ======= remover as setas após a animação (somem de vez) ======= */
+    for(const el of document.querySelectorAll('.hint-arrow')){
+      el.addEventListener('animationend', ()=>{ el.remove(); }, { once:true });
+    }
+  </script>
 </body>
 </html>
 
