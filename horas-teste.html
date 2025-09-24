@@ -16,6 +16,7 @@
       --dourado:#d6b25a;
       --laranja:#ff7a00;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -26,13 +27,17 @@
         repeating-linear-gradient(-45deg,rgba(160,0,0,0.22) 0,rgba(160,0,0,0.22) 2px,transparent 2px,transparent 40px);
       background-size:40px 40px;display:flex;flex-direction:column;min-height:100vh
     }
+
     a,a:visited,a:hover,a:active{ text-decoration:none; color:inherit; }
+
     header.top{ text-align:center; padding:4px 8px 0 }
     .title{
       color:var(--dourado); font-weight:800; font-size:2.15rem; margin:2px 0 4px;
       -webkit-text-stroke:1px var(--laranja); text-shadow:0 0 1px var(--laranja),0 0 1px var(--laranja)
     }
+
     .wrap{ width:100%; max-width:620px; margin:0 auto; padding:4px 16px 16px; position:relative; }
+
     .hero{
       display:block; margin:4px auto 8px; max-width:100%; height:auto; max-height:420px;
       border:6px solid var(--laranja);
@@ -44,6 +49,8 @@
       display:inline-block; margin:6px 0 8px; padding:8px 12px; background:rgba(255,255,255,0.9);
       border:3px solid var(--laranja); box-shadow:0 0 0 2px var(--dourado) inset; border-radius:14px; font-weight:bold; color:var(--vermelho)
     }
+
+    /* Barra de data e navegação */
     .datebar{ display:flex; align-items:center; justify-content:center; gap:10px; margin:8px auto 16px }
     .datebtn{
       background:#fff; border:2px solid var(--laranja); border-radius:20px;
@@ -55,7 +62,11 @@
     .datedisplay{ min-width:156px; text-align:center; color:#582c0c; line-height:1.2 }
     .datedisplay .date{ font-weight:700 }
     .datedisplay .weekday{ font-size:.95rem; color:#7a5c3a; text-transform:lowercase }
+
+    /* Coluna única centralizada */
     .col{ display:flex; flex-direction:column; align-items:center }
+
+    /* BASE dos botões grandes */
     .btn{
       display:inline-flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
       background:rgba(255,255,255,0.97); border:1.35px solid var(--laranja);
@@ -69,10 +80,26 @@
     .label{ width:100%; text-align:center; pointer-events:none }
     .line1{ display:block; color:var(--vermelho) }
     .line2{ display:block; color:#000; font-size:.9em }
-    .tall{ width: var(--btn-wide); max-width: 780px; padding: var(--btn-pad-v) var(--btn-pad-h); }
+
+    /* Botões grandes padrão */
+    .tall{
+      width: var(--btn-wide);
+      max-width: 780px;
+      padding: var(--btn-pad-v) var(--btn-pad-h);
+    }
+
+    /* Synaxarion com +40% de altura (opcional) */
     .btn.sinaxarion{ padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
-    .wide-wrap{ margin-top: 10px; margin-bottom: 0; display:flex; justify-content:center; align-items:center; }
+
+    /* Calendário com +40% de altura */
+    .wide-wrap{
+      margin-top: 10px;
+      margin-bottom: 0;
+      display:flex; justify-content:center; align-items:center;
+    }
     .btn.calendar{ width: var(--btn-wide); max-width:780px; padding: calc(var(--btn-pad-v) * 1.4) var(--btn-pad-h) }
+
+    /* Botão vermelho Voltar — fixa para 'oracao.html' */
     footer{ margin-top: 0; text-align:center; font-size:.85rem; color:#7a6a55; padding:0 8px 8px }
     .back{
       display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff;
@@ -80,11 +107,14 @@
       font-weight:bold; font-size:.9rem; transform:scale(.51); transform-origin:center; text-decoration:none;
       margin: 2px auto 0;
     }
+
     #toast{
       position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
       background:#222; color:#fff; padding:10px 14px; border-radius:10px; font-size:.9rem;
       opacity:0; pointer-events:none; transition:.2s
     }
+
+    /* Hints (setas laterais) */
     .hint-arrow{
       position:absolute; top: 48%; transform: translateY(-50%); font-size:36px; line-height:1;
       color:var(--vermelho); font-weight:900; text-shadow:0 0 6px rgba(0,0,0,.18);
@@ -93,8 +123,11 @@
     .hint-left{ left: -6px; }
     .hint-right{ right: -6px; }
     @keyframes hintBlink{ 0%, 100% { opacity: 0; transform: translateY(-50%) translateZ(0); } 50% { opacity: 1; transform: translateY(-45%) translateZ(0); } }
+
     @media (max-width: 420px){
-      .hint-left{ left: -2px; } .hint-right{ right: -2px; } .hint-arrow{ font-size:30px; }
+      .hint-left{ left: -2px; }
+      .hint-right{ right: -2px; }
+      .hint-arrow{ font-size:30px; }
     }
   </style>
 </head>
@@ -102,6 +135,7 @@
   <header class="top"><h1 class="title">Oração do Dia</h1></header>
 
   <main class="wrap">
+    <!-- Setas laterais (↓) — piscam 4x e desaparecem -->
     <div class="hint-arrow hint-left" aria-hidden="true">↓</div>
     <div class="hint-arrow hint-right" aria-hidden="true">↓</div>
 
@@ -121,7 +155,8 @@
     <div class="col" id="col"></div>
 
     <div class="wide-wrap">
-      <a class="btn calendar" id="btn-cal">
+      <!-- Calendário leva à página real -->
+      <a class="btn calendar" id="cal-btn" href="calendario.html?from=horas">
         <img src="img/cruz3.png" alt="">
         <span class="label"><span class="line1">Calendário Litúrgico</span></span>
       </a>
@@ -131,137 +166,202 @@
   <div id="toast"></div>
 
   <footer>
+    <!-- Voltar SEMPRE para a bisavó -->
     <a class="back" href="oracao.html">← Voltar</a>
   </footer>
 
-  <script>
-    /* ===================== CSV publicado da aba horas-refs ===================== */
-    const HORAS_REFS_CSV_URL = 'https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv';
-    /* ========================================================================== */
+<script>
+/* ===================== CSV dos Salmos/Leituras ===================== */
+const SALMOS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1159278730&single=true&output=csv';
+/* ================================================================== */
 
-    function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.opacity=1; clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000); }
-    const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
-    function toISO(d){ const s=(d||'').replace(/[-.]/g,'/').trim(); const parts=s.split('/'); if(parts.length!==3) return null; if(parts[0].length===4){ const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`; } const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`; }
-    function fmtBR(d){ return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
-    function fmtISO(d){ const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const da=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${da}`; }
-    function parseCSV(text){
-      const rows=[]; let i=0, cur=[], val='', q=false;
-      while(i<text.length){
-        const c=text[i++]; if(q){ if(c==='"' && text[i]==='"'){ val+='"'; i++; } else if(c==='"'){ q=false; } else val+=c; }
-        else{ if(c===','){ cur.push(val); val=''; } else if(c==='"'){ q=true; }
-          else if(c==='\n'){ cur.push(val); rows.push(cur); cur=[]; val=''; }
-          else if(c!=='\r'){ val+=c; } }
-      }
-      if(val.length||cur.length) { cur.push(val); rows.push(cur); }
-      return rows;
+/* ======= utilitário de aviso ======= */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity=1;
+  clearTimeout(window.__tid); window.__tid=setTimeout(()=>t.style.opacity=0,2000);
+}
+
+/* ======= normalizações ======= */
+const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+function toISO(d){ // dd/mm/yyyy ou yyyy/mm/dd -> yyyy-mm-dd
+  const s=(d||'').replace(/[-.]/g,'/').trim();
+  const parts=s.split('/');
+  if(parts.length!==3) return null;
+  if(parts[0].length===4){ // yyyy/mm/dd
+    const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+  }
+  const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+}
+function fmtBR(d){ return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+
+/* ======= parser CSV robusto ======= */
+function parseCSV(text){
+  const rows=[]; let i=0, cur=[], val='', q=false;
+  while(i<text.length){
+    const c=text[i++];
+    if(q){
+      if(c==='"' && text[i]==='"'){ val+='"'; i++; }
+      else if(c==='"'){ q=false; }
+      else val+=c;
+    }else{
+      if(c===','){ cur.push(val); val=''; }
+      else if(c==='"'){ q=true; }
+      else if(c==='\n'){ cur.push(val); rows.push(cur); cur=[]; val=''; }
+      else if(c!=='\r'){ val+=c; }
     }
-    async function fetchCSV(url){
-      const cb = Math.floor(Date.now()/60000);
-      const u1 = url + (url.includes('?')?'&':'?') + 'cb='+cb;
-      try{ const r=await fetch(u1,{mode:'cors'}); if(!r.ok) throw new Error(r.status); return await r.text(); }
-      catch(e){ const prox='https://api.allorigins.win/raw?url='+encodeURIComponent(u1); const r=await fetch(prox); if(!r.ok) throw new Error('fallback '+r.status); return await r.text(); }
-    }
-    function findCol(header, candidates){ for(const c of candidates){ const i=header.indexOf(norm(c)); if(i>=0) return i; } return -1; }
+  }
+  if(val.length||cur.length) { cur.push(val); rows.push(cur); }
+  return rows;
+}
 
-    /* ======= horas-refs ======= */
-    let _refsRows=null, _refsHeader=null;
-    async function ensureRefs(){
-      if(_refsRows) return;
-      toast('Carregando referências…');
-      const txt = await fetchCSV(HORAS_REFS_CSV_URL);
-      const rows = parseCSV(txt).filter(r=>r.length && r.join('').trim()!=='');
-      const header = rows.shift().map(h=>norm(h));
-      _refsHeader=header; _refsRows=rows;
-    }
-    async function openRefs(kind, turno, dateObj){
-      // kind: 'synaxarion' | 'salmo'
-      await ensureRefs();
-      const h=_refsHeader, rs=_refsRows;
-      const iDate = findCol(h, ['date','data','dia']);
-      const iType = findCol(h, ['item_type','tipo','item']);
-      const iTurno= findCol(h, ['turno','periodo','período']);
-      const iLab  = findCol(h, ['label','rotulo','rótulo']);
-      const iUrl  = findCol(h, ['url','link','doc','arquivo','link_doc']);
-      const iEn   = findCol(h, ['enabled','publicado','ativo']);
-      if([iDate,iType,iUrl].some(x=>x<0)){ toast('Planilha horas-refs: cabeçalhos ausentes'); return; }
-      const todayBR = fmtBR(dateObj);  const todayISO = toISO(todayBR);
-      const alvoT = norm(turno||'');
-      const row = rs.find(r=>{
-        const d=(r[iDate]||'').trim();
-        const typeOK = norm(r[iType])===norm(kind);
-        const dateOK = (toISO(d)===todayISO) || (d===todayBR);
-        const turnOK = iTurno>=0 ? (alvoT? norm(r[iTurno])===alvoT : true) : true;
-        const enOK   = iEn>=0 ? String(r[iEn]).trim()==='1' : true;
-        return typeOK && dateOK && turnOK && enOK;
-      });
-      if(!row){ toast('Sem referência para esta data.'); return; }
-      const link=(row[iUrl]||'').trim(); if(!link){ toast('Link vazio.'); return; }
-      window.open(link,'_blank');
-    }
+/* ======= fetch CSV (com cache-busting e fallback AllOrigins) ======= */
+async function fetchCSV(url){
+  const cb = Math.floor(Date.now()/60000); // muda a cada minuto
+  const u1 = url + (url.includes('?')?'&':'?') + 'cb='+cb;
+  try{
+    const r=await fetch(u1,{mode:'cors'});
+    if(!r.ok) throw new Error(r.status);
+    return await r.text();
+  }catch(e){
+    const prox='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);
+    const r=await fetch(prox);
+    if(!r.ok) throw new Error('fallback '+r.status);
+    return await r.text();
+  }
+}
 
-    /* ======= UI ======= */
-    function mkLink(href,l1,l2=''){
-      const a=document.createElement('a');
-      a.href=href; a.className='btn tall';
-      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
-        <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}
-      </span>`;
-      return a;
-    }
-    function mkAction(label1,label2,onclick){
-      const a=document.createElement('a');
-      a.href='#'; a.className='btn tall';
-      a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
-        <span class="line1">${label1}</span>${label2?`<span class="line2">${label2}</span>`:''}
-      </span>`;
-      a.addEventListener('click', (e)=>{ e.preventDefault(); onclick(); });
-      return a;
-    }
+/* ======= lookup de link por (data, periodo) ======= */
+let _salmosRows=null, _salmosHeader=null;
+async function ensureSalmos(){
+  if(_salmosRows) return;
+  toast('Carregando referências…');
+  const txt = await fetchCSV(SALMOS_CSV_URL);
+  const rows = parseCSV(txt).filter(r=>r.length && r.join('').trim()!=='');
+  const header = rows.shift().map(h=>norm(h));
+  _salmosHeader=header; _salmosRows=rows;
+}
+function findCol(header, candidates){
+  for(const c of candidates){ const i=header.indexOf(norm(c)); if(i>=0) return i; }
+  return -1;
+}
+async function openSalmo(periodo, dateObj){
+  try{
+    await ensureSalmos();
+    const h=_salmosHeader, rs=_salmosRows;
+    const iData = findCol(h, ['data','date','dia']);
+    const iPer  = findCol(h, ['periodo','período','turno']);
+    const iLink = findCol(h, ['link_doc','link','url','doc','arquivo']);
+    if(iData<0 || iPer<0 || iLink<0){ toast('Planilha: cabeçalhos não encontrados'); return; }
 
-    // data selecionada (default: hoje ou ?d=)
-    let currentDate=new Date();
-    const urlD = new URLSearchParams(location.search).get('d');
-    if(urlD && /^\d{4}-\d{2}-\d{2}$/.test(urlD)){
-      const [Y,M,D]=urlD.split('-'); currentDate=new Date(Number(Y),Number(M)-1,Number(D));
-    }
-    function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
-    function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
-    function updateDateBar(){
-      document.getElementById('date-text').textContent=formatDateBR(currentDate);
-      const wd = weekdayBR(currentDate);
-      document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
-      mountButtons(); // atualiza os ?d=...
-    }
-    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
-    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
+    const todayBR = fmtBR(dateObj);        // dd/mm/yyyy
+    const todayISO = toISO(todayBR);       // yyyy-mm-dd
+    const alvoPer = norm(periodo);         // manha|tarde
 
-    function mountButtons(){
-      const c=document.getElementById('col'); c.innerHTML='';
-      const d = fmtISO(currentDate);
+    const row = rs.find(r=>{
+      const d = (r[iData]||'').trim();
+      const p = norm(r[iPer]);
+      const eq = (toISO(d)===todayISO) || (d===todayBR);
+      const perOK = (alvoPer.startsWith('m') ? (p===norm('manhã')||p===norm('manha')) :
+                    alvoPer.startsWith('t') ? p.startsWith('t') : p===alvoPer);
+      return eq && perOK;
+    });
 
-      // filhos recebem a data ?d=YYYY-MM-DD
-      c.append(mkLink(`safro-hora.html?from=horas&d=${d}`,'Safro','oração da manhã'));
-      c.append(mkAction('Salmo do Dia e Leitura','manhã', ()=>openRefs('salmo','manha', currentDate)));
-      c.append(mkLink(`terca-hora.html?from=horas&d=${d}`,'Hora Terça','9 horas'));
-      c.append(mkLink(`sexta-hora.html?from=horas&d=${d}`,'Hora Sexta','12 horas'));
-      c.append(mkLink(`nona-hora.html?from=horas&d=${d}`,'Hora Nona','15 horas'));
+    if(!row){ toast('Não há referência para esta data/turno'); return; }
+    const link=(row[iLink]||'').trim();
+    if(!link){ toast('Link vazio na planilha'); return; }
+    window.open(link,'_blank');
+  }catch(e){
+    console.error(e); toast('Falha ao abrir referência');
+  }
+}
 
-      // Synaxarion abre o .doc do dia
-      c.append(mkAction('Synaxarion','', ()=>openRefs('synaxarion','', currentDate)));
+/* ======= estado de data (deve vir antes de montar os botões) ======= */
+function q(name){return new URLSearchParams(location.search).get(name)}
+function todayISO(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${da}`;}
+let currentDate = (()=>{ const d=q('d'); return (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) ? new Date(d+'T00:00:00') : new Date(); })();
 
-      c.append(mkLink(`ramsho-hora.html?from=horas&d=${d}`,'Ramsho','oração da tarde'));
-      c.append(mkAction('Salmo do Dia e Leitura','tarde', ()=>openRefs('salmo','tarde', currentDate)));
-      c.append(mkLink(`sutoro-hora.html?from=horas&d=${d}`,'Sutoro','oração da noite'));
-      c.append(mkLink(`lilyo-hora.html?from=horas&d=${d}`,'Lilyo','vigílias'));
+/* ======= montar botões (com HREFs incluindo ?d=YYYY-MM-DD) ======= */
+function mkLink(href,l1,l2=''){
+  const iso = toISO(currentDate.toLocaleDateString('pt-BR'));
+  const url = href + (href.includes('?')?'&':'?') + 'd=' + iso;
+  const a=document.createElement('a');
+  a.href=url; a.className='btn tall';
+  a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
+    <span class="line1">${l1}</span>${l2?`<span class="line2">${l2}</span>`:''}
+  </span>`;
+  return a;
+}
+function mkSalmoBtn(turno,l2){
+  const a=document.createElement('a');
+  a.href='#'; a.className='btn tall'; a.dataset.salmo=turno;
+  a.innerHTML=`<img src="img/cruz3.png" alt=""><span class="label">
+    <span class="line1">Salmo do Dia e Leitura</span>${l2?`<span class="line2">${l2}</span>`:''}
+  </span>`;
+  return a;
+}
 
-      document.getElementById('btn-cal').href = 'calendario.html?from=horas';
-    }
+(function mountButtons(){
+  const c=document.getElementById('col');
+  c.append(mkLink('safro-hora.html','Safro','oração da manhã'));
+  c.append(mkSalmoBtn('manha','manhã'));
+  c.append(mkLink('terca-hora.html','Hora Terça','9 horas'));
+  c.append(mkLink('sexta-hora.html','Hora Sexta','12 horas'));
+  c.append(mkLink('nona-hora.html','Hora Nona','15 horas'));
+  c.append(mkLink('synaxarion.html','Synaxarion'));
+  c.append(mkLink('ramsho-hora.html','Ramsho','oração da tarde'));
+  c.append(mkSalmoBtn('tarde','tarde'));
+  c.append(mkLink('sutoro-hora.html','Sutoro','oração da noite'));
+  c.append(mkLink('lilyo-hora.html','Lilyo','vigílias'));
 
-    updateDateBar();
+  // calendário: também preserva a data
+  const iso = toISO(currentDate.toLocaleDateString('pt-BR'));
+  const cal = document.getElementById('cal-btn');
+  cal.href = `calendario.html?from=horas&d=${iso}`;
+})();
 
-    document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
-    for(const el of document.querySelectorAll('.hint-arrow')){ el.addEventListener('animationend', ()=>{ el.remove(); }, { once:true }); }
-  </script>
+// clique nos dois botões de Salmo/Leitura (manhã/tarde)
+document.addEventListener('click', async (e)=>{
+  const a=e.target.closest('a[data-salmo]');
+  if(!a) return;
+  e.preventDefault();
+  const turno=a.dataset.salmo; // 'manha' | 'tarde'
+  await openSalmo(turno, currentDate);
+});
+
+/* ======= barra de data ======= */
+function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
+function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
+function updateDateBar(){
+  document.getElementById('date-text').textContent=formatDateBR(currentDate);
+  const wd = weekdayBR(currentDate);
+  document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
+
+  // atualizar HREFs com nova data
+  document.querySelectorAll('.col a[href]').forEach(a=>{
+    const url=new URL(a.href, location.href);
+    url.searchParams.set('d', toISO(currentDate.toLocaleDateString('pt-BR')));
+    a.href = url.pathname + '?' + url.searchParams.toString();
+  });
+  // calendário também
+  const cal = document.getElementById('cal-btn');
+  const url=new URL(cal.href, location.href);
+  url.searchParams.set('d', toISO(currentDate.toLocaleDateString('pt-BR')));
+  cal.href = url.pathname + '?' + url.searchParams.toString();
+}
+document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
+document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
+updateDateBar();
+
+/* ======= ícone “chip” ======= */
+document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+
+/* ======= remover as setas após a animação ======= */
+for(const el of document.querySelectorAll('.hint-arrow')){
+  el.addEventListener('animationend', ()=>{ el.remove(); }, { once:true });
+}
+</script>
 </body>
 </html>
+
 
