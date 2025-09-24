@@ -66,8 +66,8 @@
 
 <script>
 /* ====== CONFIG ====== */
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv'; // <-- horas-menu (CSV publicado)
-const PAGE_SLUG = 'sutoro';
+const SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=970478871&single=true&output=csv';
+const PAGE_SLUG='sutoro';
 
 /* ====== HELPERS ====== */
 const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
@@ -89,14 +89,14 @@ function mkBtn(label, subtitle, url){
 
 /* ====== BOOT ====== */
 (async function(){
-  const iso = (q('d') && /^\d{4}-\d{2}-\d{2}$/.test(q('d'))) ? q('d') : todayISO();
-  document.getElementById('backLink').href = `horas-teste.html?d=${iso}`;
+  const iso=(q('d')&&/^\d{4}-\d{2}-\d{2}$/.test(q('d')))?q('d'):todayISO();
+  document.getElementById('backLink').href=`horas-teste.html?d=${iso}`;
 
   try{
-    const txt = await fetchCSV(SHEET_URL);
-    const rows = parseCSV(txt).filter(r=>r.join('').trim()!=='');
-    const head = rows.shift().map(h=>norm(h));
-    const idx = nms => nms.map(n=>head.indexOf(norm(n))).find(i=>i>=0);
+    const txt=await fetchCSV(SHEET_URL);
+    const rows=parseCSV(txt).filter(r=>r.join('').trim()!=='');
+    const head=rows.shift().map(h=>norm(h));
+    const idx=nms=>nms.map(n=>head.indexOf(norm(n))).find(i=>i>=0);
 
     const iDate=idx(['date','data','dia']);
     const iSlug=idx(['page_slug','pagina','page']);
@@ -106,19 +106,16 @@ function mkBtn(label, subtitle, url){
     const iOrd =idx(['order','ordem','pos']);
     const iEn  =idx(['enabled','ativo','publicado']);
 
-    let list = rows.filter(r=>norm(r[iSlug])===PAGE_SLUG && (iEn<0 || String(r[iEn]||'1').trim()!=='0'));
-    const today = list.filter(r=> iDate>=0 && toISO((r[iDate]||'').trim())===iso);
-    list = today.length ? today : list.filter(r=> iDate<0 || (r[iDate]||'').trim()==='');
-
+    let list=rows.filter(r=>norm(r[iSlug])===PAGE_SLUG && (iEn<0 || String(r[iEn]||'1').trim()!=='0'));
+    const today=list.filter(r=> iDate>=0 && toISO((r[iDate]||'').trim())===iso);
+    list=today.length?today:list.filter(r=> iDate<0 || (r[iDate]||'').trim()==='');
     list.sort((a,b)=>(parseInt(a[iOrd]||0)-parseInt(b[iOrd]||0)));
 
     const col=document.getElementById('col');
     if(!list.length){ toast('Nenhum link disponível para a data.'); }
     list.forEach(r=> col.appendChild(mkBtn(r[iLab], r[iSub], r[iUrl])) );
-  }catch(e){ console.error(e); toast('Erro ao carregar planilha'); }
+  }catch(e){console.error(e);toast('Erro ao carregar planilha');}
 })();
 </script>
 </body>
 </html>
-
-
