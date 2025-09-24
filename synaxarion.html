@@ -101,6 +101,11 @@ h1{
 </style>
 
 <script>
+  /* ===================== CONFIG: CSV publicado da aba "synaxarion" ===================== */
+  const SYNAX_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1675772005&single=true&output=csv';
+  /* ==================================================================================== */
+
+  /* ----------------- helpers de URL/data ----------------- */
   function getParam(n){ return new URLSearchParams(location.search).get(n); }
   function setDate(iso){
     const u = new URL(location.href);
@@ -125,14 +130,125 @@ h1{
       location.href='index-teste.html';
     }
   }
+
+  /* ----------------- CSV utils (parser + fetch com fallback) ----------------- */
+  function parseCSV(text){
+    const rows=[]; let i=0, cur=[], val='', q=false;
+    while(i<text.length){
+      const c=text[i++];
+      if(q){
+        if(c==='"' && text[i]==='"'){ val+='"'; i++; }
+        else if(c==='"'){ q=false; }
+        else val+=c;
+      }else{
+        if(c===','){ cur.push(val); val=''; }
+        else if(c==='"'){ q=true; }
+        else if(c==='\n'){ cur.push(val); rows.push(cur); cur=[]; val=''; }
+        else if(c!=='\r'){ val+=c; }
+      }
+    }
+    if(val.length||cur.length){ cur.push(val); rows.push(cur); }
+    return rows;
+  }
+  async function fetchCSV(url){
+    const cb=Math.floor(Date.now()/60000);
+    const u1=url+(url.includes('?')?'&':'?')+'cb='+cb;
+    try{
+      const r=await fetch(u1,{mode:'cors'});
+      if(!r.ok) throw new Error(r.status);
+      return await r.text();
+    }catch(e){
+      const prox='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);
+      const r=await fetch(prox);
+      if(!r.ok) throw new Error('fallback '+r.status);
+      return await r.text();
+    }
+  }
+  const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+
+  // Converte vários formatos da planilha em ISO yyyy-mm-dd
+  function toISOfromCSV(val){
+    const s=(val||'').toString().trim();
+
+    // 1) DDMMAAAA (8 dígitos sem separador)
+    if(/^\d{8}$/.test(s)){
+      const dd=s.slice(0,2), mm=s.slice(2,4), yyyy=s.slice(4,8);
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    // 2) dd/mm/aaaa  OU  yyyy/mm/dd (ou com '-' ou '.')
+    const t=s.replace(/[-.]/g,'/'); // normaliza separadores
+    const parts=t.split('/');
+    if(parts.length===3){
+      if(parts[0].length===4){ // yyyy/mm/dd
+        const [y,m,da]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+      }else{ // dd/mm/yyyy
+        const [da,m,y]=parts; return `${y.padStart(4,'0')}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+      }
+    }
+
+    // 3) já no formato yyyy-mm-dd
+    if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+
+    return null; // formato inesperado
+  }
+
+  /* ----------------- carregamento do doc do dia ----------------- */
+  async function loadSynaxFor(iso){
+    const box=document.getElementById('conteudo');
+    box.innerHTML='Carregando…';
+    try{
+      const txt=await fetchCSV(SYNAX_CSV_URL);
+      const rows=parseCSV(txt).filter(r=>r.join('').trim()!=='');
+      const head=rows.shift().map(h=>norm(h));
+      const idx = names => names.map(n=>head.indexOf(norm(n))).find(i=>i>=0);
+      const iDate=idx(['data','date','dia']);
+      const iUrl =idx(['url','link','doc','arquivo']);
+      const iLab =idx(['label','rotulo','rótulo','titulo','título']);
+      const iEn  =idx(['enabled','ativo','publicado']);
+
+      const row = rows.find(r=>{
+        const rowIso = toISOfromCSV(r[iDate]);
+        const okDate = rowIso === iso;
+        const okEn = (iEn<0) || String(r[iEn]||'1').trim()!=='0';
+        return okDate && okEn;
+      });
+
+      if(!row){ box.innerHTML='<em>Nenhum documento para esta data.</em>'; return; }
+
+      const u=(row[iUrl]||'').trim();
+      const lab=(row[iLab]||'Abrir documento').trim();
+      if(!u){ box.innerHTML='<em>Documento sem URL.</em>'; return; }
+
+      box.innerHTML = `
+        <div style="display:flex;justify-content:center;margin:12px 0">
+          <a href="${u}" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:14px;
+                    background:#fff;color:#a00000;font-weight:900;text-decoration:none;
+                    box-shadow:0 6px 14px rgba(0,0,0,.10), inset 0 0 0 3px #b08a2e, inset 0 0 0 6px #a00000;">
+            <img src="img/cruz3.png" alt="" style="width:26px;height:26px;border-radius:50%;border:2px solid #b08a2e">
+            <span>${lab}</span>
+          </a>
+        </div>`;
+    }catch(e){
+      console.error(e);
+      box.innerHTML='<em>Falha ao carregar planilha do Synaxarion.</em>';
+    }
+  }
+
+  /* ----------------- boot: data label + carregar conteúdo ----------------- */
   document.addEventListener('DOMContentLoaded', ()=>{
     const iso = getParam('data') || new Date().toISOString().slice(0,10);
     const d = new Date(iso + 'T00:00:00');
+    // escreve rótulo da data no botão central
     const opts = { day:'2-digit', month:'long' };
     let label = d.toLocaleDateString('pt-BR', opts);
     label = label.charAt(0).toUpperCase() + label.slice(1);
     const el = document.getElementById('btnData');
     if(el) el.textContent = label;
+
+    // carrega conteúdo do dia
+    loadSynaxFor(iso);
   });
 </script>
 </head>
@@ -161,4 +277,5 @@ h1{
   </div>
 </body>
 </html>
+
 
