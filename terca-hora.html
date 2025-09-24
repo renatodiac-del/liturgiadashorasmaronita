@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hora Terça</title>
+<meta name="theme-color" content="#ffedd6">
 <style>
   :root{ --dourado:#a9842b; --bordo:#7a1b1b; --pastel:#ffe5c7; --pastel2:#ffedd6; --laranja:#ff8c00; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
   *{box-sizing:border-box}
@@ -25,41 +26,78 @@
     max-width:clamp(305px, 85vw, 543px); width:100%; height:auto; object-fit:contain; object-position:center;
     border:6px solid var(--dourado); border-radius:0; box-shadow:0 6px 18px var(--sombra);
   }
-  .wrap{ max-width:600px; margin:0 auto; padding:20px 20px 0; display:flex; flex-direction:column; gap:8px; align-items:center; position:relative; z-index:1; }
+  .wrap{ max-width:600px; margin:0 auto; padding:20px 20px 0; display:flex; flex-direction:column; gap:12px; align-items:center; position:relative; z-index:1; flex:1; }
   .btn{
     position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
-    border:2px solid var(--dourado); border-radius:14px; width:66%; min-width:280px; min-height:36px; padding:4px 12px;
+    border:2px solid var(--dourado); border-radius:14px; width:66%; min-width:280px; min-height:40px; padding:6px 12px;
     box-shadow:0 4px 10px var(--sombra); color:#ffd700; text-align:center; font-weight:800; transition:transform .08s, box-shadow .12s; overflow:hidden; margin:0 auto;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
   .btn .icon-round{ width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto; }
-  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; }
+  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0; pointer-events:none; text-align:center; }
   .btn .main{ font-size:24px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); color:currentColor; }
 
-  .wrap .btn:last-of-type{ margin-bottom:0; }
-  footer{ text-align:center; margin:4px 0 18px; margin-top:4px; position:relative; z-index:1; }
+  footer{ text-align:center; margin:8px 0 22px; position:relative; z-index:1; }
   .btn-voltar{
     display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none;
     border:none; border-radius:999px; padding:6px 12px; font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra); transform:scale(.6);
   }
+  #toast{position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:9px 14px; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:.2s}
 </style>
 </head>
 <body>
   <header>
     <h1 class="titulo">Hora Terça</h1>
     <div class="subtitulo">9 horas</div>
-    <img class="hero-icon" src="img/icone-terca.horas.jpg" alt="Ícone principal Terça">
+    <img class="hero-icon" src="img/icone-terca.horas.jpg" alt="Ícone principal Terça" onerror="this.src='img/cedro.jpg'">
   </header>
 
   <main class="wrap">
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Oração</span></span></a>
-    <a href="#" class="btn"><img class="icon-round" src="img/cedro.jpg" alt="Cedro"><span class="label"><span class="main">Hinos e Melodias</span></span></a>
+    <div id="col"></div>
   </main>
 
   <footer>
-    <a class="btn-voltar" href="horas-teste.html">← voltar</a>
+    <a class="btn-voltar" id="backLink" href="horas-teste.html">← voltar</a>
   </footer>
+
+  <div id="toast"></div>
+
+<script>
+/* ====== CONFIG ====== */
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=970478871&single=true&output=csv'; // horas-menu
+const PAGE_SLUG = 'terca';
+
+/* ====== HELPERS / UI / BOOT (mesmo padrão das outras páginas-mãe) ====== */
+const norm=s=>(s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+function parseCSV(t){const r=[];let i=0,c=[],v='',q=false;while(i<t.length){const ch=t[i++];if(q){if(ch=='"'&&t[i]=='"'){v+='"';i++;}else if(ch=='"'){q=false;}else v+=ch;}else{if(ch===','){c.push(v);v='';}else if(ch=='"'){q=true;}else if(ch=='\n'){c.push(v);r.push(c);c=[];v='';}else if(ch!=='\r'){v+=ch;}}}if(v.length||c.length){c.push(v);r.push(c);}return r;}
+async function fetchCSV(u){const cb=Math.floor(Date.now()/60000);const u1=u+(u.includes('?')?'&':'?')+'cb='+cb;try{const r=await fetch(u1);if(!r.ok)throw new Error(r.status);return await r.text();}catch(e){const p='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);const r=await fetch(p);if(!r.ok)throw new Error('fallback '+r.status);return await r.text();}}
+function toISO(d){const s=(d||'').replace(/[-.]/g,'/').trim();const p=s.split('/');if(p.length!==3)return null;if(p[0].length===4){const[y,m,da]=p;return`${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;}const[da,m,y]=p;return`${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;}
+function todayISO(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${da}`;}
+function q(name){return new URLSearchParams(location.search).get(name)}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,2200);}
+function mkBtn(label, subtitle, url){const a=document.createElement('a');a.className='btn';a.href=url||'#';a.target='_blank';if(!url){a.style.opacity='.45';a.style.pointerEvents='none';}a.innerHTML=`<img class="icon-round" src="img/cedro.jpg" alt=""><span class="label"><span class="main">${label||''}</span>${subtitle?`<span class="main" style="font-size:16px">${subtitle}</span>`:''}</span>`;return a;}
+
+(async function(){
+  const iso = (q('d') && /^\d{4}-\d{2}-\d{2}$/.test(q('d'))) ? q('d') : todayISO();
+  document.getElementById('backLink').href = `horas-teste.html?d=${iso}`;
+  try{
+    const txt = await fetchCSV(SHEET_URL);
+    const rows = parseCSV(txt).filter(r=>r.join('').trim()!=='');
+    const head = rows.shift().map(h=>norm(h));
+    const idx = nms => nms.map(n=>head.indexOf(norm(n))).find(i=>i>=0);
+    const iDate=idx(['date','data','dia']); const iSlug=idx(['page_slug','pagina','page']);
+    const iLab =idx(['label','rotulo','rótulo']); const iSub =idx(['subtitle','subtitulo','subtítulo']);
+    const iUrl =idx(['url','link','doc','arquivo']); const iOrd =idx(['order','ordem','pos']); const iEn  =idx(['enabled','ativo','publicado']);
+
+    let list = rows.filter(r=>norm(r[iSlug])===PAGE_SLUG && (iEn<0 || String(r[iEn]||'1').trim()!=='0'));
+    const today = list.filter(r=> iDate>=0 && toISO((r[iDate]||'').trim())===iso);
+    list = today.length ? today : list.filter(r=> iDate<0 || (r[iDate]||'').trim()==='');
+    list.sort((a,b)=>(parseInt(a[iOrd]||0)-parseInt(b[iOrd]||0)));
+
+    const col=document.getElementById('col'); if(!list.length){ toast('Nenhum link disponível para a data.'); }
+    list.forEach(r=> col.appendChild(mkBtn(r[iLab], r[iSub], r[iUrl])) );
+  }catch(e){ console.error(e); toast('Erro ao carregar planilha'); }
+})();
+</script>
 </body>
 </html>
-
-
