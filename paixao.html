@@ -56,9 +56,9 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   border:3px solid var(--roxo);
   box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px var(--shadow);
   border-radius:18px;
-  width:100%;                         /* 87% + 15% ≈ 100% do wrap */
-  padding:12px 18px;                  /* altura confortável */
-  font-size: calc(1rem - 1pt);        /* -1 ponto tipográfico */
+  width:100%;
+  padding:12px 18px;
+  font-size: calc(1rem - 1pt);
   font-weight:bold;color:#4B0082;text-align:center;
   transition:transform .15s ease,background-color .2s ease;
 }
@@ -89,7 +89,7 @@ footer{margin-top:10px;text-align:center;padding:8px 0 14px}
   display:inline-flex; align-items:center; gap:8px; background:var(--roxo); color:#fff; text-decoration:none;
   border:1px solid #2f0656; padding:.36rem .62rem; border-radius:9px;
   font-weight:bold; font-size:.9rem;
-  transform: scale(.65);                 /* 35% menor */
+  transform: scale(.65);
   transform-origin: center;
 }
 .back:hover{background:#5e1fb0}
@@ -108,9 +108,12 @@ footer{margin-top:10px;text-align:center;padding:8px 0 14px}
   <section class="buttons" aria-label="Semana da Paixão — dias e ritos">
     <a class="btn" href="sexta-tentacoes-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Sexta-feira das Tentações de Cristo</span></a>
     <a class="btn" href="sabado-lazaro-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Sábado de Lázaro</span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Chegada ao Porto</span></a>
+
+    <!-- estes dois pegam os links direto da planilha (B8 e B9) -->
+    <a class="btn" data-key="porto" href="#"><img src="img/cruz3.png" alt=""><span class="label">Chegada ao Porto</span></a>
     <a class="btn" href="domingo-hosana-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Domingo do Hosana</span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label">Rito da Lâmpada</span></a>
+    <a class="btn" data-key="lampada" href="#"><img src="img/cruz3.png" alt=""><span class="label">Rito da Lâmpada</span></a>
+
     <a class="btn" href="segunda-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Segunda-feira da Paixão</span></a>
     <a class="btn" href="terca-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Terça-feira da Paixão</span></a>
     <a class="btn" href="quarta-paixao.html"><img src="img/cruz3.png" alt=""><span class="label">Quarta-feira da Paixão</span></a>
@@ -135,7 +138,73 @@ footer{margin-top:10px;text-align:center;padding:8px 0 14px}
 document.getElementById('hero').addEventListener('load',()=>{
   const c=document.getElementById('hero-chip'); if(c) c.style.display='none';
 });
+
+/* ====== Links dinâmicos: Chegada ao Porto (B8) e Rito da Lâmpada (B9) ====== */
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1920452033&single=true&output=csv";
+
+function parseCsv(t){
+  const out=[], row=[]; let i=0,f="",q=false;
+  while(i<t.length){
+    const c=t[i];
+    if(q){
+      if(c=='"'){ if(t[i+1]=='"'){f+='"'; i++;} else q=false; }
+      else f+=c;
+    }else{
+      if(c=='"') q=true;
+      else if(c===","){ row.push(f); f=""; }
+      else if(c=="\n"){ row.push(f); out.push(row.slice()); row.length=0; f=""; }
+      else if(c!="\r"){ f+=c; }
+    }
+    i++;
+  }
+  if(f!="" || row.length){ row.push(f); out.push(row); }
+  return out;
+}
+async function loadCols(){
+  const res=await fetch(CSV_URL,{cache:"no-store"});
+  const txt=await res.text();
+  const rows=parseCsv(txt);
+  const cols=[];
+  for(let c=0;c<(rows[0]?.length||0);c++){ cols[c]=rows.map(r=>r[c]??""); }
+  return cols;
+}
+function urlAt(cols,colIndex,rowIndex){ return (cols[colIndex]?.[rowIndex]||"").trim(); }
+
+(async()=>{
+  const COL_B = 1;      // Coluna B
+  const ROW_B8 = 7;     // Linha 8 -> índice 7 (zero-based)
+  const ROW_B9 = 8;     // Linha 9 -> índice 8
+
+  const map = {
+    "porto":   ROW_B8,  // Chegada ao Porto
+    "lampada": ROW_B9   // Rito da Lâmpada
+  };
+
+  try{
+    const cols = await loadCols();
+    document.querySelectorAll("[data-key]").forEach(a=>{
+      const key = a.getAttribute("data-key");
+      const row = map[key];
+      const url = urlAt(cols, COL_B, row);
+      if(url){
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }else{
+        a.style.opacity = .6;
+        a.style.pointerEvents = "none";
+        a.title = "Link não configurado na planilha";
+      }
+    });
+  }catch(e){
+    console.error(e);
+    document.querySelectorAll("[data-key]").forEach(a=>{
+      a.style.opacity=.6; a.style.pointerEvents='none'; a.title='Erro ao carregar links';
+    });
+  }
+})();
 </script>
 </body>
 </html>
+
 
