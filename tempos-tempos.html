@@ -26,29 +26,23 @@ header{text-align:center;padding:12px 12px 0}
 }
 .buttons{display:flex;flex-direction:column;gap:12px;align-items:center}
 .btn{
-  /* Altura visual ~ -30% */
   position:relative;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;
   color:var(--marrom);background:#fff;font-weight:900;border:3px solid var(--marrom);border-radius:18px;
-  padding:7px 18px; /* 10px -> 7px */
-  width:78%;box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow);transition:.15s
+  padding:7px 18px; width:78%;box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow);transition:.15s
 }
 .btn:hover{transform:scale(1.02);background:#fff9f0}
 .btn img{
-  position:absolute;left:12px;width:18px;height:18px; /* ~ -30% do antigo 26px */
-  border-radius:50%;object-fit:cover;border:2px solid var(--ouro)
+  position:absolute;left:12px;width:18px;height:18px;border-radius:50%;object-fit:cover;border:2px solid var(--ouro)
 }
 .label{width:100%}
 .line1{display:block;color:var(--ouro);font-size:1.0rem; line-height:1.05}
 .line2{display:block;color:#000;font-size:.80rem; line-height:1.05}
-
-footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do último botão, sem encostar */
+footer{margin-top:6px;text-align:center;padding:6px 0 14px}
 .back{
   display:inline-flex;align-items:center;gap:8px;background:#a00000;color:#fff;text-decoration:none;
-  border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39) /* 0.3 -> 0.39 (+30%) */
+  border:1px solid #6f0000;padding:.36rem .62rem;border-radius:9px;font-weight:800;font-size:.9rem;transform:scale(.39)
 }
 .back:hover{background:#c00000}
-
-  /* Mini-links (Tempos) */
 .mini-links{
   margin:6px auto 0; padding-top:6px; max-width:640px;
   display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
@@ -60,8 +54,6 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do últi
   padding:.30rem .62rem; box-shadow:inset 0 0 0 2px var(--ouro), 0 2px 6px var(--shadow);
 }
 .mini-links a:hover{background:#fff9f0; transform:scale(1.02)}
-
-  
 </style>
 </head>
 <body>
@@ -71,14 +63,12 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do últi
   <img class="hero" src="img/icone-tempos.jpg" alt="Ícone — Tempos">
 
   <section class="buttons" aria-label="Ações do dia">
-    
     <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener">
       <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
     </a>
     <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
       <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
     </a>
-
     <a class="btn" data-link="safro-curta"  href="#" target="_blank" rel="noopener">
       <img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
     </a>
@@ -89,7 +79,7 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do últi
 </main>
 
 <footer>
- <a class="back" href="javascript:history.back()"
+  <a class="back" href="javascript:history.back()"
      onclick="if(!document.referrer || !document.referrer.includes('tempos.html')){this.href='tempos.html'}">← Voltar</a>
   <nav class="mini-links" aria-label="Atalhos de Tempos">
     <a href="anuncio.html">Tempo do Anúncio</a>
@@ -100,76 +90,31 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px} /* próximo do últi
 </footer>
 
 <script>
-/* Lê os 4 links do DOMINGO (coluna D) na aba "Tempos"
-   Linha 1 = cabeçalho; linhas 2..5 = Safro curta, Safro longa, Ramsho curta, Ramsho longa */
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1404816220&single=true&output=csv";
-
-/* Parser CSV que lida com aspas e vírgulas em células */
-function parseCsv(text){
-  const rows = [];
-  let i=0, field="", row=[], inQuotes=false;
-  while(i < text.length){
-    const c = text[i];
-    if (inQuotes){
-      if (c === '"'){
-        if (text[i+1] === '"'){ field+='"'; i++; }
-        else inQuotes=false;
-      } else field += c;
-    } else {
-      if (c === '"'){ inQuotes=true; }
-      else if (c === ','){ row.push(field); field=""; }
-      else if (c === '\n'){ row.push(field); rows.push(row); row=[]; field=""; }
-      else if (c === '\r'){ /* ignore */ }
-      else field += c;
-    }
-    i++;
-  }
-  if (field!=="" || row.length){ row.push(field); rows.push(row); }
-  return rows;
-}
-
-/* Transpõe p/ acessar por coluna: cols[colIndex][rowIndex] */
-async function loadCols(){
-  const res = await fetch(CSV_URL, {cache:"no-store"});
-  const txt = await res.text();
-  const rows = parseCsv(txt);
-  const cols = [];
-  const width = rows.reduce((m,r)=>Math.max(m, r.length), 0);
-  for(let c=0;c<width;c++){
-    cols[c] = rows.map(r => (r[c] ?? ""));
-  }
-  return cols;
-}
-
-/* Helper de célula limpa */
-const cell = (cols, c, r) => (cols[c]?.[r] || "").trim();
+/* Parser CSV robusto */
+function parseCsv(t){const r=[];let i=0,f="",row=[],q=false;while(i<t.length){const c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else q=false;}else f+=c;}else{if(c=='"')q=true;else if(c==','){row.push(f);f="";}else if(c=='\n'){row.push(f);r.push(row);row=[];f="";}else if(c!=='\r')f+=c;}i++;}if(f!==""||row.length){row.push(f);r.push(row);}return r;}
+/* Helper célula por [linha, coluna] (0-based) */
+const cell = (rows, r, c) => ((rows[r] && rows[r][c]) || "").trim();
+/* Constantes de linhas 0-based (2..5 -> 1..4) e coluna D=3 */
+const R_RAMSHO_CURTA=1, R_RAMSHO_LONGA=2, R_SAFRO_CURTA=3, R_SAFRO_LONGA=4;
+const C_DOMINGO = 3;
 
 (async ()=>{
   try{
-    const cols = await loadCols();
-    const COL_D = 3; // 0=A,1=B,2=C,3=D (Domingo)
-    const ROW_SAFRO_CURTA  = 1; // linha 2 (1-based) -> índice 1
-    const ROW_SAFRO_LONGA  = 2; // linha 3 -> índice 2
-    const ROW_RAMSHO_CURTA = 3; // linha 4 -> índice 3
-    const ROW_RAMSHO_LONGA = 4; // linha 5 -> índice 4
+    const res = await fetch(CSV_URL,{cache:"no-store"});
+    const rows = parseCsv(await res.text());
 
     const map = {
-      "safro-curta" : cell(cols, COL_D, ROW_SAFRO_CURTA),
-      "safro-longa" : cell(cols, COL_D, ROW_SAFRO_LONGA),
-      "ramsho-curta": cell(cols, COL_D, ROW_RAMSHO_CURTA),
-      "ramsho-longa": cell(cols, COL_D, ROW_RAMSHO_LONGA),
+      "ramsho-curta": cell(rows, R_RAMSHO_CURTA, C_DOMINGO),
+      "ramsho-longa": cell(rows, R_RAMSHO_LONGA, C_DOMINGO),
+      "safro-curta" : cell(rows, R_SAFRO_CURTA , C_DOMINGO),
+      "safro-longa" : cell(rows, R_SAFRO_LONGA , C_DOMINGO),
     };
 
     document.querySelectorAll('[data-link]').forEach(a=>{
-      const k=a.getAttribute('data-link');
-      const url=(map[k]||"").trim();
-      if(url){
-        a.href=url;
-      }else{
-        a.style.opacity=.6;
-        a.style.pointerEvents='none';
-        a.title='Link não configurado';
-      }
+      const url = (map[a.dataset.link]||"").trim();
+      if(url){ a.href=url; a.target="_blank"; a.rel="noopener"; }
+      else { a.style.opacity=.6; a.style.pointerEvents='none'; a.title='Link não configurado'; }
     });
   }catch(e){
     console.error(e);
@@ -181,4 +126,5 @@ const cell = (cols, c, r) => (cols[c]?.[r] || "").trim();
 </script>
 </body>
 </html>
+
 
