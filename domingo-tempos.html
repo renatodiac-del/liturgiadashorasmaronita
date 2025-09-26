@@ -104,7 +104,7 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
       </a>
     </div>
 
-    <!-- 5) Ramsho (versão longa) — via shots -->
+    <!-- 5) Ramsho (versão longa) — via Tempos -->
     <div class="btn-row">
       <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
       <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener">
@@ -113,7 +113,7 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
       </a>
     </div>
 
-    <!-- 6) Safro (versão longa) — via shots -->
+    <!-- 6) Safro (versão longa) — via Tempos -->
     <div class="btn-row">
       <span class="blink-arr left">⬇</span><span class="blink-arr right">⬇</span>
       <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener">
@@ -130,17 +130,83 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
 </footer>
 
 <script>
-/* 2 LINKS via planilha “shots” (que apontarão para .doc) */
-const LINKS = {
-  'ramsho-longa': 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D3',
-  'safro-longa' : 'https://docs.google.com/spreadsheets/d/ID_PLANILHA/edit#gid=0&range=D4'
-};
+/* Lê os LINKS dos dois botões finais a partir da aba "Tempos" publicada (coluna D, linhas 5 e 3) */
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1404816220&single=true&output=csv";
 
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link');
-  if (LINKS[k]) a.href = LINKS[k];
-  else { a.style.opacity=.6; a.style.pointerEvents='none'; a.title='Link não configurado'; }
-});
+/* Parser CSV que suporta campos entre aspas e vírgulas dentro de células */
+function parseCsv(text){
+  const rows = [];
+  let i=0, field="", row=[], inQuotes=false;
+  while(i < text.length){
+    const c = text[i];
+    if (inQuotes){
+      if (c === '"'){
+        if (text[i+1] === '"'){ field+='"'; i++; }
+        else inQuotes=false;
+      } else field += c;
+    } else {
+      if (c === '"'){ inQuotes=true; }
+      else if (c === ','){ row.push(field); field=""; }
+      else if (c === '\n'){ row.push(field); rows.push(row); row=[]; field=""; }
+      else if (c === '\r'){ /* ignora */ }
+      else field += c;
+    }
+    i++;
+  }
+  if (field!=="" || row.length){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+/* Constrói um array de colunas (transposto) para acesso por [coluna][linha] */
+async function loadCols(){
+  const res = await fetch(CSV_URL, {cache:"no-store"});
+  const txt = await res.text();
+  const rows = parseCsv(txt);
+  const cols = [];
+  for(let c=0;c<(rows[0]?.length||0);c++){
+    cols[c] = rows.map(r => (r[c] ?? ""));
+  }
+  return cols;
+}
+
+/* Helper: devolve string limpa da célula */
+function cell(cols, colIndex, rowIndex){
+  return (cols[colIndex]?.[rowIndex] || "").trim();
+}
+
+/* Aplicar apenas nos dois botões finais (data-link) */
+(async ()=>{
+  try{
+    const cols = await loadCols();
+    const COL_D = 3;          // Coluna D = Domingo (0=A,1=B,2=C,3=D)
+    const ROW_SAFRO_LONGA  = 2; // Linha 3 (Safro longa) -> índice zero 2
+    const ROW_RAMSHO_LONGA = 4; // Linha 5 (Ramsho longa) -> índice zero 4
+
+    const map = {
+      "safro-longa":  cell(cols, COL_D, ROW_SAFRO_LONGA),
+      "ramsho-longa": cell(cols, COL_D, ROW_RAMSHO_LONGA),
+    };
+
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      const k = a.getAttribute('data-link');
+      const url = (map[k] || "").trim();
+      if (url){
+        a.href = url;
+      } else {
+        a.style.opacity = .6;
+        a.style.pointerEvents = 'none';
+        a.title = 'Link não configurado';
+      }
+    });
+  }catch(e){
+    console.error(e);
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      a.style.opacity=.6;
+      a.style.pointerEvents='none';
+      a.title='Erro ao carregar links';
+    });
+  }
+})();
 
 /* Remover as setas após piscar 4x */
 document.querySelectorAll('.blink-arr').forEach(el=>{
@@ -149,5 +215,3 @@ document.querySelectorAll('.blink-arr').forEach(el=>{
 </script>
 </body>
 </html>
-
-
