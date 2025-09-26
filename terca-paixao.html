@@ -9,7 +9,7 @@
 :root{
   --ouro:#d6b25a; --roxo:#4B0082; --shadow:rgba(0,0,0,.16);
   --fonte: Arial, Helvetica, sans-serif; --verm:#a00000; --bordo:#5a0010;
-  --hero-max:588px; /* 420px * 1.4 = 588px (ícone +40%) */
+  --hero-max:588px;
 }
 body{
   margin:0; font-family:var(--fonte); color:#1a1a1a; background:var(--bordo);
@@ -19,52 +19,27 @@ body{
   background-blend-mode: overlay;
   display:flex; flex-direction:column; min-height:100vh;
 }
-
-/* Cabeçalho */
 header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
 .title{
   color:var(--verm); font-weight:900; margin:0; line-height:1.08;
   font-size: calc(1.9rem - 3pt);
   text-shadow:-1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo), -1px 1px 0 var(--roxo), 1px 1px 0 var(--roxo);
 }
-
-/* Área principal */
 .wrap{width:100%;max-width:720px;margin:0 auto;padding:10px 16px 4px}
-
-/* Ícone 40% maior e com um pequeno espaço para os botões */
-.hero{
-  display:block;
-  margin:10px auto 10px;        /* mínimo espaço antes dos botões */
-  max-width:100%;
-  height:auto;
-  max-height:var(--hero-max);   /* 588px */
-  border:6px solid var(--ouro);
-  box-shadow:0 0 0 4px var(--roxo);
-  border-radius:12px;
-}
+.hero{display:block;margin:10px auto 10px;max-width:100%;height:auto;max-height:var(--hero-max);border:6px solid var(--ouro);box-shadow:0 0 0 4px var(--roxo);border-radius:12px}
 .hero[hidden]{display:none}
-
-/* Chip de fallback (aparece se a imagem falhar) */
-.chip{
-  display:inline-block;margin:8px 0 6px;padding:10px 14px;background:rgba(255,255,255,.92);
-  border:3px solid var(--ouro);box-shadow:0 0 0 2px var(--roxo) inset;border-radius:14px;font-weight:800;color:#4B0082
-}
-
-/* Botões grandes — próximos ao ícone (sem encostar) */
+.chip{display:inline-block;margin:8px 0 6px;padding:10px 14px;background:rgba(255,255,255,.92);border:3px solid var(--ouro);box-shadow:0 0 0 2px var(--roxo) inset;border-radius:14px;font-weight:800;color:#4B0082}
 .buttons{display:flex;flex-direction:column;gap:6px;align-items:center;margin-top:0}
 .btn{
   position:relative;display:flex;align-items:center;justify-content:center;gap:.25rem;background:#fff;text-decoration:none;cursor:pointer;
   border:3px solid var(--roxo);box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px rgba(0,0,0,.15);
-  border-radius:18px;padding:10px 20px;
-  width:87%;transition:transform .15s ease,background-color .2s ease;
+  border-radius:18px;padding:10px 20px;width:87%;transition:transform .15s ease,background-color .2s ease;
 }
 .btn:hover{transform:scale(1.02);background:#fff8e8}
 .btn img{position:absolute;left:12px;width:26px;height:26px;object-fit:cover;border-radius:50%;border:2px solid var(--ouro)}
 .btn .label{display:inline-block;width:100%;text-align:center;color:#4B0082;font-weight:800;line-height:1.15}
 .btn .label .top{display:block;font-size:1.02rem;color:#b8860b}
 .btn .label .sub{display:block;font-size:.82rem;color:#111}
-
-/* Botão voltar bem próximo ao último botão */
 footer{margin-top:2px;text-align:center;padding:4px 0 8px}
 .back{
   display:inline-flex;align-items:center;gap:8px;background:#4B0082;color:#fff;text-decoration:none;border:1px solid #2f0656;
@@ -82,11 +57,10 @@ footer{margin-top:2px;text-align:center;padding:4px 0 8px}
   <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
 
   <section class="buttons" aria-label="Terça-feira da Paixão — opções">
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
-   
+    <a class="btn" data-key="ramsho-curta" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" data-key="ramsho-longa" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
+    <a class="btn" data-key="safro-curta"  href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" data-key="safro-longa"  href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
   </section>
 </main>
 
@@ -95,14 +69,22 @@ footer{margin-top:2px;text-align:center;padding:4px 0 8px}
 </footer>
 
 <script>
-  // Se o ícone carregar, mantemos o chip oculto
-  const hero = document.getElementById('hero');
-  if (hero) {
-    hero.addEventListener('load', () => {
-      const chip = document.getElementById('hero-chip');
-      if (chip) chip.style.display = 'none';
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1920452033&single=true&output=csv";
+function parseCsv(t){const r=[];let i=0,f="",row=[],q=!1;while(i<t.length){const c=t[i];if(q){if(c=='\"'){if(t[i+1]=='\"'){f+='\"';i++;}else q=!1;}else f+=c;}else{if(c=='\"')q=!0;else if(c==","){row.push(f);f="";}else if(c=="\n"){row.push(f);r.push(row);row=[];f="";}else if(c!="\r")f+=c;}i++;}if(f!=""||row.length){row.push(f);r.push(row);}return r;}
+async function loadCols(){const res=await fetch(CSV_URL,{cache:"no-store"});const txt=await res.text();const rows=parseCsv(txt);const cols=[];for(let c=0;c<rows[0].length;c++){cols[c]=rows.map(r=>r[c]??"");}return cols;}
+function urlFor(cols,c,r){return (cols[c]?.[r]||"").trim();}
+(async()=>{
+  const COL=5; // F = Terça
+  const MAP={"ramsho-curta":1,"ramsho-longa":2,"safro-curta":3,"safro-longa":4};
+  try{
+    const cols=await loadCols();
+    document.querySelectorAll("[data-key]").forEach(a=>{
+      const k=a.getAttribute("data-key");const r=MAP[k];const u=urlFor(cols,COL,r);
+      if(u){a.href=u; a.target="_blank"; a.rel="noopener";}
+      else{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
     });
-  }
+  }catch(e){console.error(e);document.querySelectorAll("[data-key]").forEach(a=>{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Erro ao carregar links';});}
+})();
 </script>
 </body>
 </html>
