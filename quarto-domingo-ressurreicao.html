@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4º Domingo da Ressurreição · Aparição em Tiberíades</title>
+<meta name="theme-color" content="#fdf5e6">
+<style>/* mesmo CSS base */ 
+*{box-sizing:border-box} html,body{height:100%}
+:root{ --ouro:#d6b25a; --ink:#1b1b1b; --shadow:rgba(0,0,0,.16); --fonte: Arial, Helvetica, sans-serif; }
+body{ margin:0; font-family:var(--fonte); color:var(--ink); background:#fdf5e6;
+  background-image:repeating-linear-gradient(45deg, rgba(184,134,11,.32) 0 3px, transparent 3px 40px),
+                   repeating-linear-gradient(-45deg, rgba(184,134,11,.26) 0 3px, transparent 3px 40px);
+  background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh; }
+header{text-align:center;padding:12px 12px 0}
+.title{ color:#b8860b; font-weight:900; font-size:1.7rem; margin:0; text-shadow:0 0 8px rgba(184,134,11,.45) }
+.wrap{width:100%;max-width:640px;margin:0 auto;padding:10px 16px 22px}
+.hero{ display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px; border:6px solid var(--ouro); box-shadow:0 0 0 4px rgba(0,0,0,.06) inset, 0 8px 18px var(--shadow); border-radius:12px }
+.hero[hidden]{display:none}
+.chip{ display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92); border:3px solid var(--ouro); box-shadow:0 0 0 2px rgba(184,134,11,.55) inset; border-radius:14px; font-weight:800; color:#8b6508 }
+.buttons{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:4px}
+.btn{ position:relative; display:flex; align-items:center; justify-content:center; background:#fff; color:#8b6508; text-decoration:none; cursor:pointer; font-weight:bold; text-align:center; border:2px solid #b8860b; box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px rgba(0,0,0,.15); border-radius:18px; padding:10px 18px; width:79%; transition:transform .15s, background-color .2s; }
+.btn:hover{transform:scale(1.02); background:#fff8e5}
+.btn img{ position:absolute; left:12px; width:30px; height:30px; object-fit:cover; border-radius:50% }
+.label{width:100%; text-align:center}
+.line1{display:block; color:#b8860b; font-size:1.02rem}
+.line2{display:block; color:#111; font-size:.82rem}
+footer{margin-top:auto;text-align:center;padding:8px 0 14px}
+.back{ display:inline-flex; align-items:center; gap:8px; background:#a00000; color:#fff; text-decoration:none; border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px; font-weight:bold; font-size:.9rem; transform:scale(.6) }
+.back:hover{background:#c00000}
+</style>
+</head>
+<body>
+<header>
+  <h1 class="title"><span style="display:block">4º Domingo da Ressurreição</span><span style="display:block;font-size:.95rem;color:#7a5708">Aparição em Tiberíades</span></h1>
+</header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-tiberiades.jpg" alt="Ícone Tiberíades"
+       onerror="this.hidden=true;document.getElementById('chip4').style.display='inline-block';">
+  <div id="chip4" class="chip" style="display:none">Ressurreição</div>
+
+  <section class="buttons" aria-label="Opções">
+    <a class="btn" data-link="ramsho-curta" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
+    <a class="btn" data-link="safro-curta"  href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="safro-longa"  href="#"><img src="img/cruz8.jpeg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
+  </section>
+</main>
+
+<footer><a class="back" href="domingos-tempo-ressurreicao.html">← Voltar</a></footer>
+
+<script>
+const LINKS={'ramsho-curta':null,'ramsho-longa':null,'safro-curta':null,'safro-longa':null};
+document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}});
+</script>
+</body>
+</html>
