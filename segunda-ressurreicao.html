@@ -31,15 +31,32 @@ footer{margin-top:6px;text-align:center;padding:6px 0 10px}
     <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
     <a class="btn" data-link="safro-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
     <a class="btn" data-link="safro-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
-   
   </section>
 </main>
 <footer>
   <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('ressurreicao.html')){this.href='ressurreicao.html'}">← Voltar</a>
 </footer>
 <script>
-const LINKS={'safro-curta':null,'safro-longa':null,'ramsho-curta':null,'ramsho-longa':null};
-document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}});
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1951894976&single=true&output=csv";
+const COL = 1; // Segunda (B)
+
+function parseCsv(t){const out=[];let i=0,curr="",row=[],q=false;while(i<t.length){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){curr+='"';i++;}else q=false;}else curr+=ch;}else{if(ch=='"'){q=true;}else if(ch==","){row.push(curr);curr="";}else if(ch=="\n"){row.push(curr);out.push(row);row=[];curr="";}else if(ch!="\r"){curr+=ch;}}i++;}if(curr!=""||row.length){row.push(curr);out.push(row);}return out;}
+async function loadRows(){const res=await fetch(CSV_URL,{cache:'no-store'});const txt=await res.text();return parseCsv(txt);}
+function pick(rows,col,row){return (rows?.[row]?.[col]||"").trim();}
+
+(async()=>{
+  try{
+    const rows=await loadRows();
+    const map={'ramsho-curta':1,'ramsho-longa':2,'safro-curta':3,'safro-longa':4};
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      const k=a.getAttribute('data-link'); const r=map[k]; const url=pick(rows,COL,r);
+      if(url){a.href=url;}else{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
+    });
+  }catch(e){
+    console.error(e);
+    document.querySelectorAll('[data-link]').forEach(a=>{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Erro ao carregar links';});
+  }
+})();
 </script>
 </body>
 </html>
