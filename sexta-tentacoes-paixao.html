@@ -51,15 +51,34 @@ footer{margin-top:4px; text-align:center; padding:6px 0 10px}
   <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
 
   <section class="buttons" aria-label="Sexta-feira das Tentações de Cristo — opções">
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
-    <a class="btn" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
-  
+    <a class="btn" data-key="ramsho-curta" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" data-key="ramsho-longa" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
+    <a class="btn" data-key="safro-curta"  href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" data-key="safro-longa"  href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
   </section>
 </main>
 <footer>
   <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('paixao.html')) this.href='paixao.html';">← Voltar</a>
 </footer>
+
+<script>
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1920452033&single=true&output=csv";
+function parseCsv(t){const r=[];let i=0,f="",row=[],q=!1;while(i<t.length){const c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else q=!1;}else f+=c;}else{if(c=='"')q=!0;else if(c===","){row.push(f);f="";}else if(c=="\n"){row.push(f);r.push(row);row=[];f="";}else if(c!="\r")f+=c;}i++;}if(f!=""||row.length){row.push(f);r.push(row);}return r;}
+async function loadCols(){const res=await fetch(CSV_URL,{cache:"no-store"});const txt=await res.text();const rows=parseCsv(txt);const cols=[];for(let c=0;c<rows[0].length;c++){cols[c]=rows.map(r=>r[c]??"");}return cols;}
+function urlFor(cols,c,r){return (cols[c]?.[r]||"").trim();}
+(async()=>{
+  const COL=1; // B = Sexta das Tentações
+  const MAP={"ramsho-curta":1,"ramsho-longa":2,"safro-curta":3,"safro-longa":4};
+  try{
+    const cols=await loadCols();
+    document.querySelectorAll("[data-key]").forEach(a=>{
+      const k=a.getAttribute("data-key");const r=MAP[k];const u=urlFor(cols,COL,r);
+      if(u){a.href=u; a.target="_blank"; a.rel="noopener";}
+      else{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
+    });
+  }catch(e){console.error(e);document.querySelectorAll("[data-key]").forEach(a=>{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Erro ao carregar links';});}
+})();
+</script>
 </body>
 </html>
+
