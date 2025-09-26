@@ -2,207 +2,64 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Semana da Paixão · Leituras</title>
-<meta name="theme-color" content="#7a0b0b">
+<title>Segunda-feira da Paixão</title>
+<meta name="theme-color" content="#5a0010">
 <style>
-:root{
-  --bordo:#7a0b0b;        /* bordô no rodapé */
-  --rosa:#f7d9df;         /* rosa claro no topo */
-  --texto:#7a0b0b;        /* cor principal do texto */
-  --roxo:#5b2a5f;         /* contorno do título (leve roxo) */
-  --prata:#b0b0b0;        /* prata envelhecida (bordas externas) */
-  --branco:#ffffff;       /* filete branco (REMOVIDO do ícone principal) */
-  --shadow:rgba(0,0,0,.16);
-  --fonte:Arial, Helvetica, sans-serif;
-  --btnIcon:29.6px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:var(--fonte);
-  background:linear-gradient(to top, var(--bordo) 0%, #b14b60 45%, #dca6b3 78%, var(--rosa) 100%);
-  min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; position:relative;
-  color:#1b1b1b;
-}
-/* Cabeçalho com título em 2 linhas */
-header{text-align:center;padding:24px 10px 8px}
-.title{
-  margin:0; font-weight:900; line-height:1.1; font-size:1.9rem; color:var(--texto);
-  text-shadow:
-    -1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo),
-    -1px  1px 0 var(--roxo), 1px  1px 0 var(--roxo);
-}
-.title .line{display:block}
-.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
-
-/* Ícone principal: CIRCULAR, +15%, padding e FUNDO TRANSPARENTE dentro da borda */
-.hero-wrap{
-  margin:10px auto 16px;
-  width:min(90vw, 414px);      /* ~15% maior que ~360px */
-  aspect-ratio:1/1;
-  border-radius:50%;
-  border:4px solid var(--prata);
-  box-shadow:0 8px 16px var(--shadow); /* remove o filete branco interno */
-  padding:16px;                /* margem interna (“respiro”) */
-  background:transparent;      /* deixa ver o fundo da página */
-  overflow:hidden;
-}
-.hero-wrap .hero{
-  width:100%; height:100%;
-  object-fit:contain;          /* exibe a imagem inteira, sem cortar topo/rodapé */
-  border-radius:50%;
-}
-
-/* Botão central (data/rito atual) */
-.btn{
-  display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center;
-  background:#fff; color:var(--texto); text-decoration:none; font-weight:900;
-  border:3px solid var(--prata); box-shadow:inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow);
-  border-radius:18px; padding:8px 18px; width:94%; margin:0 auto 12px;
-  transition:transform .12s, filter .2s;
-}
-.btn:hover{transform:scale(1.02); filter:brightness(1.04)}
-.btn .icon{
-  width:var(--btnIcon); height:var(--btnIcon); border-radius:50%;
-  border:2px solid var(--prata); box-shadow:inset 0 0 0 2px var(--branco); object-fit:cover;
-}
-.btn .label{
-  text-align:center; color:var(--texto);
-  text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata),
-              -1px  1px 0 var(--prata), 1px  1px 0 var(--prata);
-}
-.btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
-
-/* Navegação Anterior / Próxima */
-.navrow{
-  display:flex; justify-content:space-between; gap:16px; max-width:94%; margin:0 auto 6px;
-}
-.navbtn{
-  display:inline-flex; align-items:center; justify-content:center; min-width:46px; height:46px; padding:0 14px; gap:8px;
-  background:#fff; color:var(--texto); border:3px solid var(--prata); border-radius:999px;
-  box-shadow:inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow);
-  font-weight:900; cursor:pointer; transition:transform .12s, filter .2s;
-}
-.navbtn:hover{transform:scale(1.03); filter:brightness(1.04)}
-.navbtn .arr{font-size:20px; line-height:1}
-
-/* Mini-link: ofício próprio do tempo */
-.tempo-mini{
-  margin:10px auto 0; padding-top:8px; max-width:640px;
-  display:flex; justify-content:center; border-top:2px dashed rgba(0,0,0,.15);
-}
-.tempo-mini a{
-  display:inline-block; text-decoration:none; font-weight:800; font-size:.82rem; line-height:1;
-  color:var(--texto); background:#fff; border:2px solid var(--texto); border-radius:999px;
-  padding:.38rem .72rem; box-shadow:inset 0 0 0 2px var(--branco), 0 2px 6px var(--shadow);
-}
-.tempo-mini a:hover{background:#fff8f8; transform:scale(1.02)}
-
-/* Voltar (padrão; filha → mãe biblos) */
-.back-wrap{display:flex; justify-content:center; margin-top:10px; transform:scale(.48); transform-origin:center top}
-.btn-back{
-  display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px;
-  padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer;
-}
-.btn-back .arr{font-size:18px; line-height:1}
+*{box-sizing:border-box} html,body{height:100%}
+:root{ --ouro:#d6b25a; --roxo:#4B0082; --shadow:rgba(0,0,0,.16); --fonte: Arial, Helvetica, sans-serif; --verm:#a00000; --bordo:#5a0010; }
+body{ margin:0; font-family:var(--fonte); color:#1a1a1a; background:var(--bordo);
+  background-image:repeating-linear-gradient(45deg, rgba(75,0,130,.35) 0 3px, transparent 3px 42px),
+                   repeating-linear-gradient(-45deg, rgba(214,178,90,.30) 0 3px, transparent 3px 42px);
+  background-blend-mode: overlay; display:flex; flex-direction:column; min-height:100vh; }
+header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
+.title{color:var(--verm); font-weight:900; margin:0; line-height:1.08; font-size: calc(1.9rem - 3pt);
+  text-shadow:-1px -1px 0 var(--roxo), 1px -1px 0 var(--roxo), -1px 1px 0 var(--roxo), 1px 1px 0 var(--roxo);}
+.wrap{width:100%;max-width:720px;margin:0 auto;padding:10px 16px 6px}
+.hero{display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;border:6px solid var(--ouro);box-shadow:0 0 0 4px var(--roxo);border-radius:12px}
+.hero[hidden]{display:none}
+.chip{display:inline-block;margin:8px 0 14px;padding:10px 14px;background:rgba(255,255,255,.92);border:3px solid var(--ouro);box-shadow:0 0 0 2px var(--roxo) inset;border-radius:14px;font-weight:800;color:#4B0082}
+.buttons{display:flex;flex-direction:column;gap:6px;align-items:center}
+.btn{position:relative;display:flex;align-items:center;justify-content:center;gap:.25rem;background:#fff;text-decoration:none;cursor:pointer;
+  border:3px solid var(--roxo);box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px rgba(0,0,0,.15);
+  border-radius:18px;padding:10px 20px;width:87%;transition:transform .15s ease,background-color .2s ease}
+.btn:hover{transform:scale(1.02);background:#fff8e8}
+.btn img{position:absolute;left:12px;width:26px;height:26px;object-fit:cover;border-radius:50%;border:2px solid var(--ouro)}
+.btn .label{display:inline-block;width:100%;text-align:center;color:#4B0082;font-weight:800;line-height:1.15}
+.btn .label .top{display:block;font-size:1.02rem;color:#b8860b}
+.btn .label .sub{display:block;font-size:.82rem;color:#111}
+footer{margin-top:4px;text-align:center;padding:6px 0 10px}
+.back{display:inline-flex;align-items:center;gap:8px;background:#4B0082;color:#fff;text-decoration:none;border:1px solid #2f0656;
+  padding:.32rem .5rem;border-radius:9px;font-weight:bold;font-size:.8rem;transform:scale(.5);transform-origin:center}
+.back:hover{background:#5e1fb0}
 </style>
-<script>
-function goBackOrMother(){
-  try{
-    if (document.referrer && document.referrer.includes('biblos.html')) { history.back(); return; }
-    if (history.length>1) { history.back(); return; }
-  }catch(e){}
-  location.href='biblos.html';
-}
-</script>
 </head>
 <body>
-<header>
-  <h1 class="title">
-    <span class="line">Semana da Paixão</span>
-    <span class="line">Leituras</span>
-  </h1>
-</header>
-
+<header><h1 class="title">Segunda-feira da Paixão</h1></header>
 <main class="wrap">
-  <!-- Ícone circular com margem interna e fundo transparente -->
-  <figure class="hero-wrap">
-    <img class="hero" src="img/icone-semana-paixao.png" alt="Ícone — Semana da Paixão" onerror="this.style.display='none'">
-  </figure>
-
-  <!-- Botão central com o item atual -->
-  <a id="btn-item" class="btn" href="#" target="_blank" rel="noopener">
-    <img class="icon" src="img/icone-semana-paixao.png" alt="">
-    <span class="label" id="item-label">Sexta-Feira das Tentações de Cristo</span>
-    <span class="slot"></span>
-  </a>
-
-  <!-- Navegação -->
-  <div class="navrow">
-    <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
-    <button class="navbtn" id="next"><span>Próxima</span><span class="arr">→</span></button>
-  </div>
-
-  <!-- Mini-link: ofício próprio do tempo -->
-  <nav class="tempo-mini" aria-label="Ofício próprio do tempo">
-    <a href="paixao.html">ofício próprio do tempo</a>
-  </nav>
-
-  <div class="back-wrap">
-    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
-  </div>
+  <img class="hero" src="img/icone-segunda-paixao.png" alt="Ícone Segunda-feira da Paixão" onerror="this.hidden=true;document.getElementById('hero-chip').style.display='inline-block';">
+  <div id="hero-chip" class="chip" style="display:none">Semana da Paixão</div>
+  <section class="buttons" aria-label="Segunda-feira da Paixão — opções">
+    <a class="btn" data-key="ramsho-curta" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" data-key="ramsho-longa" href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Ramsho</span><span class="sub">versão longa</span></span></a>
+    <a class="btn" data-key="safro-curta"  href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão curta</span></span></a>
+    <a class="btn" data-key="safro-longa"  href="#"><img src="img/cruz3.png" alt=""><span class="label"><span class="top">Safro</span><span class="sub">versão longa</span></span></a>
+  </section>
 </main>
-
+<footer>
+  <a class="back" href="javascript:history.back()" onclick="if(!document.referrer || !document.referrer.includes('paixao.html')) this.href='paixao.html';">← Voltar</a>
+</footer>
 <script>
-/* Lista de itens (ordem de navegação) */
-const ITENS = [
-  'Sexta-Feira das Tentações de Cristo',
-  'Sábado de Lázaro',
-  'Domingo do Hosana — Rito da Lâmpada',
-  'Segunda-feira da Paixão',
-  'Terça-feira da Paixão',
-  'Quarta-feira da Paixão — Rito da Lâmpada',
-  'Quinta-feira dos Mistérios',
-  'Boa Sexta-feira',
-  'Sábado da Luz'
-];
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1920452033&single=true&output=csv";
+function parseCsv(t){const r=[];let i=0,f="",row=[],q=!1;while(i<t.length){const c=t[i];if(q){if(c=='\"'){if(t[i+1]=='\"'){f+='\"';i++;}else q=!1;}else f+=c;}else{if(c=='\"')q=!0;else if(c==","){row.push(f);f="";}else if(c=="\n"){row.push(f);r.push(row);row=[];f="";}else if(c!="\r")f+=c;}i++;}if(f!=""||row.length){row.push(f);r.push(row);}return r;}
+async function loadCols(){const res=await fetch(CSV_URL,{cache:"no-store"});const txt=await res.text();const rows=parseCsv(txt);const cols=[];for(let c=0;c<rows[0].length;c++){cols[c]=rows.map(r=>r[c]??"");}return cols;}
+function urlFor(cols,c,r){return (cols[c]?.[r]||"").trim();}
+(async()=>{
+  const COL=4; // E = Segunda
+  const MAP={"ramsho-curta":1,"ramsho-longa":2,"safro-curta":3,"safro-longa":4};
+  try{
+    const cols=await loadCols();
+    document.querySelectorAll("[data-key]").forEach(a=>{
+      const k=a.getAttribute("data-key");const r=MAP[k];const u=urlFor(cols,COL,r);
+      if(u){a.href=u; a.target="_blank"; a.rel="noopener";}
+      else{a.style
 
-/* COLE AQUI os links (.doc) da planilha “shots” para cada item, na mesma ordem.
-   Use null para deixar desativado. */
-const LINKS = {
-  i0:null, i1:null, i2:null, i3:null, i4:null, i5:null, i6:null, i7:null, i8:null
-};
-
-let idx = 0;
-const label = document.getElementById('item-label');
-const btn   = document.getElementById('btn-item');
-
-function render(){
-  label.textContent = ITENS[idx];
-  const key = 'i'+idx;
-  const url = LINKS[key];
-
-  if(url){
-    btn.href = url;
-    btn.style.opacity = 1;
-    btn.style.pointerEvents = 'auto';
-    btn.title = 'Abrir Salmos e Leituras';
-  }else{
-    btn.href = '#';
-    btn.style.opacity = .55;
-    btn.style.pointerEvents = 'none';
-    btn.title = 'Link não configurado';
-  }
-}
-
-document.getElementById('prev').addEventListener('click',()=>{
-  idx = (idx-1+ITENS.length)%ITENS.length; render();
-});
-document.getElementById('next').addEventListener('click',()=>{
-  idx = (idx+1)%ITENS.length; render();
-});
-
-render();
-</script>
-</body>
-</html>
