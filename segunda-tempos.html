@@ -28,10 +28,12 @@ header{text-align:center;padding:12px 12px 0}
 .btn{
   position:relative;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;
   color:var(--marrom);background:#fff;font-weight:900;border:3px solid var(--marrom);border-radius:18px;
-  padding:7px 18px; width:78%; box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow);transition:.15s
+  padding:7px 18px; width:78%;box-shadow:inset 0 0 0 3px var(--ouro),0 4px 10px var(--shadow);transition:.15s
 }
 .btn:hover{transform:scale(1.02);background:#fff9f0}
-.btn img{ position:absolute;left:12px;width:18px;height:18px;border-radius:50%;object-fit:cover;border:2px solid var(--ouro) }
+.btn img{
+  position:absolute;left:12px;width:18px;height:18px;border-radius:50%;object-fit:cover;border:2px solid var(--ouro)
+}
 .label{width:100%}
 .line1{display:block;color:var(--ouro);font-size:1.0rem; line-height:1.05}
 .line2{display:block;color:#000;font-size:.80rem; line-height:1.05}
@@ -59,11 +61,12 @@ footer{margin-top:6px;text-align:center;padding:6px 0 14px}
 
 <main class="wrap">
   <img class="hero" src="img/icone-tempos.jpg" alt="Ícone — Tempos">
+
   <section class="buttons" aria-label="Ações do dia">
-    <a class="btn" data-key="ramsho-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
-    <a class="btn" data-key="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
-    <a class="btn" data-key="safro-curta"  href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
-    <a class="btn" data-key="safro-longa"  href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
+    <a class="btn" data-link="ramsho-curta" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span></a>
+    <a class="btn" data-link="safro-curta"  href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span></a>
+    <a class="btn" data-link="safro-longa"  href="#" target="_blank" rel="noopener"><img src="img/cruz2.jpg" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span></a>
   </section>
 </main>
 
@@ -80,19 +83,29 @@ footer{margin-top:6px;text-align:center;padding:6px 0 14px}
 
 <script>
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1404816220&single=true&output=csv";
-function parseCsv(t){const r=[];let i=0,f="",row=[],q=!1;while(i<t.length){const c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else q=!1;}else f+=c;}else{if(c=='"')q=!0;else if(c==","){row.push(f);f="";}else if(c=="\n"){row.push(f);r.push(row);row=[];f="";}else if(c!="\r")f+=c;}i++;}if(f!=""||row.length){row.push(f);r.push(row);}return r;}
-async function loadCols(){const res=await fetch(CSV_URL,{cache:"no-store"});const txt=await res.text();const rows=parseCsv(txt);const cols=[];for(let c=0;c<rows[0].length;c++){cols[c]=rows.map(r=>r[c]??"");}return cols;}
-function urlFor(cols,c,r){return (cols[c]?.[r]||"").trim();}
-(async()=>{
+function parseCsv(t){const r=[];let i=0,f="",row=[],q=false;while(i<t.length){const c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else q=false;}else f+=c;}else{if(c=='"')q=true;else if(c==','){row.push(f);f="";}else if(c=='\n'){row.push(f);r.push(row);row=[];f="";}else if(c!=='\r')f+=c;}i++;}if(f!==""||row.length){row.push(f);r.push(row);}return r;}
+const cell=(rows,r,c)=>((rows[r]&&rows[r][c])||"").trim();
+const R_RAMSHO_CURTA=1,R_RAMSHO_LONGA=2,R_SAFRO_CURTA=3,R_SAFRO_LONGA=4;
+const C_SEGUNDA=4;
+(async ()=>{
   try{
-    const cols=await loadCols();
-    const COL=4; // E (Segunda)
-    const map={"safro-curta":1,"safro-longa":2,"ramsho-curta":3,"ramsho-longa":4};
-    document.querySelectorAll("[data-key]").forEach(a=>{
-      const k=a.getAttribute("data-key"); const r=map[k]; const u=urlFor(cols,COL,r);
-      if(u){a.href=u;}else{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
+    const rows=parseCsv(await (await fetch(CSV_URL,{cache:"no-store"})).text());
+    const map={
+      "ramsho-curta":cell(rows,R_RAMSHO_CURTA,C_SEGUNDA),
+      "ramsho-longa":cell(rows,R_RAMSHO_LONGA,C_SEGUNDA),
+      "safro-curta" :cell(rows,R_SAFRO_CURTA ,C_SEGUNDA),
+      "safro-longa" :cell(rows,R_SAFRO_LONGA ,C_SEGUNDA),
+    };
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      const url=(map[a.dataset.link]||"").trim();
+      if(url){a.href=url;a.target="_blank";a.rel="noopener";}
+      else{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Link não configurado';}
     });
-  }catch(e){console.error(e);document.querySelectorAll("[data-key]").forEach(a=>{a.style.opacity=.6;a.style.pointerEvents='none';a.title='Erro ao carregar links';});}
+  }catch(e){
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      a.style.opacity=.6;a.style.pointerEvents='none';a.title='Erro ao carregar links';
+    });
+  }
 })();
 </script>
 </body>
