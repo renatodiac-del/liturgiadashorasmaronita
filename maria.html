@@ -94,8 +94,7 @@ header{position:relative;z-index:1;text-align:center;padding:28px 10px 8px} /* �
     }catch(e){}
     location.href='santos.html';
   }
-  /* 12 estrelas em forma de meia-lua entre o título e a borda superior,
-     distribuídas num arco suave que vai de uma lateral à outra */
+  /* 12 estrelas em forma de meia-lua entre o título e a borda superior */
   document.addEventListener('DOMContentLoaded', ()=>{
     const decor=document.querySelector('.decor');
     const N=12;
@@ -103,10 +102,10 @@ header{position:relative;z-index:1;text-align:center;padding:28px 10px 8px} /* �
       const s=document.createElement('div');
       s.className='star';
       s.textContent='★';
-      const t=i/(N-1);                   // 0..1
-      const left = 5 + t*90;             // 5vw .. 95vw
-      const bow  = Math.pow(t-0.5,2);    // curva parabólica p/ dar arco
-      const top  = 12 + 18*bow;          // px (mais alto nos cantos, mais baixo no meio)
+      const t=i/(N-1);
+      const left = 5 + t*90;
+      const bow  = Math.pow(t-0.5,2);
+      const top  = 12 + 18*bow;
       s.style.left = left+'vw';
       s.style.top  = top+'px';
       s.style.fontSize=(20 + (i%3))*1+'px';
@@ -138,10 +137,61 @@ header{position:relative;z-index:1;text-align:center;padding:28px 10px 8px} /* �
 </main>
 
 <script>
-const LINKS={'ramsho-curta':null,'ramsho-longa':null,'safro-curta':null,'safro-longa':null};
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}
-});
+/* === hidratação via planilha publicada (CSV) === */
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1255438314&single=true&output=csv";
+const CATEGORY="virgem-maria"; // chave da linha na coluna A
+
+function parseCSV(text){
+  const rows=[]; let cur="", row=[], inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], n=text[i+1];
+    if(c==='\"'){
+      if(inQ && n==='\"'){ cur+='\"'; i++; }
+      else inQ=!inQ;
+    }else if(c===',' && !inQ){ row.push(cur.trim()); cur=""; }
+    else if((c==='\n' || c==='\r') && !inQ){
+      if(cur.length || row.length){ row.push(cur.trim()); rows.push(row); row=[]; cur=""; }
+    }else{ cur+=c; }
+  }
+  if(cur.length || row.length){ row.push(cur.trim()); rows.push(row); }
+  return rows;
+}
+
+function hydrateFromCSV(category){
+  fetch(CSV_URL).then(r=>r.text()).then(txt=>{
+    const rows=parseCSV(txt);
+    if(!rows.length) return;
+    const header=rows[0].map(h=>h.toLowerCase());
+    const ci = {
+      categoria: header.indexOf('categoria'),
+      ramsho_curta: header.indexOf('ramsho_curta'),
+      ramsho_longa: header.indexOf('ramsho_longa'),
+      safro_curta: header.indexOf('safro_curta'),
+      safro_longa: header.indexOf('safro_longa'),
+    };
+    const line = rows.find((r,i)=> i>0 && r[ci.categoria] && r[ci.categoria].toLowerCase()===category);
+    const map = {
+      'ramsho-curta':  line?.[ci.ramsho_curta] || '',
+      'ramsho-longa':  line?.[ci.ramsho_longa] || '',
+      'safro-curta' :  line?.[ci.safro_curta]  || '',
+      'safro-longa' :  line?.[ci.safro_longa]  || '',
+    };
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      const key=a.getAttribute('data-link');
+      const url=map[key];
+      if(url){
+        a.href=url; a.target="_blank"; a.rel="noopener";
+        a.style.opacity="";
+        a.style.pointerEvents="";
+        a.title="";
+      }else{
+        a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';
+      }
+    });
+  }).catch(()=>{ /* silencioso */ });
+}
+
+hydrateFromCSV(CATEGORY);
 </script>
 </body>
 </html>
