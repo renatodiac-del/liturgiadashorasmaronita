@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -38,6 +37,7 @@ header{text-align:center;padding:12px 12px 6px}
 }
 
 /* Painel de data + navegação */
+.navwrap{ text-align:center }
 .panel{
   display:inline-flex; align-items:center; justify-content:center; text-align:center;
   padding:12px 20px; border-radius:14px; background:#fff; color:var(--texto);
@@ -46,7 +46,6 @@ header{text-align:center;padding:12px 12px 6px}
   transition:transform .12s, background-color .2s;
 }
 .panel:hover{transform:scale(1.02); background:#fffdf4}
-.navwrap{ text-align:center }
 .navrow{display:flex; justify-content:center; gap:12px; margin-top:12px}
 .navbtn{
   background:#fff; color:var(--texto); border-radius:12px; padding:9px 14px; font-weight:900;
@@ -54,6 +53,14 @@ header{text-align:center;padding:12px 12px 6px}
   cursor:pointer; transition:background-color .2s, transform .12s;
 }
 .navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
+
+/* Legenda da festividade */
+.festlabel{
+  margin:8px auto 0; padding:6px 10px; display:inline-block;
+  background:#fff; border:2px solid var(--ouroVelho); border-radius:12px;
+  box-shadow: inset 0 0 0 2px rgba(180,146,58,.5), 0 2px 6px var(--shadow);
+  font-weight:900; color:#6b4a27; max-width:560px;
+}
 
 /* Botões padrão (4 grandes) */
 .buttons{display:flex;flex-direction:column;gap:10px;align-items:center;margin:14px auto 4px}
@@ -90,6 +97,7 @@ header{text-align:center;padding:12px 12px 6px}
 
   <section aria-label="Navegação por datas especiais" class="navwrap">
     <button id="dataBtn" class="panel" type="button">-- de ----</button>
+    <div id="festLabel" class="festlabel">Selecione uma data…</div>
 
     <div class="navrow">
       <button id="prev" class="navbtn" type="button">← Anterior</button>
@@ -140,11 +148,28 @@ const datasEspeciais = [
   {mes:11,dia:1},{mes:11,dia:2},{mes:11,dia:4},{mes:11,dia:8},{mes:11,dia:10},{mes:11,dia:11},{mes:11,dia:11},{mes:11,dia:13},{mes:11,dia:14},{mes:11,dia:16},{mes:11,dia:18},{mes:11,dia:21},{mes:11,dia:27},{mes:11,dia:30},
   {mes:12,dia:3},{mes:12,dia:4},{mes:12,dia:6},{mes:12,dia:8},{mes:12,dia:12},{mes:12,dia:14},{mes:12,dia:20}
 ];
-const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
-/* ======== LINKS dos 4 botões (um item por posição do array acima) ========
-   Preencha cada objeto com as URLs correspondentes à data atual.
-   Ex.: LINKS[0] = { "ramsho-curta":"https://...", "ramsho-longa":"...", "safro-curta":"...", "safro-longa":"..." } */
+/* ========= TÍTULOS (mesma ordem do array acima) ========= */
+const titulosEspeciais = [
+  "Festa do Natal","Festa do Cumprimento de Maria","Martírio de Estêvão, o Primeiro dos mártires","A visita dos magos","Fuga para Egito e Massacre dos inocentes",
+  "Retorno do Egito e estabelecimento em Nazaré","O Verbo Encarnado",
+  "Festa da Paz","A Circuncisão de Jesus e a Apresentação no Templo","A Apresentação no Templo, São Simeão","A Apresentação no Templo, a Profetisa Ana",
+  "Festa da Epifania","Elogio de João Batista","Festa da Exaltação da Santa Cruz",
+  "São Paulo Eremita","Nossa Senhora das Sementes","Cátedra de São Pedro","Santo Antão","São Sérgio, papa","São Francisco Sales","Conversão de São Paulo","Santo Efrém, sírio","São João Bosco",
+  "Apresentação de Jesus no templo","S. Simeão, o venerável e a Profetisa Ana","São Maron","500 Mártires de Tiro","São Tiago de Cyr",
+  "São João Marun – 1º Patriarca Maronita","São Tomás de Aquino","40 Mártires","São José","Santa Refqa","Anunciação do Senhor","Arcanjo São Gabriel",
+  "São João Clímaco","Santa Bernadete Soubirous","São Jorge, mártir","São Marcos, evangelista","São Simão Apóstolo","Santa Catarina de Sena","São Tiago Apóstolo, filho de Zebedeu",
+  "São José Operário","São Domingos Sávio","São João Evangelista","Profeta Isaías","Nossa Senhora de Colheita","Santa Rita de Cássia",
+  "Os 4 Evangelistas","São Dorateu, Bispo de Tiro","São Bartolomeu Apóstolo","São Aquilina de Biblos","Santo Antonio de Pádua","São Judas Tadeu Apóstolo","São Luís Gonzaga","São Eusébio de Samósata","Natividade de São João Batista","São Pedro e São Paulo Apóstolos","Os 12 Apóstolos",
+  "Os Três Mártires Massabkis","São Bento","São Kiriakis e Julita","Nossa Senhora do Carmo","Santa Marina, Monja de Qannubine","Santo Elias, Profeta","Santa Nura/Santa Maria Madalena","São Charbel Makhlouf","Santa Cristina de Tiro, mártir","Os 350 Mártires Maronitas, discípulos de S. Marun",
+  "São João Maria Vianney","Transfiguração do Senhor","São Domingos, confessor","São Matias Apóstolo","São Shina","São Maximiliano Kolbe","N. Senhora da Videira","Assunção de N. Senhora","São Roque","São Isaac, o sírio","São Moisés, o etíope","Santo Agostinho","Martírio de São João Batista",
+  "São Simão, O estilita, confessor","São Mammas, O grande","São Charbel, Bispo de Edessa e sua Irmã","Arcanjo São Miguel","Natividade da Santíssima Virgem Maria","São Joaquim e Santa Ana","São Cipriano, bispo","Santa Sofia e suas 3 filhas","São Foca e seus companheiros","S. Thecla","Esponsais de Nossa Senhora",
+  "Santa Teresinha do Menino Jesus e da Sagrada Face","São Cipriano e Justina","São Francisco de Assis","São Sérgio e São Baco","São Tiago Apóstolo, irmão do Senhor","São João XXIII, Papa","N. Sra. da Conceição Aparecida, Padroeira do Brasil","S. Edmo e companheiros","S. Isaías, monge","Santa Tereza d’Ávila, Doutora da igreja","São Lucas, Evangelista","São Chalita, Mártir","São João Paulo II, papa",
+  "Solenidade de todos os santos","Finados – Memória dos Fiéis Falecidos","Santa Ásia","Arcanjo São Miguel","Santa Mura","São Mena e companheiros","São Martinho","São João Crisóstomo","São Filipe Apóstolo","São Mateus Apóstolo","São Romano","Apresentação de Nossa Senhora","São Tiago Mártir","Santo André Apóstolo/São Bichai",
+  "São Francisco Xavier","Santa Bárbara Mártir","São Nicolau de Myra","Imaculada Conceição","Nossa Senhora de Guadalupe","São Naamtallah Kassab Al-Hardini","Santo Inácio de Antioquia"
+];
+
+/* ======== LINKS dos 4 botões (um item por posição do array acima) ======== */
 const LINKS = datasEspeciais.map(()=>({
   "ramsho-curta": null,
   "ramsho-longa": null,
@@ -154,15 +179,15 @@ const LINKS = datasEspeciais.map(()=>({
 
 /* ========= UI ========= */
 const dataBtn=document.getElementById('dataBtn');
+const festLabel=document.getElementById('festLabel');
 const prevBt=document.getElementById('prev');
 const nextBt=document.getElementById('next');
 let idx=0;
 
+const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 function formatDia(d){return d===1?'1º':String(d);}
 function labelData(item){return `${formatDia(item.dia)} de ${meses[item.mes-1]}`;}
-function linkParaData(item){ // ajuste se desejar apontar para uma página específica da data
-  return `#${String(item.mes).padStart(2,'0')}-${String(item.dia).padStart(2,'0')}`;
-}
+function linkParaData(item){return `#${String(item.mes).padStart(2,'0')}-${String(item.dia).padStart(2,'0')}`;}
 
 function setBtnLink(a, url){
   if(url){
@@ -181,12 +206,14 @@ function setBtnLink(a, url){
 function render(){
   if(!datasEspeciais.length){
     dataBtn.textContent='Defina as datas no código';
+    festLabel.textContent='—';
     dataBtn.disabled=true; prevBt.disabled=true; nextBt.disabled=true;
     document.querySelectorAll('[data-key]').forEach(a=>setBtnLink(a,null));
     return;
   }
   const cur=datasEspeciais[idx];
   dataBtn.textContent=labelData(cur);
+  festLabel.textContent = titulosEspeciais[idx] || '—';
 
   const links = LINKS[idx] || {};
   document.querySelectorAll('[data-key]').forEach(a=>{
@@ -202,3 +229,4 @@ render();
 </script>
 </body>
 </html>
+
