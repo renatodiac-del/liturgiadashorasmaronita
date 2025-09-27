@@ -17,11 +17,33 @@ body{
     repeating-linear-gradient(-45deg, rgba(184,134,11,.26) 0 3px, transparent 3px 40px);
   background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
 }
-header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12px 12px 0;text-align:center}
-.title{
-  color:#b8860b; font-weight:900; font-size:2rem; margin:0;
-  text-shadow:0 0 8px rgba(184,134,11,.45);
+
+/* Cabeçalho com duas linhas */
+header{display:flex;flex-direction:column;gap:6px;align-items:center;padding:12px 12px 0;text-align:center}
+.title{margin:0; line-height:1.08; font-weight:900; color:#b8860b}
+.title .ttl-top{
+  display:block;
+  font-size:calc(2rem + 3pt);             /* +3 pontos */
+  letter-spacing:.5px;
+  color:#b8860b;
+  /* “borda branca cintilante” + leve brilho dourado */
+  text-shadow:
+    0 0 2px #fff,
+    0 0 6px #fff,
+    0 0 10px #fff,
+    -1px -1px 0 rgba(255,255,255,.9),
+     1px -1px 0 rgba(255,255,255,.9),
+    -1px  1px 0 rgba(255,255,255,.9),
+     1px  1px 0 rgba(255,255,255,.9),
+    0 0 12px rgba(184,134,11,.45);
 }
+.title .ttl-sub{
+  display:block;
+  font-size:calc(2rem - 2pt);             /* -2 pontos */
+  color:#b8860b;
+  text-shadow:0 0 8px rgba(184,134,11,.35);
+}
+
 .wrap{width:100%;max-width:640px;margin:0 auto;padding:10px 16px 24px}
 .hero{
   display:block;margin:6px auto 14px;max-width:100%;height:auto;max-height:420px;
@@ -43,7 +65,8 @@ header{display:flex;flex-direction:column;gap:8px;align-items:center;padding:12p
   position:relative; display:inline-flex; align-items:center; justify-content:center;
   background:#fff; color:#8b6508; text-decoration:none; cursor:pointer; font-weight:bold; text-align:center;
   border:1.9px solid #b8860b; box-shadow: inset 0 0 0 3px var(--ouro), 0 4px 10px rgba(0,0,0,.15);
-  border-radius:18px; padding:10px 18px; width:79%; font-size:1rem;
+  border-radius:18px; padding:10px 18px; width:95%; /* antes 79% → +20% ≈ 95% */
+  font-size:1rem;
   transition:transform .15s ease, background-color .2s ease;
 }
 .btn:hover{transform:scale(1.02); background:#fff8e5}
@@ -71,7 +94,10 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
 </head>
 <body>
 <header class="top">
-  <h1 class="title">Domingos · Tempo da Ressurreição</h1>
+  <h1 class="title">
+    <span class="ttl-top">DOMINGOS</span>
+    <span class="ttl-sub">Tempo de Ressurreição</span>
+  </h1>
 </header>
 
 <main class="wrap">
@@ -91,8 +117,6 @@ footer{margin-top:auto;text-align:center;padding:10px 0 16px}
       <a class="btn" href="sexto-domingo-ressurreicao.html"><img src="img/cruz8.jpeg" alt=""><span class="label">6º Domingo da Ressurreição</span></a>
       <a class="btn" href="ascensao-do-senhor.html"><img src="img/cruz8.jpeg" alt=""><span class="label">Ascensão do Senhor</span></a>
       <a class="btn" href="setimo-domingo-ressurreicao.html"><img src="img/cruz8.jpeg" alt=""><span class="label">7º Domingo da Ressurreição</span></a>
-
-      <!-- 9º botão: a página filha atual que você já usa hoje -->
       <a class="btn" href="ressurreicao.html"><img src="img/cruz8.jpeg" alt=""><span class="label">Salmo e Leituras Bíblicas</span></a>
     </div>
   </section>
@@ -108,3 +132,4 @@ document.getElementById('hero').addEventListener('load',()=>{document.getElement
 </script>
 </body>
 </html>
+
