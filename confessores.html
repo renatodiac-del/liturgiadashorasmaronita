@@ -35,12 +35,12 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 .wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:10px 16px 22px;width:100%}
 .hero{
   display:block;margin:8px auto 16px; width:100%; max-width:100%;
-  height:auto; max-height:360px;      /* reduzido para caber sem cortar */
-  object-fit:contain;                 /* garante que a paisagem não seja cortada */
+  height:auto; max-height:360px;
+  object-fit:contain;
   border:6px solid var(--ouro);
   box-shadow:0 0 0 4px #b8860b inset, 0 8px 16px var(--shadow);
   border-radius:14px;
-  background:#fff;                    /* fundo neutro caso a imagem não preencha tudo */
+  background:#fff;
 }
 .list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .btn{
@@ -75,7 +75,7 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
     }catch(e){}
     location.href='santos.html';
   }
-  /* 30 florzinhas brancas nas bordas (como antes) */
+  /* 30 florzinhas brancas nas bordas */
   document.addEventListener('DOMContentLoaded', ()=>{
     const decor=document.querySelector('.decor');
     const qty=30;
@@ -112,10 +112,48 @@ header{position:relative;z-index:1;text-align:center;padding:12px 10px 6px}
 </main>
 
 <script>
-const LINKS={'ramsho-curta':null,'ramsho-longa':null,'safro-curta':null,'safro-longa':null};
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}
-});
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1255438314&single=true&output=csv";
+const CATEGORY="confessores";
+
+function parseCSV(t){
+  const rows=[]; let cur="", row=[], inQ=false;
+  for(let i=0;i<t.length;i++){
+    const c=t[i], n=t[i+1];
+    if(c==='\"'){ if(inQ && n==='\"'){cur+='\"'; i++;} else inQ=!inQ; }
+    else if(c===',' && !inQ){ row.push(cur.trim()); cur=""; }
+    else if((c==='\n'||c==='\r') && !inQ){ if(cur.length||row.length){row.push(cur.trim()); rows.push(row); row=[]; cur="";} }
+    else{ cur+=c; }
+  }
+  if(cur.length||row.length){ row.push(cur.trim()); rows.push(row); }
+  return rows;
+}
+function hydrate(category){
+  fetch(CSV_URL).then(r=>r.text()).then(txt=>{
+    const rows=parseCSV(txt); if(!rows.length) return;
+    const h=rows[0].map(s=>s.toLowerCase());
+    const id={
+      categoria:h.indexOf('categoria'),
+      ramsho_curta:h.indexOf('ramsho_curta'),
+      ramsho_longa:h.indexOf('ramsho_longa'),
+      safro_curta:h.indexOf('safro_curta'),
+      safro_longa:h.indexOf('safro_longa'),
+    };
+    const line=rows.find((r,i)=>i>0 && r[id.categoria] && r[id.categoria].toLowerCase()===category);
+    const map={
+      'ramsho-curta':line?.[id.ramsho_curta]||'',
+      'ramsho-longa':line?.[id.ramsho_longa]||'',
+      'safro-curta' :line?.[id.safro_curta ]||'',
+      'safro-longa' :line?.[id.safro_longa ]||'',
+    };
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      const k=a.getAttribute('data-link'); const url=map[k];
+      if(url){ a.href=url; a.target="_blank"; a.rel="noopener"; a.style.opacity=""; a.style.pointerEvents=""; a.title=""; }
+      else   { a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+    });
+  }).catch(()=>{});
+}
+hydrate(CATEGORY);
 </script>
 </body>
 </html>
+
