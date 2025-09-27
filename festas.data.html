@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -35,6 +36,8 @@ header{text-align:center;padding:12px 12px 6px}
   box-shadow:0 0 0 5px rgba(255,255,255,.0) inset, 0 6px 14px var(--shadow);
   border-radius:14px
 }
+
+/* Painel de data + navegação */
 .panel{
   display:inline-flex; align-items:center; justify-content:center; text-align:center;
   padding:12px 20px; border-radius:14px; background:#fff; color:var(--texto);
@@ -52,8 +55,24 @@ header{text-align:center;padding:12px 12px 6px}
 }
 .navbtn:hover{background:#fffdf1; transform:translateY(-1px)}
 
-/* Botão Voltar padrão — agora logo abaixo da navegação (gap ~1/3 do anterior) */
-.backrow{ text-align:center; margin-top:6px; }
+/* Botões padrão (4 grandes) */
+.buttons{display:flex;flex-direction:column;gap:10px;align-items:center;margin:14px auto 4px}
+.btn{
+  position:relative;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;
+  background:#fff;color:#5a3b1c;font-weight:900;border:3px solid var(--ouroVelho);border-radius:16px;
+  padding:10px 18px;width:86%;box-shadow:inset 0 0 0 3px rgba(180,146,58,.6),0 4px 10px var(--shadow);
+  transition:transform .15s ease, background-color .2s ease;
+}
+.btn:hover{transform:scale(1.02);background:#fffdf4}
+.btn img{
+  position:absolute;left:12px;width:24px;height:24px;border-radius:50%;object-fit:cover;border:2px solid var(--ouroVelho)
+}
+.label{width:100%}
+.line1{display:block;color:#b17f1f;font-size:1.02rem;line-height:1.06}
+.line2{display:block;color:#222;font-size:.84rem;line-height:1.02}
+
+/* Voltar */
+.backrow{ text-align:center; margin-top:10px; }
 .back{
   display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff;
   border:1px solid #6f0000; padding:.36rem .62rem; border-radius:9px;
@@ -76,23 +95,64 @@ header{text-align:center;padding:12px 12px 6px}
       <button id="prev" class="navbtn" type="button">← Anterior</button>
       <button id="next" class="navbtn" type="button">Próximo →</button>
     </div>
-
-    <!-- Botão Voltar aproximado da navegação -->
-    <div class="backrow">
-      <a class="back" href="javascript:history.back()"
-         onclick="if(!document.referrer || (!document.referrer.includes('oracao.html') && !document.referrer.includes('index-teste.html'))){this.href='oracao.html'}">
-        ← Voltar
-      </a>
-    </div>
   </section>
+
+  <!-- 4 botões padrão -->
+  <section class="buttons" aria-label="Ritos do dia selecionado">
+    <a class="btn" data-key="ramsho-curta" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
+    </a>
+    <a class="btn" data-key="ramsho-longa" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
+    </a>
+    <a class="btn" data-key="safro-curta" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
+    </a>
+    <a class="btn" data-key="safro-longa" href="#" target="_blank" rel="noopener">
+      <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span>
+    </a>
+  </section>
+
+  <!-- Botão Voltar -->
+  <div class="backrow">
+    <a class="back" href="javascript:history.back()"
+       onclick="if(!document.referrer || (!document.referrer.includes('oracao.html') && !document.referrer.includes('index-teste.html'))){this.href='oracao.html'}">
+      ← Voltar
+    </a>
+  </div>
 </main>
 
 <script>
+/* ========= DATAS (na ordem pedida) ========= */
 const datasEspeciais = [
-  // Ex.: {mes:1, dia:6}, {mes:3, dia:25}, {mes:9, dia:14}
+  {mes:12,dia:25},{mes:12,dia:26},{mes:12,dia:27},{mes:12,dia:28},{mes:12,dia:29},{mes:12,dia:30},{mes:12,dia:31},
+  {mes:1,dia:1},{mes:1,dia:2},{mes:1,dia:3},{mes:1,dia:4},{mes:1,dia:6},{mes:1,dia:7},{mes:9,dia:14},
+  {mes:1,dia:5},{mes:1,dia:15},{mes:1,dia:16},{mes:1,dia:17},{mes:1,dia:22},{mes:1,dia:24},{mes:1,dia:25},{mes:1,dia:28},{mes:1,dia:31},
+  {mes:2,dia:2},{mes:2,dia:3},{mes:2,dia:9},{mes:2,dia:19},{mes:2,dia:20},
+  {mes:3,dia:2},{mes:3,dia:3},{mes:3,dia:9},{mes:3,dia:19},{mes:3,dia:23},{mes:3,dia:25},{mes:3,dia:26},
+  {mes:4,dia:8},{mes:4,dia:16},{mes:4,dia:23},{mes:4,dia:25},{mes:4,dia:27},{mes:4,dia:29},{mes:4,dia:30},
+  {mes:5,dia:1},{mes:5,dia:6},{mes:5,dia:8},{mes:5,dia:9},{mes:5,dia:13},{mes:5,dia:22},
+  {mes:6,dia:2},{mes:6,dia:6},{mes:6,dia:11},{mes:6,dia:13},{mes:6,dia:13},{mes:6,dia:19},{mes:6,dia:21},{mes:6,dia:22},{mes:6,dia:24},{mes:6,dia:29},{mes:6,dia:30},
+  {mes:7,dia:10},{mes:7,dia:11},{mes:7,dia:15},{mes:7,dia:16},{mes:7,dia:17},{mes:7,dia:20},{mes:7,dia:22},{mes:7,dia:23},{mes:7,dia:24},{mes:7,dia:31},
+  {mes:8,dia:4},{mes:8,dia:6},{mes:8,dia:7},{mes:8,dia:9},{mes:8,dia:12},{mes:8,dia:14},{mes:8,dia:15},{mes:8,dia:15},{mes:8,dia:16},{mes:8,dia:23},{mes:8,dia:28},{mes:8,dia:28},{mes:8,dia:29},
+  {mes:9,dia:1},{mes:9,dia:2},{mes:9,dia:3},{mes:9,dia:5},{mes:9,dia:8},{mes:9,dia:9},{mes:9,dia:16},{mes:9,dia:17},{mes:9,dia:22},{mes:9,dia:24},{mes:9,dia:24},
+  {mes:10,dia:1},{mes:10,dia:3},{mes:10,dia:4},{mes:10,dia:7},{mes:10,dia:9},{mes:10,dia:11},{mes:10,dia:12},{mes:10,dia:13},{mes:10,dia:14},{mes:10,dia:15},{mes:10,dia:18},{mes:10,dia:20},{mes:10,dia:22},
+  {mes:11,dia:1},{mes:11,dia:2},{mes:11,dia:4},{mes:11,dia:8},{mes:11,dia:10},{mes:11,dia:11},{mes:11,dia:11},{mes:11,dia:13},{mes:11,dia:14},{mes:11,dia:16},{mes:11,dia:18},{mes:11,dia:21},{mes:11,dia:27},{mes:11,dia:30},
+  {mes:12,dia:3},{mes:12,dia:4},{mes:12,dia:6},{mes:12,dia:8},{mes:12,dia:12},{mes:12,dia:14},{mes:12,dia:20}
 ];
 const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
+/* ======== LINKS dos 4 botões (um item por posição do array acima) ========
+   Preencha cada objeto com as URLs correspondentes à data atual.
+   Ex.: LINKS[0] = { "ramsho-curta":"https://...", "ramsho-longa":"...", "safro-curta":"...", "safro-longa":"..." } */
+const LINKS = datasEspeciais.map(()=>({
+  "ramsho-curta": null,
+  "ramsho-longa": null,
+  "safro-curta":  null,
+  "safro-longa":  null
+}));
+
+/* ========= UI ========= */
 const dataBtn=document.getElementById('dataBtn');
 const prevBt=document.getElementById('prev');
 const nextBt=document.getElementById('next');
@@ -100,17 +160,41 @@ let idx=0;
 
 function formatDia(d){return d===1?'1º':String(d);}
 function labelData(item){return `${formatDia(item.dia)} de ${meses[item.mes-1]}`;}
-function linkParaData(item){return `#${String(item.mes).padStart(2,'0')}-${String(item.dia).padStart(2,'0')}`;}
+function linkParaData(item){ // ajuste se desejar apontar para uma página específica da data
+  return `#${String(item.mes).padStart(2,'0')}-${String(item.dia).padStart(2,'0')}`;
+}
+
+function setBtnLink(a, url){
+  if(url){
+    a.href=url;
+    a.style.opacity='';
+    a.style.pointerEvents='';
+    a.title='';
+  }else{
+    a.href='#';
+    a.style.opacity=.55;
+    a.style.pointerEvents='none';
+    a.title='Link não configurado para esta data';
+  }
+}
 
 function render(){
   if(!datasEspeciais.length){
     dataBtn.textContent='Defina as datas no código';
     dataBtn.disabled=true; prevBt.disabled=true; nextBt.disabled=true;
+    document.querySelectorAll('[data-key]').forEach(a=>setBtnLink(a,null));
     return;
   }
   const cur=datasEspeciais[idx];
   dataBtn.textContent=labelData(cur);
+
+  const links = LINKS[idx] || {};
+  document.querySelectorAll('[data-key]').forEach(a=>{
+    const k=a.getAttribute('data-key');
+    setBtnLink(a, links[k] || null);
+  });
 }
+
 dataBtn.addEventListener('click',()=>{ if(!datasEspeciais.length) return; window.open(linkParaData(datasEspeciais[idx]),'_blank'); });
 prevBt.onclick=()=>{ if(!datasEspeciais.length) return; idx=(idx-1+datasEspeciais.length)%datasEspeciais.length; render(); }
 nextBt.onclick=()=>{ if(!datasEspeciais.length) return; idx=(idx+1)%datasEspeciais.length; render(); }
