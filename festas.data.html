@@ -42,10 +42,8 @@ header{text-align:center;padding:12px 12px 6px}
   display:inline-flex; align-items:center; justify-content:center; text-align:center;
   padding:12px 20px; border-radius:14px; background:#fff; color:var(--texto);
   border:3px solid var(--ouroVelho); box-shadow: inset 0 0 0 3px rgba(180,146,58,.6), 0 2px 6px var(--shadow);
-  font-weight:900; font-size:1.2rem; min-width:260px; user-select:none; cursor:pointer;
-  transition:transform .12s, background-color .2s;
+  font-weight:900; font-size:1.2rem; min-width:260px; user-select:none;
 }
-.panel:hover{transform:scale(1.02); background:#fffdf4}
 .navrow{display:flex; justify-content:center; gap:12px; margin-top:12px}
 .navbtn{
   background:#fff; color:var(--texto); border-radius:12px; padding:9px 14px; font-weight:900;
@@ -71,6 +69,7 @@ header{text-align:center;padding:12px 12px 6px}
   transition:transform .15s ease, background-color .2s ease;
 }
 .btn:hover{transform:scale(1.02);background:#fffdf4}
+.btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
 .btn img{
   position:absolute;left:12px;width:24px;height:24px;border-radius:50%;object-fit:cover;border:2px solid var(--ouroVelho)
 }
@@ -96,8 +95,8 @@ header{text-align:center;padding:12px 12px 6px}
   <img class="hero" src="img/icone-festadata.jpg" alt="Ícone — Festas por Data">
 
   <section aria-label="Navegação por datas especiais" class="navwrap">
-    <button id="dataBtn" class="panel" type="button">-- de ----</button>
-    <div id="festLabel" class="festlabel">Selecione uma data…</div>
+    <div id="dataBtn" class="panel">--/--</div>
+    <div id="festLabel" class="festlabel">Carregando…</div>
 
     <div class="navrow">
       <button id="prev" class="navbtn" type="button">← Anterior</button>
@@ -107,16 +106,16 @@ header{text-align:center;padding:12px 12px 6px}
 
   <!-- 4 botões padrão -->
   <section class="buttons" aria-label="Ritos do dia selecionado">
-    <a class="btn" data-key="ramsho-curta" href="#" target="_blank" rel="noopener">
+    <a class="btn" data-key="ramsho_curta" href="#" target="_blank" rel="noopener">
       <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
     </a>
-    <a class="btn" data-key="ramsho-longa" href="#" target="_blank" rel="noopener">
+    <a class="btn" data-key="ramsho_longa" href="#" target="_blank" rel="noopener">
       <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
     </a>
-    <a class="btn" data-key="safro-curta" href="#" target="_blank" rel="noopener">
+    <a class="btn" data-key="safro_curta" href="#" target="_blank" rel="noopener">
       <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
     </a>
-    <a class="btn" data-key="safro-longa" href="#" target="_blank" rel="noopener">
+    <a class="btn" data-key="safro_longa" href="#" target="_blank" rel="noopener">
       <img src="img/cruz.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span>
     </a>
   </section>
@@ -131,102 +130,113 @@ header{text-align:center;padding:12px 12px 6px}
 </main>
 
 <script>
-/* ========= DATAS (na ordem pedida) ========= */
-const datasEspeciais = [
-  {mes:12,dia:25},{mes:12,dia:26},{mes:12,dia:27},{mes:12,dia:28},{mes:12,dia:29},{mes:12,dia:30},{mes:12,dia:31},
-  {mes:1,dia:1},{mes:1,dia:2},{mes:1,dia:3},{mes:1,dia:4},{mes:1,dia:6},{mes:1,dia:7},{mes:9,dia:14},
-  {mes:1,dia:5},{mes:1,dia:15},{mes:1,dia:16},{mes:1,dia:17},{mes:1,dia:22},{mes:1,dia:24},{mes:1,dia:25},{mes:1,dia:28},{mes:1,dia:31},
-  {mes:2,dia:2},{mes:2,dia:3},{mes:2,dia:9},{mes:2,dia:19},{mes:2,dia:20},
-  {mes:3,dia:2},{mes:3,dia:3},{mes:3,dia:9},{mes:3,dia:19},{mes:3,dia:23},{mes:3,dia:25},{mes:3,dia:26},
-  {mes:4,dia:8},{mes:4,dia:16},{mes:4,dia:23},{mes:4,dia:25},{mes:4,dia:27},{mes:4,dia:29},{mes:4,dia:30},
-  {mes:5,dia:1},{mes:5,dia:6},{mes:5,dia:8},{mes:5,dia:9},{mes:5,dia:13},{mes:5,dia:22},
-  {mes:6,dia:2},{mes:6,dia:6},{mes:6,dia:11},{mes:6,dia:13},{mes:6,dia:13},{mes:6,dia:19},{mes:6,dia:21},{mes:6,dia:22},{mes:6,dia:24},{mes:6,dia:29},{mes:6,dia:30},
-  {mes:7,dia:10},{mes:7,dia:11},{mes:7,dia:15},{mes:7,dia:16},{mes:7,dia:17},{mes:7,dia:20},{mes:7,dia:22},{mes:7,dia:23},{mes:7,dia:24},{mes:7,dia:31},
-  {mes:8,dia:4},{mes:8,dia:6},{mes:8,dia:7},{mes:8,dia:9},{mes:8,dia:12},{mes:8,dia:14},{mes:8,dia:15},{mes:8,dia:15},{mes:8,dia:16},{mes:8,dia:23},{mes:8,dia:28},{mes:8,dia:28},{mes:8,dia:29},
-  {mes:9,dia:1},{mes:9,dia:2},{mes:9,dia:3},{mes:9,dia:5},{mes:9,dia:8},{mes:9,dia:9},{mes:9,dia:16},{mes:9,dia:17},{mes:9,dia:22},{mes:9,dia:24},{mes:9,dia:24},
-  {mes:10,dia:1},{mes:10,dia:3},{mes:10,dia:4},{mes:10,dia:7},{mes:10,dia:9},{mes:10,dia:11},{mes:10,dia:12},{mes:10,dia:13},{mes:10,dia:14},{mes:10,dia:15},{mes:10,dia:18},{mes:10,dia:20},{mes:10,dia:22},
-  {mes:11,dia:1},{mes:11,dia:2},{mes:11,dia:4},{mes:11,dia:8},{mes:11,dia:10},{mes:11,dia:11},{mes:11,dia:11},{mes:11,dia:13},{mes:11,dia:14},{mes:11,dia:16},{mes:11,dia:18},{mes:11,dia:21},{mes:11,dia:27},{mes:11,dia:30},
-  {mes:12,dia:3},{mes:12,dia:4},{mes:12,dia:6},{mes:12,dia:8},{mes:12,dia:12},{mes:12,dia:14},{mes:12,dia:20}
-];
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1876996445&single=true&output=csv";
 
-/* ========= TÍTULOS (mesma ordem do array acima) ========= */
-const titulosEspeciais = [
-  "Festa do Natal","Festa do Cumprimento de Maria","Martírio de Estêvão, o Primeiro dos mártires","A visita dos magos","Fuga para Egito e Massacre dos inocentes",
-  "Retorno do Egito e estabelecimento em Nazaré","O Verbo Encarnado",
-  "Festa da Paz","A Circuncisão de Jesus e a Apresentação no Templo","A Apresentação no Templo, São Simeão","A Apresentação no Templo, a Profetisa Ana",
-  "Festa da Epifania","Elogio de João Batista","Festa da Exaltação da Santa Cruz",
-  "São Paulo Eremita","Nossa Senhora das Sementes","Cátedra de São Pedro","Santo Antão","São Sérgio, papa","São Francisco Sales","Conversão de São Paulo","Santo Efrém, sírio","São João Bosco",
-  "Apresentação de Jesus no templo","S. Simeão, o venerável e a Profetisa Ana","São Maron","500 Mártires de Tiro","São Tiago de Cyr",
-  "São João Marun – 1º Patriarca Maronita","São Tomás de Aquino","40 Mártires","São José","Santa Refqa","Anunciação do Senhor","Arcanjo São Gabriel",
-  "São João Clímaco","Santa Bernadete Soubirous","São Jorge, mártir","São Marcos, evangelista","São Simão Apóstolo","Santa Catarina de Sena","São Tiago Apóstolo, filho de Zebedeu",
-  "São José Operário","São Domingos Sávio","São João Evangelista","Profeta Isaías","Nossa Senhora de Colheita","Santa Rita de Cássia",
-  "Os 4 Evangelistas","São Dorateu, Bispo de Tiro","São Bartolomeu Apóstolo","São Aquilina de Biblos","Santo Antonio de Pádua","São Judas Tadeu Apóstolo","São Luís Gonzaga","São Eusébio de Samósata","Natividade de São João Batista","São Pedro e São Paulo Apóstolos","Os 12 Apóstolos",
-  "Os Três Mártires Massabkis","São Bento","São Kiriakis e Julita","Nossa Senhora do Carmo","Santa Marina, Monja de Qannubine","Santo Elias, Profeta","Santa Nura/Santa Maria Madalena","São Charbel Makhlouf","Santa Cristina de Tiro, mártir","Os 350 Mártires Maronitas, discípulos de S. Marun",
-  "São João Maria Vianney","Transfiguração do Senhor","São Domingos, confessor","São Matias Apóstolo","São Shina","São Maximiliano Kolbe","N. Senhora da Videira","Assunção de N. Senhora","São Roque","São Isaac, o sírio","São Moisés, o etíope","Santo Agostinho","Martírio de São João Batista",
-  "São Simão, O estilita, confessor","São Mammas, O grande","São Charbel, Bispo de Edessa e sua Irmã","Arcanjo São Miguel","Natividade da Santíssima Virgem Maria","São Joaquim e Santa Ana","São Cipriano, bispo","Santa Sofia e suas 3 filhas","São Foca e seus companheiros","S. Thecla","Esponsais de Nossa Senhora",
-  "Santa Teresinha do Menino Jesus e da Sagrada Face","São Cipriano e Justina","São Francisco de Assis","São Sérgio e São Baco","São Tiago Apóstolo, irmão do Senhor","São João XXIII, Papa","N. Sra. da Conceição Aparecida, Padroeira do Brasil","S. Edmo e companheiros","S. Isaías, monge","Santa Tereza d’Ávila, Doutora da igreja","São Lucas, Evangelista","São Chalita, Mártir","São João Paulo II, papa",
-  "Solenidade de todos os santos","Finados – Memória dos Fiéis Falecidos","Santa Ásia","Arcanjo São Miguel","Santa Mura","São Mena e companheiros","São Martinho","São João Crisóstomo","São Filipe Apóstolo","São Mateus Apóstolo","São Romano","Apresentação de Nossa Senhora","São Tiago Mártir","Santo André Apóstolo/São Bichai",
-  "São Francisco Xavier","Santa Bárbara Mártir","São Nicolau de Myra","Imaculada Conceição","Nossa Senhora de Guadalupe","São Naamtallah Kassab Al-Hardini","Santo Inácio de Antioquia"
-];
+/* --- CSV parser simples com suporte a aspas --- */
+function parseCSV(text){
+  const rows=[]; let cur=[]; let val=""; let q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], n=text[i+1];
+    if(q){
+      if(c==='"' && n==='"'){ val+='"'; i++; }
+      else if(c==='"'){ q=false; }
+      else { val+=c; }
+    }else{
+      if(c==='"'){ q=true; }
+      else if(c===','){ cur.push(val.trim()); val=""; }
+      else if(c==='\n'){ cur.push(val.trim()); rows.push(cur); cur=[]; val=""; }
+      else if(c==='\r'){ /* skip */ }
+      else { val+=c; }
+    }
+  }
+  if(val.length || cur.length) { cur.push(val.trim()); rows.push(cur); }
+  return rows;
+}
 
-/* ======== LINKS dos 4 botões (um item por posição do array acima) ======== */
-const LINKS = datasEspeciais.map(()=>({
-  "ramsho-curta": null,
-  "ramsho-longa": null,
-  "safro-curta":  null,
-  "safro-longa":  null
-}));
+const dataBtn   = document.getElementById('dataBtn');
+const festLabel = document.getElementById('festLabel');
+const prevBt    = document.getElementById('prev');
+const nextBt    = document.getElementById('next');
 
-/* ========= UI ========= */
-const dataBtn=document.getElementById('dataBtn');
-const festLabel=document.getElementById('festLabel');
-const prevBt=document.getElementById('prev');
-const nextBt=document.getElementById('next');
-let idx=0;
-
-const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-function formatDia(d){return d===1?'1º':String(d);}
-function labelData(item){return `${formatDia(item.dia)} de ${meses[item.mes-1]}`;}
-function linkParaData(item){return `#${String(item.mes).padStart(2,'0')}-${String(item.dia).padStart(2,'0')}`;}
+let ENTRIES = [];   // {chave:"DD/MM", titulo:"...", ramsho_curta:URL, ...}
+let idx = 0;
 
 function setBtnLink(a, url){
   if(url){
-    a.href=url;
-    a.style.opacity='';
-    a.style.pointerEvents='';
-    a.title='';
+    a.href = url;
+    a.setAttribute('aria-disabled','false');
   }else{
-    a.href='#';
-    a.style.opacity=.55;
-    a.style.pointerEvents='none';
-    a.title='Link não configurado para esta data';
+    a.href = '#';
+    a.setAttribute('aria-disabled','true');
   }
 }
 
 function render(){
-  if(!datasEspeciais.length){
-    dataBtn.textContent='Defina as datas no código';
-    festLabel.textContent='—';
-    dataBtn.disabled=true; prevBt.disabled=true; nextBt.disabled=true;
+  if(!ENTRIES.length){
+    dataBtn.textContent='--/--';
+    festLabel.textContent='Nenhum dado';
     document.querySelectorAll('[data-key]').forEach(a=>setBtnLink(a,null));
+    prevBt.disabled = nextBt.disabled = true;
     return;
   }
-  const cur=datasEspeciais[idx];
-  dataBtn.textContent=labelData(cur);
-  festLabel.textContent = titulosEspeciais[idx] || '—';
-
-  const links = LINKS[idx] || {};
+  const e = ENTRIES[idx];
+  dataBtn.textContent = e.chave || '--/--';
+  festLabel.textContent = e.titulo || '—';
   document.querySelectorAll('[data-key]').forEach(a=>{
     const k=a.getAttribute('data-key');
-    setBtnLink(a, links[k] || null);
+    setBtnLink(a, e[k] || null);
   });
 }
 
-dataBtn.addEventListener('click',()=>{ if(!datasEspeciais.length) return; window.open(linkParaData(datasEspeciais[idx]),'_blank'); });
-prevBt.onclick=()=>{ if(!datasEspeciais.length) return; idx=(idx-1+datasEspeciais.length)%datasEspeciais.length; render(); }
-nextBt.onclick=()=>{ if(!datasEspeciais.length) return; idx=(idx+1)%datasEspeciais.length; render(); }
-render();
+prevBt.onclick=()=>{ if(!ENTRIES.length) return; idx=(idx-1+ENTRIES.length)%ENTRIES.length; render(); }
+nextBt.onclick=()=>{ if(!ENTRIES.length) return; idx=(idx+1)%ENTRIES.length; render(); }
+
+/* --- Carrega CSV e monta ENTRIES --- */
+(async function init(){
+  try{
+    const res = await fetch(CSV_URL, {cache:'no-store'});
+    const txt = await res.text();
+    const rows = parseCSV(txt).filter(r=>r.length && r.some(x=>x&&x.trim().length));
+    if(!rows.length){ throw new Error('CSV vazio'); }
+
+    // cabeçalho esperado: chave,titulo,ramsho_curta,ramsho_longa,safro_curta,safro_longa
+    const header = rows[0].map(h=>h.toLowerCase());
+    const idxOf = name => header.indexOf(name);
+    const iCh = idxOf('chave'), iTi = idxOf('titulo'),
+          iRc = idxOf('ramsho_curta'), iRl = idxOf('ramsho_longa'),
+          iSc = idxOf('safro_curta'),  iSl = idxOf('safro_longa');
+
+    ENTRIES = rows.slice(1).map(r=>({
+      chave: (r[iCh]||'').padStart(5,'0'),   // garante "DD/MM"
+      titulo: r[iTi]||'',
+      ramsho_curta: r[iRc]||'',
+      ramsho_longa: r[iRl]||'',
+      safro_curta : r[iSc]||'',
+      safro_longa : r[iSl]||'',
+    }))
+    // filtra linhas totalmente vazias (sem nenhum link e sem título/chave)
+    .filter(e => e.chave || e.titulo || e.ramsho_curta || e.ramsho_longa || e.safro_curta || e.safro_longa);
+
+    // opcional: normaliza chave para DD/MM (zero à esquerda)
+    ENTRIES = ENTRIES.map(e=>{
+      const m = e.chave.match(/^(\d{1,2})[\/\-](\d{1,2})$/);
+      if(m){
+        const dd = m[1].padStart(2,'0');
+        const mm = m[2].padStart(2,'0');
+        e.chave = `${dd}/${mm}`;
+      }
+      return e;
+    });
+
+    // se houver várias entradas com mesma chave, mantemos todas (uma por linha)
+    idx = 0;
+  }catch(err){
+    console.error(err);
+    festLabel.textContent = 'Erro ao carregar a planilha';
+  }finally{
+    render();
+  }
+})();
 </script>
 </body>
 </html>
-
