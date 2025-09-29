@@ -27,7 +27,8 @@ header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
 .back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
 .btn-back{ display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer}
 .btn-back .arr{font-size:18px; line-height:1}
-#status{ text-align:center; margin-top:8px; font-weight:700; color:#fff; opacity:.9 }
+.status{margin:8px auto 0; max-width:640px; padding:8px 12px; border-radius:10px; background:#fff; border:2px dashed #b0b0b0; color:#333; font-size:.92rem; display:none}
+.status strong{color:#a00000}
 </style>
 <script>
 function goBackOrMother(){
@@ -37,12 +38,52 @@ function goBackOrMother(){
   }catch(e){}
   location.href='anuncio.html';
 }
+const SLUG='4 domingo anuncio';
+const URL_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+function parseCSV(t){return t.trim().split(/\r?\n/).map(l=>l.split(',').map(c=>c.trim()));}
+function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
+function headerIndexMap(h){const m={};h.forEach((n,i)=>m[norm(n)]=i);return m;}
+function firstOf(row, idxMap, keys, fallbackIdx){
+  for(const k of keys){const i=idxMap[norm(k)]; if(i!=null && row[i]) return row[i].trim();}
+  if(fallbackIdx!=null && row[fallbackIdx]) return row[fallbackIdx].trim();
+  return '';
+}
+function setBtn(a,url){ if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.removeAttribute('title');}
+  else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
 document.addEventListener('DOMContentLoaded', ()=>{
+  // estrelas
   const sky=document.querySelector('.sky'); const star=document.createElement('div'); star.className='bethlehem'; star.textContent='✶'; sky.appendChild(star);
-  const N=36; for(let i=0;i<N;i++){const e=document.createElement('div'); e.className='star'; e.textContent='✸';
-    const side=Math.random()<0.5 ? (2+Math.random()*12) : (86+Math.random()*12); const top=8+Math.random()*88;
+  for(let i=0;i<36;i++){const e=document.createElement('div'); e.className='star'; e.textContent='✸';
+    const side=Math.random()<0.5?(2+Math.random()*12):(86+Math.random()*12); const top=8+Math.random()*88;
     e.style.left=(Math.random()<0.6?side:(14+Math.random()*72))+'vw'; e.style.top=top+'vh';
     e.style.fontSize=(Math.random()<0.3?(20+Math.random()*8):(10+Math.random()*6))+'px'; sky.appendChild(e);}
+  // planilha
+  fetch(URL_CSV).then(r=>r.text()).then(txt=>{
+    const table=parseCSV(txt); if(!table.length) throw new Error('Planilha vazia.');
+    const head=table[0], idxMap=headerIndexMap(head);
+    const slugCol=idxMap['slug']??0;
+    const row=table.find((r,i)=>i>0 && norm(r[slugCol])===norm(SLUG));
+    const st=document.getElementById('status');
+    if(!row){ st.style.display='block'; st.innerHTML=`Pendente (<strong>slug não encontrado</strong>): ${SLUG}`;
+      document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null)); return; }
+    const linkRamshoCurta = firstOf(row, idxMap, ['ramsho-curta','ramsho curta'], 2);
+    const linkRamshoLonga = firstOf(row, idxMap, ['ramsho-longa','ramsho longa'], 3);
+    const linkSafroCurta  = firstOf(row, idxMap, ['safro-curta','safro curta'], 4);
+    const linkSafroLonga  = firstOf(row, idxMap, ['safro-longa','safro longa'], 5);
+    const linkSalmos      = firstOf(row, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
+    setBtn(document.querySelector('[data-link="ramsho-curta"]'), linkRamshoCurta);
+    setBtn(document.querySelector('[data-link="ramsho-longa"]'), linkRamshoLonga);
+    setBtn(document.querySelector('[data-link="safro-curta"]') , linkSafroCurta);
+    setBtn(document.querySelector('[data-link="safro-longa"]') , linkSafroLonga);
+    setBtn(document.querySelector('[data-link="salmos-leituras"]'), linkSalmos);
+    const falt = [['ramsho-curta',linkRamshoCurta],['ramsho-longa',linkRamshoLonga],['safro-curta',linkSafroCurta],['safro-longa',linkSafroLonga],['salmos-leituras',linkSalmos]]
+      .filter(([k,v])=>!v).map(([k])=>k.replace('-', ' '));
+    if(falt.length){ st.style.display='block'; st.innerHTML=`Pendente: <strong>${falt.join(', ')}</strong>`; }
+  }).catch(err=>{
+    const st=document.getElementById('status'); st.style.display='block';
+    st.innerHTML=`Erro ao carregar planilha: <strong>${err.message}</strong>`;
+    document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null));
+  });
 });
 </script>
 </head>
@@ -55,124 +96,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
   <img class="hero" src="img/icone-nascimento-jb.png" alt="Ícone — Nascimento de João Batista" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-key="ramsho-curta" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
-    <a class="btn" data-key="ramsho-longa" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
-    <a class="btn" data-key="safro-curta"  href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
-    <a class="btn" data-key="safro-longa"  href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
-    <a class="btn" data-key="salmos"       href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-curta" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-curta"  href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-longa"  href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="salmos-leituras" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
   </section>
 
-  <p id="status"></p>
+  <div id="status" class="status" aria-live="polite"></div>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
-
-<script>
-const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
-
-const SLUG_MAIN = '4 domingo anuncio';
-const SLUG_READ = '4 anuncio leituras';
-
-// normalização MUITO tolerante
-const norm = s => (s||'')
-  .toString()
-  .replace(/^\ufeff/,'')
-  .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .toLowerCase()
-  .replace(/[^a-z0-9]+/g,' ')
-  .replace(/\s+/g,' ')
-  .trim();
-
-// encontra índice por tokens contidos no cabeçalho
-function findColIndex(headers, tokens){
-  const want = tokens.map(norm);
-  for(let i=0;i<headers.length;i++){
-    const h = norm(headers[i]);
-    let ok = true;
-    for(const t of want){ if(!h.includes(t)) { ok=false; break; } }
-    if(ok) return i;
-  }
-  return -1;
-}
-
-// parser CSV simples com detecção de delimitador e respeito a aspas
-function parseCSV(text){
-  text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
-  const firstLine = text.split('\n')[0] || '';
-  const cand = [',',';','\t'];
-  let delim = ',';
-  let bestCount = 0;
-  for(const d of cand){
-    const count = (firstLine.match(new RegExp(`\\${d}`,'g'))||[]).length;
-    if(count>bestCount){ bestCount=count; delim=d; }
-  }
-  const re = new RegExp(`${delim}(?=(?:[^"]*"[^"]*")*[^"]*$)`);
-  const lines = text.split('\n').filter(l=>l.trim().length>0);
-  const rows = lines.map(l=> l.split(re).map(c=>{
-    c=c.replace(/^"(.*)"$/,'$1'); // tira aspas externas
-    return c;
-  }));
-  return rows;
-}
-
-function setBtn(key,url){
-  const a=document.querySelector(`a[data-key="${key}"]`);
-  if(!a) return;
-  if(url && url.trim()){
-    a.href=url.trim(); a.style.opacity=''; a.style.pointerEvents=''; a.title='';
-    a.target='_blank'; a.rel='noopener';
-  }else{
-    a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';
-    a.removeAttribute('target'); a.removeAttribute('rel');
-  }
-}
-
-async function load(){
-  try{
-    const res = await fetch(CSV_URL);
-    const csv = await res.text();
-    const rows = parseCSV(csv);
-    const header = rows.shift() || [];
-
-    // mapear colunas por tokens (tolerante)
-    const ixSlug = findColIndex(header, ['slug']);
-    const ixRC   = findColIndex(header, ['ramsho','curta']);
-    const ixRL   = findColIndex(header, ['ramsho','longa']);
-    const ixSC   = findColIndex(header, ['safro','curta']);
-    const ixSL   = findColIndex(header, ['safro','longa']);
-    const ixSAL  = findColIndex(header, ['salmos']) >=0 ? findColIndex(header, ['salmos']) : findColIndex(header, ['salmos','leituras']);
-
-    const bySlug = {};
-    for(const r of rows){
-      const s = r[ixSlug]!=null ? norm(r[ixSlug]) : '';
-      if(s) bySlug[s]=r;
-    }
-
-    const main = bySlug[norm(SLUG_MAIN)] || [];
-    const read = bySlug[norm(SLUG_READ)] || [];
-
-    const links = {
-      'ramsho-curta' : main[ixRC]  || '',
-      'ramsho-longa' : main[ixRL]  || '',
-      'safro-curta'  : main[ixSC]  || '',
-      'safro-longa'  : main[ixSL]  || '',
-      'salmos'       : (read[ixSAL] || main[ixSAL] || '')
-    };
-
-    Object.entries(links).forEach(([k,v])=>setBtn(k, v||''));
-
-    const pend=[];
-    for(const k of ['ramsho-curta','ramsho-longa','safro-curta','safro-longa','salmos']){
-      if(!(links[k] && String(links[k]).trim())) pend.push(k);
-    }
-    document.getElementById('status').textContent = pend.length?('Pendente: '+pend.join(', ')):'';
-  }catch(e){
-    document.getElementById('status').textContent='Falha ao carregar a planilha.';
-    console.error(e);
-  }
-}
-load();
-</script>
 </body>
 </html>
+
 
