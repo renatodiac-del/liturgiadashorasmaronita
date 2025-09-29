@@ -5,7 +5,8 @@
 <title>4º Domingo · Nascimento de João Batista</title>
 <meta name="theme-color" content="#0b4660">
 <style>
-:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px; --base:#0b4660; --topo:#bff6ff; }
+:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;
+  --base:#0b4660; --topo:#bff6ff; }
 *{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
 body{ font-family:var(--fonte); background:linear-gradient(to top, var(--base) 0%, #2a97b6 55%, var(--topo) 100%); min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden}
 .sky{position:fixed; inset:0; pointer-events:none; z-index:0}
@@ -26,6 +27,7 @@ header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
 .back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
 .btn-back{ display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer}
 .btn-back .arr{font-size:18px; line-height:1}
+#status{ text-align:center; margin-top:8px; font-weight:700; color:#fff; opacity:.9 }
 </style>
 <script>
 function goBackOrMother(){
@@ -60,78 +62,69 @@ document.addEventListener('DOMContentLoaded', ()=>{
     <a class="btn" data-key="salmos"       href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
   </section>
 
+  <p id="status"></p>
+
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv";
-const MAIN_SLUG="4 domingo anuncio";
-const SALMOS_SLUG="4 anuncio leituras";
+const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
 
-// --- helpers robustos ---
-const norm = s => (s||"").toString().trim().toLowerCase()
-  .normalize('NFD').replace(/\p{Diacritic}/gu,'')
-  .replace(/\s+/g,' ');
-function parseCSV(text){
-  const out=[]; let row=[], cur='', q=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i], n=text[i+1];
-    if(q){
-      if(c==='"' && n==='"'){cur+='"'; i++; continue;}
-      if(c==='"' ){q=false; continue;}
-      cur+=c;
-    }else{
-      if(c==='"'){q=true; continue;}
-      if(c===','){row.push(cur); cur=''; continue;}
-      if(c==='\n'){row.push(cur); out.push(row); row=[]; cur=''; continue;}
-      if(c==='\r'){continue;}
-      cur+=c;
-    }
-  }
-  row.push(cur); out.push(row); return out;
-}
-function headersIndex(head){
-  const want={
-    slug:'slug',
-    rc:'ramsho-curta', rl:'ramsho-longa',
-    sc:'safro-curta',  sl:'safro-longa',
-    sal:'salmos-leituras'
-  };
-  const map={}; const H=head.map(h=>norm(h));
-  for(const k in want){
-    const w=norm(want[k]);
-    map[k]=H.indexOf(w);
-  }
-  return map;
-}
-function disableAll(){document.querySelectorAll('[data-key]').forEach(a=>{a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';});}
-function setBtn(key,url){const a=document.querySelector(`[data-key="${key}"]`); if(!a) return; if(url){a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.title='';}else{a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';}}
+const SLUG_MAIN   = '4 domingo anuncio';
+const SLUG_READ   = '4 anuncio leituras';
 
-(async function load(){
-  disableAll();
+const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+const setBtn = (key,url)=>{
+  const a=document.querySelector(`a[data-key="${key}"]`);
+  if(!a) return;
+  if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.title=''; a.setAttribute('target','_blank'); a.setAttribute('rel','noopener'); }
+  else{ a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; a.removeAttribute('target'); a.removeAttribute('rel'); }
+};
+async function load(){
   try{
-    const txt=await (await fetch(CSV_URL)).text();
-    const rows=parseCSV(txt);
-    const head=rows[0]||[];
-    const idx=headersIndex(head);
-    const map={};
-    for(let i=1;i<rows.length;i++){
-      const r=rows[i]; const s=norm(r[idx.slug]);
-      if(!s) continue;
-      map[s]={ rc:r[idx.rc]||'', rl:r[idx.rl]||'', sc:r[idx.sc]||'', sl:r[idx.sl]||'', sal:r[idx.sal]||'' };
-    }
-    const main=map[norm(MAIN_SLUG)]||{};
-    const sal =map[norm(SALMOS_SLUG)]||{};
-    setBtn('ramsho-curta', main.rc);
-    setBtn('ramsho-longa', main.rl);
-    setBtn('safro-curta',  main.sc);
-    setBtn('safro-longa',  main.sl);
-    setBtn('salmos',       sal.sal || main.sal); // fallback se estiver junto
-  }catch(err){console.error(err);}
-})();
+    const res=await fetch(CSV_URL); const csv=await res.text();
+    const rows=csv.trim().split(/\r?\n/).map(l=>l.split(','));
+    const hdr=rows.shift().map(h=>norm(h));
+    const col = name => hdr.indexOf(norm(name));
+    const ixSlug = col('slug');
+    const ixRC = col('ramsho-curta'), ixRL = col('ramsho-longa');
+    const ixSC = col('safro-curta'),  ixSL = col('safro-longa');
+    const ixSAL= col('salmos-leituras');
+
+    const findBySlug = wanted => {
+      const w=norm(wanted);
+      for(const r of rows){ if(norm(r[ixSlug])===w) return r; }
+      return null;
+    };
+
+    const main = findBySlug(SLUG_MAIN) || [];
+    const read = findBySlug(SLUG_READ) || [];
+
+    const links = {
+      'ramsho-curta' : main[ixRC] || '',
+      'ramsho-longa' : main[ixRL] || '',
+      'safro-curta'  : main[ixSC] || '',
+      'safro-longa'  : main[ixSL] || '',
+      'salmos'       : read[ixSAL] || main[ixSAL] || ''
+    };
+
+    Object.entries(links).forEach(([k,v])=>setBtn(k, v && v.trim() ? v.trim() : null));
+
+    // debug opcional
+    const st=[];
+    if(!links['ramsho-curta']) st.push('ramsho-curta');
+    if(!links['ramsho-longa']) st.push('ramsho-longa');
+    if(!links['safro-curta'])  st.push('safro-curta');
+    if(!links['safro-longa'])  st.push('safro-longa');
+    if(!links['salmos'])       st.push('salmos-leituras');
+    document.getElementById('status').textContent = st.length?('Pendente: '+st.join(', ')):'';
+  }catch(e){
+    document.getElementById('status').textContent='Falha ao carregar a planilha.';
+    console.error(e);
+  }
+}
+load();
 </script>
 </body>
 </html>
-
-
 
