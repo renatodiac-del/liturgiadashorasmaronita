@@ -4,35 +4,36 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>5º Domingo · Revelação a José</title>
 <meta name="theme-color" content="#0b226b">
+<!-- (mesmo CSS do arquivo anterior) -->
 <style>
-:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px; --base:#0b226b; --topo:#9bb4ff; }
+/* ... (MESMO BLOCO DE ESTILOS DO ARQUIVO 4º) ... */
+:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px; --base:#0b226b; --topo:#9bb4ff;}
 *{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
-body{ font-family:var(--fonte); background:linear-gradient(to top, var(--base) 0%, #2e46a3 55%, var(--topo) 100%); min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden}
-.sky{position:fixed; inset:0; pointer-events:none; z-index:0}
-.bethlehem{position:absolute; top:8px; left:50%; transform:translateX(-50%); color:var(--branco); font-size:30px; text-shadow:0 0 10px rgba(255,255,255,.95),0 0 14px rgba(255,255,255,.8)}
-.bethlehem::after{content:""; position:absolute; left:18px; top:6px; width:28vw; height:3px; transform:rotate(10deg); background:repeating-linear-gradient(90deg, var(--branco) 0 10px, var(--prata) 10px 20px); filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
-.star{position:absolute; color:var(--branco); opacity:.9; text-shadow:0 0 6px rgba(255,255,255,.9)}
-header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
-.title{ color:var(--prata); font-weight:900; font-size:1.9rem; text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
-.wrap{position:relative; z-index:1; max-width:640px; margin:0 auto; padding:12px 16px 22px; width:100%}
-.hero{ display:block; margin:10px auto 16px; height:390px; width:auto; aspect-ratio:3/4; object-fit:cover; max-height:580px; border:4px solid var(--prata); box-shadow: inset 0 0 0 4px var(--branco), 0 8px 16px var(--shadow); border-radius:14px}
-.list{display:flex; flex-direction:column; gap:12px; margin-top:6px}
-.btn{ display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center; background:linear-gradient(to top, #15318a 0%, #3f5ed1 60%, #9db3ff 100%); color:var(--prata); text-decoration:none; font-weight:900; border:3px solid var(--prata); box-shadow: inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow); border-radius:18px; padding:6px 18px; width:94%; margin:0 auto; transition:transform .12s, filter .2s}
-.btn:hover{transform:scale(1.02); filter:brightness(1.05)}
-.btn .icon{ width:var(--btnIcon); height:var(--btnIcon); border-radius:50%; border:2px solid var(--prata); box-shadow:inset 0 0 0 2px var(--branco); object-fit:cover}
-.btn .label{ color:var(--prata); text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
-.btn .line1,.btn .line2{display:block} .btn .line2{font-weight:800; opacity:.95}
-.btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
-.back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
-.btn-back{ display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer}
-.btn-back .arr{font-size:18px; line-height:1}
+body{font-family:var(--fonte);background:linear-gradient(to top, var(--base) 0%, #2e46a3 55%, var(--topo) 100%);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden}
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bethlehem{position:absolute;top:8px;left:50%;transform:translateX(-50%);color:var(--branco);font-size:30px;text-shadow:0 0 10px rgba(255,255,255,.95),0 0 14px rgba(255,255,255,.8)}
+.bethlehem::after{content:"";position:absolute;left:18px;top:6px;width:28vw;height:3px;transform:rotate(10deg);background:repeating-linear-gradient(90deg, var(--branco) 0 10px, var(--prata) 10px 20px);filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
+.star{position:absolute;color:var(--branco);opacity:.9;text-shadow:0 0 6px rgba(255,255,255,.9)}
+header{position:relative;z-index:1;text-align:center;padding:40px 10px 8px}
+.title{color:var(--prata);font-weight:900;font-size:1.9rem;text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
+.hero{display:block;margin:10px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;border:4px solid var(--prata);box-shadow:inset 0 0 0 4px #fff,0 8px 16px var(--shadow);border-radius:14px}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;background:linear-gradient(to top,#15318a 0%,#3f5ed1 60%,#9db3ff 100%);color:var(--prata);text-decoration:none;font-weight:900;border:3px solid var(--prata);box-shadow:inset 0 0 0 3px #fff,0 4px 10px var(--shadow);border-radius:18px;padding:6px 18px;width:94%;margin:0 auto;transition:transform .12s,filter .2s}
+.btn:hover{transform:scale(1.02);filter:brightness(1.05)}
+.btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--prata);box-shadow:inset 0 0 0 2px #fff;object-fit:cover}
+.btn .label{color:var(--prata);text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
+.btn .line1,.btn .line2{display:block}.btn .line2{font-weight:800;opacity:.95}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+.back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
+.btn-back{display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer}
+.btn-back .arr{font-size:18px;line-height:1}
+#status{text-align:center;margin-top:8px;font-weight:700;color:#fff;opacity:.9}
 </style>
 <script>
 function goBackOrMother(){
-  try{
-    if (document.referrer && document.referrer.includes('anuncio.html')) { history.back(); return; }
-    if (history.length>1) { history.back(); return; }
-  }catch(e){}
+  try{ if (document.referrer && document.referrer.includes('anuncio.html')) { history.back(); return; }
+       if (history.length>1) { history.back(); return; } }catch(e){}
   location.href='anuncio.html';
 }
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -60,40 +61,70 @@ document.addEventListener('DOMContentLoaded', ()=>{
     <a class="btn" data-key="salmos"       href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
   </section>
 
+  <p id="status"></p>
+
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv";
-const MAIN_SLUG="5 domingo anuncio";
-const SALMOS_SLUG="5 anuncio leituras";
+const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
 
-const norm = s => (s||"").toString().trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/\s+/g,' ');
-function parseCSV(text){const out=[];let row=[],cur='',q=false;for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(q){if(c==='\"'&&n==='\"'){cur+='\"';i++;continue;}if(c==='\"'){q=false;continue;}cur+=c;}else{if(c==='\"'){q=true;continue;}if(c===','){row.push(cur);cur='';continue;}if(c==='\n'){row.push(cur);out.push(row);row=[];cur='';continue;}if(c==='\r'){continue;}cur+=c;}}row.push(cur);out.push(row);return out;}
-function headersIndex(head){const want={slug:'slug',rc:'ramsho-curta',rl:'ramsho-longa',sc:'safro-curta',sl:'safro-longa',sal:'salmos-leituras'};const map={};const H=head.map(h=>norm(h));for(const k in want){map[k]=H.indexOf(norm(want[k]));}return map;}
-function disableAll(){document.querySelectorAll('[data-key]').forEach(a=>{a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';});}
-function setBtn(key,url){const a=document.querySelector(`[data-key="${key}"]`);if(!a)return;if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.title='';}else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
+const SLUG_MAIN = '5 domingo anuncio';
+const SLUG_READ = '5 anuncio leituras';
 
-(async function load(){
-  disableAll();
+const norm = s => (s||'').toString().replace(/^\ufeff/,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+function findColIndex(headers, tokens){
+  const want=tokens.map(norm);
+  for(let i=0;i<headers.length;i++){
+    const h=norm(headers[i]); let ok=true;
+    for(const t of want){ if(!h.includes(t)){ok=false;break;} }
+    if(ok) return i;
+  } return -1;
+}
+function parseCSV(text){
+  text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const firstLine=text.split('\n')[0]||'';
+  const cand=[',',';','\t']; let delim=','; let best=0;
+  for(const d of cand){ const c=(firstLine.match(new RegExp(`\\${d}`,'g'))||[]).length; if(c>best){best=c; delim=d;} }
+  const re=new RegExp(`${delim}(?=(?:[^"]*"[^"]*")*[^"]*$)`);
+  const lines=text.split('\n').filter(l=>l.trim().length>0);
+  return lines.map(l=>l.split(re).map(c=>c.replace(/^"(.*)"$/,'$1')));
+}
+function setBtn(key,url){
+  const a=document.querySelector(`a[data-key="${key}"]`); if(!a) return;
+  if(url&&url.trim()){ a.href=url.trim(); a.style.opacity=''; a.style.pointerEvents=''; a.title=''; a.target='_blank'; a.rel='noopener'; }
+  else{ a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; a.removeAttribute('target'); a.removeAttribute('rel'); }
+}
+async function load(){
   try{
-    const txt=await (await fetch(CSV_URL)).text();
-    const rows=parseCSV(txt);
-    const head=rows[0]||[]; const idx=headersIndex(head);
-    const map={};
-    for(let i=1;i<rows.length;i++){
-      const r=rows[i]; const s=norm(r[idx.slug]);
-      if(!s) continue;
-      map[s]={ rc:r[idx.rc]||'', rl:r[idx.rl]||'', sc:r[idx.sc]||'', sl:r[idx.sl]||'', sal:r[idx.sal]||'' };
-    }
-    const main=map[norm(MAIN_SLUG)]||{}; const sal=map[norm(SALMOS_SLUG)]||{};
-    setBtn('ramsho-curta', main.rc);
-    setBtn('ramsho-longa', main.rl);
-    setBtn('safro-curta',  main.sc);
-    setBtn('safro-longa',  main.sl);
-    setBtn('salmos',       sal.sal || main.sal);
-  }catch(err){console.error(err);}
-})();
+    const res=await fetch(CSV_URL); const csv=await res.text(); const rows=parseCSV(csv);
+    const header=rows.shift()||[];
+    const ixSlug=findColIndex(header,['slug']);
+    const ixRC=findColIndex(header,['ramsho','curta']);
+    const ixRL=findColIndex(header,['ramsho','longa']);
+    const ixSC=findColIndex(header,['safro','curta']);
+    const ixSL=findColIndex(header,['safro','longa']);
+    const ixSAL=(()=>{let i=findColIndex(header,['salmos','leituras']); if(i<0) i=findColIndex(header,['salmos']); return i;})();
+
+    const bySlug={}; for(const r of rows){ const s=r[ixSlug]!=null?norm(r[ixSlug]):''; if(s) bySlug[s]=r; }
+
+    const main=bySlug[norm(SLUG_MAIN)]||[];
+    const read=bySlug[norm(SLUG_READ)]||[];
+
+    const links={
+      'ramsho-curta': main[ixRC]||'',
+      'ramsho-longa': main[ixRL]||'',
+      'safro-curta' : main[ixSC]||'',
+      'safro-longa' : main[ixSL]||'',
+      'salmos'      : (read[ixSAL]||main[ixSAL]||'')
+    };
+    Object.entries(links).forEach(([k,v])=>setBtn(k,v||''));
+
+    const pend=[]; for(const k of ['ramsho-curta','ramsho-longa','safro-curta','safro-longa','salmos']) if(!(links[k]&&String(links[k]).trim())) pend.push(k);
+    document.getElementById('status').textContent=pend.length?('Pendente: '+pend.join(', ')):'';
+  }catch(e){ document.getElementById('status').textContent='Falha ao carregar a planilha.'; console.error(e); }
+}
+load();
 </script>
 </body>
 </html>
