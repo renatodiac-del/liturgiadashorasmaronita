@@ -46,22 +46,55 @@ function goBackOrMother(){
   <img class="hero" src="img/icone-domingos-igreja.jpg" alt="Ícone — Domingos da Igreja" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
-    <a class="btn" data-link="safro"   href="#"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Safro</span><span class="slot"></span></a>
+    <a class="btn" data-rit="ramsho" data-ver="curta" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-rit="ramsho" data-ver="longa" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Ramsho — versão longa</span><span class="slot"></span></a>
+    <a class="btn" data-rit="safro"  data-ver="curta" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Safro — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-rit="safro"  data-ver="longa" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Safro — versão longa</span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const LINKS={
-  'ramsho': null,
-  'safro' : null
-};
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link');
-  if(LINKS[k]) a.href=LINKS[k]; else { a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
-});
+/* === Configuração === */
+const PAGE_SECAO = 'Dedicacao'; // chave da coluna Secao na planilha
+const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+
+function norm(s){ return (s||'').toString().trim().toLowerCase(); }
+
+function setBtnLink(a, url){
+  if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.title=''; }
+  else{ a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+}
+
+fetch(SHEET_CSV)
+  .then(r=>r.text())
+  .then(txt=>{
+    const rows = txt.split(/\r?\n/).filter(l=>l.trim().length);
+    const head = rows.shift().split(',').map(h=>norm(h));
+    const idxSec = head.indexOf('secao');
+    const idxRit = head.indexOf('rito');
+    const idxVer = head.indexOf('versao');
+    const idxURL = head.indexOf('url');
+
+    const map = {};
+    rows.forEach(line=>{
+      const cols = line.split(',');
+      const sec = norm(cols[idxSec]);
+      const rit = norm(cols[idxRit]);
+      const ver = norm(cols[idxVer]);
+      const url = (cols[idxURL]||'').trim();
+      if(sec===norm(PAGE_SECAO) && rit && ver){
+        map[rit+'|'+ver] = url || null;
+      }
+    });
+
+    document.querySelectorAll('[data-rit][data-ver]').forEach(a=>{
+      const key = norm(a.getAttribute('data-rit'))+'|'+norm(a.getAttribute('data-ver'));
+      setBtnLink(a, map[key]||null);
+    });
+  })
+  .catch(()=>{ document.querySelectorAll('[data-rit][data-ver]').forEach(a=>setBtnLink(a,null)); });
 </script>
 </body>
 </html>
