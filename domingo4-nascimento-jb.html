@@ -70,54 +70,102 @@ document.addEventListener('DOMContentLoaded', ()=>{
 <script>
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
 
-const SLUG_MAIN   = '4 domingo anuncio';
-const SLUG_READ   = '4 anuncio leituras';
+const SLUG_MAIN = '4 domingo anuncio';
+const SLUG_READ = '4 anuncio leituras';
 
-const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
-const setBtn = (key,url)=>{
+// normalização MUITO tolerante
+const norm = s => (s||'')
+  .toString()
+  .replace(/^\ufeff/,'')
+  .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g,' ')
+  .replace(/\s+/g,' ')
+  .trim();
+
+// encontra índice por tokens contidos no cabeçalho
+function findColIndex(headers, tokens){
+  const want = tokens.map(norm);
+  for(let i=0;i<headers.length;i++){
+    const h = norm(headers[i]);
+    let ok = true;
+    for(const t of want){ if(!h.includes(t)) { ok=false; break; } }
+    if(ok) return i;
+  }
+  return -1;
+}
+
+// parser CSV simples com detecção de delimitador e respeito a aspas
+function parseCSV(text){
+  text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const firstLine = text.split('\n')[0] || '';
+  const cand = [',',';','\t'];
+  let delim = ',';
+  let bestCount = 0;
+  for(const d of cand){
+    const count = (firstLine.match(new RegExp(`\\${d}`,'g'))||[]).length;
+    if(count>bestCount){ bestCount=count; delim=d; }
+  }
+  const re = new RegExp(`${delim}(?=(?:[^"]*"[^"]*")*[^"]*$)`);
+  const lines = text.split('\n').filter(l=>l.trim().length>0);
+  const rows = lines.map(l=> l.split(re).map(c=>{
+    c=c.replace(/^"(.*)"$/,'$1'); // tira aspas externas
+    return c;
+  }));
+  return rows;
+}
+
+function setBtn(key,url){
   const a=document.querySelector(`a[data-key="${key}"]`);
   if(!a) return;
-  if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.title=''; a.setAttribute('target','_blank'); a.setAttribute('rel','noopener'); }
-  else{ a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; a.removeAttribute('target'); a.removeAttribute('rel'); }
-};
+  if(url && url.trim()){
+    a.href=url.trim(); a.style.opacity=''; a.style.pointerEvents=''; a.title='';
+    a.target='_blank'; a.rel='noopener';
+  }else{
+    a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';
+    a.removeAttribute('target'); a.removeAttribute('rel');
+  }
+}
+
 async function load(){
   try{
-    const res=await fetch(CSV_URL); const csv=await res.text();
-    const rows=csv.trim().split(/\r?\n/).map(l=>l.split(','));
-    const hdr=rows.shift().map(h=>norm(h));
-    const col = name => hdr.indexOf(norm(name));
-    const ixSlug = col('slug');
-    const ixRC = col('ramsho-curta'), ixRL = col('ramsho-longa');
-    const ixSC = col('safro-curta'),  ixSL = col('safro-longa');
-    const ixSAL= col('salmos-leituras');
+    const res = await fetch(CSV_URL);
+    const csv = await res.text();
+    const rows = parseCSV(csv);
+    const header = rows.shift() || [];
 
-    const findBySlug = wanted => {
-      const w=norm(wanted);
-      for(const r of rows){ if(norm(r[ixSlug])===w) return r; }
-      return null;
-    };
+    // mapear colunas por tokens (tolerante)
+    const ixSlug = findColIndex(header, ['slug']);
+    const ixRC   = findColIndex(header, ['ramsho','curta']);
+    const ixRL   = findColIndex(header, ['ramsho','longa']);
+    const ixSC   = findColIndex(header, ['safro','curta']);
+    const ixSL   = findColIndex(header, ['safro','longa']);
+    const ixSAL  = findColIndex(header, ['salmos']) >=0 ? findColIndex(header, ['salmos']) : findColIndex(header, ['salmos','leituras']);
 
-    const main = findBySlug(SLUG_MAIN) || [];
-    const read = findBySlug(SLUG_READ) || [];
+    const bySlug = {};
+    for(const r of rows){
+      const s = r[ixSlug]!=null ? norm(r[ixSlug]) : '';
+      if(s) bySlug[s]=r;
+    }
+
+    const main = bySlug[norm(SLUG_MAIN)] || [];
+    const read = bySlug[norm(SLUG_READ)] || [];
 
     const links = {
-      'ramsho-curta' : main[ixRC] || '',
-      'ramsho-longa' : main[ixRL] || '',
-      'safro-curta'  : main[ixSC] || '',
-      'safro-longa'  : main[ixSL] || '',
-      'salmos'       : read[ixSAL] || main[ixSAL] || ''
+      'ramsho-curta' : main[ixRC]  || '',
+      'ramsho-longa' : main[ixRL]  || '',
+      'safro-curta'  : main[ixSC]  || '',
+      'safro-longa'  : main[ixSL]  || '',
+      'salmos'       : (read[ixSAL] || main[ixSAL] || '')
     };
 
-    Object.entries(links).forEach(([k,v])=>setBtn(k, v && v.trim() ? v.trim() : null));
+    Object.entries(links).forEach(([k,v])=>setBtn(k, v||''));
 
-    // debug opcional
-    const st=[];
-    if(!links['ramsho-curta']) st.push('ramsho-curta');
-    if(!links['ramsho-longa']) st.push('ramsho-longa');
-    if(!links['safro-curta'])  st.push('safro-curta');
-    if(!links['safro-longa'])  st.push('safro-longa');
-    if(!links['salmos'])       st.push('salmos-leituras');
-    document.getElementById('status').textContent = st.length?('Pendente: '+st.join(', ')):'';
+    const pend=[];
+    for(const k of ['ramsho-curta','ramsho-longa','safro-curta','safro-longa','salmos']){
+      if(!(links[k] && String(links[k]).trim())) pend.push(k);
+    }
+    document.getElementById('status').textContent = pend.length?('Pendente: '+pend.join(', ')):'';
   }catch(e){
     document.getElementById('status').textContent='Falha ao carregar a planilha.';
     console.error(e);
