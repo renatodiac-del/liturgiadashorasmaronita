@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -28,8 +27,6 @@ header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
 .back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
 .btn-back{ display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer}
 .btn-back .arr{font-size:18px; line-height:1}
-
-/* Aviso de pendências (some se tudo estiver ok) */
 .status{margin:8px auto 0; max-width:640px; padding:8px 12px; border-radius:10px; background:#fff; border:2px dashed #b0b0b0; color:#333; font-size:.92rem; display:none}
 .status strong{color:#a00000}
 </style>
@@ -41,129 +38,38 @@ function goBackOrMother(){
   }catch(e){}
   location.href='anuncio.html';
 }
-
-/* ====== CONFIG DA PLANILHA ======
-   Colunas esperadas (cabeçalho): 
-   A=slug, B=titulo, C=ramsho-curta, D=ramsho-longa, E=safro-curta, F=safro-longa, G=salmos-leituras
-   Slug desta página (linha 16 no seu mapeamento): "6 domingo anuncio"
-*/
-const SLUG = '6 domingo anuncio';
-const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
-
-/* CSV parser simples (suficiente para os seus links) */
-function parseCSV(text){
-  const lines = text.trim().split(/\r?\n/);
-  const rows = lines.map(l => l.split(',').map(c => c.trim()));
-  return rows;
+const SLUG='6 domingo anuncio';
+const URL_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+function parseCSV(t){return t.trim().split(/\r?\n/).map(l=>l.split(',').map(c=>c.trim()));}
+function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
+function headerIndexMap(h){const m={};h.forEach((n,i)=>m[norm(n)]=i);return m;}
+function firstOf(row, idxMap, keys, fallbackIdx){
+  for(const k of keys){const i=idxMap[norm(k)]; if(i!=null && row[i]) return row[i].trim();}
+  if(fallbackIdx!=null && row[fallbackIdx]) return row[fallbackIdx].trim();
+  return '';
 }
-function headerIndexMap(headerRow){
-  const map = {};
-  headerRow.forEach((name, i)=>{
-    const key = name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-    map[key] = i;
-  });
-  return map;
-}
-function setBtn(a, url){
-  if(url){
-    a.href = url;
-    a.style.opacity = '';
-    a.style.pointerEvents = '';
-    a.removeAttribute('title');
-  }else{
-    a.href = '#';
-    a.style.opacity = .55;
-    a.style.pointerEvents = 'none';
-    a.title = 'Link não configurado';
-  }
-}
-
+function setBtn(a,url){ if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.removeAttribute('title');}
+  else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
 document.addEventListener('DOMContentLoaded', ()=>{
-  // céu decorativo
+  // estrelas
   const sky=document.querySelector('.sky'); const star=document.createElement('div'); star.className='bethlehem'; star.textContent='✶'; sky.appendChild(star);
-  const N=36; for(let i=0;i<N;i++){const e=document.createElement('div'); e.className='star'; e.textContent='✸';
-    const side=Math.random()<0.5 ? (2+Math.random()*12) : (86+Math.random()*12); const top=8+Math.random()*88;
+  for(let i=0;i<36;i++){const e=document.createElement('div'); e.className='star'; e.textContent='✸';
+    const side=Math.random()<0.5?(2+Math.random()*12):(86+Math.random()*12); const top=8+Math.random()*88;
     e.style.left=(Math.random()<0.6?side:(14+Math.random()*72))+'vw'; e.style.top=top+'vh';
     e.style.fontSize=(Math.random()<0.3?(20+Math.random()*8):(10+Math.random()*6))+'px'; sky.appendChild(e);}
-  
-  // carrega planilha
-  fetch(URL_CSV)
-    .then(r=>r.text())
-    .then(txt=>{
-      const table = parseCSV(txt);
-      if(!table.length) throw new Error('Planilha vazia.');
-      const header = table[0];
-      const idxMap = headerIndexMap(header);
-      // encontra linha do slug
-      const slugCol = idxMap['slug'] ?? 0;
-      const row = table.find((r,i)=> i>0 && (r[slugCol]||'').trim().toLowerCase() === SLUG);
-      const st = document.getElementById('status');
-
-      if(!row){
-        // não achou slug
-        st.style.display='block';
-        st.innerHTML = `Pendente (<strong>slug não encontrado</strong>): ${SLUG}`;
-        // desativa todos
-        document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null));
-        return;
-      }
-
-      const get = key => {
-        const i = idxMap[key];
-        return (i!=null && row[i]) ? row[i].trim() : '';
-      };
-
-      const links = {
-        'ramsho-curta': get('ramsho-curta'),
-        'ramsho-longa': get('ramsho-longa'),
-        'safro-curta' : get('safro-curta'),
-        'safro-longa' : get('safro-longa'),
-        'salmos-leituras': get('salmos-leituras')
-      };
-
-      // aplica links
-      setBtn(document.querySelector('[data-link="ramsho-curta"]'), links['ramsho-curta']);
-      setBtn(document.querySelector('[data-link="ramsho-longa"]'), links['ramsho-longa']);
-      setBtn(document.querySelector('[data-link="safro-curta"]') , links['safro-curta']);
-      setBtn(document.querySelector('[data-link="safro-longa"]') , links['safro-longa']);
-      setBtn(document.querySelector('[data-link="salmos-leituras"]'), links['salmos-leituras']);
-
-      // mostra pendências (se houver)
-      const faltando = Object.entries(links).filter(([k,v])=>!v).map(([k])=>k.replace('-', ' '));
-      if(faltando.length){
-        st.style.display='block';
-        st.innerHTML = `Pendente: <strong>${faltando.join(', ')}</strong>`;
-      }
-    })
-    .catch(err=>{
-      const st = document.getElementById('status');
-      st.style.display='block';
-      st.innerHTML = `Erro ao carregar planilha: <strong>${err.message}</strong>`;
-      document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null));
-    });
-});
-</script>
-</head>
-<body>
-<div class="sky" aria-hidden="true"></div>
-
-<header><h1 class="title">6º Domingo · Genealogia de Jesus</h1></header>
-
-<main class="wrap">
-  <img class="hero" src="img/icone-genealogia.png" alt="Ícone — Genealogia" onerror="this.style.display='none'">
-
-  <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho-curta" href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="ramsho-longa" href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="safro-curta"  href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="safro-longa"  href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos-leituras" href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
-  </section>
-
-  <div id="status" class="status" aria-live="polite"></div>
-
-  <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
-</main>
-</body>
-</html>
+  // planilha
+  fetch(URL_CSV).then(r=>r.text()).then(txt=>{
+    const table=parseCSV(txt); if(!table.length) throw new Error('Planilha vazia.');
+    const head=table[0], idxMap=headerIndexMap(head);
+    const slugCol=idxMap['slug']??0;
+    const row=table.find((r,i)=>i>0 && norm(r[slugCol])===norm(SLUG));
+    const st=document.getElementById('status');
+    if(!row){ st.style.display='block'; st.innerHTML=`Pendente (<strong>slug não encontrado</strong>): ${SLUG}`;
+      document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null)); return; }
+    const linkRamshoCurta = firstOf(row, idxMap, ['ramsho-curta','ramsho curta'], 2);
+    const linkRamshoLonga = firstOf(row, idxMap, ['ramsho-longa','ramsho longa'], 3);
+    const linkSafroCurta  = firstOf(row, idxMap, ['safro-curta','safro curta'], 4);
+    const linkSafroLonga  = firstOf(row, idxMap, ['safro-longa','safro longa'], 5);
+    const linkSalmos      = firstOf(row, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
+    setBtn(document.querySelector('[data-link="ramsho-curta"]'), linkRamshoCurta
 
