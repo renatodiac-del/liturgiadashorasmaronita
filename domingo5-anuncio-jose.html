@@ -2,11 +2,10 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>5º Domingo · Anúncio a José</title>
+<title>5º Domingo · Revelação a José</title>
 <meta name="theme-color" content="#0b226b">
 <style>
-:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;
-  --base:#0b226b; --topo:#9bb4ff; }
+:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px; --base:#0b226b; --topo:#9bb4ff; }
 *{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
 body{ font-family:var(--fonte); background:linear-gradient(to top, var(--base) 0%, #2e46a3 55%, var(--topo) 100%); min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden}
 .sky{position:fixed; inset:0; pointer-events:none; z-index:0}
@@ -54,17 +53,47 @@ document.addEventListener('DOMContentLoaded', ()=>{
   <img class="hero" src="img/icone-anuncio-jose.png" alt="Ícone — Anúncio a José" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">—</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="safro"  href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">—</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-curta" href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-longa" href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-curta"  href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-longa"  href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="salmos"       href="#"><img class="icon" src="img/icone-anuncio-jose.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const LINKS={ ramsho:null, safro:null, salmos:null };
-document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';}});
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv";
+const MAIN_SLUG="5 domingo anuncio";
+const SALMOS_SLUG="5 anuncio leituras";
+
+function disableAll(){document.querySelectorAll('[data-key]').forEach(a=>{a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';});}
+function setBtn(k,url){const a=document.querySelector(`[data-key="${k}"]`); if(!a) return; if(url){a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.title='';}else{a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';}}
+
+async function load(){
+  disableAll();
+  try{
+    const txt=await (await fetch(CSV_URL)).text();
+    const rows=txt.split(/\r?\n/).map(r=>r.split(','));
+    const head=rows[0].map(h=>h.trim().toLowerCase());
+    const idx=(name)=>head.indexOf(name);
+    const map={};
+    for(let i=1;i<rows.length;i++){
+      const r=rows[i]; const s=(r[idx('slug')]||'').trim().toLowerCase();
+      if(!s) continue;
+      map[s]={ rc:r[idx('ramsho-curta')]||'', rl:r[idx('ramsho-longa')]||'', sc:r[idx('safro-curta')]||'', sl:r[idx('safro-longa')]||'', sal:r[idx('salmos-leituras')]||'' };
+    }
+    const main=map[MAIN_SLUG]; const sal=map[SALMOS_SLUG];
+    setBtn('ramsho-curta', main && main.rc);
+    setBtn('ramsho-longa', main && main.rl);
+    setBtn('safro-curta',  main && main.sc);
+    setBtn('safro-longa',  main && main.sl);
+    setBtn('salmos',       sal  && sal.sal);
+  }catch(e){console.error(e);}
+}
+load();
 </script>
 </body>
 </html>
+
