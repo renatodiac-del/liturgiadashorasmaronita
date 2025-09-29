@@ -39,7 +39,9 @@ function goBackOrMother(){
   location.href='anuncio.html';
 }
 const SLUG='4 domingo anuncio';
+const SLUG_LEITURAS='4 anuncio leituras'; // linha-irmã só para Salmos/Leituras
 const URL_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+
 function parseCSV(t){return t.trim().split(/\r?\n/).map(l=>l.split(',').map(c=>c.trim()));}
 function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
 function headerIndexMap(h){const m={};h.forEach((n,i)=>m[norm(n)]=i);return m;}
@@ -50,6 +52,7 @@ function firstOf(row, idxMap, keys, fallbackIdx){
 }
 function setBtn(a,url){ if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.removeAttribute('title');}
   else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
+
 document.addEventListener('DOMContentLoaded', ()=>{
   // estrelas
   const sky=document.querySelector('.sky'); const star=document.createElement('div'); star.className='bethlehem'; star.textContent='✶'; sky.appendChild(star);
@@ -57,28 +60,51 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const side=Math.random()<0.5?(2+Math.random()*12):(86+Math.random()*12); const top=8+Math.random()*88;
     e.style.left=(Math.random()<0.6?side:(14+Math.random()*72))+'vw'; e.style.top=top+'vh';
     e.style.fontSize=(Math.random()<0.3?(20+Math.random()*8):(10+Math.random()*6))+'px'; sky.appendChild(e);}
+
   // planilha
   fetch(URL_CSV).then(r=>r.text()).then(txt=>{
     const table=parseCSV(txt); if(!table.length) throw new Error('Planilha vazia.');
     const head=table[0], idxMap=headerIndexMap(head);
     const slugCol=idxMap['slug']??0;
-    const row=table.find((r,i)=>i>0 && norm(r[slugCol])===norm(SLUG));
+
+    const rowMain = table.find((r,i)=>i>0 && norm(r[slugCol])===norm(SLUG));
+    const rowLeit = table.find((r,i)=>i>0 && norm(r[slugCol])===norm(SLUG_LEITURAS));
+
     const st=document.getElementById('status');
-    if(!row){ st.style.display='block'; st.innerHTML=`Pendente (<strong>slug não encontrado</strong>): ${SLUG}`;
-      document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null)); return; }
-    const linkRamshoCurta = firstOf(row, idxMap, ['ramsho-curta','ramsho curta'], 2);
-    const linkRamshoLonga = firstOf(row, idxMap, ['ramsho-longa','ramsho longa'], 3);
-    const linkSafroCurta  = firstOf(row, idxMap, ['safro-curta','safro curta'], 4);
-    const linkSafroLonga  = firstOf(row, idxMap, ['safro-longa','safro longa'], 5);
-    const linkSalmos      = firstOf(row, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
+    if(!rowMain){ st.style.display='block'; st.innerHTML=`Pendente (<strong>slug não encontrado</strong>): ${SLUG}`; return; }
+
+    // 4 ofícios na linha principal (fallback para C..F = 2..5)
+    const linkRamshoCurta = firstOf(rowMain, idxMap, ['ramsho-curta','ramsho curta'], 2);
+    const linkRamshoLonga = firstOf(rowMain, idxMap, ['ramsho-longa','ramsho longa'], 3);
+    const linkSafroCurta  = firstOf(rowMain, idxMap, ['safro-curta','safro curta'], 4);
+    const linkSafroLonga  = firstOf(rowMain, idxMap, ['safro-longa','safro longa'], 5);
+
+    // Salmos/Leituras:
+    // 1) tenta na mesma linha (coluna G / cabeçalhos equivalentes)
+    // 2) se vazio, busca na linha-irmã (apenas G)
+    let linkSalmos = firstOf(rowMain, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
+    if(!linkSalmos && rowLeit){
+      linkSalmos = firstOf(rowLeit, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
+    }
+
     setBtn(document.querySelector('[data-link="ramsho-curta"]'), linkRamshoCurta);
     setBtn(document.querySelector('[data-link="ramsho-longa"]'), linkRamshoLonga);
     setBtn(document.querySelector('[data-link="safro-curta"]') , linkSafroCurta);
     setBtn(document.querySelector('[data-link="safro-longa"]') , linkSafroLonga);
     setBtn(document.querySelector('[data-link="salmos-leituras"]'), linkSalmos);
-    const falt = [['ramsho-curta',linkRamshoCurta],['ramsho-longa',linkRamshoLonga],['safro-curta',linkSafroCurta],['safro-longa',linkSafroLonga],['salmos-leituras',linkSalmos]]
-      .filter(([k,v])=>!v).map(([k])=>k.replace('-', ' '));
-    if(falt.length){ st.style.display='block'; st.innerHTML=`Pendente: <strong>${falt.join(', ')}</strong>`; }
+
+    const falt = [
+      ['ramsho-curta',linkRamshoCurta],
+      ['ramsho-longa',linkRamshoLonga],
+      ['safro-curta',linkSafroCurta],
+      ['safro-longa',linkSafroLonga],
+      ['salmos-leituras',linkSalmos]
+    ].filter(([_,v])=>!v).map(([k])=>k.replace('-', ' '));
+
+    if(falt.length){
+      st.style.display='block';
+      st.innerHTML=`Pendente: <strong>${falt.join(', ')}</strong>`;
+    }
   }).catch(err=>{
     const st=document.getElementById('status'); st.style.display='block';
     st.innerHTML=`Erro ao carregar planilha: <strong>${err.message}</strong>`;
