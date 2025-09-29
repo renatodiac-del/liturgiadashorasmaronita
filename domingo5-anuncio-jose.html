@@ -68,32 +68,34 @@ const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUk
 const MAIN_SLUG="5 domingo anuncio";
 const SALMOS_SLUG="5 anuncio leituras";
 
+const norm = s => (s||"").toString().trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/\s+/g,' ');
+function parseCSV(text){const out=[];let row=[],cur='',q=false;for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(q){if(c==='\"'&&n==='\"'){cur+='\"';i++;continue;}if(c==='\"'){q=false;continue;}cur+=c;}else{if(c==='\"'){q=true;continue;}if(c===','){row.push(cur);cur='';continue;}if(c==='\n'){row.push(cur);out.push(row);row=[];cur='';continue;}if(c==='\r'){continue;}cur+=c;}}row.push(cur);out.push(row);return out;}
+function headersIndex(head){const want={slug:'slug',rc:'ramsho-curta',rl:'ramsho-longa',sc:'safro-curta',sl:'safro-longa',sal:'salmos-leituras'};const map={};const H=head.map(h=>norm(h));for(const k in want){map[k]=H.indexOf(norm(want[k]));}return map;}
 function disableAll(){document.querySelectorAll('[data-key]').forEach(a=>{a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';});}
-function setBtn(k,url){const a=document.querySelector(`[data-key="${k}"]`); if(!a) return; if(url){a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.title='';}else{a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';}}
+function setBtn(key,url){const a=document.querySelector(`[data-key="${key}"]`);if(!a)return;if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.title='';}else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
 
-async function load(){
+(async function load(){
   disableAll();
   try{
     const txt=await (await fetch(CSV_URL)).text();
-    const rows=txt.split(/\r?\n/).map(r=>r.split(','));
-    const head=rows[0].map(h=>h.trim().toLowerCase());
-    const idx=(name)=>head.indexOf(name);
+    const rows=parseCSV(txt);
+    const head=rows[0]||[]; const idx=headersIndex(head);
     const map={};
     for(let i=1;i<rows.length;i++){
-      const r=rows[i]; const s=(r[idx('slug')]||'').trim().toLowerCase();
+      const r=rows[i]; const s=norm(r[idx.slug]);
       if(!s) continue;
-      map[s]={ rc:r[idx('ramsho-curta')]||'', rl:r[idx('ramsho-longa')]||'', sc:r[idx('safro-curta')]||'', sl:r[idx('safro-longa')]||'', sal:r[idx('salmos-leituras')]||'' };
+      map[s]={ rc:r[idx.rc]||'', rl:r[idx.rl]||'', sc:r[idx.sc]||'', sl:r[idx.sl]||'', sal:r[idx.sal]||'' };
     }
-    const main=map[MAIN_SLUG]; const sal=map[SALMOS_SLUG];
-    setBtn('ramsho-curta', main && main.rc);
-    setBtn('ramsho-longa', main && main.rl);
-    setBtn('safro-curta',  main && main.sc);
-    setBtn('safro-longa',  main && main.sl);
-    setBtn('salmos',       sal  && sal.sal);
-  }catch(e){console.error(e);}
-}
-load();
+    const main=map[norm(MAIN_SLUG)]||{}; const sal=map[norm(SALMOS_SLUG)]||{};
+    setBtn('ramsho-curta', main.rc);
+    setBtn('ramsho-longa', main.rl);
+    setBtn('safro-curta',  main.sc);
+    setBtn('safro-longa',  main.sl);
+    setBtn('salmos',       sal.sal || main.sal);
+  }catch(err){console.error(err);}
+})();
 </script>
 </body>
 </html>
+
 
