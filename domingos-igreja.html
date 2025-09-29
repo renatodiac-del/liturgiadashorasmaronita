@@ -52,7 +52,7 @@ header{text-align:center;padding:14px 10px 8px}
       <img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Domingo da Dedicação de Igreja</span><span class="slot"></span>
     </a>
 
-    <!-- Este deve abrir DIRETAMENTE o .doc da coluna G da linha "leituras igreja" -->
+    <!-- Salmos e Leituras via coluna G do slug "leituras igreja" -->
     <a id="btn-leituras-igreja" class="btn" href="#" target="_blank" rel="noopener">
       <img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span>
     </a>
@@ -64,14 +64,14 @@ header{text-align:center;padding:14px 10px 8px}
 </main>
 
 <script>
-/* === Planilha única (aba Domingos-Igreja e futuras) === */
+/* === Planilha (aba única) === */
 const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
 const SLUG_LEITURAS = 'leituras igreja';
 
-/* Parser CSV robusto (suporta aspas) */
+/* CSV parser robusto (suporta aspas) */
 function parseCSV(text){
-  const lines = text.replace(/\r/g,'').split('\n').filter(l=>l.trim().length);
-  const rows = lines.map(l=>{
+  const lines = text.replace(/^\uFEFF/, '').replace(/\r/g,'').split('\n').filter(l=>l.trim().length);
+  return lines.map(l=>{
     const out=[]; let cur=''; let q=false;
     for(let i=0;i<l.length;i++){
       const c=l[i];
@@ -82,10 +82,15 @@ function parseCSV(text){
     out.push(cur);
     return out;
   });
-  return rows;
 }
-function idxOf(h, name){ return h.findIndex(x=>x.trim().toLowerCase()===name); }
-
+const norm = s => (s||'').trim().toLowerCase();
+function findCol(head, candidates, fallbackIndex=null){
+  for(const name of candidates){
+    const i = head.findIndex(h=>norm(h)===name);
+    if(i>=0) return i;
+  }
+  return fallbackIndex;
+}
 function setHref(el, url){
   if(url){ el.href=url; el.style.opacity=''; el.style.pointerEvents=''; el.title=''; }
   else { el.href='#'; el.style.opacity=.55; el.style.pointerEvents='none'; el.title='Link não configurado'; }
@@ -95,17 +100,22 @@ fetch(SHEET_CSV)
   .then(r=>r.text())
   .then(txt=>{
     const rows = parseCSV(txt);
-    const head = rows.shift().map(x=>x.trim().toLowerCase());
-    const iSlug = idxOf(head,'slug');
-    const iLeit = idxOf(head,'leituras'); // col G
+    const head = rows.shift();
+    // achar colunas com tolerância a nomes diferentes
+    const iSlug = findCol(head, ['slug']);
+    // Coluna "leituras" (G). Aceita várias grafias; se não achar, cai no índice 6 (G = 0-based).
+    let iLeit = findCol(head, ['leituras','leitura','salmos e leituras','salmos_leituras','salmos/leituras'], 6);
 
-    if(iSlug<0 || iLeit<0) throw new Error('Cabeçalhos ausentes');
+    if(iSlug==null || iLeit==null) throw new Error('Cabeçalhos ausentes');
 
-    const linha = rows.find(r => (r[iSlug]||'').trim().toLowerCase() === SLUG_LEITURAS);
+    const linha = rows.find(r => norm(r[iSlug]) === SLUG_LEITURAS);
     const url = linha ? (linha[iLeit]||'').trim() : '';
     setHref(document.getElementById('btn-leituras-igreja'), url || null);
   })
-  .catch(()=> setHref(document.getElementById('btn-leituras-igreja'), null));
+  .catch(()=>{
+    // Falha de rede/cabeçalho: desativa o botão
+    setHref(document.getElementById('btn-leituras-igreja'), null);
+  });
 </script>
 </body>
 </html>
