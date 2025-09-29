@@ -71,5 +71,42 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const linkSafroCurta  = firstOf(row, idxMap, ['safro-curta','safro curta'], 4);
     const linkSafroLonga  = firstOf(row, idxMap, ['safro-longa','safro longa'], 5);
     const linkSalmos      = firstOf(row, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
-    setBtn(document.querySelector('[data-link="ramsho-curta"]'), linkRamshoCurta
+    setBtn(document.querySelector('[data-link="ramsho-curta"]'), linkRamshoCurta);
+    setBtn(document.querySelector('[data-link="ramsho-longa"]'), linkRamshoLonga);
+    setBtn(document.querySelector('[data-link="safro-curta"]') , linkSafroCurta);
+    setBtn(document.querySelector('[data-link="safro-longa"]') , linkSafroLonga);
+    setBtn(document.querySelector('[data-link="salmos-leituras"]'), linkSalmos);
+    const falt = [['ramsho-curta',linkRamshoCurta],['ramsho-longa',linkRamshoLonga],['safro-curta',linkSafroCurta],['safro-longa',linkSafroLonga],['salmos-leituras',linkSalmos]]
+      .filter(([k,v])=>!v).map(([k])=>k.replace('-', ' '));
+    if(falt.length){ st.style.display='block'; st.innerHTML=`Pendente: <strong>${falt.join(', ')}</strong>`; }
+  }).catch(err=>{
+    const st=document.getElementById('status'); st.style.display='block';
+    st.innerHTML=`Erro ao carregar planilha: <strong>${err.message}</strong>`;
+    document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null));
+  });
+});
+</script>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<header><h1 class="title">6º Domingo · Genealogia de Jesus</h1></header>
+
+<main class="wrap">
+  <img class="hero" src="img/icone-genealogia.png" alt="Ícone — Genealogia" onerror="this.style.display='none'">
+
+  <section class="list" aria-label="Ofícios">
+    <a class="btn" data-link="ramsho-curta" href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-curta"  href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-longa"  href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="salmos-leituras" href="#"><img class="icon" src="img/icone-genealogia.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
+  </section>
+
+  <div id="status" class="status" aria-live="polite"></div>
+
+  <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
+</main>
+</body>
+</html>
 
