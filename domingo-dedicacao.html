@@ -14,13 +14,9 @@ header{text-align:center;padding:14px 10px 8px}
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 .hero{ display:block;margin:10px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px; border:4px solid var(--prata); box-shadow:inset 0 0 0 4px #fff, 0 8px 16px var(--shadow); border-radius:14px}
 .list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
-.btn{
-  display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
-  background:linear-gradient(to top, #4a2a12 0%, #7a5525 60%, #9f7a34 100%);
-  color:#fff;text-decoration:none;font-weight:900;border:3px solid var(--prata);
-  box-shadow:inset 0 0 0 3px #fff, 0 4px 10px var(--shadow);
-  border-radius:18px;padding:6px 18px;width:94%;margin:0 auto;transition:transform .12s, filter .2s;
-}
+.btn{ display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
+  background:linear-gradient(to top, #4a2a12 0%, #7a5525 60%, #9f7a34 100%); color:#fff;text-decoration:none;font-weight:900;border:3px solid var(--prata);
+  box-shadow:inset 0 0 0 3px #fff, 0 4px 10px var(--shadow); border-radius:18px;padding:6px 18px;width:94%;margin:0 auto;transition:transform .12s, filter .2s; }
 .btn:hover{transform:scale(1.02);filter:brightness(1.03)}
 .btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--prata);box-shadow:inset 0 0 0 2px #fff;object-fit:cover}
 .btn .label{color:#fff;text-shadow:-1px -1px 0 var(--prata),1px -1px 0 var(--prata),-1px 1px 0 var(--prata),1px 1px 0 var(--prata)}
@@ -46,55 +42,59 @@ function goBackOrMother(){
   <img class="hero" src="img/icone-domingos-igreja.jpg" alt="Ícone — Domingos da Igreja" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-rit="ramsho" data-ver="curta" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
-    <a class="btn" data-rit="ramsho" data-ver="longa" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Ramsho — versão longa</span><span class="slot"></span></a>
-    <a class="btn" data-rit="safro"  data-ver="curta" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Safro — versão curta</span><span class="slot"></span></a>
-    <a class="btn" data-rit="safro"  data-ver="longa" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Safro — versão longa</span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho_curta" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Ramsho — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho_longa" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Ramsho — versão longa</span><span class="slot"></span></a>
+    <a class="btn" data-key="safro_curta"  href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Safro — versão curta</span><span class="slot"></span></a>
+    <a class="btn" data-key="safro_longa"  href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Safro — versão longa</span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-/* === Configuração === */
-const PAGE_SECAO = 'Dedicacao'; // chave da coluna Secao na planilha
 const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const PAGE_SLUG = 'dedicacao';
 
-function norm(s){ return (s||'').toString().trim().toLowerCase(); }
-
-function setBtnLink(a, url){
+function parseCSV(text){
+  const lines = text.replace(/\r/g,'').split('\n').filter(l=>l.trim().length);
+  return lines.map(l=>{
+    const out=[]; let cur=''; let q=false;
+    for(let i=0;i<l.length;i++){
+      const c=l[i];
+      if(c==='\"'){ if(q && l[i+1]==='\"'){ cur+='\"'; i++; } else { q=!q; } }
+      else if(c===',' && !q){ out.push(cur); cur=''; }
+      else { cur+=c; }
+    }
+    out.push(cur);
+    return out;
+  });
+}
+function idxOf(h, name){ return h.findIndex(x=>x.trim().toLowerCase()===name); }
+function setBtn(a, url){
   if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.title=''; }
-  else{ a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+  else { a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
 }
 
 fetch(SHEET_CSV)
   .then(r=>r.text())
   .then(txt=>{
-    const rows = txt.split(/\r?\n/).filter(l=>l.trim().length);
-    const head = rows.shift().split(',').map(h=>norm(h));
-    const idxSec = head.indexOf('secao');
-    const idxRit = head.indexOf('rito');
-    const idxVer = head.indexOf('versao');
-    const idxURL = head.indexOf('url');
+    const rows = parseCSV(txt);
+    const head = rows.shift().map(x=>x.trim().toLowerCase());
+    const iSlug=idxOf(head,'slug'), iRC=idxOf(head,'ramsho_curta'), iRL=idxOf(head,'ramsho_longa'),
+          iSC=idxOf(head,'safro_curta'),  iSL=idxOf(head,'safro_longa');
+    if(iSlug<0) throw new Error('Cabeçalhos ausentes');
 
-    const map = {};
-    rows.forEach(line=>{
-      const cols = line.split(',');
-      const sec = norm(cols[idxSec]);
-      const rit = norm(cols[idxRit]);
-      const ver = norm(cols[idxVer]);
-      const url = (cols[idxURL]||'').trim();
-      if(sec===norm(PAGE_SECAO) && rit && ver){
-        map[rit+'|'+ver] = url || null;
-      }
-    });
-
-    document.querySelectorAll('[data-rit][data-ver]').forEach(a=>{
-      const key = norm(a.getAttribute('data-rit'))+'|'+norm(a.getAttribute('data-ver'));
-      setBtnLink(a, map[key]||null);
-    });
+    const row = rows.find(r => (r[iSlug]||'').trim().toLowerCase()===PAGE_SLUG) || [];
+    const map = {
+      'ramsho_curta': row[iRC]||'',
+      'ramsho_longa': row[iRL]||'',
+      'safro_curta' : row[iSC]||'',
+      'safro_longa' : row[iSL]||'',
+    };
+    document.querySelectorAll('[data-key]').forEach(a=>setBtn(a, map[a.dataset.key]||''));
   })
-  .catch(()=>{ document.querySelectorAll('[data-rit][data-ver]').forEach(a=>setBtnLink(a,null)); });
+  .catch(()=> document.querySelectorAll('[data-key]').forEach(a=>setBtn(a,null)));
 </script>
 </body>
 </html>
+
