@@ -62,17 +62,75 @@ document.addEventListener('DOMContentLoaded', ()=>{
   <img class="hero" src="img/icone-anuncio-zacarias.png" alt="Ícone — Anúncio a Zacarias" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">—</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="safro"  href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">—</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-curta" href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-longa" href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-curta"  href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-longa"  href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="salmos"       href="#"><img class="icon" src="img/icone-anuncio-zacarias.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const LINKS={ ramsho:null, safro:null, salmos:null };
-document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';}});
+/* === Planilha unificada (mesma do Domingos da Igreja) === */
+const SHEET_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_OFICIO='1 domingo anuncio';
+const SLUG_LEITURAS='1 anuncio leituras';
+
+/* CSV robusto + localização de colunas */
+function parseCSV(text){
+  const lines=text.replace(/^\uFEFF/,'').replace(/\r/g,'').split('\n').filter(l=>l.trim().length);
+  return lines.map(l=>{
+    const out=[]; let cur=''; let q=false;
+    for(let i=0;i<l.length;i++){
+      const c=l[i];
+      if(c==='\"'){ if(q && l[i+1]==='\"'){ cur+='\"'; i++; } else q=!q; }
+      else if(c===',' && !q){ out.push(cur); cur=''; }
+      else cur+=c;
+    }
+    out.push(cur); return out;
+  });
+}
+const norm=s=>(s||'').trim().toLowerCase();
+function findCol(head, names, fallbackIndex=null){
+  for(const n of names){ const i=head.findIndex(h=>norm(h)===n); if(i>=0) return i; }
+  return fallbackIndex;
+}
+function setBtn(el, url){
+  if(url){ el.href=url; el.target='_blank'; el.rel='noopener'; el.style.opacity=''; el.style.pointerEvents=''; el.title=''; }
+  else { el.href='#'; el.removeAttribute('target'); el.style.opacity=.55; el.style.pointerEvents='none'; el.title='Link não configurado'; }
+}
+
+fetch(SHEET_CSV).then(r=>r.text()).then(txt=>{
+  const rows=parseCSV(txt); const head=rows.shift();
+  const iSlug=findCol(head,['slug']);
+  const iRC =findCol(head,['ramsho_curta','ramsho curta','ramsho (curta)'],2);
+  const iRL =findCol(head,['ramsho_longa','ramsho longa','ramsho (longa)'],3);
+  const iSC =findCol(head,['safro_curta','safro curta','safro (curta)'],4);
+  const iSL =findCol(head,['safro_longa','safro longa','safro (longa)'],5);
+  const iLEI=findCol(head,['leituras','salmos e leituras','salmos_leituras','salmos/leituras'],6);
+
+  if(iSlug==null){ throw new Error('Cabeçalho slug ausente'); }
+
+  const rowOf  = rows.find(r=>norm(r[iSlug])===SLUG_OFICIO) || [];
+  const rowLei = rows.find(r=>norm(r[iSlug])===SLUG_LEITURAS) || [];
+
+  const map={
+    'ramsho-curta': rowOf[iRC]||'',
+    'ramsho-longa': rowOf[iRL]||'',
+    'safro-curta' : rowOf[iSC]||'',
+    'safro-longa' : rowOf[iSL]||'',
+    'salmos'      : rowLei[iLEI]||''
+  };
+
+  document.querySelectorAll('[data-key]').forEach(a=>{
+    const k=a.getAttribute('data-key'); setBtn(a, (map[k]||'').trim() || null);
+  });
+}).catch(()=>{
+  document.querySelectorAll('[data-key]').forEach(a=>setBtn(a,null));
+});
 </script>
 </body>
 </html>
+>
