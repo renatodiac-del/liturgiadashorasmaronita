@@ -6,72 +6,26 @@
 <title>Domingos da Igreja · Biblioteca</title>
 <meta name="theme-color" content="#d6b25a">
 <style>
-:root{
-  --ouro:#d6b25a;           /* ouro velho */
-  --marrom:#582c0c;         /* marrom */
-  --prata:#b0b0b0;          /* prata envelhecida */
-  --shadow:rgba(0,0,0,.16);
-  --fonte: Arial, Helvetica, sans-serif;
-  --btnIcon: 29.6px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:var(--fonte);
-  color:#1b1b1b;
-  background:linear-gradient(to top, var(--marrom) 0%, #8b5a2b 55%, var(--ouro) 100%);
-  min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;
-}
+:root{ --ouro:#d6b25a; --marrom:#582c0c; --prata:#b0b0b0; --shadow:rgba(0,0,0,.16); --fonte:Arial,Helvetica,sans-serif; --btnIcon:29.6px }
+*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
+body{ font-family:var(--fonte); color:#1b1b1b; background:linear-gradient(to top, var(--marrom) 0%, #8b5a2b 55%, var(--ouro) 100%); min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;}
 header{text-align:center;padding:14px 10px 8px}
-.title{
-  color:#fff; font-weight:900;
-  /* +3pt no tamanho */
-  font-size:calc(1.9rem + 3pt); margin:0;
-  /* borda/letra mais espessa mantendo o brilho prateado */
+.title{ color:#fff; font-weight:900; font-size:calc(1.9rem + 3pt); margin:0;
   -webkit-text-stroke:1.25px var(--prata);
-  text-shadow:
-    -1px -1px 0 var(--prata), 1px -1px 0 var(--prata),
-    -1px  1px 0 var(--prata), 1px  1px 0 var(--prata);
-}
+  text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata), -1px 1px 0 var(--prata), 1px 1px 0 var(--prata); }
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
-.hero{
-  display:block;margin:10px auto 16px;
-  /* +15% (390px → ~448px) */
-  height:448px; width:auto; aspect-ratio:3/4; object-fit:cover; max-height:580px;
-  border:4px solid var(--prata);
-  box-shadow:inset 0 0 0 4px #fff, 0 8px 16px var(--shadow);
-  border-radius:14px
-}
+.hero{ display:block;margin:10px auto 16px;height:448px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
+  border:4px solid var(--prata); box-shadow:inset 0 0 0 4px #fff, 0 8px 16px var(--shadow); border-radius:14px }
 .list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
-.btn{
-  display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
-  background:linear-gradient(to top, #4a2a12 0%, #7a5525 60%, #9f7a34 100%);
-  color:#fff;text-decoration:none;font-weight:900;border:3px solid var(--prata);
-  box-shadow:inset 0 0 0 3px #fff, 0 4px 10px var(--shadow);
-  border-radius:18px;padding:6px 18px;
-  /* +10% na prática → ocupar 100% do wrap */
-  width:100%;
-  margin:0 auto;transition:transform .12s, filter .2s;
-}
+.btn{ display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
+  background:linear-gradient(to top, #4a2a12 0%, #7a5525 60%, #9f7a34 100%); color:#fff;text-decoration:none;font-weight:900;border:3px solid var(--prata);
+  box-shadow:inset 0 0 0 3px #fff, 0 4px 10px var(--shadow); border-radius:18px;padding:6px 18px;width:100%;margin:0 auto;transition:transform .12s, filter .2s; }
 .btn:hover{transform:scale(1.02);filter:brightness(1.03)}
-.btn .icon{
-  width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;
-  border:2px solid var(--prata); box-shadow:inset 0 0 0 2px #fff; object-fit:cover;
-}
-/* −1pt nos títulos dos botões */
-.btn .label{
-  text-align:center;color:#fff;
-  font-size:calc(1rem - 1pt);
-  text-shadow:
-    -1px -1px 0 var(--prata), 1px -1px 0 var(--prata),
-    -1px  1px 0 var(--prata), 1px  1px 0 var(--prata);
-}
+.btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--prata);box-shadow:inset 0 0 0 2px #fff;object-fit:cover}
+.btn .label{font-size:calc(1rem - 1pt);color:#fff;text-shadow:-1px -1px 0 var(--prata),1px -1px 0 var(--prata),-1px 1px 0 var(--prata),1px 1px 0 var(--prata)}
 .btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
 .back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
-.btn-back{
-  display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
-  padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer;
-}
+.btn-back{display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer}
 .btn-back .arr{font-size:18px;line-height:1}
 </style>
 <script>
@@ -92,14 +46,15 @@ header{text-align:center;padding:14px 10px 8px}
 
   <section class="list" aria-label="Domingos da Igreja — seções">
     <a class="btn" href="domingo-consagracao.html">
-      <img class="icon" src="img/icone-domingos-igreja.jpg" alt="Domingos da Igreja"><span class="label">Domingo da Consagração da Igreja</span><span class="slot"></span>
+      <img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Domingo da Consagração da Igreja</span><span class="slot"></span>
     </a>
     <a class="btn" href="domingo-dedicacao.html">
-      <img class="icon" src="img/icone-domingos-igreja.jpg" alt="Domingos da Igreja"><span class="label">Domingo da Dedicação de Igreja</span><span class="slot"></span>
+      <img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Domingo da Dedicação de Igreja</span><span class="slot"></span>
     </a>
-    <!-- Botão atualizado: abre a planilha publicada (CSV) em nova aba -->
-    <a class="btn" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv" target="_blank" rel="noopener">
-      <img class="icon" src="img/icone-domingos-igreja.jpg" alt="Domingos da Igreja"><span class="label">Salmos e Leituras</span><span class="slot"></span>
+
+    <!-- Este deve abrir DIRETAMENTE o .doc da coluna G da linha "leituras igreja" -->
+    <a id="btn-leituras-igreja" class="btn" href="#" target="_blank" rel="noopener">
+      <img class="icon" src="img/icone-domingos-igreja.jpg" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span>
     </a>
   </section>
 
@@ -107,5 +62,50 @@ header{text-align:center;padding:14px 10px 8px}
     <button class="btn-back" onclick="goBackOrBiblos()"><span class="arr">←</span><span>Voltar</span></button>
   </div>
 </main>
+
+<script>
+/* === Planilha única (aba Domingos-Igreja e futuras) === */
+const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_LEITURAS = 'leituras igreja';
+
+/* Parser CSV robusto (suporta aspas) */
+function parseCSV(text){
+  const lines = text.replace(/\r/g,'').split('\n').filter(l=>l.trim().length);
+  const rows = lines.map(l=>{
+    const out=[]; let cur=''; let q=false;
+    for(let i=0;i<l.length;i++){
+      const c=l[i];
+      if(c==='\"'){ if(q && l[i+1]==='\"'){ cur+='\"'; i++; } else { q=!q; } }
+      else if(c===',' && !q){ out.push(cur); cur=''; }
+      else { cur+=c; }
+    }
+    out.push(cur);
+    return out;
+  });
+  return rows;
+}
+function idxOf(h, name){ return h.findIndex(x=>x.trim().toLowerCase()===name); }
+
+function setHref(el, url){
+  if(url){ el.href=url; el.style.opacity=''; el.style.pointerEvents=''; el.title=''; }
+  else { el.href='#'; el.style.opacity=.55; el.style.pointerEvents='none'; el.title='Link não configurado'; }
+}
+
+fetch(SHEET_CSV)
+  .then(r=>r.text())
+  .then(txt=>{
+    const rows = parseCSV(txt);
+    const head = rows.shift().map(x=>x.trim().toLowerCase());
+    const iSlug = idxOf(head,'slug');
+    const iLeit = idxOf(head,'leituras'); // col G
+
+    if(iSlug<0 || iLeit<0) throw new Error('Cabeçalhos ausentes');
+
+    const linha = rows.find(r => (r[iSlug]||'').trim().toLowerCase() === SLUG_LEITURAS);
+    const url = linha ? (linha[iLeit]||'').trim() : '';
+    setHref(document.getElementById('btn-leituras-igreja'), url || null);
+  })
+  .catch(()=> setHref(document.getElementById('btn-leituras-igreja'), null));
+</script>
 </body>
 </html>
