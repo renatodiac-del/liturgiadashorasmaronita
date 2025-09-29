@@ -54,17 +54,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
   <img class="hero" src="img/icone-visitacao.png" alt="Ícone — Visitação" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">—</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="safro"  href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">—</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-curta" href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-longa" href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-curta"  href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-longa"  href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="salmos"       href="#"><img class="icon" src="img/icone-visitacao.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const LINKS={ ramsho:null, safro:null, salmos:null };
-document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado';}});
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv";
+const SLUG="3 domingo anuncio";
+function setBtn(a, url){ if(url){a.href=url;a.target="_blank";a.rel="noopener";a.style.opacity="";a.style.pointerEvents="";a.title=""}else{a.href="#";a.removeAttribute("target");a.style.opacity=.55;a.style.pointerEvents="none";a.title="Link não configurado"}}
+fetch(CSV_URL).then(r=>r.text()).then(txt=>{
+  const rows=txt.split(/\r?\n/).map(l=>l.split(','));
+  const row=rows.find(r=>(r[0]||"").trim().toLowerCase()===SLUG);
+  const col={ "ramsho-curta":2, "ramsho-longa":3, "safro-curta":4, "safro-longa":5, "salmos":6 };
+  document.querySelectorAll('[data-key]').forEach(a=>{ const k=a.getAttribute('data-key'); const url=row && row.length>col[k]? (row[col[k]]||"").trim():null; setBtn(a,url||null); });
+}).catch(()=>document.querySelectorAll('[data-key]').forEach(a=>setBtn(a,null)));
 </script>
 </body>
 </html>
