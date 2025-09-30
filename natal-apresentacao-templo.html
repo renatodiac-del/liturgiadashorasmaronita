@@ -33,17 +33,18 @@ header{position:relative; z-index:1; text-align:center; padding:26px 10px 8px}
 .btn{
   display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center;
   background:linear-gradient(to top, #fff 0%, #fffaf0 60%, #ffffff 100%);
-  color:var(--branco); text-decoration:none; font-weight:900; border:3px solid var(--ouro);
+  color:#553; text-decoration:none; font-weight:900; border:3px solid var(--ouro);
   box-shadow:inset 0 0 0 3px var(--prata), 0 4px 10px var(--shadow);
-  border-radius:18px; padding:6px 18px; width:94%; margin:0 auto; transition:transform .12s, filter .2s;
+  border-radius:18px; padding:8px 18px; width:94%; margin:0 auto; transition:transform .12s, filter .2s;
 }
 .btn:hover{transform:scale(1.02); filter:brightness(1.05)}
 .btn .icon{width:var(--btnIcon); height:var(--btnIcon); border-radius:50%; border:2px solid var(--ouro); box-shadow:inset 0 0 0 2px var(--prata); object-fit:cover}
-.btn .label{ text-align:center; color:var(--branco); text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata), -1px 1px 0 var(--prata), 1px 1px 0 var(--prata)}
+.btn .label{ text-align:center; color:#553; text-shadow:-1px -1px 0 #f8f1da, 1px -1px 0 #f8f1da, -1px 1px 0 #f8f1da, 1px 1px 0 #f8f1da}
 .btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
 .back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
 .btn-back{ display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer}
 .btn-back .arr{font-size:18px; line-height:1}
+.small{font-weight:700;opacity:.9}
 </style>
 <script>
 function goBackOrMother(){
@@ -60,11 +61,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     <path d="M3,10 Q12,4 21,10 L17,12 Q12,9 7,12 Z" fill="#d6b25a"/>
     <path d="M12,7 L8.5,16 L15.5,16 Z" fill="#d6b25a"/>
   </svg>`;
-  const N=30;
-  for(let i=0;i<N;i++){
+  for(let i=0;i<30;i++){
     const e=document.createElement('div'); e.className='angel'; e.innerHTML=angel;
-    const edge=Math.random();
-    let x=0,y=0;
+    const edge=Math.random(); let x=0,y=0;
     if(edge<0.25){ x=2+Math.random()*6; y=6+Math.random()*88; }
     else if(edge<0.5){ x=92+Math.random()*6; y=6+Math.random()*88; }
     else if(edge<0.75){ x=6+Math.random()*88; y=2+Math.random()*6; }
@@ -84,17 +83,58 @@ document.addEventListener('DOMContentLoaded', ()=>{
   <img class="hero" src="img/icone-apresentacao.png" alt="Ícone — Apresentação do Senhor" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#"><img class="icon" src="img/cruz.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
-    <a class="btn" data-link="safro"  href="#"><img class="icon" src="img/cruz.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/cruz.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-curta" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-apresentacao.png" alt=""><span class="label">Ramsho <span class="small">— versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho-longa" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-apresentacao.png" alt=""><span class="label">Ramsho <span class="small">— versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-curta"  href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-apresentacao.png" alt=""><span class="label">Safro <span class="small">— versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-key="safro-longa"  href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-apresentacao.png" alt=""><span class="label">Safro <span class="small">— versão longa</span></span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const LINKS={ ramsho:null, safro:null, salmos:null };
-document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}});
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_MAIN = 'apresentacao';
+
+function csvToRows(t){
+  return t.trim().split(/\r?\n/).map(line=>{
+    const out=[]; let cur=''; let q=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"' ){ if(line[i+1]==='"'){cur+='"'; i++;} else {q=!q;} }
+      else if(ch===',' && !q){ out.push(cur); cur=''; }
+      else { cur+=ch; }
+    }
+    out.push(cur);
+    return out.map(s=>s.trim());
+  });
+}
+function mapBySlug(rows){
+  const by={};
+  for(let r=1;r<rows.length;r++){
+    const row=rows[r]; const slug=(row[0]||'').toLowerCase(); if(!slug) continue;
+    by[slug]={ ramshoCurta:row[2]||'', ramshoLonga:row[3]||'', safroCurta:row[4]||'', safroLonga:row[5]||'' };
+  }
+  return by;
+}
+function setLink(a,url){ if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.removeAttribute('title');}
+  else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
+(async ()=>{
+  try{
+    const res=await fetch(CSV_URL); const txt=await res.text();
+    const rows=csvToRows(txt); const data=mapBySlug(rows); const main=data[SLUG_MAIN]||{};
+    const links={
+      'ramsho-curta': main.ramshoCurta||'',
+      'ramsho-longa': main.ramshoLonga||'',
+      'safro-curta' : main.safroCurta ||'',
+      'safro-longa' : main.safroLonga ||''
+    };
+    document.querySelectorAll('[data-key]').forEach(a=>{
+      const k=a.getAttribute('data-key'); setLink(a, links[k]);
+    });
+  }catch(e){ console.error('CSV load error', e); }
+})();
 </script>
 </body>
 </html>
+
