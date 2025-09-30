@@ -98,14 +98,24 @@ function goBackOrMother(){
   <img class="hero" src="img/icone-epifania.jpg" alt="Ícone — Epifania" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#">
+    <a class="btn" data-key="ramsho-curta" href="#">
       <img class="icon" src="img/icone-epifania.jpg" alt="">
-      <span class="label"><span class="line1">Ramsho</span><span class="line2">—</span></span>
+      <span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span>
       <span class="slot"></span>
     </a>
-    <a class="btn" data-link="safro" href="#">
+    <a class="btn" data-key="ramsho-longa" href="#">
       <img class="icon" src="img/icone-epifania.jpg" alt="">
-      <span class="label"><span class="line1">Safro</span><span class="line2">—</span></span>
+      <span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" data-key="safro-curta" href="#">
+      <img class="icon" src="img/icone-epifania.jpg" alt="">
+      <span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" data-key="safro-longa" href="#">
+      <img class="icon" src="img/icone-epifania.jpg" alt="">
+      <span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span>
       <span class="slot"></span>
     </a>
   </section>
@@ -114,12 +124,66 @@ function goBackOrMother(){
 </main>
 
 <script>
-/* COLE AQUI os links .doc (tabela shots) */
-const LINKS={ ramsho:null, safro:null };
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link');
-  if(LINKS[k]) a.href=LINKS[k]; else { a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
-});
+// === Config CSV ===
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_MAIN = 'epifania'; // colunas C–F
+
+// === Utils padrão ===
+function csvToRows(text){
+  const rows=[]; let i=0, cur='', inQ=false; const push=()=>{(rows[rows.length-1]||rows.push([]),rows[rows.length-1]).push(cur); cur='';};
+  rows.push([]);
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='\"' && text[i+1]==='\"'){ cur+='\"'; i+=2; continue; }
+      if(c==='\"'){ inQ=false; i++; continue; }
+      cur+=c; i++; continue;
+    }
+    if(c==='\"'){ inQ=true; i++; continue; }
+    if(c===','){ push(); i++; continue; }
+    if(c==='\r'){ i++; continue; }
+    if(c==='\n'){ push(); rows.push([]); i++; continue; }
+    cur+=c; i++;
+  }
+  if(cur!=='' || (rows[rows.length-1]||[]).length){ push(); }
+  if(rows[rows.length-1].length===1 && rows[rows.length-1][0]==='') rows.pop();
+  return rows;
+}
+function mapBySlug(rows){
+  const by={};
+  for(let r=1;r<rows.length;r++){
+    const row=rows[r]; const slug=(row[0]||'').toLowerCase(); if(!slug) continue;
+    by[slug]={ ramshoCurta:row[2]||'', ramshoLonga:row[3]||'', safroCurta:row[4]||'', safroLonga:row[5]||'', salmos:row[6]||'' };
+  }
+  return by;
+}
+function setLink(a,url){
+  if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.removeAttribute('title'); }
+  else   { a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+}
+
+// === Load ===
+(async ()=>{
+  try{
+    const res = await fetch(CSV_URL);
+    const txt = await res.text();
+    const rows = csvToRows(txt);
+    const data = mapBySlug(rows);
+    const main = data[SLUG_MAIN] || {};
+    const links = {
+      'ramsho-curta': main.ramshoCurta || '',
+      'ramsho-longa': main.ramshoLonga || '',
+      'safro-curta' : main.safroCurta  || '',
+      'safro-longa' : main.safroLonga  || ''
+    };
+    document.querySelectorAll('[data-key]').forEach(a=>{
+      setLink(a, links[a.getAttribute('data-key')] || '');
+    });
+  }catch(e){
+    console.error('CSV load error', e);
+  }
+})();
 </script>
 </body>
 </html>
+
