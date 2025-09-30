@@ -97,24 +97,104 @@ function goBackOrMother(){
 <main class="wrap">
   <img class="hero" src="img/icone-epifania.jpg" alt="Ícone — Epifania" onerror="this.style.display='none'">
 
-  <section class="list" aria-label="Domingos da Epifania">
-    <a class="btn" data-link="dom1" href="#"><img class="icon" src="img/icone-epifania.jpg" alt=""><span class="label"><span class="line1">1º Domingo</span><span class="line2">da Epifania</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="dom2" href="#"><img class="icon" src="img/icone-epifania.jpg" alt=""><span class="label"><span class="line1">2º Domingo</span><span class="line2">da Epifania</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="dom3" href="#"><img class="icon" src="img/icone-epifania.jpg" alt=""><span class="label"><span class="line1">3º Domingo</span><span class="line2">da Epifania</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="dom4" href="#"><img class="icon" src="img/icone-epifania.jpg" alt=""><span class="label"><span class="line1">4º Domingo</span><span class="line2">da Epifania</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="dom5" href="#"><img class="icon" src="img/icone-epifania.jpg" alt=""><span class="label"><span class="line1">5º Domingo</span><span class="line2">da Epifania</span></span><span class="slot"></span></a>
+  <section class="list" aria-label="Semanas após a Epifania">
+    <a class="btn" data-key="sem1" href="#">
+      <img class="icon" src="img/icone-epifania.jpg" alt="">
+      <span class="label"><span class="line1">1ª Semana</span><span class="line2">após a Epifania</span></span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" data-key="sem2" href="#">
+      <img class="icon" src="img/icone-epifania.jpg" alt="">
+      <span class="label"><span class="line1">2ª Semana</span><span class="line2">após a Epifania</span></span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" data-key="sem3" href="#">
+      <img class="icon" src="img/icone-epifania.jpg" alt="">
+      <span class="label"><span class="line1">3ª Semana</span><span class="line2">após a Epifania</span></span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" data-key="sem4" href="#">
+      <img class="icon" src="img/icone-epifania.jpg" alt="">
+      <span class="label"><span class="line1">4ª Semana</span><span class="line2">após a Epifania</span></span>
+      <span class="slot"></span>
+    </a>
+    <a class="btn" data-key="sem5" href="#">
+      <img class="icon" src="img/icone-epifania.jpg" alt="">
+      <span class="label"><span class="line1">5ª Semana</span><span class="line2">após a Epifania</span></span>
+      <span class="slot"></span>
+    </a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-/* COLE AQUI os links .doc (tabela shots) */
-const LINKS={ dom1:null, dom2:null, dom3:null, dom4:null, dom5:null };
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link');
-  if(LINKS[k]) a.href=LINKS[k]; else { a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
-});
+// === Config CSV ===
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+
+// Slugs de leituras (coluna G) para as Semanas após a Epifania:
+const SLUGS = {
+  sem1: 'leituras 1 epifania',
+  sem2: 'leituras 2 epifania',
+  sem3: 'leituras 3 epifania',
+  sem4: 'leituras 4 epifania',
+  sem5: 'leituras 5 epifania'
+};
+
+// === Utils padrão ===
+function csvToRows(text){
+  const rows=[]; let i=0, cur='', inQ=false; const push=()=>{(rows[rows.length-1]||rows.push([]),rows[rows.length-1]).push(cur); cur='';};
+  rows.push([]);
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='\"' && text[i+1]==='\"'){ cur+='\"'; i+=2; continue; }
+      if(c==='\"'){ inQ=false; i++; continue; }
+      cur+=c; i++; continue;
+    }
+    if(c==='\"'){ inQ=true; i++; continue; }
+    if(c===','){ push(); i++; continue; }
+    if(c==='\r'){ i++; continue; }
+    if(c==='\n'){ push(); rows.push([]); i++; continue; }
+    cur+=c; i++;
+  }
+  if(cur!=='' || (rows[rows.length-1]||[]).length){ push(); }
+  if(rows[rows.length-1].length===1 && rows[rows.length-1][0]==='') rows.pop();
+  return rows;
+}
+function mapBySlug(rows){
+  const by={};
+  for(let r=1;r<rows.length;r++){
+    const row=rows[r]; const slug=(row[0]||'').toLowerCase(); if(!slug) continue;
+    by[slug]={ ramshoCurta:row[2]||'', ramshoLonga:row[3]||'', safroCurta:row[4]||'', safroLonga:row[5]||'', salmos:row[6]||'' };
+  }
+  return by;
+}
+function setLink(a,url){
+  if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.removeAttribute('title'); }
+  else   { a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+}
+
+// === Load ===
+(async ()=>{
+  try{
+    const res = await fetch(CSV_URL);
+    const txt = await res.text();
+    const rows = csvToRows(txt);
+    const data = mapBySlug(rows);
+
+    const links = {};
+    for (const [key,slug] of Object.entries(SLUGS)){
+      links[key] = (data[slug]?.salmos) || '';
+    }
+
+    document.querySelectorAll('[data-key]').forEach(a=>{
+      setLink(a, links[a.getAttribute('data-key')] || '');
+    });
+  }catch(e){
+    console.error('CSV load error', e);
+  }
+})();
 </script>
 </body>
 </html>
