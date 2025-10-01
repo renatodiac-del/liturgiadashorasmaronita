@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Domingo dos Sacerdotes · Falecidos</title>
+<title>Domingo dos Fiéis Falecidos · Falecidos</title>
 <meta name="theme-color" content="#6d6d75">
 <style>
 :root{
@@ -18,8 +18,7 @@ body{
 header{text-align:center;padding:26px 10px 8px}
 .title{
   color:var(--roxotxt); font-weight:900; font-size:1.9rem;
-  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
-              -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
+  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro);
 }
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 .hero{
@@ -58,10 +57,10 @@ function goBackOrMother(){
 </script>
 </head>
 <body>
-<header><h1 class="title">Domingo dos Sacerdotes</h1></header>
+<header><h1 class="title">Domingo dos Fiéis Falecidos</h1></header>
 
 <main class="wrap">
-  <img class="hero" src="img/icone-sacerdotes.png" alt="Ícone — Sacerdotes" onerror="this.style.display='none'">
+  <img class="hero" src="img/icone-fieis-falecidos.png" alt="Ícone — Fiéis Falecidos" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
     <a class="btn" data-key="ramsho" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
@@ -69,16 +68,14 @@ function goBackOrMother(){
     <a class="btn" data-key="salmos" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
   </section>
 
-  <div class="back-wrap">
-    <button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button>
-  </div>
+  <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
 // === Config CSV ===
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
-const SLUG_MAIN='sacerdotes';
-const SLUG_SALMOS='leituras sacerdotes';
+const SLUG_MAIN='falecidos';
+const SLUG_SALMOS='leitura falecidos';
 
 // === Utils (padrão) ===
 function csvToRows(text){
@@ -127,4 +124,5 @@ function setLink(a,url){
 </script>
 </body>
 </html>
+
 
