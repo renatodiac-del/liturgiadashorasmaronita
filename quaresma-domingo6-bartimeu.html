@@ -33,17 +33,24 @@ function goBackOrMother(){try{if(document.referrer&&document.referrer.includes('
   <img class="hero" src="img/icone-quaresma-bartimeu.png" alt="Ícone — Cura do Cego Bartimeu" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-bartimeu.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
-    <a class="btn" data-link="safro"  href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-bartimeu.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-bartimeu.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
+    <a class="btn" data-key="ramsho" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-bartimeu.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
+    <a class="btn" data-key="safro"  href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-bartimeu.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
+    <a class="btn" data-key="salmos" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-bartimeu.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-const LINKS={ ramsho:null, safro:null, salmos:null };
-document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k]; else {a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}});
+const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_MAIN='6 domigo quaresma';
+const SLUG_SALMOS='leituras 6 semana quaresma';
+
+function csvToRows(t){const r=[];let i=0,c='',q=false;const p=()=>{(r[r.length-1]||r.push([]),r[r.length-1]).push(c);c='';};r.push([]);while(i<t.length){const a=t[i];if(q){if(a==='\"'&&t[i+1]==='\"'){c+='\"';i+=2;continue}if(a==='\"'){q=false;i++;continue}c+=a;i++;continue}if(a==='\"'){q=true;i++;continue}if(a===','){p();i++;continue}if(a==='\r'){i++;continue}if(a==='\n'){p();r.push([]);i++;continue}c+=a;i++}if(c!==''||(r[r.length-1]||[]).length){p()}if(r[r.length-1].length===1&&r[r.length-1][0]==='')r.pop();return r}
+function mapBySlug(rows){const by={};for(let rI=1;rI<rows.length;rI++){const row=rows[rI];const slug=(row[0]||'').toLowerCase();if(!slug)continue;by[slug]={ramshoCurta:row[2]||'',ramshoLonga:row[3]||'',safroCurta:row[4]||'',safroLonga:row[5]||'',salmos:row[6]||''};}return by}
+function setLink(a,u){if(u){a.href=u;a.style.opacity='';a.style.pointerEvents='';a.removeAttribute('title')}else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado'}}
+
+(async()=>{try{const res=await fetch(CSV_URL);const txt=await res.text();const data=mapBySlug(csvToRows(txt));const main=data[SLUG_MAIN]||{};const links={ramsho:main.ramshoLonga||main.ramshoCurta||'',safro:main.safroLonga||main.safroCurta||'',salmos:(data[SLUG_SALMOS]?.salmos)||''};document.querySelectorAll('[data-key]').forEach(a=>setLink(a,links[a.getAttribute('data-key')]||''))}catch(e){console.error('CSV load error',e)}})();
 </script>
 </body>
 </html>
