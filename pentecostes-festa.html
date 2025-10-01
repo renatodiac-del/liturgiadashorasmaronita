@@ -59,8 +59,7 @@ header{text-align:center;padding:24px 10px 8px}
   .btn,.btn:hover{transition:none; transform:none; filter:none}
 }
 </style>
-<script defer>
-/* Botão Voltar com fallback para a página-mãe definida em data-mother */
+<script>
 function goBackOrMother(){
   const mother = document.body.dataset.mother || 'pentecostes.html';
   try{
@@ -72,7 +71,6 @@ function goBackOrMother(){
 }
 </script>
 </head>
-<!-- Ajuste aqui a página-mãe, se necessário -->
 <body data-mother="pentecostes.html">
 <header><h1 class="title">Festa de Pentecostes</h1></header>
 
@@ -80,10 +78,10 @@ function goBackOrMother(){
   <img class="hero" src="img/icone-pentecostes.jpg" alt="Ícone — Pentecostes" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#" target="_blank" rel="noopener noreferrer">
+    <a class="btn" data-key="ramsho" href="#" target="_blank" rel="noopener noreferrer">
       <img class="icon" src="img/icone-pentecostes.jpg" alt="Pentecostes"><span class="label">Ramsho</span><span class="slot" aria-hidden="true"></span>
     </a>
-    <a class="btn" data-link="safro" href="#" target="_blank" rel="noopener noreferrer">
+    <a class="btn" data-key="safro" href="#" target="_blank" rel="noopener noreferrer">
       <img class="icon" src="img/icone-pentecostes.jpg" alt="Pentecostes"><span class="label">Safro</span><span class="slot" aria-hidden="true"></span>
     </a>
   </section>
@@ -96,24 +94,84 @@ function goBackOrMother(){
 </main>
 
 <script>
-/* COLE AQUI os links (.doc) da planilha “shots” */
-const LINKS = {
-  ramsho: null,
-  safro:  null
-};
+// === Configuração de planilha (mesma Planilha B) ===
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_MAIN = 'pentecostes'; // coluna A, tudo minúsculo, sem acento
 
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const key = a.getAttribute('data-link');
-  const url = LINKS[key];
-  if (url){
-    a.href = url;
+// Parser CSV robusto (respeita aspas e vírgulas internas)
+function csvToRows(text){
+  const rows=[]; let i=0, cur='', inQ=false; const push=()=>{(rows[rows.length-1]||rows.push([]),rows[rows.length-1]).push(cur); cur='';};
+  rows.push([]);
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"' && text[i+1]==='"'){ cur+='"'; i+=2; continue; }
+      if(c==='"'){ inQ=false; i++; continue; }
+      cur+=c; i++; continue;
+    }else{
+      if(c==='"' ){ inQ=true; i++; continue; }
+      if(c===',' ){ push(); i++; continue; }
+      if(c==='\r'){ i++; continue; }
+      if(c==='\n'){ push(); rows.push([]); i++; continue; }
+      cur+=c; i++; continue;
+    }
+  }
+  if(cur.length || (rows[rows.length-1]&&rows[rows.length-1].length)) push();
+  // remove última linha vazia, se houver
+  if(rows.length && rows[rows.length-1].length===1 && rows[rows.length-1][0]==='') rows.pop();
+  return rows;
+}
+
+function mapBySlug(rows){
+  const by={};
+  for(let r=1;r<rows.length;r++){
+    const row=rows[r];
+    const slug=(row[0]||'').toLowerCase().trim();
+    if(!slug) continue;
+    by[slug]={
+      ramshoCurta: row[2]||'',
+      ramshoLonga: row[3]||'',
+      safroCurta : row[4]||'',
+      safroLonga : row[5]||'',
+      salmos     : row[6]||''
+    };
+  }
+  return by;
+}
+
+function setLink(a,url){
+  if(url){
+    a.removeAttribute('aria-disabled');
+    a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.removeAttribute('title'); a.tabIndex=0;
   }else{
     a.setAttribute('aria-disabled','true');
-    a.removeAttribute('href');
-    a.title = 'Link não configurado';
-    a.tabIndex = -1;
+    a.removeAttribute('href'); a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; a.tabIndex=-1;
   }
-});
+}
+
+(async ()=>{
+  try{
+    const res = await fetch(CSV_URL, {cache:'no-store'});
+    const txt = await res.text();
+    const rows = csvToRows(txt);
+    const data = mapBySlug(rows);
+    const main = data[SLUG_MAIN] || {};
+
+    // Dois botões com fallback: longa → curta
+    const links = {
+      'ramsho': main.ramshoLonga || main.ramshoCurta || '',
+      'safro' : main.safroLonga  || main.safroCurta  || ''
+    };
+
+    document.querySelectorAll('[data-key]').forEach(a=>{
+      const k=a.getAttribute('data-key'); setLink(a, links[k]);
+    });
+  }catch(e){
+    console.error('CSV load error', e);
+    // Em caso de falha de rede, mantém botões desativados
+    document.querySelectorAll('[data-key]').forEach(a=>setLink(a,''));
+  }
+})();
 </script>
 </body>
 </html>
