@@ -5,46 +5,24 @@
 <title>Domingo dos Fiéis Falecidos · Falecidos</title>
 <meta name="theme-color" content="#6d6d75">
 <style>
-:root{
-  --ouro:#d6b25a; --roxotxt:#5a2ea6; --chumbo:#2f2f34; --prata:#b7b7b9; --branco:#ffffff;
-  --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;
-}
+:root{ --ouro:#d6b25a; --roxotxt:#5a2ea6; --chumbo:#2f2f34; --prata:#b7b7b9; --branco:#ffffff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;}
 *{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
-body{
-  font-family:var(--fonte);
-  background:linear-gradient(to top, var(--chumbo) 0%, #56565c 48%, var(--prata) 92%, var(--branco) 100%);
-  min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden;
-}
+body{font-family:var(--fonte);background:linear-gradient(to top, var(--chumbo) 0%, #56565c 48%, var(--prata) 92%, var(--branco) 100%);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;position:relative}
 header{text-align:center;padding:26px 10px 8px}
-.title{
-  color:var(--roxotxt); font-weight:900; font-size:1.9rem;
-  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro);
-}
+.title{color:var(--roxotxt);font-weight:900;font-size:1.9rem;text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro)}
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
-.hero{
-  display:block;margin:10px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;
-  border:4px solid var(--ouro);box-shadow:0 8px 16px var(--shadow);border-radius:14px
-}
+.hero{display:block;margin:10px auto 16px;height:390px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:580px;border:4px solid var(--ouro);box-shadow:0 8px 16px var(--shadow);border-radius:14px}
 .list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
-.btn{
-  display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;
-  background:#ffffffd9;color:var(--roxotxt);text-decoration:none;font-weight:900;border:3px solid var(--ouro);
-  border-radius:18px;padding:6px 18px;width:94%;margin:0 auto;transition:transform .12s, filter .2s;
-}
+.btn{display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;background:#ffffffd9;color:var(--roxotxt);text-decoration:none;font-weight:900;border:3px solid var(--ouro);border-radius:18px;padding:6px 18px;width:94%;margin:0 auto;transition:transform .12s, filter .2s}
 .btn:hover{transform:scale(1.02);filter:brightness(1.05)}
 .btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--ouro);object-fit:cover}
-.btn .label{
-  text-align:center;color:var(--roxotxt);
-  text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro),
-              -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
-}
+.btn .label{ text-align:center;color:var(--roxotxt); text-shadow:-1px -1px 0 var(--ouro), 1px -1px 0 var(--ouro), -1px 1px 0 var(--ouro), 1px 1px 0 var(--ouro)}
 .btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
 .back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
-.btn-back{
-  display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
-  padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer
-}
+.btn-back{display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer}
 .btn-back .arr{font-size:18px;line-height:1}
+.btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+.small{font-size:.88rem;color:#333;font-weight:800}
 </style>
 <script>
 function goBackOrMother(){
@@ -63,64 +41,24 @@ function goBackOrMother(){
   <img class="hero" src="img/icone-fieis-falecidos.png" alt="Ícone — Fiéis Falecidos" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-key="ramsho" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
-    <a class="btn" data-key="safro"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
-    <a class="btn" data-key="salmos" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-curta" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho <span class="small">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho-longa" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho <span class="small">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-curta"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro <span class="small">versão curta</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="safro-longa"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro <span class="small">versão longa</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="salmos" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
 
 <script>
-// === Config CSV ===
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
-const SLUG_MAIN='falecidos';
-const SLUG_SALMOS='leitura falecidos';
-
-// === Utils (padrão) ===
-function csvToRows(text){
-  const rows=[]; let i=0,cur='',q=false; const push=()=>{(rows[rows.length-1]||rows.push([]),rows[rows.length-1]).push(cur); cur='';};
-  rows.push([]);
-  while(i<text.length){
-    const c=text[i];
-    if(q){ if(c==='\"'&&text[i+1]==='\"'){cur+='\"';i+=2;continue;} if(c==='\"'){q=false;i++;continue;} cur+=c;i++;continue; }
-    if(c==='\"'){q=true;i++;continue;}
-    if(c===','){push();i++;continue;}
-    if(c==='\r'){i++;continue;}
-    if(c==='\n'){push();rows.push([]);i++;continue;}
-    cur+=c;i++;
-  }
-  if(cur!==''||(rows[rows.length-1]||[]).length){push();}
-  if(rows[rows.length-1].length===1&&rows[rows.length-1][0]==='') rows.pop();
-  return rows;
-}
-function mapBySlug(rows){
-  const by={};
-  for(let r=1;r<rows.length;r++){
-    const row=rows[r]; const slug=(row[0]||'').toLowerCase(); if(!slug) continue;
-    by[slug]={ ramshoCurta:row[2]||'', ramshoLonga:row[3]||'', safroCurta:row[4]||'', safroLonga:row[5]||'', salmos:row[6]||'' };
-  }
-  return by;
-}
-function setLink(a,url){
-  if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.removeAttribute('title'); }
-  else   { a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
-}
-
-// === Load ===
-(async ()=>{
-  try{
-    const res=await fetch(CSV_URL); const txt=await res.text();
-    const data=mapBySlug(csvToRows(txt));
-    const main=data[SLUG_MAIN]||{};
-    const links={
-      ramsho: main.ramshoLonga || main.ramshoCurta || '',
-      safro : main.safroLonga  || main.safroCurta  || '',
-      salmos: (data[SLUG_SALMOS]?.salmos)||''
-    };
-    document.querySelectorAll('[data-key]').forEach(a=>setLink(a, links[a.getAttribute('data-key')]||''));
-  }catch(e){ console.error('CSV load error', e); }
-})();
+const SLUG_DESIRED='falecidos';
+function norm(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
+function csvToRows(t){const r=[[]];let i=0,c='',q=false;const p=()=>{r[r.length-1].push(c);c='';};while(i<t.length){const ch=t[i];if(q){if(ch==='"'&&t[i+1]==='"'){c+='"';i+=2;continue}if(ch==='"'){q=false;i++;continue}c+=ch;i++;continue}else{if(ch==='"'){q=true;i++;continue}if(ch===','){p();i++;continue}if(ch==='\r'){i++;continue}if(ch==='\n'){p();r.push([]);i++;continue}c+=ch;i++;continue}}if(c.length||r[r.length-1].length)p();if(r.length&&r[r.length-1].length===1&&r[r.length-1][0]==='')r.pop();return r;}
+function buildIndex(rows){const bySlug={},byNorm={},variants={};for(let r=1;r<rows.length;r++){const row=rows[r];const raw=(row[0]||'').trim();if(!raw)continue;const s=norm(raw);bySlug[raw]={ramshoCurta:row[2]||'',ramshoLonga:row[3]||'',safroCurta:row[4]||'',safroLonga:row[5]||'',salmos:row[6]||''};byNorm[s]=raw;if(s.includes('domingo'))variants[s.replace(/domingo/g,'domigo')]=raw;if(s.includes('domigo'))variants[s.replace(/domigo/g,'domingo')]=raw}return {bySlug,byNorm,variants};}
+function setLink(a,u){if(u){a.href=u;a.removeAttribute('aria-disabled');a.removeAttribute('title')}else{a.removeAttribute('href');a.setAttribute('aria-disabled','true');a.title='Link não configurado'}}
+(async()=>{try{const res=await fetch(CSV_URL,{cache:'no-store'});const txt=await res.text();const rows=csvToRows(txt);const {bySlug,byNorm,variants}=buildIndex(rows);const want=norm(SLUG_DESIRED);const raw=byNorm[want]||variants[want]||null;const d=raw?bySlug[raw]:{};const links={'ramsho-curta':d.ramshoCurta||'','ramsho-longa':d.ramshoLonga||d.ramshoCurta||'','safro-curta':d.safroCurta||'','safro-longa':d.safroLonga||d.safroCurta||'','salmos':d.salmos||''};document.querySelectorAll('[data-link]').forEach(a=>setLink(a,links[a.getAttribute('data-link')]||''))}catch(e){console.error(e);document.querySelectorAll('[data-link]').forEach(a=>setLink(a,''))}})();
 </script>
 </body>
 </html>
