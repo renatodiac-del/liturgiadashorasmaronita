@@ -53,14 +53,25 @@ footer{margin-top:auto;text-align:center;padding:8px 0 14px}
   </section>
 </main>
 
-<footer><a class="back" href="domingos-tempo-ressurreicao.html">← Voltar</a></footer>
+<footer><a class="back" href="domigos-tempo-ressurreicao.html" onclick="event.preventDefault();history.back()|| (location.href='domingos-tempo-ressurreicao.html')">← Voltar</a></footer>
 
 <script>
-const LINKS={'ramsho-curta':null,'ramsho-longa':null,'safro-curta':null,'safro-longa':null};
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link'); if(LINKS[k]) a.href=LINKS[k];
-  else {a.style.opacity=.6; a.style.pointerEvents='none'; a.title='Link não configurado';}
-});
+const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_MAIN='domingo novo';
+
+function csvToRows(t){const rows=[];let row=[],cur='',q=false;for(let i=0;i<t.length;i++){const c=t[i],n=t[i+1];if(c==='"'){if(q&&n==='"'){cur+='"';i++;}else{q=!q;}}else if(c===','&&!q){row.push(cur);cur='';}else if((c==='\n'||c==='\r')&&!q){if(cur||row.length)row.push(cur);if(row.length)rows.push(row);row=[];cur='';if(c==='\r'&&n==='\n')i++;}else{cur+=c;}} if(cur||row.length){row.push(cur);rows.push(row);} return rows;}
+function mapBySlug(rows){const by={}; for(let r=1;r<rows.length;r++){const a=rows[r]; const slug=(a[0]||'').toLowerCase(); if(!slug) continue; by[slug]={rc:a[2]||'', rl:a[3]||'', sc:a[4]||'', sl:a[5]||''}; } return by;}
+function setLink(a,url){ if(url){a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.removeAttribute('title');} else {a.href='#'; a.style.opacity=.6; a.style.pointerEvents='none'; a.title='Link não configurado';} }
+
+(async()=>{
+  try{
+    const txt=await (await fetch(CSV_URL)).text();
+    const data=mapBySlug(csvToRows(txt))[SLUG_MAIN]||{};
+    const links={'ramsho-curta':data.rc,'ramsho-longa':data.rl,'safro-curta':data.sc,'safro-longa':data.sl};
+    document.querySelectorAll('[data-link]').forEach(a=>setLink(a,links[a.getAttribute('data-link')]||''));
+  }catch(e){console.error(e);}
+})();
 </script>
 </body>
 </html>
+
