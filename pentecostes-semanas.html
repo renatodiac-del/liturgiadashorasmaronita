@@ -1,3 +1,8 @@
+<!-- =========================================
+pentecostes-semanas.html
+Base de dados: aba “salmos-leituras-pentecostes”
+Chaves/linhas (Coluna A): w0…w16 (em ordem)
+========================================= -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,7 +21,7 @@ header{text-align:center;padding:24px 10px 8px}
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
 .hero{display:block;margin:10px auto 16px;height:360px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:560px;border:4px solid var(--prata);box-shadow:inset 0 0 0 4px var(--branco),0 8px 16px var(--shadow);border-radius:14px}
 
-/* Botão central (semana atual) reaproveita .btn padrão */
+/* Botão central (semana atual) */
 .btn{
   display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;background:#fff;color:var(--texto);
   text-decoration:none;font-weight:900;border:3px solid var(--prata);box-shadow:inset 0 0 0 3px var(--branco),0 4px 10px var(--shadow);
@@ -44,10 +49,10 @@ header{text-align:center;padding:24px 10px 8px}
 <script>
 function goBackOrMother(){
   try{
-    if (document.referrer && document.referrer.includes('pentecoste.html')) { history.back(); return; }
+    if (document.referrer && document.referrer.includes('pentecostes.html')) { history.back(); return; }
     if (history.length>1) { history.back(); return; }
   }catch(e){}
-  location.href='pentecoste.html';
+  location.href='pentecostes.html';
 }
 </script>
 </head>
@@ -74,7 +79,7 @@ function goBackOrMother(){
 </main>
 
 <script>
-/* Lista de semanas (17 entradas) */
+/* 17 semanas (aba “salmos-leituras-pentecostes”) */
 const WEEKS = [
   'Semana de Pentecostes',
   '2ª Semana de Pentecostes',
@@ -95,15 +100,15 @@ const WEEKS = [
   '17ª Semana de Pentecostes'
 ];
 
-/* COLE AQUI os links (.doc) da planilha “shots”
-   Um por semana, na mesma ordem acima. Deixe como null para desativar. */
+/* PREENCHA a partir da planilha (Coluna A = chave, Coluna B = rótulo).
+   Use as chaves: w0…w16 na mesma ordem */
 const LINKS = {
   w0:null,  w1:null,  w2:null,  w3:null,  w4:null,  w5:null,
   w6:null,  w7:null,  w8:null,  w9:null,  w10:null, w11:null,
   w12:null, w13:null, w14:null, w15:null, w16:null
 };
 
-let idx = 0; // semana atual
+let idx = 0;
 const label = document.getElementById('week-label');
 const btn   = document.getElementById('btn-week');
 
@@ -124,14 +129,8 @@ function render(){
     btn.title = 'Link não configurado';
   }
 }
-
-document.getElementById('prev').addEventListener('click',()=>{
-  idx = (idx-1+WEEKS.length)%WEEKS.length; render();
-});
-document.getElementById('next').addEventListener('click',()=>{
-  idx = (idx+1)%WEEKS.length; render();
-});
-
+document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+WEEKS.length)%WEEKS.length; render(); });
+document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%WEEKS.length; render(); });
 render();
 </script>
 </body>
