@@ -2,137 +2,55 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>4º Domingo · Nascimento de João Batista</title>
-<meta name="theme-color" content="#0b4660">
+<title>4º Domingo — O Filho Pródigo · Quaresma</title>
+<meta name="theme-color" content="#3a0c6e">
 <style>
-:root{ --prata:#b0b0b0; --branco:#fff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;
-  --base:#0b4660; --topo:#bff6ff; }
+:root{ --roxo:#3a0c6e; --bordo:#6e0d25; --prata:#b0b0b0; --branco:#ffffff; --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;}
 *{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
-body{ font-family:var(--fonte); background:linear-gradient(to top, var(--base) 0%, #2a97b6 55%, var(--topo) 100%); min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden}
-.sky{position:fixed; inset:0; pointer-events:none; z-index:0}
-.bethlehem{position:absolute; top:8px; left:50%; transform:translateX(-50%); color:var(--branco); font-size:30px; text-shadow:0 0 10px rgba(255,255,255,.95),0 0 14px rgba(255,255,255,.8)}
-.bethlehem::after{content:""; position:absolute; left:18px; top:6px; width:28vw; height:3px; transform:rotate(10deg); background:repeating-linear-gradient(90deg, var(--branco) 0 10px, var(--prata) 10px 20px); filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
-.star{position:absolute; color:var(--branco); opacity:.9; text-shadow:0 0 6px rgba(255,255,255,.9)}
-header{position:relative; z-index:1; text-align:center; padding:40px 10px 8px}
-.title{ color:var(--prata); font-weight:900; font-size:1.9rem; text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
-.wrap{position:relative; z-index:1; max-width:640px; margin:0 auto; padding:12px 16px 22px; width:100%}
-.hero{ display:block; margin:10px auto 16px; height:390px; width:auto; aspect-ratio:3/4; object-fit:cover; max-height:580px; border:4px solid var(--prata); box-shadow: inset 0 0 0 4px var(--branco), 0 8px 16px var(--shadow); border-radius:14px}
-.list{display:flex; flex-direction:column; gap:12px; margin-top:6px}
-.btn{ display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center; background:linear-gradient(to top, #146886 0%, #3db2d2 60%, #a8ebf5 100%); color:var(--prata); text-decoration:none; font-weight:900; border:3px solid var(--prata); box-shadow: inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow); border-radius:18px; padding:6px 18px; width:94%; margin:0 auto; transition:transform .12s, filter .2s}
-.btn:hover{transform:scale(1.02); filter:brightness(1.05)}
-.btn .icon{ width:var(--btnIcon); height:var(--btnIcon); border-radius:50%; border:2px solid var(--prata); box-shadow:inset 0 0 0 2px var(--branco); object-fit:cover}
-.btn .label{ color:var(--prata); text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
-.btn .line1,.btn .line2{display:block} .btn .line2{font-weight:800; opacity:.95}
-.btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
-.back-wrap{display:flex; justify-content:center; margin-top:4px; transform:scale(.48); transform-origin:center top}
-.btn-back{ display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px; padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer}
-.btn-back .arr{font-size:18px; line-height:1}
-.status{margin:8px auto 0; max-width:640px; padding:8px 12px; border-radius:10px; background:#fff; border:2px dashed #b0b0b0; color:#333; font-size:.92rem; display:none}
-.status strong{color:#a00000}
+body{font-family:var(--fonte);background:linear-gradient(to top, var(--roxo) 0%, #5a2385 46%, #8e2e4a 78%, var(--bordo) 100%);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;position:relative}
+header{text-align:center;padding:24px 10px 8px}
+.title{color:var(--prata);font-weight:900;font-size:1.9rem;text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
+.hero{display:block;margin:10px auto 16px;height:360px;width:auto;aspect-ratio:3/4;object-fit:cover;max-height:560px;border:4px solid var(--prata);box-shadow:inset 0 0 0 4px var(--branco),0 8px 16px var(--shadow);border-radius:14px}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;background:linear-gradient(to top,#fff 0%,#fffaf9 60%,#ffffff 100%);color:var(--prata);text-decoration:none;font-weight:900;border:3px solid var(--prata);box-shadow:inset 0 0 0 3px var(--branco),0 4px 10px var(--shadow);border-radius:18px;padding:6px 18px;width:94%;margin:0 auto;transition:transform .12s,filter .2s}
+.btn:hover{transform:scale(1.02);filter:brightness(1.05)}
+.btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--prata);box-shadow:inset 0 0 0 2px var(--branco);object-fit:cover}
+.btn .label{ text-align:center;color:var(--prata); text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco)}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+.back-wrap{display:flex;justify-content:center;margin-top:6px;transform:scale(.48);transform-origin:center top}
+.btn-back{display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer}
+.btn-back .arr{font-size:18px;line-height:1}
 </style>
 <script>
-function goBackOrMother(){
-  try{
-    if (document.referrer && document.referrer.includes('anuncio.html')) { history.back(); return; }
-    if (history.length>1) { history.back(); return; }
-  }catch(e){}
-  location.href='anuncio.html';
-}
-const SLUG='4 domingo anuncio';
-const SLUG_LEITURAS='4 anuncio leituras'; // linha-irmã só para Salmos/Leituras
-const URL_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
-
-function parseCSV(t){return t.trim().split(/\r?\n/).map(l=>l.split(',').map(c=>c.trim()));}
-function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
-function headerIndexMap(h){const m={};h.forEach((n,i)=>m[norm(n)]=i);return m;}
-function firstOf(row, idxMap, keys, fallbackIdx){
-  for(const k of keys){const i=idxMap[norm(k)]; if(i!=null && row[i]) return row[i].trim();}
-  if(fallbackIdx!=null && row[fallbackIdx]) return row[fallbackIdx].trim();
-  return '';
-}
-function setBtn(a,url){ if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.removeAttribute('title');}
-  else{a.href='#';a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  // estrelas
-  const sky=document.querySelector('.sky'); const star=document.createElement('div'); star.className='bethlehem'; star.textContent='✶'; sky.appendChild(star);
-  for(let i=0;i<36;i++){const e=document.createElement('div'); e.className='star'; e.textContent='✸';
-    const side=Math.random()<0.5?(2+Math.random()*12):(86+Math.random()*12); const top=8+Math.random()*88;
-    e.style.left=(Math.random()<0.6?side:(14+Math.random()*72))+'vw'; e.style.top=top+'vh';
-    e.style.fontSize=(Math.random()<0.3?(20+Math.random()*8):(10+Math.random()*6))+'px'; sky.appendChild(e);}
-
-  // planilha
-  fetch(URL_CSV).then(r=>r.text()).then(txt=>{
-    const table=parseCSV(txt); if(!table.length) throw new Error('Planilha vazia.');
-    const head=table[0], idxMap=headerIndexMap(head);
-    const slugCol=idxMap['slug']??0;
-
-    const rowMain = table.find((r,i)=>i>0 && norm(r[slugCol])===norm(SLUG));
-    const rowLeit = table.find((r,i)=>i>0 && norm(r[slugCol])===norm(SLUG_LEITURAS));
-
-    const st=document.getElementById('status');
-    if(!rowMain){ st.style.display='block'; st.innerHTML=`Pendente (<strong>slug não encontrado</strong>): ${SLUG}`; return; }
-
-    // 4 ofícios na linha principal (fallback para C..F = 2..5)
-    const linkRamshoCurta = firstOf(rowMain, idxMap, ['ramsho-curta','ramsho curta'], 2);
-    const linkRamshoLonga = firstOf(rowMain, idxMap, ['ramsho-longa','ramsho longa'], 3);
-    const linkSafroCurta  = firstOf(rowMain, idxMap, ['safro-curta','safro curta'], 4);
-    const linkSafroLonga  = firstOf(rowMain, idxMap, ['safro-longa','safro longa'], 5);
-
-    // Salmos/Leituras:
-    // 1) tenta na mesma linha (coluna G / cabeçalhos equivalentes)
-    // 2) se vazio, busca na linha-irmã (apenas G)
-    let linkSalmos = firstOf(rowMain, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
-    if(!linkSalmos && rowLeit){
-      linkSalmos = firstOf(rowLeit, idxMap, ['salmos-leituras','salmos e leituras','leituras','salmos'], 6);
-    }
-
-    setBtn(document.querySelector('[data-link="ramsho-curta"]'), linkRamshoCurta);
-    setBtn(document.querySelector('[data-link="ramsho-longa"]'), linkRamshoLonga);
-    setBtn(document.querySelector('[data-link="safro-curta"]') , linkSafroCurta);
-    setBtn(document.querySelector('[data-link="safro-longa"]') , linkSafroLonga);
-    setBtn(document.querySelector('[data-link="salmos-leituras"]'), linkSalmos);
-
-    const falt = [
-      ['ramsho-curta',linkRamshoCurta],
-      ['ramsho-longa',linkRamshoLonga],
-      ['safro-curta',linkSafroCurta],
-      ['safro-longa',linkSafroLonga],
-      ['salmos-leituras',linkSalmos]
-    ].filter(([_,v])=>!v).map(([k])=>k.replace('-', ' '));
-
-    if(falt.length){
-      st.style.display='block';
-      st.innerHTML=`Pendente: <strong>${falt.join(', ')}</strong>`;
-    }
-  }).catch(err=>{
-    const st=document.getElementById('status'); st.style.display='block';
-    st.innerHTML=`Erro ao carregar planilha: <strong>${err.message}</strong>`;
-    document.querySelectorAll('[data-link]').forEach(a=>setBtn(a,null));
-  });
-});
+function goBackOrMother(){try{if(document.referrer&&document.referrer.includes('quaresma.html')){history.back();return} if(history.length>1){history.back();return}}catch(e){} location.href='quaresma.html'}
 </script>
 </head>
 <body>
-<div class="sky" aria-hidden="true"></div>
-
-<header><h1 class="title">4º Domingo · Nascimento de João Batista</h1></header>
+<header><h1 class="title">4º Domingo — O Filho Pródigo</h1></header>
 
 <main class="wrap">
-  <img class="hero" src="img/icone-nascimento-jb.png" alt="Ícone — Nascimento de João Batista" onerror="this.style.display='none'">
+  <img class="hero" src="img/icone-quaresma-prodigo.png" alt="Ícone — O Filho Pródigo" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho-curta" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="ramsho-longa" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Ramsho</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="safro-curta"  href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão curta</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="safro-longa"  href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Safro</span><span class="line2">versão longa</span></span><span class="slot"></span></a>
-    <a class="btn" data-link="salmos-leituras" href="#"><img class="icon" src="img/icone-nascimento-jb.png" alt=""><span class="label"><span class="line1">Salmos</span><span class="line2">e Leituras</span></span><span class="slot"></span></a>
+    <a class="btn" data-link="ramsho" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-prodigo.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
+    <a class="btn" data-link="safro"  href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-prodigo.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
+    <a class="btn" data-link="salmos" href="#" target="_blank" rel="noopener"><img class="icon" src="img/icone-quaresma-prodigo.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
   </section>
-
-  <div id="status" class="status" aria-live="polite"></div>
 
   <div class="back-wrap"><button class="btn-back" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></button></div>
 </main>
+
+<script>
+const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_DESIRED = '4 domingo quaresma';
+
+function norm(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
+function csvToRows(text){const rows=[[]];let i=0,cur='',q=false;const push=()=>{rows[rows.length-1].push(cur);cur='';};while(i<text.length){const c=text[i];if(q){if(c==='"'&&text[i+1]==='"'){cur+='"';i+=2;continue}if(c==='"'){q=false;i++;continue}cur+=c;i++;continue}else{if(c==='"'){q=true;i++;continue}if(c===','){push();i++;continue}if(c==='\r'){i++;continue}if(c==='\n'){push();rows.push([]);i++;continue}cur+=c;i++;continue}}if(cur.length||rows[rows.length-1].length)push();if(rows.length&&rows[rows.length-1].length===1&&rows[rows.length-1][0]==='')rows.pop();return rows;}
+function buildIndex(rows){const bySlug={},byNorm={},variants={};for(let r=1;r<rows.length;r++){const row=rows[r];const raw=(row[0]||'');if(!raw)continue;const sRaw=raw.trim();const sNorm=norm(sRaw);bySlug[sRaw]={ramshoCurta:row[2]||'',ramshoLonga:row[3]||'',safroCurta:row[4]||'',safroLonga:row[5]||'',salmos:row[6]||''};byNorm[sNorm]=sRaw;if(sNorm.includes('domingo')){variants[sNorm.replace(/domingo/g,'domigo')]=sRaw}if(sNorm.includes('domigo')){variants[sNorm.replace(/domigo/g,'domingo')]=sRaw}}return {bySlug,byNorm,variants};}
+function setLink(a,url){if(url){a.href=url;a.style.opacity='';a.style.pointerEvents='';a.removeAttribute('title');}else{a.removeAttribute('href');a.style.opacity=.55;a.style.pointerEvents='none';a.title='Link não configurado';}}
+(async()=>{try{const res=await fetch(CSV_URL,{cache:'no-store'});const txt=await res.text();const rows=csvToRows(txt);const {bySlug,byNorm,variants}=buildIndex(rows);const wantNorm=norm(SLUG_DESIRED);const resolvedRaw=byNorm[wantNorm]||variants[wantNorm]||null;const main=resolvedRaw?bySlug[resolvedRaw]:{};const links={'ramsho':(main.ramshoLonga||main.ramshoCurta||''),'safro':(main.safroLonga||main.safroCurta||''),'salmos':(main.salmos||'')};document.querySelectorAll('[data-link]').forEach(a=>{const k=a.getAttribute('data-link');setLink(a,links[k]||'');});}catch(e){console.error('CSV load error',e);document.querySelectorAll('[data-link]').forEach(a=>setLink(a,''));}})();
+</script>
 </body>
 </html>
 
