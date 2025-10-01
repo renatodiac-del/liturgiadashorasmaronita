@@ -40,7 +40,6 @@ header{text-align:center;padding:26px 10px 8px}
               -1px  1px 0 var(--ouro), 1px  1px 0 var(--ouro);
 }
 .btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
-/* Voltar padrão (.48), mesmo dos demais módulos */
 .back-wrap{display:flex;justify-content:center;margin-top:4px;transform:scale(.48);transform-origin:center top}
 .btn-back{
   display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;
@@ -62,19 +61,12 @@ function goBackOrMother(){
 <header><h1 class="title">Domingo dos Sacerdotes</h1></header>
 
 <main class="wrap">
-  <!-- Ícone ajustado: icone-sacerdote.jpg -->
   <img class="hero" src="img/icone-sacerdotes.png" alt="Ícone — Sacerdotes" onerror="this.style.display='none'">
 
   <section class="list" aria-label="Ofícios">
-    <a class="btn" data-link="ramsho" href="#" target="_blank" rel="noopener">
-      <img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho</span><span class="slot"></span>
-    </a>
-    <a class="btn" data-link="safro" href="#" target="_blank" rel="noopener">
-      <img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro</span><span class="slot"></span>
-    </a>
-    <a class="btn" data-link="salmos" href="#" target="_blank" rel="noopener">
-      <img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span>
-    </a>
+    <a class="btn" data-key="ramsho" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Ramsho</span><span class="slot"></span></a>
+    <a class="btn" data-key="safro"  href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Safro</span><span class="slot"></span></a>
+    <a class="btn" data-key="salmos" href="#"><img class="icon" src="img/cruz3.png" alt=""><span class="label">Salmos e Leituras</span><span class="slot"></span></a>
   </section>
 
   <div class="back-wrap">
@@ -83,25 +75,55 @@ function goBackOrMother(){
 </main>
 
 <script>
-/* COLE AQUI os links (.doc) provenientes da planilha “shots”.
-   Exemplo:
-   'ramsho': 'https://docs.google.com/…/edit?…',
-   'safro' : 'https://docs.google.com/…/edit?…',
-   'salmos': 'https://docs.google.com/…/edit?…'
-*/
-const LINKS={ ramsho:null, safro:null, salmos:null };
+// === Config CSV ===
+const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1354083639&single=true&output=csv';
+const SLUG_MAIN='sacerdotes';
+const SLUG_SALMOS='leituras sacerdotes';
 
-document.querySelectorAll('[data-link]').forEach(a=>{
-  const k=a.getAttribute('data-link');
-  if(LINKS[k]){
-    a.href = LINKS[k];
-  }else{
-    a.style.opacity=.55;
-    a.style.pointerEvents='none';
-    a.title='Link não configurado';
+// === Utils (padrão) ===
+function csvToRows(text){
+  const rows=[]; let i=0,cur='',q=false; const push=()=>{(rows[rows.length-1]||rows.push([]),rows[rows.length-1]).push(cur); cur='';};
+  rows.push([]);
+  while(i<text.length){
+    const c=text[i];
+    if(q){ if(c==='\"'&&text[i+1]==='\"'){cur+='\"';i+=2;continue;} if(c==='\"'){q=false;i++;continue;} cur+=c;i++;continue; }
+    if(c==='\"'){q=true;i++;continue;}
+    if(c===','){push();i++;continue;}
+    if(c==='\r'){i++;continue;}
+    if(c==='\n'){push();rows.push([]);i++;continue;}
+    cur+=c;i++;
   }
-});
+  if(cur!==''||(rows[rows.length-1]||[]).length){push();}
+  if(rows[rows.length-1].length===1&&rows[rows.length-1][0]==='') rows.pop();
+  return rows;
+}
+function mapBySlug(rows){
+  const by={};
+  for(let r=1;r<rows.length;r++){
+    const row=rows[r]; const slug=(row[0]||'').toLowerCase(); if(!slug) continue;
+    by[slug]={ ramshoCurta:row[2]||'', ramshoLonga:row[3]||'', safroCurta:row[4]||'', safroLonga:row[5]||'', salmos:row[6]||'' };
+  }
+  return by;
+}
+function setLink(a,url){
+  if(url){ a.href=url; a.style.opacity=''; a.style.pointerEvents=''; a.removeAttribute('title'); }
+  else   { a.href='#'; a.style.opacity=.55; a.style.pointerEvents='none'; a.title='Link não configurado'; }
+}
+
+// === Load ===
+(async ()=>{
+  try{
+    const res=await fetch(CSV_URL); const txt=await res.text();
+    const data=mapBySlug(csvToRows(txt));
+    const main=data[SLUG_MAIN]||{};
+    const links={
+      ramsho: main.ramshoLonga || main.ramshoCurta || '',
+      safro : main.safroLonga  || main.safroCurta  || '',
+      salmos: (data[SLUG_SALMOS]?.salmos)||''
+    };
+    document.querySelectorAll('[data-key]').forEach(a=>setLink(a, links[a.getAttribute('data-key')]||''));
+  }catch(e){ console.error('CSV load error', e); }
+})();
 </script>
 </body>
 </html>
-
