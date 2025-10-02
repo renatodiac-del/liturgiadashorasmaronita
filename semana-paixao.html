@@ -1,8 +1,6 @@
-<!-- =========================================
-semana-paixao.html  — lê a aba “salmos-leituras-paixao”
-CSV:
-https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=894081921&single=true&output=csv
-========================================= -->
+<!-- semana-paixao.html — versão ajustada para ler cabeçalhos:
+     ordem | rótulo | key | link_doc | ativo | observações
+     Publicação CSV (gid=894081921) permanece a mesma. -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -82,38 +80,98 @@ function goBackOrMother(){
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=894081921&single=true&output=csv';
 const ORDER = ['i0','i1','i2','i3','i4','i5','i6','i7','i8'];
 
-function parseCSV(t){const r=[];let c='',w=[],q=false;for(let i=0;i<t.length;i++){const a=t[i],n=t[i+1];if(q){if(a=='"'&&n=='"'){c+='"';i++;}else if(a=='"'){q=false;}else c+=a;}else{if(a===','){w.push(c);c='';}else if(a==='\n'){w.push(c);r.push(w);w=[];c='';}else if(a=='"'){q=true;}else if(a!=='\r'){c+=a;}}}if(c.length||w.length){w.push(c);r.push(w);}return r;}
-function looksLikeURL(s){return /^https?:\/\//i.test(s||'');}
+function parseCSV(t){
+  const rows=[]; let cell='', row=[], q=false;
+  for(let i=0;i<t.length;i++){
+    const c=t[i], n=t[i+1];
+    if(q){ if(c==='"'&&n==='"'){cell+='"';i++;} else if(c==='"'){q=false;} else cell+=c; }
+    else{
+      if(c===','){ row.push(cell); cell=''; }
+      else if(c==='\n'){ row.push(cell); rows.push(row); row=[]; cell=''; }
+      else if(c==='"'){ q=true; }
+      else if(c!=='\r'){ cell+=c; }
+    }
+  }
+  if(cell.length||row.length){ row.push(cell); rows.push(row); }
+  return rows;
+}
+function looksLikeURL(s){ return /^https?:\/\//i.test((s||'').trim()); }
+function truthy(s){ return /^(true|1|yes|sim)$/i.test((s||'').trim()); }
 
+// rótulos padrão por índice
 const FALL = [
   'Sexta-Feira das Tentações de Cristo','Sábado de Lázaro','Domingo do Hosana — Rito da Lâmpada',
   'Segunda-feira da Paixão','Terça-feira da Paixão','Quarta-feira da Paixão — Rito da Lâmpada',
   'Quinta-feira dos Mistérios','Boa Sexta-feira','Sábado da Luz'
 ];
 
-let items = ORDER.map((k,i)=>({key:k,label:FALL[i]||k,url:null})), idx=0;
-const labelEl=document.getElementById('item-label'); const btnEl=document.getElementById('btn-item');
+let items = ORDER.map((k,i)=>({key:k,label:FALL[i]||k,url:null,active:true})), idx=0;
+
+const labelEl = document.getElementById('item-label');
+const btnEl   = document.getElementById('btn-item');
 
 function render(){
-  const it=items[idx];
-  labelEl.textContent=it.label||'—';
-  if(it.url){btnEl.href=it.url;btnEl.style.opacity=1;btnEl.style.pointerEvents='auto';btnEl.title='Abrir Salmos e Leituras';}
-  else{btnEl.href='#';btnEl.style.opacity=.55;btnEl.style.pointerEvents='none';btnEl.title='Link não configurado';}
+  const it = items[idx];
+  labelEl.textContent = it.label || '—';
+  if(it.url && it.active){
+    btnEl.href = it.url;
+    btnEl.style.opacity = 1;
+    btnEl.style.pointerEvents = 'auto';
+    btnEl.title = 'Abrir Salmos e Leituras';
+  }else{
+    btnEl.href = '#';
+    btnEl.style.opacity = .55;
+    btnEl.style.pointerEvents = 'none';
+    btnEl.title = it.active ? 'Link não configurado' : 'Item desativado';
+  }
 }
-document.getElementById('prev').addEventListener('click',()=>{idx=(idx-1+items.length)%items.length;render();});
-document.getElementById('next').addEventListener('click',()=>{idx=(idx+1)%items.length;render();});
 
+// navegação circular
+document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+items.length)%items.length; render(); });
+document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%items.length; render(); });
+
+// carrega CSV e detecta colunas por cabeçalho
 fetch(CSV_URL).then(r=>r.text()).then(txt=>{
-  const rows=parseCSV(txt).filter(r=>r.length>=2);
-  const map=new Map();
-  rows.forEach(r=>{
-    const k=(r[0]||'').trim(), b=(r[1]||'').trim(), c=(r[2]||'').trim();
-    if(!k) return;
-    const label = (c && !looksLikeURL(b)) ? b : (looksLikeURL(b) && !c ? (FALL[ORDER.indexOf(k)]||b) : b);
-    const url   = c || (looksLikeURL(b) ? b : null);
-    map.set(k,{label,url});
+  const rows = parseCSV(txt).filter(r=>r.length>0);
+  if(rows.length===0){ render(); return; }
+
+  // mapeia índices pelos nomes do cabeçalho
+  const head = rows[0].map(h=>h.trim().toLowerCase());
+  let idxKey  = head.findIndex(h=>h==='key');
+  let idxRot  = head.findIndex(h=>h==='rótulo' || h==='rotulo' || h==='rótulo '); // tolerante
+  let idxLink = head.findIndex(h=>h==='link_doc' || h==='link' || h==='url');
+  let idxAtv  = head.findIndex(h=>h==='ativo');
+
+  // se não houver cabeçalho reconhecível, assume antigo: [key, label/link, link?]
+  const dataRows = (idxKey>-1 || idxRot>-1 || idxLink>-1 || idxAtv>-1) ? rows.slice(1) : rows;
+
+  const map = new Map();
+  dataRows.forEach(r=>{
+    // estratégia flexível: tenta pelos nomes; se não, usa posições antigas
+    let key  = idxKey>-1  ? (r[idxKey]  ||'').trim() : (r[0]||'').trim();
+    if(!key) return;
+
+    let rot  = idxRot>-1  ? (r[idxRot]  ||'').trim() : (r[1]||'').trim();
+    let link = idxLink>-1 ? (r[idxLink] ||'').trim() : (r[2]||'').trim();
+    let atv  = idxAtv>-1  ? (r[idxAtv]  ||'').trim() : '';
+
+    // fallback: se link_doc vazio, mas "rótulo" for URL, usa-o como link
+    if(!link && looksLikeURL(rot)){ link = rot; }
+
+    const active = idxAtv>-1 ? truthy(atv) : true;
+
+    map.set(key,{label:rot,url:looksLikeURL(link)?link:null,active});
   });
-  items = ORDER.map((k,i)=>{const rec=map.get(k)||{}; return {key:k,label:rec.label||FALL[i]||k,url:rec.url||null};});
+
+  items = ORDER.map((k,i)=>{
+    const rec = map.get(k) || {};
+    return {
+      key:k,
+      label: rec.label && !looksLikeURL(rec.label) ? rec.label : (FALL[i]||k),
+      url: rec.url || null,
+      active: rec.active !== undefined ? rec.active : true
+    };
+  });
 }).catch(()=>{}).finally(render);
 </script>
 </body>
