@@ -6,14 +6,8 @@
 <meta name="theme-color" content="#bfa57f">
 <style>
 :root{
-  /* fundo mais claro (da versão anterior) */
-  --bege:#cfbd95;
-  --laranja:#ff7a00; 
-  --dourado:#d6b25a; 
-  --ouro-velho:#b08a2e;
-  --escuro:#3a2d18; 
-  --sombra:rgba(0,0,0,.16);
-  --vermelho:#a00000;
+  --bege:#cfbd95; --laranja:#ff7a00; --dourado:#d6b25a; --ouro-velho:#b08a2e;
+  --escuro:#3a2d18; --sombra:rgba(0,0,0,.16); --vermelho:#a00000;
   --fonte: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box} html,body{height:100%}
@@ -24,92 +18,48 @@ body{
     repeating-linear-gradient(-45deg, rgba(255,122,0,.22) 0, rgba(255,122,0,.22) 2px, transparent 2px, transparent 40px);
   background-size:40px 40px; display:flex; flex-direction:column; min-height:100vh;
 }
-
 header{display:flex;justify-content:center;padding:12px 12px 0}
 h1{
-  color:var(--laranja);font-weight:900;
-  font-size:calc(1.6rem + 2pt); /* +2pt no título */
-  margin:0;
-  /* sombras douradas ouro-velho nas letras */
+  color:var(--laranja);font-weight:900;font-size:calc(1.6rem + 2pt);margin:0;
   -webkit-text-stroke:1px var(--ouro-velho);
-  text-shadow:
-    -1px -1px 0 var(--ouro-velho),
-     1px -1px 0 var(--ouro-velho),
-    -1px  1px 0 var(--ouro-velho),
-     1px  1px 0 var(--ouro-velho);
+  text-shadow:-1px -1px 0 var(--ouro-velho), 1px -1px 0 var(--ouro-velho),
+              -1px  1px 0 var(--ouro-velho), 1px  1px 0 var(--ouro-velho);
 }
-
 .wrap{max-width:620px;margin:0 auto;padding:8px 16px 24px;width:100%}
-
-/* Ícone com borda dourada + aro laranja
-   (↑ 15%: 420px → 483px) */
 .hero{
   display:block;margin:8px auto 16px;max-width:100%;height:auto;max-height:483px;
   border:6px solid var(--dourado);
   box-shadow:0 0 0 4px var(--laranja) inset, 0 6px 16px var(--sombra);
   border-radius:14px
 }
-
-/* WRAP dos botões para posicionar as setas de dica */
 .buttons-wrap{position:relative}
-
-/* Setas vermelhas (uma de cada lado), piscam 2x e somem */
 .hint-arrows{
   position:absolute; left:0; right:0; top:-6px; pointer-events:none;
-  display:flex; justify-content:space-between; align-items:center;
-  padding:0 4px;
+  display:flex; justify-content:space-between; align-items:center; padding:0 4px;
 }
-.hint{
-  color:var(--vermelho);
-  font-weight:900;
-  font-size:clamp(22px, 3.2vw, 30px);
-  line-height:1;
-  animation:hintBlink .9s ease-in-out 2;
-  text-shadow:0 0 6px rgba(0,0,0,.25);
-}
-@keyframes hintBlink{
-  0%{opacity:0; transform:translateY(-3px)}
-  20%{opacity:1; transform:translateY(0)}
-  50%{opacity:0}
-  100%{opacity:0}
-}
-
-/* Lista de botões */
-.buttons{display:flex;flex-direction:column;gap:7px;margin-top:8px}  /* gap ↓ 50% */
-
-/* Botões grandes: borda mais espessa; altura ↓ 10% (8px → 7.2px) */
+.hint{color:var(--vermelho); font-weight:900; font-size:clamp(22px, 3.2vw, 30px); line-height:1;
+  animation:hintBlink .9s ease-in-out 2; text-shadow:0 0 6px rgba(0,0,0,.25);}
+@keyframes hintBlink{0%{opacity:0;transform:translateY(-3px)}20%{opacity:1;transform:translateY(0)}50%{opacity:0}100%{opacity:0}}
+.buttons{display:flex;flex-direction:column;gap:7px;margin-top:8px}
 .btn{
   position:relative; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
-  background:rgba(255,255,255,.97);
-  border:4px solid var(--dourado);
+  background:rgba(255,255,255,.97); border:4px solid var(--dourado);
   box-shadow:0 0 0 3px var(--laranja) inset, 0 4px 10px var(--sombra);
-  border-radius:18px; 
-  padding:7.2px 18px; /* ↓ 10% vertical */
-  width:77%; margin:0 auto;
+  border-radius:18px; padding:7.2px 18px; width:77%; margin:0 auto;
   font-size:1rem; font-weight:900; color:var(--laranja); text-decoration:none; text-align:center;
   transition:transform .15s ease, background-color .2s ease
 }
 .btn:hover{transform:scale(1.02); background:#fff7ec}
-
-/* Ícone da cruz (padrão São Sixto: cruz8.jpeg)
-   harmonizado com borda mais espessa */
+.btn[aria-disabled="true"]{opacity:.55; pointer-events:none; cursor:not-allowed}
 .btn img{
   position:absolute; left:12px; width:26px; height:26px; object-fit:cover; border-radius:50%;
-  border:3px solid var(--dourado);
-  box-shadow:0 0 0 3px var(--laranja) inset;
+  border:3px solid var(--dourado); box-shadow:0 0 0 3px var(--laranja) inset;
 }
 .btn .label{width:100%; text-align:center; pointer-events:none}
-
-/* Botão Voltar (padrão), próximo ao último botão */
-.back-wrap{
-  display:flex; justify-content:center; margin-top:8px;
-  transform:scale(.48); transform-origin:center top;
-}
+.back-wrap{display:flex; justify-content:center; margin-top:8px; transform:scale(.48); transform-origin:center top;}
 .btn-back{
-  display:inline-flex; align-items:center; gap:10px;
-  background:var(--vermelho); color:#fff; border:none; border-radius:999px;
-  padding:10px 16px; font-weight:800; cursor:pointer;
-  box-shadow:0 6px 14px var(--sombra);
+  display:inline-flex; align-items:center; gap:10px; background:var(--vermelho); color:#fff; border:none; border-radius:999px;
+  padding:10px 16px; font-weight:800; cursor:pointer; box-shadow:0 6px 14px var(--sombra);
 }
 .btn-back .arr{font-size:18px; line-height:1}
 </style>
@@ -118,31 +68,43 @@ h1{
 
 <main class="wrap">
   <header><h1>Anáforas</h1></header>
-
-  <!-- Ícone (corrigido .jpg) -->
   <img class="hero" src="img/icone-anafora.jpg" alt="Ícone — Anáforas">
 
-  <!-- Dica visual: setas que piscam 2x e somem -->
   <div class="buttons-wrap">
     <div class="hint-arrows" id="hintArrows">
       <span class="hint left">↓</span>
       <span class="hint right">↓</span>
     </div>
 
-    <!-- Lista padronizada com cruz do São Sixto (cruz8.jpeg) -->
+    <!-- Os 8 botões agora têm data-key (i0..i7) para ligar com a planilha -->
     <section class="buttons" aria-label="Lista de Anáforas">
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">Doze Apóstolos</span></a>
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">São Pedro</span></a>
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">São Tiago</span></a>
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">São João Apóstolo</span></a>
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">Evangelista São Marcos</span></a>
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">São Sixto, Papa de Roma</span></a>
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">São João Crisóstomo</span></a>
-      <a class="btn" href="#"><img src="img/cruz8.jpeg" alt=""><span class="label">São João Marun</span></a>
+      <a class="btn" data-key="i0" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
+      <a class="btn" data-key="i1" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
+      <a class="btn" data-key="i2" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
+      <a class="btn" data-key="i3" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
+      <a class="btn" data-key="i4" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
+      <a class="btn" data-key="i5" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
+      <a class="btn" data-key="i6" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
+      <a class="btn" data-key="i7" href="#" target="_blank" rel="noopener">
+        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
+      </a>
     </section>
   </div>
 
-  <!-- Botão Voltar (padrão do site), próximo ao último botão -->
   <div class="back-wrap">
     <button class="btn-back" type="button" onclick="goBackOrHome()">
       <span class="arr">←</span><span>Voltar</span>
@@ -151,23 +113,114 @@ h1{
 </main>
 
 <script>
+/* ===== CONFIGURE AQUI O LINK DA PLANILHA PUBLICADA ===== */
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=721498943&single=true&output=csv';
+
+/* Voltar */
 function goBackOrHome(){
-  try{
-    if(history.length>1) history.back();
-    else location.href='index-teste.html';
-  }catch(e){
-    location.href='index-teste.html';
-  }
+  try{ if(history.length>1) history.back(); else location.href='index-teste.html'; }
+  catch(e){ location.href='index-teste.html'; }
 }
 
-/* Remover completamente as setas após terminarem de piscar 2x */
+/* Some com as setas após piscarem 2x */
 document.addEventListener('DOMContentLoaded', ()=>{
   const right = document.querySelector('#hintArrows .right');
   const wrap = document.getElementById('hintArrows');
-  if(right && wrap){
-    right.addEventListener('animationend', ()=>{ wrap.remove(); }, {once:true});
-  }
+  if(right && wrap){ right.addEventListener('animationend', ()=>{ wrap.remove(); }, {once:true}); }
 });
+
+/* ===== CSV Parser simples (suporta aspas) ===== */
+function parseCSV(text){
+  const rows = [];
+  let i=0, field='', row=[], inQuotes=false;
+  while(i<text.length){
+    const c = text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field += '"'; i+=2; continue; }
+        inQuotes = false; i++; continue;
+      } else { field += c; i++; continue; }
+    } else {
+      if(c === '"'){ inQuotes = true; i++; continue; }
+      if(c === ','){ row.push(field.trim()); field=''; i++; continue; }
+      if(c === '\n' || c === '\r'){
+        // fim de linha
+        if(field.length || row.length){ row.push(field.trim()); rows.push(row); }
+        field=''; row=[]; 
+        // pular \r\n
+        if(c === '\r' && text[i+1] === '\n') i++;
+        i++; 
+        continue;
+      }
+      field += c; i++;
+    }
+  }
+  // último campo
+  if(field.length || row.length){ row.push(field.trim()); rows.push(row); }
+  return rows;
+}
+
+/* ===== Carrega a planilha e aplica nos botões ===== */
+(async function(){
+  try{
+    const res = await fetch(CSV_URL, {cache:'no-store'});
+    const csv = await res.text();
+    const rows = parseCSV(csv);
+    if(!rows.length) return;
+
+    const header = rows[0].map(h => h.toLowerCase());
+    const idx = {
+      ordem: header.indexOf('ordem'),
+      rotulo: header.indexOf('rótulo') !== -1 ? header.indexOf('rótulo') : header.indexOf('rotulo'),
+      key: header.indexOf('key'),
+      link: header.indexOf('link_doc'),
+      ativo: header.indexOf('ativo'),
+      obs: header.indexOf('obs')
+    };
+
+    // cria mapa por key (i0..i7)
+    const map = {};
+    rows.slice(1).forEach(r=>{
+      const key = (idx.key>=0 ? r[idx.key] : '').trim();
+      if(!key) return;
+      const ativo = (idx.ativo>=0 ? (r[idx.ativo]||'').trim() : '1');
+      const rotulo = (idx.rotulo>=0 ? r[idx.rotulo] : '').trim() || '—';
+      const link = (idx.link>=0 ? r[idx.link] : '').trim() || '';
+      const obs  = (idx.obs>=0  ? r[idx.obs]  : '').trim();
+      map[key] = {rotulo, link, ativo, obs};
+    });
+
+    document.querySelectorAll('.btn[data-key]').forEach(a=>{
+      const key = a.getAttribute('data-key');
+      const labelEl = a.querySelector('.label');
+      if(map[key]){
+        const {rotulo, link, ativo, obs} = map[key];
+        labelEl.textContent = rotulo || labelEl.textContent;
+        if(ativo === '1' && link){
+          a.href = link;
+          a.setAttribute('aria-disabled','false');
+          a.title = obs || 'Abrir documento';
+        }else{
+          a.href = '#';
+          a.setAttribute('aria-disabled','true');
+          a.title = obs || 'Item desativado';
+        }
+      }else{
+        // não encontrado na planilha: desativa
+        a.href = '#';
+        a.setAttribute('aria-disabled','true');
+        a.title = 'Não encontrado na planilha';
+      }
+    });
+  }catch(err){
+    console.error('Falha ao carregar a planilha de Anáforas:', err);
+    // Em caso de erro, desativa todos
+    document.querySelectorAll('.btn[data-key]').forEach(a=>{
+      a.href = '#'; a.setAttribute('aria-disabled','true'); a.title = 'Erro ao carregar dados';
+    });
+  }
+})();
 </script>
 </body>
 </html>
+
