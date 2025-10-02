@@ -25,9 +25,8 @@ body{
 header{text-align:center;padding:16px 12px 8px}
 .title{
   color:var(--navy);
-  font-size:calc(1.6rem + 2pt);   /* +2pt no título */
+  font-size:calc(1.6rem + 2pt);
   font-weight:900;
-  /* contorno “ouro-velho” nas letras */
   -webkit-text-stroke:1px var(--ouro-velho);
   text-shadow:
     -1px -1px 0 var(--ouro-velho),
@@ -52,30 +51,22 @@ header{text-align:center;padding:16px 12px 8px}
 /* Faixa da data (botão) */
 .date{
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding:9px 18px; /* altura -20% (mantemos) */
+  padding:9px 18px;
   border-radius:16px; min-width:240px;
-  background:#fff; color:var(--navy); font-size:1.3rem; font-weight:900;
-  border:3px solid var(--azul-del-rey);           /* azul médio (del-rey) */
+  background:#fff; color:var(--navy); font-size:1.15rem; font-weight:900;
+  border:3px solid var(--azul-del-rey);
   box-shadow:
     inset 0 0 0 3px var(--ouro),
     0 3px 8px var(--shadow);
   cursor:pointer; user-select:none; outline:none;
-  transition:background-color .2s, transform .12s, box-shadow .2s;
+  transition:background-color .2s, transform .12s, box-shadow .2s, opacity .2s;
 }
 .date:hover{background:#fff9f2; transform:scale(1.02)}
-.date:focus-visible{
-  box-shadow:
-    inset 0 0 0 3px var(--ouro),
-    0 0 0 3px rgba(0,51,153,.35),   /* foco em azul del-rey */
-    0 3px 8px var(--shadow);
-}
+.date[aria-disabled="true"]{opacity:.55; cursor:not-allowed}
 
-.weekday{
-  font-size:1.05rem; font-weight:700; color:#27466a; text-transform:capitalize;
-}
-.weekday.quinta{
-  font-size:0.85rem; /* ~3pt menor */
-  font-weight:400;   /* sem negrito */
+/* rótulo extra (se existir na planilha) */
+.extra{
+  display:block; margin-top:2px; font-size:.92rem; font-weight:700; color:#27466a;
 }
 
 /* Navegação (abaixo da faixa de data) */
@@ -85,7 +76,7 @@ header{text-align:center;padding:16px 12px 8px}
 .navbtn{
   appearance:none; background:#fff; cursor:pointer;
   padding:9px 14px; border-radius:12px; font-weight:900;
-  border:3px solid var(--azul-del-rey);          /* azul médio (del-rey) */
+  border:3px solid var(--azul-del-rey);
   box-shadow:
     inset 0 0 0 3px var(--ouro),
     0 2px 6px var(--shadow);
@@ -104,7 +95,7 @@ header{text-align:center;padding:16px 12px 8px}
 /* Botão Voltar (padrão do projeto) */
 .back-wrap{
   display:flex; justify-content:center; margin-top:14px;
-  transform:scale(.48); transform-origin:center top; /* tamanho padronizado */
+  transform:scale(.48); transform-origin:center top;
 }
 .btn-back{
   display:inline-flex; align-items:center; gap:10px;
@@ -123,7 +114,9 @@ header{text-align:center;padding:16px 12px 8px}
 
   <section class="centerbox" aria-label="Navegação e acesso">
     <!-- Faixa da data (botão) -->
-    <div id="date" class="date" role="button" tabindex="0">--/--/----<br><small>-</small></div>
+    <div id="date" class="date" role="button" tabindex="0" aria-disabled="true">
+      --/--/----<br><small>-</small><span class="extra" id="extra" hidden></span>
+    </div>
 
     <!-- Setas de navegação -->
     <div class="navrow">
@@ -140,9 +133,15 @@ header{text-align:center;padding:16px 12px 8px}
   </section>
 </main>
 
-<!-- Rodapé removido (sem links) -->
-
 <script>
+/* ====== CONFIG: Link CSV publicado da aba `qurbono-dia`
+   Espera cabeçalho com DATA no formato DD/MM/AAAA.
+   Colunas aceitas (mínimo): data (ou data_br), link_doc, ativo
+   Opcionais: rotulo, obs
+====== */
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=136028404&single=true&output=csv';
+
+/* ====== Utilitários ====== */
 function goBackOrHome(){
   try{
     if(history.length>1) history.back();
@@ -151,42 +150,154 @@ function goBackOrHome(){
     location.href='index-teste.html';
   }
 }
-
-let current=new Date();
-const dateEl=document.getElementById('date');
-const prevBt=document.getElementById('prev');
-const nextBt=document.getElementById('next');
-
-function fmtDate(d){
-  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+function pad2(n){return String(n).padStart(2,'0');}
+function toISODateLocal(d){
+  const y=d.getFullYear(), m=pad2(d.getMonth()+1), day=pad2(d.getDate());
+  return `${y}-${m}-${day}`;
 }
-function fmtWeekday(d){
-  let wd=d.toLocaleDateString('pt-BR',{weekday:'long'});
-  wd = wd.charAt(0).toUpperCase()+wd.slice(1);
-  if(wd.toLowerCase().includes('quinta')) wd = 'Quinta-feira'; // força f minúsculo
-  return wd;
+function fmtDateBR(d){ return `${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()}`; }
+function fmtWeekdayBR(d){
+  const wd = d.toLocaleDateString('pt-BR',{weekday:'long'});
+  return wd.charAt(0).toUpperCase()+wd.slice(1);
 }
 
-/* Gere o link real do dia */
-function getLinkForDate(d){
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,'0');
-  const day=String(d.getDate()).padStart(2,'0');
-  return `#${y}-${m}-${day}`; // placeholder
+/* Converte "DD/MM/AAAA" -> "AAAA-MM-DD" */
+function brToISO(br){
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec((br||'').trim());
+  if(!m) return null;
+  const [_, dd, mm, yyyy] = m;
+  return `${yyyy}-${mm}-${dd}`;
 }
 
+function parseCSV(text){
+  const rows=[]; let i=0, cur='', inQ=false;
+  const push=()=>{(rows.at(-1)??rows.push([]),rows.at(-1)).push(cur); cur='';};
+  rows.push([]);
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"' && text[i+1]==='"'){ cur+='"'; i+=2; continue; }
+      if(c==='"'){ inQ=false; i++; continue; }
+      cur+=c; i++; continue;
+    }else{
+      if(c==='\"'){ inQ=true; i++; continue; }
+      if(c===','){ push(); i++; continue; }
+      if(c==='\r'){ i++; continue; }
+      if(c==='\n'){ push(); rows.push([]); i++; continue; }
+      cur+=c; i++; continue;
+    }
+  }
+  (rows.at(-1)||rows.push([])).length || rows.pop();
+  return rows;
+}
+
+/* ====== Estado e elementos ====== */
+let current = new Date();
+const dateEl  = document.getElementById('date');
+const extraEl = document.getElementById('extra');
+const prevBt  = document.getElementById('prev');
+const nextBt  = document.getElementById('next');
+
+const DATA_MAP = new Map(); // key: ISO -> {rotulo, link_doc, ativo}
+
+/* ====== Renderização ====== */
 function render(){
-  const dataStr = fmtDate(current);
-  const wd = fmtWeekday(current);
-  const wdClass = wd.startsWith("Quinta-feira") ? "weekday quinta" : "weekday";
-  dateEl.innerHTML = `${dataStr}<br><span class="${wdClass}">${wd}</span>`;
-}
-prevBt.onclick=()=>{current.setDate(current.getDate()-1);render();};
-nextBt.onclick=()=>{current.setDate(current.getDate()+1);render();};
-dateEl.addEventListener('click', ()=>{window.open(getLinkForDate(current),'_blank');});
-dateEl.addEventListener('keydown', (e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.open(getLinkForDate(current),'_blank');}});
+  const br = fmtDateBR(current);
+  const wd = fmtWeekdayBR(current);
+  const iso = toISODateLocal(current);
 
-render();
+  const rec = DATA_MAP.get(iso);
+  const has = !!(rec && rec.link_doc && String(rec.ativo)==='1');
+
+  // conteúdo visual
+  dateEl.innerHTML = `${br}<br><small>${wd}</small>`;
+  const rot = rec && rec.rotulo ? rec.rotulo.trim() : '';
+  if(rot){
+    extraEl.hidden = false;
+    extraEl.textContent = rot;
+    dateEl.appendChild(extraEl);
+  }else{
+    extraEl.hidden = true;
+    extraEl.textContent = '';
+  }
+
+  // acessibilidade / clique
+  if(has){
+    dateEl.removeAttribute('aria-disabled');
+    dateEl.title = 'Abrir a liturgia deste dia';
+    dateEl.style.pointerEvents = 'auto';
+    dateEl.style.opacity = '1';
+  }else{
+    dateEl.setAttribute('aria-disabled','true');
+    dateEl.title = 'Sem link configurado para este dia';
+    dateEl.style.pointerEvents = 'none';
+    dateEl.style.opacity = '.55';
+  }
+}
+
+/* ====== Navegação ====== */
+prevBt.addEventListener('click', ()=>{ current.setDate(current.getDate()-1); render(); });
+nextBt.addEventListener('click', ()=>{ current.setDate(current.getDate()+1); render(); });
+
+dateEl.addEventListener('click', ()=>{
+  if(dateEl.getAttribute('aria-disabled')==='true') return;
+  const iso = toISODateLocal(current);
+  const rec = DATA_MAP.get(iso);
+  if(rec && rec.link_doc) window.open(rec.link_doc,'_blank','noopener');
+});
+dateEl.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' || e.key===' '){
+    e.preventDefault();
+    dateEl.click();
+  }
+});
+
+/* ====== Carregar CSV (DATA EM DD/MM/AAAA) ====== */
+fetch(CSV_URL)
+  .then(r=>r.text())
+  .then(txt=>{
+    const rows = parseCSV(txt).filter(r=>r.length && r.some(c=>c.trim()!==''));
+    if(!rows.length) throw new Error('CSV vazio');
+
+    // cabeçalho (aceita "data" ou "data_br" para DD/MM/AAAA; mantém compat. com "data_iso")
+    const header = rows[0].map(h=>h.trim().toLowerCase());
+    const col = {
+      data_br:  (header.indexOf('data')>-1 ? header.indexOf('data') : header.indexOf('data_br')),
+      data_iso: header.indexOf('data_iso'),
+      rotulo:   header.indexOf('rotulo'),
+      link:     header.indexOf('link_doc'),
+      ativo:    header.indexOf('ativo'),
+      obs:      header.indexOf('obs')
+    };
+    if(col.link<0 || col.ativo<0 || (col.data_br<0 && col.data_iso<0)){
+      throw new Error('Cabeçalho esperado: data (DD/MM/AAAA) ou data_br, link_doc, ativo (rotulo e obs opcionais)');
+    }
+
+    for(let i=1;i<rows.length;i++){
+      const r=rows[i];
+
+      // Se vier data BR, converte para ISO; senão usa data_iso como está.
+      let iso = null;
+      if(col.data_br>=0){
+        const br = (r[col.data_br]||'').trim();
+        iso = brToISO(br);
+      }else if(col.data_iso>=0){
+        const raw = (r[col.data_iso]||'').trim();
+        iso = /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : null;
+      }
+      if(!iso) continue;
+
+      const rotulo =(col.rotulo>=0? (r[col.rotulo]||'').trim() : '');
+      const link   =(r[col.link]||'').trim();
+      const ativo  = String((r[col.ativo]||'').trim());
+      DATA_MAP.set(iso,{rotulo, link_doc:link, ativo});
+    }
+    render();
+  })
+  .catch(err=>{
+    console.error('Falha ao carregar CSV:', err);
+    render();
+  });
 </script>
 </body>
 </html>
