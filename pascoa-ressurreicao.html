@@ -1,88 +1,39 @@
-<!-- =========================================
-pascoa-ressurreicao.html  — atualizado para ler a aba “salmos-leituras-ressurreicao”
-CSV público:
-https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=693469933&single=true&output=csv
-========================================= -->
+<!-- pascoa-ressurreicao.html — “Ressurreição · Biblioteca” atualizado para CSV (ignora “ativo”) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tempo da Ressurreição · Salmo e Leituras</title>
+<title>Ressurreição · Biblioteca</title>
 <meta name="theme-color" content="#d6b25a">
 <style>
-:root{
-  --ouro:#d6b25a; --ouro-esc:#a9842b; --prata:#b0b0b0; --branco:#ffffff;
-  --shadow:rgba(0,0,0,.16); --fonte:Arial, Helvetica, sans-serif; --btnH:48px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+:root{--ouro:#d6b25a;--ouro-esc:#a9842b;--prata:#b0b0b0;--branco:#ffffff;--shadow:rgba(0,0,0,.16);--fonte:Arial, Helvetica, sans-serif;--btnH:48px}
+*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
 body{
   font-family:var(--fonte);
   background:linear-gradient(to top, var(--ouro-esc) 0%, var(--ouro) 40%, #e7dfc6 75%, var(--prata) 100%);
   min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; position:relative;
 }
-/* Cabeçalho */
 header{text-align:center;padding:26px 10px 2px}
-.title{
-  color:var(--branco); font-weight:900; font-size:2rem; line-height:1.15; margin:0;
-  text-shadow:-1px -1px 0 var(--ouro),1px -1px 0 var(--ouro),-1px 1px 0 var(--ouro),1px 1px 0 var(--ouro),0 0 12px rgba(255,255,255,.35);
-}
-.subtitle{
-  margin:2px 0 0; color:var(--ouro); font-weight:900; font-size:calc(2rem - 5pt); line-height:1.1;
-  text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco),0 0 10px rgba(255,255,255,.35);
-}
-/* Área principal */
+.title{color:var(--branco);font-weight:900;font-size:2rem;line-height:1.15;margin:0;text-shadow:-1px -1px 0 var(--ouro),1px -1px 0 var(--ouro),-1px 1px 0 var(--ouro),1px 1px 0 var(--ouro),0 0 12px rgba(255,255,255,.35)}
+.subtitle{margin:2px 0 0;color:var(--ouro);font-weight:900;font-size:calc(2rem - 5pt);line-height:1.1;text-shadow:-1px -1px 0 var(--branco),1px -1px 0 var(--branco),-1px 1px 0 var(--branco),1px 1px 0 var(--branco),0 0 10px rgba(255,255,255,.35)}
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 10px;width:100%}
-/* Ícone principal circular */
-.hero-wrap{
-  margin:10px auto 14px; width:min(90vw, 414px); aspect-ratio:1/1; border-radius:50%;
-  border:4px solid var(--ouro); box-shadow:0 0 0 3px var(--prata), 0 8px 16px var(--shadow);
-  padding:16px; background:transparent; overflow:hidden;
-}
-.hero{width:100%;height:100%;display:block;object-fit:cover;transform:scale(1.6);transform-origin:center;border-radius:50%}
-/* Botão central (sem imagem) */
-.mainbtn{
-  display:flex; align-items:center; justify-content:center; min-height:var(--btnH); padding:10px 18px; width:94%; margin:0 auto 10px;
-  text-decoration:none; cursor:pointer; border-radius:18px; font-weight:900;
-  background:linear-gradient(to top, #6a4a0f 0%, #b88a2a 60%, var(--ouro) 100%); color:var(--branco);
-  border:3px solid var(--ouro); box-shadow:0 0 0 3px var(--prata), 0 4px 10px var(--shadow); transition:transform .12s, filter .2s;
-}
+.hero-wrap{margin:10px auto 14px;width:min(90vw,414px);aspect-ratio:1/1;border-radius:50%;border:4px solid var(--ouro);box-shadow:0 0 0 3px var(--prata),0 8px 16px var(--shadow);padding:16px;background:transparent;overflow:hidden}
+.hero{width:100%;height:100%;display:block;object-fit:cover;object-position:center;transform:scale(1.6);transform-origin:center;border-radius:50%}
+.mainbtn{display:flex;align-items:center;justify-content:center;min-height:var(--btnH);padding:10px 18px;width:94%;margin:0 auto 10px;text-decoration:none;cursor:pointer;border-radius:18px;font-weight:900;background:linear-gradient(to top,#6a4a0f 0%,#b88a2a 60%,#d6b25a 100%);color:var(--branco);border:3px solid var(--ouro);box-shadow:0 0 0 3px var(--prata),0 4px 10px var(--shadow);transition:transform .12s,filter .2s}
 .mainbtn:hover{transform:scale(1.02);filter:brightness(1.04)}
 .mainbtn .label{font-size:1.02rem;text-align:center;text-shadow:-1px -1px 0 var(--ouro),1px -1px 0 var(--ouro),-1px 1px 0 var(--ouro),1px 1px 0 var(--ouro),0 0 10px rgba(255,255,255,.35)}
-/* Navegação */
 .navrow{display:flex;justify-content:space-between;gap:16px;max-width:94%;margin:0 auto 6px}
-.navbtn{
-  display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:46px;padding:0 14px;gap:8px;
-  background:linear-gradient(to top, #5b4a22, #9d7b2d); color:var(--branco);
-  border:3px solid var(--ouro); border-radius:999px; box-shadow:0 0 0 3px var(--prata), 0 4px 10px var(--shadow);
-  font-weight:900; cursor:pointer; transition:transform .12s, filter .2s;
-  text-shadow:-1px -1px 0 var(--ouro),1px -1px 0 var(--ouro),-1px 1px 0 var(--ouro),1px 1px 0 var(--ouro);
-}
+.navbtn{display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:46px;padding:0 14px;gap:8px;background:linear-gradient(to top,#5b4a22,#9d7b2d);color:var(--branco);border:3px solid var(--ouro);border-radius:999px;box-shadow:0 0 0 3px var(--prata),0 4px 10px var(--shadow);font-weight:900;cursor:pointer;transition:transform .12s,filter .2s;text-shadow:-1px -1px 0 var(--ouro),1px -1px 0 var(--ouro),-1px 1px 0 var(--ouro),1px 1px 0 var(--ouro)}
 .navbtn:hover{transform:scale(1.03);filter:brightness(1.04)}
 .navbtn .arr{font-size:20px;line-height:1}
-/* Mini-link */
-.tempo-mini{margin:10px auto 0; padding-top:8px; max-width:640px; display:flex; justify-content:center; border-top:2px dashed rgba(0,0,0,.15)}
-.tempo-mini a{
-  display:inline-block; text-decoration:none; font-weight:800; font-size:.82rem; line-height:1;
-  color:#5b4a22; background:#fff; border:2px solid #5b4a22; border-radius:999px;
-  padding:.38rem .72rem; box-shadow:inset 0 0 0 2px var(--ouro), 0 2px 6px var(--shadow);
-}
-.tempo-mini a:hover{background:#fff9e9; transform:scale(1.02)}
-/* Rodapé / Voltar */
-footer{margin-top:auto; padding:10px 0 20px; display:flex; justify-content:center}
-.back-wrap{transform:scale(.48); transform-origin:center top}
+.tempo-mini{margin:10px auto 0;padding-top:8px;max-width:640px;display:flex;justify-content:center;border-top:2px dashed rgba(0,0,0,.15)}
+.tempo-mini a{display:inline-block;text-decoration:none;font-weight:800;font-size:.82rem;line-height:1;color:#5b4a22;background:#fff;border:2px solid #5b4a22;border-radius:999px;padding:.38rem .72rem;box-shadow:inset 0 0 0 2px var(--ouro),0 2px 6px var(--shadow)}
+.tempo-mini a:hover{background:#fff9e9;transform:scale(1.02)}
+footer.footer{margin-top:auto;margin-bottom:24px;padding:8px 0 8px;display:flex;justify-content:center}
+.back-wrap{transform:scale(.48);transform-origin:center top}
 .btn-back{display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer;text-decoration:none}
 .btn-back .arr{font-size:18px;line-height:1}
 </style>
-<script>
-function goBackOrMother(){
-  try{
-    if (document.referrer && document.referrer.includes('domingos-tempo-ressurreicao.html')) { history.back(); return; }
-    if (history.length>1) { history.back(); return; }
-  }catch(e){}
-  location.href='domingos-tempo-ressurreicao.html';
-}
-</script>
 </head>
 <body>
 <header>
@@ -95,7 +46,9 @@ function goBackOrMother(){
     <img class="hero" src="img/icone-pascoa-ressurreicao.png" alt="Ícone — Tempo da Ressurreição" onerror="this.style.display='none'">
   </figure>
 
-  <a id="mainBtn" class="mainbtn" href="#" role="button" aria-live="polite"><span class="label" id="mainLabel">Carregando…</span></a>
+  <a id="mainBtn" class="mainbtn" href="#" role="button" aria-live="polite">
+    <span class="label" id="mainLabel">Carregando…</span>
+  </a>
 
   <div class="navrow">
     <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
@@ -107,52 +60,44 @@ function goBackOrMother(){
   </nav>
 </main>
 
-<footer>
+<footer class="footer">
   <div class="back-wrap">
-    <a class="btn-back" href="javascript:void(0)" onclick="goBackOrMother()"><span class="arr">←</span><span>Voltar</span></a>
+    <a class="btn-back" href="biblos.html"><span class="arr">←</span><span>Voltar</span></a>
   </div>
 </footer>
 
 <script>
+/* CSV publicado (aba: salmos-leituras-ressurreicao) */
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=693469933&single=true&output=csv';
 
-/* Ordem esperada (chaves da Coluna A) */
+/* Ordem e fallback (8 itens) */
 const ORDER = ['i0','i1','i2','i3','i4','i5','i6','i7'];
-
-/* Parser CSV simples */
-function parseCSV(text){
-  const rows=[]; let cur='', row=[], inQ=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i], n=text[i+1];
-    if(inQ){
-      if(c==='"' && n==='"'){ cur+='"'; i++; }
-      else if(c==='"'){ inQ=false; }
-      else cur+=c;
-    }else{
-      if(c===','){ row.push(cur); cur=''; }
-      else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; }
-      else if(c==='"'){ inQ=true; }
-      else if(c!=='\r'){ cur+=c; }
-    }
-  }
-  if(cur.length || row.length){ row.push(cur); rows.push(row); }
-  return rows;
-}
-
-const LABEL_FALLBACK = [
-  'Primeiro Domingo da Ressurreição',
-  'Domingo Novo',
-  'Segundo Domingo da Ressurreição',
-  'Terceiro Domingo da Ressurreição',
-  'Quarto Domingo da Ressurreição',
-  'Quinto Domingo da Ressurreição',
-  'Ascensão do Senhor',
-  'Sexto Domingo da Ressurreição'
+const FALL  = [
+  'Primeiro Domingo da Ressurreição','Domingo Novo','Segundo Domingo da Ressurreição',
+  'Terceiro Domingo da Ressurreição','Quarto Domingo da Ressurreição','Quinto Domingo da Ressurreição',
+  'Ascensão do Senhor','Sexto Domingo da Ressurreição'
 ];
 
-let items = ORDER.map((key,idx)=>({key, label:LABEL_FALLBACK[idx]||key, url:null}));
-let idx = 0;
+/* CSV helper */
+function parseCSV(t){
+  const rows=[]; let cell='', row=[], q=false;
+  for(let i=0;i<t.length;i++){
+    const c=t[i], n=t[i+1];
+    if(q){ if(c==='"'&&n==='"'){cell+='"';i++;} else if(c==='"'){q=false;} else cell+=c; }
+    else{
+      if(c===','){ row.push(cell); cell=''; }
+      else if(c==='\n'){ row.push(cell); rows.push(row); row=[]; cell=''; }
+      else if(c==='"'){ q=true; }
+      else if(c!=='\r'){ cell+=c; }
+    }
+  }
+  if(cell.length||row.length){ row.push(cell); rows.push(row); }
+  return rows;
+}
+function looksLikeURL(s){ return /^https?:\/\//i.test((s||'').trim()); }
 
+/* Estado */
+let items = ORDER.map((k,i)=>({key:k,label:FALL[i]||k,url:null})), idx=0;
 const labelEl = document.getElementById('mainLabel');
 const btnEl   = document.getElementById('mainBtn');
 
@@ -171,23 +116,38 @@ function render(){
     btnEl.title = 'Sem link configurado';
   }
 }
+
+/* Navegação */
 document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+items.length)%items.length; render(); });
 document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%items.length; render(); });
 
-fetch(CSV_URL)
-  .then(r=>r.text())
-  .then(txt=>{
-    const rows = parseCSV(txt).filter(r=>r.length>=2);
-    const map = new Map(rows.map(r=>[String(r[0]).trim(), {label:(r[1]||'').trim(), url:(r[2]||'').trim()||null}]));
-    items = ORDER.map((k,i)=>{
-      const rec = map.get(k);
-      return { key:k, label:(rec&&rec.label)||LABEL_FALLBACK[i]||k, url:(rec&&rec.url)||null };
-    });
-  })
-  .catch(()=>{})
-  .finally(render);
+/* Carrega CSV e aplica (ignora “ativo”) */
+fetch(CSV_URL).then(r=>r.text()).then(txt=>{
+  const rows = parseCSV(txt).filter(r=>r.length>0);
+  if(rows.length===0){ render(); return; }
+
+  const head = rows[0].map(h=>h.trim().toLowerCase());
+  let idxKey  = head.findIndex(h=>h==='key');
+  let idxRot  = head.findIndex(h=>h==='rótulo' || h==='rotulo');
+  let idxLink = head.findIndex(h=>h==='link_doc' || h==='link' || h==='url');
+
+  const dataRows = (idxKey>-1 || idxRot>-1 || idxLink>-1) ? rows.slice(1) : rows;
+
+  const map = new Map();
+  dataRows.forEach(r=>{
+    let key  = idxKey>-1  ? (r[idxKey]  ||'').trim() : (r[0]||'').trim();
+    if(!key) return;
+    let rot  = idxRot>-1  ? (r[idxRot]  ||'').trim() : (r[1]||'').trim();
+    let link = idxLink>-1 ? (r[idxLink] ||'').trim() : (r[2]||'').trim();
+    if(!link && looksLikeURL(rot)){ link = rot; }
+    map.set(key,{ label: rot && !looksLikeURL(rot) ? rot : null, url: looksLikeURL(link) ? link : null });
+  });
+
+  items = ORDER.map((k,i)=>{
+    const rec = map.get(k) || {};
+    return { key:k, label: rec.label || FALL[i] || k, url: rec.url || null };
+  });
+}).catch(console.error).finally(render);
 </script>
 </body>
 </html>
-
-
