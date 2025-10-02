@@ -25,6 +25,7 @@
     background:#fff; color:#b8860b; font-weight:900; font-size:1.05rem; border-radius:16px;
     border:3px solid #b8860b; box-shadow: inset 0 0 0 3px var(--prata), 0 6px 14px var(--shadow);
   }
+  .main[aria-disabled="true"]{opacity:.55; pointer-events:none; cursor:default}
   .nav{display:flex; justify-content:center; gap:10px; margin:8px 0 0}
   .nav button{
     background:#fff; color:#b8860b; font-weight:900; border-radius:12px; border:3px solid var(--prata);
@@ -32,10 +33,7 @@
   }
   .nav button:hover{background:#fffaf1}
 
-  /* Aproxima o Voltar (~30%) sem colar */
   footer{text-align:center; margin-top:14px; padding:10px 0 12px}
-
-  /* Voltar 50% menor */
   .back{
     background:#a00000;color:#fff;text-decoration:none;border:none;border-radius:8px;
     padding:.38rem .7rem;font-weight:900;
@@ -49,7 +47,7 @@
   <main class="wrap">
     <h1 class="title">Natal</h1>
     <img class="hero" src="img/icone-qurbono-natividade.jpg" alt="">
-    <a id="mainLink" class="main" href="#" target="_blank">—</a>
+    <a id="mainLink" class="main" href="#" target="_blank" aria-disabled="true">—</a>
     <div class="nav">
       <button id="prev">← Anterior</button>
       <button id="next">Próximo →</button>
@@ -60,21 +58,104 @@
   </footer>
 
 <script>
-const itens = [
-  {label:'Gloriosa Natividade do Senhor', href:'#'},
-  {label:'Encontro de Jesus no Templo', href:'#'},
-  {label:'Circuncisão do Senhor', href:'#'}
+/* ===== CONFIG ===== */
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1486303754&single=true&output=csv";
+
+/* ===== ESTADO ===== */
+let idx = 0;
+/* Fallback local (caso CSV falhe) */
+let itens = [
+  { key:"i0", label:"Gloriosa Natividade do Senhor", href:"#", ativo:true },
+  { key:"i1", label:"Encontro de Jesus no Templo",   href:"#", ativo:true },
+  { key:"i2", label:"Circuncisão do Senhor",         href:"#", ativo:true }
 ];
-let i=0;
-const link = document.getElementById('mainLink');
-function render(){ link.innerText = itens[i].label; link.href = itens[i].href; }
-document.getElementById('prev').onclick=()=>{i=(i-1+itens.length)%itens.length; render();}
-document.getElementById('next').onclick=()=>{i=(i+1)%itens.length; render();}
-render();
+
+/* ===== ELEMENTOS ===== */
+const linkEl = document.getElementById('mainLink');
+const prevBt = document.getElementById('prev');
+const nextBt = document.getElementById('next');
+
+/* ===== FUNÇÕES ===== */
+function toBool(x){
+  if (typeof x === "number") return x === 1;
+  if (typeof x === "string") return x.trim() === "1";
+  return false;
+}
+
+function csvToRows(txt){
+  // Parser simples para CSV (sem aspas aninhadas complexas)
+  const lines = txt.replace(/\r/g,'').split('\n').filter(l => l.trim() !== '');
+  const header = lines.shift().split(',').map(h=>h.trim().toLowerCase());
+  return lines.map(line=>{
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i=0;i<line.length;i++){
+      const c = line[i];
+      if (c === '"'){
+        if (inQ && line[i+1] === '"'){ cur += '"'; i++; }
+        else inQ = !inQ;
+      }else if (c === ',' && !inQ){
+        cols.push(cur); cur='';
+      }else{
+        cur += c;
+      }
+    }
+    cols.push(cur);
+    const obj = {};
+    header.forEach((h, i)=> obj[h] = (cols[i] ?? '').trim());
+    return obj;
+  });
+}
+
+function normalizeFromCSV(rows){
+  // Espera colunas: ordem, rotulo, key, link_doc, ativo, obs
+  // Ordena por "ordem" ascendente (numérica)
+  rows.sort((a,b)=>(parseInt(a.ordem)||0)-(parseInt(b.ordem)||0));
+  const out = rows.map((r, i) => {
+    const key = r.key && r.key.length ? r.key : `i${i}`;
+    return {
+      key,
+      label: r.rotulo || `Item ${i+1}`,
+      href:  r.link_doc || "#",
+      ativo: toBool(r.ativo),
+      obs:   r.obs || ""
+    };
+  });
+  return out.length ? out : itens; // se vazio, mantém fallback
+}
+
+function render(){
+  const it = itens[idx];
+  linkEl.textContent = it.label || '—';
+  if (it.ativo && it.href && it.href !== "#"){
+    linkEl.href = it.href;
+    linkEl.removeAttribute('aria-disabled');
+    linkEl.title = it.obs ? it.obs : "Abrir documento";
+  }else{
+    linkEl.href = "#";
+    linkEl.setAttribute('aria-disabled','true');
+    linkEl.title = it.obs ? it.obs : "Link não configurado";
+  }
+}
+
+/* ===== EVENTOS ===== */
+prevBt.onclick = ()=>{ idx = (idx - 1 + itens.length) % itens.length; render(); };
+nextBt.onclick = ()=>{ idx = (idx + 1) % itens.length; render(); };
+
+/* ===== BOOT ===== */
+(async function init(){
+  try{
+    const res = await fetch(CSV_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error('Falha ao carregar CSV');
+    const text = await res.text();
+    const rows = csvToRows(text);
+    itens = normalizeFromCSV(rows);
+  }catch(e){
+    // mantém fallback "itens"
+    console.warn('CSV não pôde ser aplicado, usando fallback local.', e);
+  }
+  render();
+})();
 </script>
 </body>
 </html>
-
-
-
-
