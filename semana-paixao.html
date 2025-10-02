@@ -1,6 +1,6 @@
 <!-- =========================================
-semana-paixao.html  — atualizado para ler a aba “salmos-leituras-paixao”
-CSV público:
+semana-paixao.html  — lê a aba “salmos-leituras-paixao”
+CSV:
 https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=894081921&single=true&output=csv
 ========================================= -->
 <!DOCTYPE html>
@@ -10,68 +10,30 @@ https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcY
 <title>Semana da Paixão · Leituras</title>
 <meta name="theme-color" content="#7a0b0b">
 <style>
-:root{
-  --bordo:#7a0b0b; --rosa:#f7d9df; --texto:#7a0b0b; --roxo:#5b2a5f;
-  --prata:#b0b0b0; --branco:#ffffff; --shadow:rgba(0,0,0,.16);
-  --fonte:Arial, Helvetica, sans-serif; --btnIcon:29.6px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:var(--fonte);
-  background:linear-gradient(to top, var(--bordo) 0%, #b14b60 45%, #dca6b3 78%, var(--rosa) 100%);
-  min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; position:relative; color:#1b1b1b;
-}
-/* Cabeçalho */
+:root{--bordo:#7a0b0b;--rosa:#f7d9df;--texto:#7a0b0b;--roxo:#5b2a5f;--prata:#b0b0b0;--branco:#ffffff;--shadow:rgba(0,0,0,.16);--fonte:Arial, Helvetica, sans-serif;--btnIcon:29.6px}
+*{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
+body{font-family:var(--fonte);background:linear-gradient(to top, var(--bordo) 0%, #b14b60 45%, #dca6b3 78%, var(--rosa) 100%);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;position:relative;color:#1b1b1b}
 header{text-align:center;padding:24px 10px 8px}
-.title{margin:0; font-weight:900; line-height:1.1; font-size:1.9rem; color:var(--texto);
-  text-shadow:-1px -1px 0 var(--roxo),1px -1px 0 var(--roxo),-1px 1px 0 var(--roxo),1px 1px 0 var(--roxo)}
+.title{margin:0;font-weight:900;line-height:1.1;font-size:1.9rem;color:var(--texto);text-shadow:-1px -1px 0 var(--roxo),1px -1px 0 var(--roxo),-1px 1px 0 var(--roxo),1px 1px 0 var(--roxo)}
 .title .line{display:block}
 .wrap{max-width:640px;margin:0 auto;padding:12px 16px 22px;width:100%}
-/* Ícone circular */
-.hero-wrap{
-  margin:10px auto 16px; width:min(90vw, 414px); aspect-ratio:1/1; border-radius:50%;
-  border:4px solid var(--prata); box-shadow:0 8px 16px var(--shadow);
-  padding:16px; background:transparent; overflow:hidden;
-}
-.hero{width:100%; height:100%; object-fit:contain; border-radius:50%}
-/* Botão central */
-.btn{
-  display:grid; grid-template-columns:var(--btnIcon) 1fr var(--btnIcon); align-items:center; text-align:center;
-  background:#fff; color:var(--texto); text-decoration:none; font-weight:900;
-  border:3px solid var(--prata); box-shadow:inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow);
-  border-radius:18px; padding:8px 18px; width:94%; margin:0 auto 12px; transition:transform .12s, filter .2s;
-}
-.btn:hover{transform:scale(1.02); filter:brightness(1.04)}
-.btn .icon{width:var(--btnIcon); height:var(--btnIcon); border-radius:50%; border:2px solid var(--prata); box-shadow:inset 0 0 0 2px var(--branco); object-fit:cover}
-.btn .label{ text-align:center; color:var(--texto);
-  text-shadow:-1px -1px 0 var(--prata), 1px -1px 0 var(--prata), -1px  1px 0 var(--prata), 1px  1px 0 var(--prata)}
-.btn .slot{width:var(--btnIcon); height:var(--btnIcon)}
-/* Navegação */
-.navrow{display:flex; justify-content:space-between; gap:16px; max-width:94%; margin:0 auto 6px}
-.navbtn{
-  display:inline-flex; align-items:center; justify-content:center; min-width:46px; height:46px; padding:0 14px; gap:8px;
-  background:#fff; color:var(--texto); border:3px solid var(--prata); border-radius:999px;
-  box-shadow:inset 0 0 0 3px var(--branco), 0 4px 10px var(--shadow);
-  font-weight:900; cursor:pointer; transition:transform .12s, filter .2s;
-}
-.navbtn:hover{transform:scale(1.03); filter:brightness(1.04)}
-.navbtn .arr{font-size:20px; line-height:1}
-/* Mini-link */
-.tempo-mini{margin:10px auto 0; padding-top:8px; max-width:640px; display:flex; justify-content:center; border-top:2px dashed rgba(0,0,0,.15)}
-.tempo-mini a{
-  display:inline-block; text-decoration:none; font-weight:800; font-size:.82rem; line-height:1;
-  color:var(--texto); background:#fff; border:2px solid var(--texto); border-radius:999px;
-  padding:.38rem .72rem; box-shadow:inset 0 0 0 2px var(--branco), 0 2px 6px var(--shadow);
-}
-.tempo-mini a:hover{background:#fff8f8; transform:scale(1.02)}
-/* Voltar */
-.back-wrap{display:flex; justify-content:center; margin-top:10px; transform:scale(.48); transform-origin:center top}
-.btn-back{
-  display:inline-flex; align-items:center; gap:10px; background:#a00000; color:#fff; border:none; border-radius:999px;
-  padding:10px 16px; font-weight:800; box-shadow:0 6px 14px var(--shadow); cursor:pointer;
-}
-.btn-back .arr{font-size:18px; line-height:1}
+.hero-wrap{margin:10px auto 16px;width:min(90vw,414px);aspect-ratio:1/1;border-radius:50%;border:4px solid var(--prata);box-shadow:0 8px 16px var(--shadow);padding:16px;background:transparent;overflow:hidden}
+.hero{width:100%;height:100%;object-fit:contain;border-radius:50%}
+.btn{display:grid;grid-template-columns:var(--btnIcon) 1fr var(--btnIcon);align-items:center;text-align:center;background:#fff;color:var(--texto);text-decoration:none;font-weight:900;border:3px solid var(--prata);box-shadow:inset 0 0 0 3px var(--branco),0 4px 10px var(--shadow);border-radius:18px;padding:8px 18px;width:94%;margin:0 auto 12px;transition:transform .12s,filter .2s}
+.btn:hover{transform:scale(1.02);filter:brightness(1.04)}
+.btn .icon{width:var(--btnIcon);height:var(--btnIcon);border-radius:50%;border:2px solid var(--prata);box-shadow:inset 0 0 0 2px var(--branco);object-fit:cover}
+.btn .label{text-align:center;color:var(--texto);text-shadow:-1px -1px 0 var(--prata),1px -1px 0 var(--prata),-1px 1px 0 var(--prata),1px 1px 0 var(--prata)}
+.btn .slot{width:var(--btnIcon);height:var(--btnIcon)}
+.navrow{display:flex;justify-content:space-between;gap:16px;max-width:94%;margin:0 auto 6px}
+.navbtn{display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:46px;padding:0 14px;gap:8px;background:#fff;color:var(--texto);border:3px solid var(--prata);border-radius:999px;box-shadow:inset 0 0 0 3px var(--branco),0 4px 10px var(--shadow);font-weight:900;cursor:pointer;transition:transform .12s,filter .2s}
+.navbtn:hover{transform:scale(1.03);filter:brightness(1.04)}
+.navbtn .arr{font-size:20px;line-height:1}
+.tempo-mini{margin:10px auto 0;padding-top:8px;max-width:640px;display:flex;justify-content:center;border-top:2px dashed rgba(0,0,0,.15)}
+.tempo-mini a{display:inline-block;text-decoration:none;font-weight:800;font-size:.82rem;line-height:1;color:var(--texto);background:#fff;border:2px solid var(--texto);border-radius:999px;padding:.38rem .72rem;box-shadow:inset 0 0 0 2px var(--branco),0 2px 6px var(--shadow)}
+.tempo-mini a:hover{background:#fff8f8;transform:scale(1.02)}
+.back-wrap{display:flex;justify-content:center;margin-top:10px;transform:scale(.48);transform-origin:center top}
+.btn-back{display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer}
+.btn-back .arr{font-size:18px;line-height:1}
 </style>
 <script>
 function goBackOrMother(){
@@ -118,79 +80,41 @@ function goBackOrMother(){
 
 <script>
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=894081921&single=true&output=csv';
-
-/* Ordem esperada (chaves da Coluna A) */
 const ORDER = ['i0','i1','i2','i3','i4','i5','i6','i7','i8'];
 
-/* Parser CSV simples */
-function parseCSV(text){
-  const rows=[]; let cur='', row=[], inQ=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i], n=text[i+1];
-    if(inQ){
-      if(c==='"' && n==='"'){ cur+='"'; i++; }
-      else if(c==='"'){ inQ=false; }
-      else cur+=c;
-    }else{
-      if(c===','){ row.push(cur); cur=''; }
-      else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; }
-      else if(c==='"'){ inQ=true; }
-      else if(c!=='\r'){ cur+=c; }
-    }
-  }
-  if(cur.length || row.length){ row.push(cur); rows.push(row); }
-  return rows;
-}
+function parseCSV(t){const r=[];let c='',w=[],q=false;for(let i=0;i<t.length;i++){const a=t[i],n=t[i+1];if(q){if(a=='"'&&n=='"'){c+='"';i++;}else if(a=='"'){q=false;}else c+=a;}else{if(a===','){w.push(c);c='';}else if(a==='\n'){w.push(c);r.push(w);w=[];c='';}else if(a=='"'){q=true;}else if(a!=='\r'){c+=a;}}}if(c.length||w.length){w.push(c);r.push(w);}return r;}
+function looksLikeURL(s){return /^https?:\/\//i.test(s||'');}
 
-const LABEL_FALLBACK = [
-  'Sexta-Feira das Tentações de Cristo',
-  'Sábado de Lázaro',
-  'Domingo do Hosana — Rito da Lâmpada',
-  'Segunda-feira da Paixão',
-  'Terça-feira da Paixão',
-  'Quarta-feira da Paixão — Rito da Lâmpada',
-  'Quinta-feira dos Mistérios',
-  'Boa Sexta-feira',
-  'Sábado da Luz'
+const FALL = [
+  'Sexta-Feira das Tentações de Cristo','Sábado de Lázaro','Domingo do Hosana — Rito da Lâmpada',
+  'Segunda-feira da Paixão','Terça-feira da Paixão','Quarta-feira da Paixão — Rito da Lâmpada',
+  'Quinta-feira dos Mistérios','Boa Sexta-feira','Sábado da Luz'
 ];
 
-let items = ORDER.map((key,idx)=>({key, label:LABEL_FALLBACK[idx]||key, url:null}));
-let idx = 0;
-
-const labelEl = document.getElementById('item-label');
-const btnEl   = document.getElementById('btn-item');
+let items = ORDER.map((k,i)=>({key:k,label:FALL[i]||k,url:null})), idx=0;
+const labelEl=document.getElementById('item-label'); const btnEl=document.getElementById('btn-item');
 
 function render(){
-  const it = items[idx];
-  labelEl.textContent = it.label || '—';
-  if(it.url){
-    btnEl.href = it.url;
-    btnEl.style.opacity = 1;
-    btnEl.style.pointerEvents = 'auto';
-    btnEl.title = 'Abrir Salmos e Leituras';
-  }else{
-    btnEl.href = '#';
-    btnEl.style.opacity = .55;
-    btnEl.style.pointerEvents = 'none';
-    btnEl.title = 'Link não configurado';
-  }
+  const it=items[idx];
+  labelEl.textContent=it.label||'—';
+  if(it.url){btnEl.href=it.url;btnEl.style.opacity=1;btnEl.style.pointerEvents='auto';btnEl.title='Abrir Salmos e Leituras';}
+  else{btnEl.href='#';btnEl.style.opacity=.55;btnEl.style.pointerEvents='none';btnEl.title='Link não configurado';}
 }
-document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+items.length)%items.length; render(); });
-document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%items.length; render(); });
+document.getElementById('prev').addEventListener('click',()=>{idx=(idx-1+items.length)%items.length;render();});
+document.getElementById('next').addEventListener('click',()=>{idx=(idx+1)%items.length;render();});
 
-fetch(CSV_URL)
-  .then(r=>r.text())
-  .then(txt=>{
-    const rows = parseCSV(txt).filter(r=>r.length>=2);
-    const map = new Map(rows.map(r=>[String(r[0]).trim(), {label:(r[1]||'').trim(), url:(r[2]||'').trim()||null}]));
-    items = ORDER.map((k,i)=>{
-      const rec = map.get(k);
-      return { key:k, label:(rec&&rec.label)||LABEL_FALLBACK[i]||k, url:(rec&&rec.url)||null };
-    });
-  })
-  .catch(()=>{})
-  .finally(render);
+fetch(CSV_URL).then(r=>r.text()).then(txt=>{
+  const rows=parseCSV(txt).filter(r=>r.length>=2);
+  const map=new Map();
+  rows.forEach(r=>{
+    const k=(r[0]||'').trim(), b=(r[1]||'').trim(), c=(r[2]||'').trim();
+    if(!k) return;
+    const label = (c && !looksLikeURL(b)) ? b : (looksLikeURL(b) && !c ? (FALL[ORDER.indexOf(k)]||b) : b);
+    const url   = c || (looksLikeURL(b) ? b : null);
+    map.set(k,{label,url});
+  });
+  items = ORDER.map((k,i)=>{const rec=map.get(k)||{}; return {key:k,label:rec.label||FALL[i]||k,url:rec.url||null};});
+}).catch(()=>{}).finally(render);
 </script>
 </body>
 </html>
-
