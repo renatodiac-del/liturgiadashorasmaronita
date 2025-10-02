@@ -24,18 +24,19 @@
     display:block; width:94%; margin:0 auto 8px; padding:12px 14px; text-align:center; text-decoration:none;
     background:#fff; color:#b22222; font-weight:900; font-size:1.05rem; border-radius:16px;
     border:3px solid #b22222; box-shadow: inset 0 0 0 3px var(--bord), 0 6px 14px var(--shadow);
+    transition:transform .12s, filter .2s, opacity .2s;
   }
+  .main:hover{background:#fff8f0; transform:scale(1.01)}
+  .main[aria-disabled="true"]{opacity:.55; pointer-events:none; cursor:not-allowed}
   .nav{display:flex; justify-content:center; gap:10px; margin:8px 0 0}
   .nav button{
     background:#fff; color:#b22222; font-weight:900; border-radius:12px; border:3px solid var(--bord);
-    padding:8px 12px; cursor:pointer; box-shadow: inset 0 0 0 3px rgba(214,178,90,.55), 0 2px 6px var(--shadow)
+    padding:8px 12px; cursor:pointer; box-shadow: inset 0 0 0 3px rgba(214,178,90,.55), 0 2px 6px var(--shadow);
+    transition:transform .12s, filter .2s;
   }
-  .nav button:hover{background:#fff7e9}
+  .nav button:hover{background:#fff7e9; transform:translateY(-1px)}
 
-  /* Aproximação do botão Voltar (≈30% mais perto): remove auto e usa margem pequena */
   footer{text-align:center; margin-top:14px; padding:10px 0 12px}
-
-  /* Voltar 50% menor */
   .back{
     background:#a00000;color:#fff;text-decoration:none;border:none;border-radius:8px;
     padding:.38rem .7rem;font-weight:900;
@@ -48,28 +49,145 @@
 <body>
   <main class="wrap">
     <h1 class="title">Domingos da Igreja</h1>
-    <img class="hero" src="img/icone-qurbono-domingo-igreja.jpg" alt="">
-    <a id="mainLink" class="main" href="#" target="_blank">—</a>
+    <img class="hero" src="img/icone-qurbono-domingo-igreja.jpg" alt="Ícone — Domingos da Igreja" onerror="this.style.display='none'">
+    <a id="mainLink" class="main" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true" title="Carregando…">Carregando…</a>
     <div class="nav">
-      <button id="prev">← Anterior</button>
-      <button id="next">Próximo →</button>
+      <button id="prev" type="button">← Anterior</button>
+      <button id="next" type="button">Próximo →</button>
     </div>
   </main>
   <footer>
-    <a class="back" href="javascript:history.back()" onclick="if(!document.referrer||!document.referrer.includes('liturgia-ano.html'))this.href='liturgia-ano.html'">← Voltar</a>
+    <a class="back" href="javascript:history.back()"
+       onclick="if(!document.referrer||!document.referrer.includes('liturgia-ano.html'))this.href='liturgia-ano.html'">← Voltar</a>
   </footer>
 
 <script>
-const itens = [
-  {label:'Consagração de Igreja', href:'#'},
-  {label:'Santificação da Igreja', href:'#'}
-];
-let i=0;
-const link = document.getElementById('mainLink');
-function render(){ link.innerText = itens[i].label; link.href = itens[i].href; }
-document.getElementById('prev').onclick=()=>{i=(i-1+itens.length)%itens.length; render();}
-document.getElementById('next').onclick=()=>{i=(i+1)%itens.length; render();}
-render();
+/* CSV publicado da aba `qurbono-domingos-igreja` */
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1842202059&single=true&output=csv";
+
+/* Util: divide uma linha CSV respeitando aspas */
+function splitCSVRow(row){
+  const out=[]; let cur=''; let q=false;
+  for(let i=0;i<row.length;i++){
+    const c=row[i], n=row[i+1];
+    if(c==='\"'){
+      if(q && n==='\"'){ cur+='\"'; i++; }
+      else { q=!q; }
+    }else if(c===',' && !q){
+      out.push(cur.trim()); cur='';
+    }else{
+      cur+=c;
+    }
+  }
+  out.push(cur.trim());
+  return out;
+}
+
+/* Carrega e normaliza os itens */
+async function loadItems(){
+  const res = await fetch(CSV_URL, {cache:'no-store'});
+  if(!res.ok) throw new Error('Falha ao carregar CSV');
+  const text = await res.text();
+
+  const lines = text.split(/\r?\n/).filter(l=>l.trim().length>0);
+  if(lines.length===0) return [];
+
+  const header = splitCSVRow(lines[0]).map(h=>h.toLowerCase());
+  const idxOrdem   = header.indexOf('ordem');
+  const idxRotulo  = header.indexOf('rotulo');
+  const idxLink    = header.indexOf('link_doc');
+  const idxAtivo   = header.indexOf('ativo');
+
+  const items = [];
+  for(let i=1;i<lines.length;i++){
+    const cols = splitCSVRow(lines[i]);
+    const ordem  = idxOrdem>-1 ? parseInt(cols[idxOrdem]||`${i}`,10) : i;
+    const rotulo = idxRotulo>-1 ? (cols[idxRotulo]||'—').trim() : '—';
+    const link   = idxLink  >-1 ? (cols[idxLink]||'').trim() : '';
+    const ativoV = idxAtivo >-1 ? (cols[idxAtivo]||'').toString().trim().toLowerCase() : '1';
+    const ativo  = (ativoV==='1' || ativoV==='true' || ativoV==='sim');
+
+    items.push({ ordem:isNaN(ordem)?i:ordem, rotulo, href:link, ativo });
+  }
+
+  items.sort((a,b)=>a.ordem-b.ordem);
+  return items;
+}
+
+/* Estado & UI */
+let items = [];
+let idx = 0;
+
+const mainLink = document.getElementById('mainLink');
+const prevBtn  = document.getElementById('prev');
+const nextBtn  = document.getElementById('next');
+
+function findFirstActive(start=0, dir=+1){
+  if(items.length===0) return -1;
+  let k = start;
+  for(let t=0;t<items.length;t++){
+    const it = items[(k+items.length)%items.length];
+    if(it.ativo && it.href) return (k+items.length)%items.length;
+    k += dir;
+  }
+  return -1;
+}
+
+function render(){
+  if(items.length===0){
+    mainLink.textContent = 'Nada a exibir';
+    mainLink.setAttribute('aria-disabled','true');
+    mainLink.removeAttribute('href');
+    mainLink.title = 'Sem dados';
+    return;
+  }
+  const it = items[idx];
+  mainLink.textContent = it.rotulo || '—';
+
+  if(it.ativo && it.href){
+    mainLink.href = it.href;
+    mainLink.removeAttribute('aria-disabled');
+    mainLink.title = 'Abrir documento';
+  }else{
+    mainLink.removeAttribute('href');
+    mainLink.setAttribute('aria-disabled','true');
+    mainLink.title = it.ativo ? 'Link não configurado' : 'Item inativo';
+  }
+}
+
+/* Navegação (pula inativos/sem link) */
+prevBtn.addEventListener('click', ()=>{
+  if(items.length===0) return;
+  let j = idx;
+  for(let t=0;t<items.length;t++){
+    j = (j-1+items.length)%items.length;
+    if(items[j].ativo && items[j].href){ idx=j; break; }
+  }
+  render();
+});
+nextBtn.addEventListener('click', ()=>{
+  if(items.length===0) return;
+  let j = idx;
+  for(let t=0;t<items.length;t++){
+    j = (j+1)%items.length;
+    if(items[j].ativo && items[j].href){ idx=j; break; }
+  }
+  render();
+});
+
+/* Boot */
+(async ()=>{
+  try{
+    items = await loadItems();
+    const first = findFirstActive(0,+1);
+    idx = (first>=0 ? first : 0);
+  }catch(err){
+    console.error(err);
+    items = [];
+  }
+  render();
+})();
 </script>
 </body>
 </html>
+
