@@ -1,7 +1,7 @@
 <!-- =========================================
-semana-paixao.html
-Base de dados: aba “salmos-leituras-paixao”
-Chaves/linhas (Coluna A): i0…i8 (em ordem)
+semana-paixao.html  — atualizado para ler a aba “salmos-leituras-paixao”
+CSV público:
+https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=894081921&single=true&output=csv
 ========================================= -->
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -98,7 +98,7 @@ function goBackOrMother(){
 
   <a id="btn-item" class="btn" href="#" target="_blank" rel="noopener">
     <img class="icon" src="img/icone-semana-paixao.png" alt="">
-    <span class="label" id="item-label">Sexta-Feira das Tentações de Cristo</span>
+    <span class="label" id="item-label">Carregando…</span>
     <span class="slot"></span>
   </a>
 
@@ -117,8 +117,32 @@ function goBackOrMother(){
 </main>
 
 <script>
-/* Itens (aba “salmos-leituras-paixao”) */
-const ITENS = [
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=894081921&single=true&output=csv';
+
+/* Ordem esperada (chaves da Coluna A) */
+const ORDER = ['i0','i1','i2','i3','i4','i5','i6','i7','i8'];
+
+/* Parser CSV simples */
+function parseCSV(text){
+  const rows=[]; let cur='', row=[], inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], n=text[i+1];
+    if(inQ){
+      if(c==='"' && n==='"'){ cur+='"'; i++; }
+      else if(c==='"'){ inQ=false; }
+      else cur+=c;
+    }else{
+      if(c===','){ row.push(cur); cur=''; }
+      else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; }
+      else if(c==='"'){ inQ=true; }
+      else if(c!=='\r'){ cur+=c; }
+    }
+  }
+  if(cur.length || row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+
+const LABEL_FALLBACK = [
   'Sexta-Feira das Tentações de Cristo',
   'Sábado de Lázaro',
   'Domingo do Hosana — Rito da Lâmpada',
@@ -130,34 +154,43 @@ const ITENS = [
   'Sábado da Luz'
 ];
 
-/* PREENCHA a partir da planilha (Coluna A = chave, Coluna B = rótulo).
-   Use as chaves: i0…i8 na mesma ordem */
-const LINKS = { i0:null, i1:null, i2:null, i3:null, i4:null, i5:null, i6:null, i7:null, i8:null };
-
+let items = ORDER.map((key,idx)=>({key, label:LABEL_FALLBACK[idx]||key, url:null}));
 let idx = 0;
-const label = document.getElementById('item-label');
-const btn   = document.getElementById('btn-item');
+
+const labelEl = document.getElementById('item-label');
+const btnEl   = document.getElementById('btn-item');
 
 function render(){
-  label.textContent = ITENS[idx];
-  const key = 'i'+idx;
-  const url = LINKS[key];
-
-  if(url){
-    btn.href = url;
-    btn.style.opacity = 1;
-    btn.style.pointerEvents = 'auto';
-    btn.title = 'Abrir Salmos e Leituras';
+  const it = items[idx];
+  labelEl.textContent = it.label || '—';
+  if(it.url){
+    btnEl.href = it.url;
+    btnEl.style.opacity = 1;
+    btnEl.style.pointerEvents = 'auto';
+    btnEl.title = 'Abrir Salmos e Leituras';
   }else{
-    btn.href = '#';
-    btn.style.opacity = .55;
-    btn.style.pointerEvents = 'none';
-    btn.title = 'Link não configurado';
+    btnEl.href = '#';
+    btnEl.style.opacity = .55;
+    btnEl.style.pointerEvents = 'none';
+    btnEl.title = 'Link não configurado';
   }
 }
-document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+ITENS.length)%ITENS.length; render(); });
-document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%ITENS.length; render(); });
-render();
+document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+items.length)%items.length; render(); });
+document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%items.length; render(); });
+
+fetch(CSV_URL)
+  .then(r=>r.text())
+  .then(txt=>{
+    const rows = parseCSV(txt).filter(r=>r.length>=2);
+    const map = new Map(rows.map(r=>[String(r[0]).trim(), {label:(r[1]||'').trim(), url:(r[2]||'').trim()||null}]));
+    items = ORDER.map((k,i)=>{
+      const rec = map.get(k);
+      return { key:k, label:(rec&&rec.label)||LABEL_FALLBACK[i]||k, url:(rec&&rec.url)||null };
+    });
+  })
+  .catch(()=>{})
+  .finally(render);
 </script>
 </body>
 </html>
+
