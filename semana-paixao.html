@@ -1,6 +1,6 @@
-<!-- semana-paixao.html — versão ajustada para ler cabeçalhos:
-     ordem | rótulo | key | link_doc | ativo | observações
-     Publicação CSV (gid=894081921) permanece a mesma. -->
+<!-- semana-paixao.html — corrigido:
+     Agora o botão fica ATIVO sempre que houver um link válido na coluna `link_doc`,
+     ignorando a coluna “ativo”. Assim, sua planilha de teste com “FALSE” passa a funcionar. -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -77,9 +77,20 @@ function goBackOrMother(){
 </main>
 
 <script>
+/* CSV publicado (gid da aba “salmos-leituras-paixao”) */
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=894081921&single=true&output=csv';
+
+/* Ordem esperada das chaves (key) */
 const ORDER = ['i0','i1','i2','i3','i4','i5','i6','i7','i8'];
 
+/* Rótulos padrão (fallback) por índice */
+const FALL = [
+  'Sexta-Feira das Tentações de Cristo','Sábado de Lázaro','Domingo do Hosana — Rito da Lâmpada',
+  'Segunda-feira da Paixão','Terça-feira da Paixão','Quarta-feira da Paixão — Rito da Lâmpada',
+  'Quinta-feira dos Mistérios','Boa Sexta-feira','Sábado da Luz'
+];
+
+/* ===== CSV helper ===== */
 function parseCSV(t){
   const rows=[]; let cell='', row=[], q=false;
   for(let i=0;i<t.length;i++){
@@ -96,24 +107,16 @@ function parseCSV(t){
   return rows;
 }
 function looksLikeURL(s){ return /^https?:\/\//i.test((s||'').trim()); }
-function truthy(s){ return /^(true|1|yes|sim)$/i.test((s||'').trim()); }
 
-// rótulos padrão por índice
-const FALL = [
-  'Sexta-Feira das Tentações de Cristo','Sábado de Lázaro','Domingo do Hosana — Rito da Lâmpada',
-  'Segunda-feira da Paixão','Terça-feira da Paixão','Quarta-feira da Paixão — Rito da Lâmpada',
-  'Quinta-feira dos Mistérios','Boa Sexta-feira','Sábado da Luz'
-];
-
-let items = ORDER.map((k,i)=>({key:k,label:FALL[i]||k,url:null,active:true})), idx=0;
-
+/* ===== Estado ===== */
+let items = ORDER.map((k,i)=>({key:k,label:FALL[i]||k,url:null})), idx=0;
 const labelEl = document.getElementById('item-label');
 const btnEl   = document.getElementById('btn-item');
 
 function render(){
   const it = items[idx];
   labelEl.textContent = it.label || '—';
-  if(it.url && it.active){
+  if(it.url){
     btnEl.href = it.url;
     btnEl.style.opacity = 1;
     btnEl.style.pointerEvents = 'auto';
@@ -122,57 +125,57 @@ function render(){
     btnEl.href = '#';
     btnEl.style.opacity = .55;
     btnEl.style.pointerEvents = 'none';
-    btnEl.title = it.active ? 'Link não configurado' : 'Item desativado';
+    btnEl.title = 'Link não configurado';
   }
 }
 
-// navegação circular
+/* Navegação circular */
 document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+items.length)%items.length; render(); });
 document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%items.length; render(); });
 
-// carrega CSV e detecta colunas por cabeçalho
+/* Carrega CSV e aplica:
+   - Cabeçalhos esperados: ordem | rótulo | key | link_doc | ativo | observações
+   - Ignora completamente a coluna “ativo” (basta o link estar presente para habilitar) */
 fetch(CSV_URL).then(r=>r.text()).then(txt=>{
   const rows = parseCSV(txt).filter(r=>r.length>0);
   if(rows.length===0){ render(); return; }
 
-  // mapeia índices pelos nomes do cabeçalho
   const head = rows[0].map(h=>h.trim().toLowerCase());
   let idxKey  = head.findIndex(h=>h==='key');
-  let idxRot  = head.findIndex(h=>h==='rótulo' || h==='rotulo' || h==='rótulo '); // tolerante
+  let idxRot  = head.findIndex(h=>h==='rótulo' || h==='rotulo');
   let idxLink = head.findIndex(h=>h==='link_doc' || h==='link' || h==='url');
-  let idxAtv  = head.findIndex(h=>h==='ativo');
 
-  // se não houver cabeçalho reconhecível, assume antigo: [key, label/link, link?]
-  const dataRows = (idxKey>-1 || idxRot>-1 || idxLink>-1 || idxAtv>-1) ? rows.slice(1) : rows;
+  const dataRows = (idxKey>-1 || idxRot>-1 || idxLink>-1) ? rows.slice(1) : rows;
 
   const map = new Map();
   dataRows.forEach(r=>{
-    // estratégia flexível: tenta pelos nomes; se não, usa posições antigas
     let key  = idxKey>-1  ? (r[idxKey]  ||'').trim() : (r[0]||'').trim();
     if(!key) return;
 
     let rot  = idxRot>-1  ? (r[idxRot]  ||'').trim() : (r[1]||'').trim();
     let link = idxLink>-1 ? (r[idxLink] ||'').trim() : (r[2]||'').trim();
-    let atv  = idxAtv>-1  ? (r[idxAtv]  ||'').trim() : '';
 
-    // fallback: se link_doc vazio, mas "rótulo" for URL, usa-o como link
+    // fallback: se “rótulo” vier com URL por engano, usa como link
     if(!link && looksLikeURL(rot)){ link = rot; }
 
-    const active = idxAtv>-1 ? truthy(atv) : true;
-
-    map.set(key,{label:rot,url:looksLikeURL(link)?link:null,active});
+    map.set(key,{
+      label: rot && !looksLikeURL(rot) ? rot : null,
+      url: looksLikeURL(link) ? link : null
+    });
   });
 
   items = ORDER.map((k,i)=>{
     const rec = map.get(k) || {};
     return {
-      key:k,
-      label: rec.label && !looksLikeURL(rec.label) ? rec.label : (FALL[i]||k),
-      url: rec.url || null,
-      active: rec.active !== undefined ? rec.active : true
+      key: k,
+      label: rec.label || FALL[i] || k,
+      url: rec.url || null
     };
   });
-}).catch(()=>{}).finally(render);
+}).catch(err=>{
+  console.error('CSV load error:', err);
+}).finally(render);
 </script>
 </body>
 </html>
+
