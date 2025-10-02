@@ -1,7 +1,7 @@
 <!-- =========================================
-pascoa-ressurreicao.html
-Base de dados: aba “salmos-leituras-ressurreicao”
-Chaves/linhas (Coluna A): i0…i7 (em ordem)
+pascoa-ressurreicao.html  — atualizado para ler a aba “salmos-leituras-ressurreicao”
+CSV público:
+https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=693469933&single=true&output=csv
 ========================================= -->
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -95,7 +95,7 @@ function goBackOrMother(){
     <img class="hero" src="img/icone-pascoa-ressurreicao.png" alt="Ícone — Tempo da Ressurreição" onerror="this.style.display='none'">
   </figure>
 
-  <a id="mainBtn" class="mainbtn" href="#" role="button" aria-live="polite"><span class="label" id="mainLabel">—</span></a>
+  <a id="mainBtn" class="mainbtn" href="#" role="button" aria-live="polite"><span class="label" id="mainLabel">Carregando…</span></a>
 
   <div class="navrow">
     <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
@@ -114,8 +114,32 @@ function goBackOrMother(){
 </footer>
 
 <script>
-/* Itens (aba “salmos-leituras-ressurreicao”) */
-const ITENS = [
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=693469933&single=true&output=csv';
+
+/* Ordem esperada (chaves da Coluna A) */
+const ORDER = ['i0','i1','i2','i3','i4','i5','i6','i7'];
+
+/* Parser CSV simples */
+function parseCSV(text){
+  const rows=[]; let cur='', row=[], inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], n=text[i+1];
+    if(inQ){
+      if(c==='"' && n==='"'){ cur+='"'; i++; }
+      else if(c==='"'){ inQ=false; }
+      else cur+=c;
+    }else{
+      if(c===','){ row.push(cur); cur=''; }
+      else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; }
+      else if(c==='"'){ inQ=true; }
+      else if(c!=='\r'){ cur+=c; }
+    }
+  }
+  if(cur.length || row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+
+const LABEL_FALLBACK = [
   'Primeiro Domingo da Ressurreição',
   'Domingo Novo',
   'Segundo Domingo da Ressurreição',
@@ -126,35 +150,44 @@ const ITENS = [
   'Sexto Domingo da Ressurreição'
 ];
 
-/* PREENCHA a partir da planilha (Coluna A = chave, Coluna B = rótulo).
-   Use as chaves: i0…i7 na mesma ordem */
-const LINKS = { i0:null, i1:null, i2:null, i3:null, i4:null, i5:null, i6:null, i7:null };
-
+let items = ORDER.map((key,idx)=>({key, label:LABEL_FALLBACK[idx]||key, url:null}));
 let idx = 0;
-const label = document.getElementById('mainLabel');
-const btn   = document.getElementById('mainBtn');
+
+const labelEl = document.getElementById('mainLabel');
+const btnEl   = document.getElementById('mainBtn');
 
 function render(){
-  label.textContent = ITENS[idx];
-  const key = 'i'+idx;
-  const url = LINKS[key];
-
-  if(url){
-    btn.href = url;
-    btn.style.opacity = 1;
-    btn.style.pointerEvents = 'auto';
-    btn.title = 'Abrir conteúdo';
+  const it = items[idx];
+  labelEl.textContent = it.label || '—';
+  if(it.url){
+    btnEl.href = it.url;
+    btnEl.style.opacity = 1;
+    btnEl.style.pointerEvents = 'auto';
+    btnEl.title = 'Abrir conteúdo';
   }else{
-    btn.href = '#';
-    btn.style.opacity = .95;
-    btn.style.pointerEvents = 'none';
-    btn.title = 'Sem link configurado';
+    btnEl.href = '#';
+    btnEl.style.opacity = .95;
+    btnEl.style.pointerEvents = 'none';
+    btnEl.title = 'Sem link configurado';
   }
 }
-document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+ITENS.length)%ITENS.length; render(); });
-document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%ITENS.length; render(); });
-render();
+document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+items.length)%items.length; render(); });
+document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%items.length; render(); });
+
+fetch(CSV_URL)
+  .then(r=>r.text())
+  .then(txt=>{
+    const rows = parseCSV(txt).filter(r=>r.length>=2);
+    const map = new Map(rows.map(r=>[String(r[0]).trim(), {label:(r[1]||'').trim(), url:(r[2]||'').trim()||null}]));
+    items = ORDER.map((k,i)=>{
+      const rec = map.get(k);
+      return { key:k, label:(rec&&rec.label)||LABEL_FALLBACK[i]||k, url:(rec&&rec.url)||null };
+    });
+  })
+  .catch(()=>{})
+  .finally(render);
 </script>
 </body>
 </html>
+
 
