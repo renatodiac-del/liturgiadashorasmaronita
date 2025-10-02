@@ -1,4 +1,4 @@
-<!-- qurbono-festas.html — Neta de "Liturgia Eucaristia Durante o Ano" (fundo: begê → prata envelhecida; demais detalhes mantidos) -->
+<!-- qurbono-festas.html — conectado à planilha (ordem, rotulo, key, link_doc, ativo, obs) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,7 +16,6 @@
 *{box-sizing:border-box} html,body{height:100%}
 body{
   margin:0; font-family:var(--fonte); color:var(--txt);
-  /* Degradê pedido + mantém as linhas decorativas por cima (detalhes mantidos) */
   background-image:
     repeating-linear-gradient(45deg, rgba(183,183,183,.25) 0 2px, transparent 2px 44px),
     repeating-linear-gradient(-45deg, rgba(214,178,90,.18) 0 2px, transparent 2px 44px),
@@ -29,23 +28,24 @@ body{
 
 .title{ text-align:center; font-weight:900; margin:4px 0 8px; font-size:2.1rem; color:var(--vermelho); }
 
-/* Ícone — mantidos ajustes anteriores (−10% já aplicado em versão passada? aqui mantemos 444px se foi seu padrão) */
+/* Ícone com fallback */
 .hero{
   display:block; margin:0 auto 12px; max-width:100%; height:auto; max-height:444px;
   border:6px solid var(--bordPrata); box-shadow:0 0 0 4px var(--dourado) inset, 0 6px 16px var(--shadow);
   border-radius:12px
 }
 
-/* BOTÃO principal — mantém altura reduzida em 20% e tipografia maior */
+/* BOTÃO principal */
 .main-btn{
-  display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:default;
+  display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
   background:#fff; color:#000; padding:9.6px 16px; border-radius:16px; width:92%; margin:0 auto 8px;
   border:3px solid var(--bordPrata); box-shadow:0 0 0 3px var(--dourado) inset, 0 4px 10px var(--shadow);
   font-weight:900; text-align:center; font-size:1.2rem;
 }
+.main-btn[aria-disabled="true"]{opacity:.55; pointer-events:none; cursor:default}
 .main-btn .big{ display:block; }
 
-/* NAV Anterior/Próximo — mantido */
+/* NAV */
 .nav-strip{ display:flex; justify-content:center; gap:10px; margin:6px 0 10px; }
 .nav-btn{
   background:#fff; border:2px solid var(--bordPrata); box-shadow:0 0 0 2px var(--dourado) inset, 0 3px 8px var(--shadow);
@@ -53,13 +53,13 @@ body{
 }
 .nav-btn:hover{ background:#fff8ef }
 
-/* VOLTAR — 50% do tamanho e bem próximo dos botões (sem colar) */
+/* VOLTAR */
 footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
 .voltar{
   background:#a00000; color:#fff; font-weight:800; border:none; border-radius:6px; text-decoration:none;
   display:inline-flex; align-items:center; gap:.4rem; padding:.3rem .55rem; cursor:pointer;
   transform:scale(0.5); transform-origin:center;
-  margin-top:-26px; /* aproxima; ajuste fino caso precise */
+  margin-top:-26px;
 }
 .voltar:hover{ background:#c00000 }
 </style>
@@ -68,13 +68,12 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
   <main class="wrap">
     <h1 class="title">Festas</h1>
 
-    <!-- Ícone com fallback — mantém comportamento para cobrir nomes diferentes do arquivo -->
     <img class="hero" id="hero-festas"
          src="img/icone-qurbono-festas.jpg"
          data-try="img/icone-qurbono.festas.jpg|img/icone-festas.jpg|img/icone-qurbono-festas.png"
          alt="Ícone — Festas">
 
-    <a class="main-btn" id="titulo"><span class="big">São Marun</span></a>
+    <a class="main-btn" id="titulo" href="#" target="_blank" aria-disabled="true"><span class="big">—</span></a>
 
     <div class="nav-strip">
       <button class="nav-btn" id="prev">← Anterior</button>
@@ -88,7 +87,105 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
   </main>
 
 <script>
-/* Fallback do ícone de Festas */
+/* ===== CONFIG ===== */
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1848714878&single=true&output=csv";
+
+/* ===== FALLBACK LOCAL (se CSV falhar) ===== */
+let itens = [
+  { key:"i0", label:"São Marun", href:"#", ativo:true },
+  { key:"i1", label:"São João Marun", href:"#", ativo:true },
+  { key:"i2", label:"Santa Rafka", href:"#", ativo:true },
+  { key:"i3", label:"Sagrado Coração de Jesus", href:"#", ativo:true },
+  { key:"i4", label:"Nossa Senhora do Líbano", href:"#", ativo:true },
+  { key:"i5", label:"São Charbel", href:"#", ativo:true },
+  { key:"i6", label:"São Pedro e São Paulo", href:"#", ativo:true },
+  { key:"i7", label:"Festa dos 12 Apóstolos", href:"#", ativo:true },
+  { key:"i8", label:"Transfiguração", href:"#", ativo:true },
+  { key:"i9", label:"Assunção da Virgem Maria", href:"#", ativo:true },
+  { key:"i10", label:"350 Mártires Discípulos de Marun", href:"#", ativo:true },
+  { key:"i11", label:"São Nimatullah", href:"#", ativo:true },
+  { key:"i12", label:"Mártires Massabki", href:"#", ativo:true },
+  { key:"i13", label:"Nossa Senhora Aparecida", href:"#", ativo:true },
+  { key:"i14", label:"Imaculada Conceição", href:"#", ativo:true },
+  { key:"i15", label:"Nossa Senhora de Guadalupe", href:"#", ativo:true }
+];
+
+/* ===== ESTADO ===== */
+let idx = 0;
+
+/* ===== ELEMENTOS ===== */
+const tituloBtn = document.getElementById('titulo');
+const tituloSpan = tituloBtn.querySelector('.big');
+const prevBt = document.getElementById('prev');
+const nextBt = document.getElementById('next');
+
+/* ===== UTILS CSV ===== */
+function toBool(x){
+  if (typeof x === "number") return x === 1;
+  if (typeof x === "string") return x.trim() === "1";
+  return false;
+}
+
+function csvToRows(txt){
+  const lines = txt.replace(/\r/g,'').split('\n').filter(l => l.trim() !== '');
+  const header = lines.shift().split(',').map(h=>h.trim().toLowerCase());
+  return lines.map(line=>{
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i=0;i<line.length;i++){
+      const c = line[i];
+      if (c === '"'){
+        if (inQ && line[i+1] === '"'){ cur += '"'; i++; }
+        else inQ = !inQ;
+      }else if (c === ',' && !inQ){
+        cols.push(cur); cur='';
+      }else{
+        cur += c;
+      }
+    }
+    cols.push(cur);
+    const obj = {};
+    header.forEach((h, i)=> obj[h] = (cols[i] ?? '').trim());
+    return obj;
+  });
+}
+
+function normalizeFromCSV(rows){
+  // Esperado: ordem, rotulo, key, link_doc, ativo, obs
+  rows.sort((a,b)=>(parseInt(a.ordem)||0)-(parseInt(b.ordem)||0));
+  const out = rows.map((r, i) => {
+    const key = r.key && r.key.length ? r.key : `i${i}`;
+    return {
+      key,
+      label: r.rotulo || `Item ${i+1}`,
+      href:  r.link_doc || "#",
+      ativo: toBool(r.ativo),
+      obs:   r.obs || ""
+    };
+  });
+  return out.length ? out : itens;
+}
+
+/* ===== RENDER ===== */
+function render(){
+  const it = itens[idx];
+  tituloSpan.textContent = it.label || '—';
+  if (it.ativo && it.href && it.href !== "#"){
+    tituloBtn.href = it.href;
+    tituloBtn.removeAttribute('aria-disabled');
+    tituloBtn.title = it.obs ? it.obs : "Abrir documento";
+  }else{
+    tituloBtn.href = "#";
+    tituloBtn.setAttribute('aria-disabled','true');
+    tituloBtn.title = it.obs ? it.obs : "Link não configurado";
+  }
+}
+
+/* ===== EVENTOS ===== */
+prevBt.onclick = ()=>{ idx = (idx - 1 + itens.length) % itens.length; render(); };
+nextBt.onclick = ()=>{ idx = (idx + 1) % itens.length; render(); };
+
+/* ===== FALLBACK DE IMAGEM ===== */
 (function(){
   const img = document.getElementById('hero-festas');
   img.onerror = function(){
@@ -98,33 +195,22 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
   };
 })();
 
-/* Navegação entre as Festas */
-const nomes = [
-  "São Marun",
-  "São João Marun",
-  "Santa Rafka",
-  "Sagrado Coração de Jesus",
-  "Nossa Senhora do Líbano",
-  "São Charbel",
-  "São Pedro e São Paulo",
-  "Festa dos 12 Apóstolos",
-  "Transfiguração",
-  "Assunção da Virgem Maria",
-  "350 Mártires Discípulos de Marun",
-  "São Nimatullah",
-  "Mártires Massabki",
-  "Nossa Senhora Aparecida",
-  "Imaculada Conceição",
-  "Nossa Senhora de Guadalupe"
-];
-const titulo = document.getElementById('titulo').querySelector('.big');
-let i = 0;
-function render(){ titulo.textContent = nomes[i]; }
-render();
-document.getElementById('prev').onclick = ()=>{ i = (i-1+nomes.length)%nomes.length; render(); };
-document.getElementById('next').onclick = ()=>{ i = (i+1)%nomes.length; render(); };
+/* ===== BOOT ===== */
+(async function init(){
+  try{
+    const res = await fetch(CSV_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error('Falha ao carregar CSV');
+    const text = await res.text();
+    const rows = csvToRows(text);
+    itens = normalizeFromCSV(rows);
+  }catch(e){
+    console.warn('CSV não pôde ser aplicado, usando fallback local.', e);
+  }
+  render();
+})();
 </script>
 </body>
 </html>
+
 
 
