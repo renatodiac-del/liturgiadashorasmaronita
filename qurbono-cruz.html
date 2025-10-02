@@ -1,4 +1,3 @@
-<!-- qurbono-cruz.html — Neta de "Liturgia Eucaristia Durante o Ano" (fundo: ouro velho → prata envelhecida, sem linhas) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,61 +6,44 @@
 <meta name="theme-color" content="#b4923a">
 <style>
 :root{
-  --ouro:#b4923a;                /* ouro velho */
-  --prata:#b8b1a6;               /* prata envelhecida (quente) */
-  --txt:#3b1f1f;
-  --dourado:#d6b25a;
-  --shadow:rgba(0,0,0,.12);
-  --fonte: Arial, Helvetica, sans-serif;
+  --ouro:#b4923a; --prata:#b8b1a6; --txt:#3b1f1f; --dourado:#d6b25a;
+  --shadow:rgba(0,0,0,.12); --fonte: Arial, Helvetica, sans-serif;
 }
 *{box-sizing:border-box} html,body{height:100%}
 body{
   margin:0; font-family:var(--fonte); color:var(--txt);
-  /* Degradê liso: ouro velho -> prata envelhecida (SEM linhas decorativas) */
   background: linear-gradient(180deg, var(--ouro) 0%, var(--prata) 100%);
   display:flex; flex-direction:column; min-height:100vh;
 }
 .wrap{ width:100%; max-width:560px; margin:0 auto; padding:8px 14px 12px; display:flex; flex-direction:column; }
-
-/* Título (mantido com realce prata+ouro) */
 .title{
   text-align:center; font-weight:900; margin:4px 0 8px; font-size:2.1rem; color:#7a1b1b;
   text-shadow:
-    -1px -1px 0 #cfc9bd, 1px -1px 0 #cfc9bd, -1px 1px 0 #cfc9bd, 1px 1px 0 #cfc9bd, /* contorno prata quente */
-    0 0 10px rgba(183,183,183,.55), 0 0 18px rgba(214,178,90,.45);                 /* brilho prata + ouro */
+    -1px -1px 0 #cfc9bd, 1px -1px 0 #cfc9bd, -1px 1px 0 #cfc9bd, 1px 1px 0 #cfc9bd,
+    0 0 10px rgba(183,183,183,.55), 0 0 18px rgba(214,178,90,.45);
 }
-
-/* Ícone 30% maior (380 → ~494px) */
 .hero{
   display:block; margin:0 auto 12px; max-width:100%; height:auto; max-height:494px;
   border:6px solid var(--prata); box-shadow:0 0 0 4px var(--dourado) inset, 0 6px 16px var(--shadow);
   border-radius:12px
 }
-
-/* BOTÃO principal (nome atual) — mantém borda prata + aro externo dourado */
 .main-btn{
-  display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:default;
+  display:inline-flex; align-items:center; justify-content:center; text-decoration:none; cursor:pointer;
   background:#fff; color:#000; padding:12px 16px; border-radius:16px; width:92%; margin:0 auto 8px;
   border:3px solid var(--prata); box-shadow:0 0 0 3px var(--dourado) inset, 0 4px 10px var(--shadow);
-  font-weight:900; text-align:center; font-size:1.2rem; /* +2pt aprox */
+  font-weight:900; text-align:center; font-size:1.2rem;
 }
-.main-btn .big{ display:block; }
-
-/* NAV Anterior/Próximo (mantido) */
 .nav-strip{ display:flex; justify-content:center; gap:10px; margin:6px 0 8px; }
 .nav-btn{
   background:#fff; border:2px solid var(--prata); box-shadow:0 0 0 2px var(--dourado) inset, 0 3px 8px var(--shadow);
   border-radius:12px; padding:8px 14px; font-weight:800; cursor:pointer; color:#7a1b1b;
 }
 .nav-btn:hover{ background:#fff8ef }
-
-/* VOLTAR (50% do tamanho, bem perto dos botões, sem colar) */
 footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
 .voltar{
   background:#a00000; color:#fff; font-weight:800; border:none; border-radius:6px; text-decoration:none;
   display:inline-flex; align-items:center; gap:.4rem; padding:.3rem .55rem; cursor:pointer;
-  transform:scale(0.5); transform-origin:center;
-  margin-top:-22px; /* deixa o Voltar mais próximo dos botões acima, sem encostar */
+  transform:scale(0.5); transform-origin:center; margin-top:-22px;
 }
 .voltar:hover{ background:#c00000 }
 </style>
@@ -69,18 +51,12 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
 <body>
   <main class="wrap">
     <h1 class="title">Tempo da Cruz</h1>
-
-    <img class="hero" id="hero-cruz"
-         src="img/icone-qurbono-cruz.png"
-         alt="Ícone — Tempo da Cruz">
-
-    <a class="main-btn" id="titulo"><span class="big">Festa da Santa Cruz</span></a>
-
+    <img class="hero" id="hero-cruz" src="img/icone-qurbono-cruz.png" alt="Ícone — Tempo da Cruz">
+    <a class="main-btn" id="mainLink" href="#" target="_blank">Carregando…</a>
     <div class="nav-strip">
       <button class="nav-btn" id="prev">← Anterior</button>
       <button class="nav-btn" id="next">Próximo →</button>
     </div>
-
     <footer>
       <a class="voltar" href="javascript:history.back()"
          onclick="if(!document.referrer || !document.referrer.includes('liturgia-ano.html')) this.href='liturgia-ano.html'">← Voltar</a>
@@ -88,22 +64,51 @@ footer{ margin-top:auto; text-align:center; padding:0 0 10px; }
   </main>
 
 <script>
-/* Navigator de títulos (variações do Tempo da Cruz) */
-const nomes = [
-  "Festa da Santa Cruz",
-  "Segunda-feira — Tempo da Cruz Gloriosa",
-  "Terça-feira — Tempo da Cruz Gloriosa",
-  "Quarta-feira — Tempo da Cruz Gloriosa",
-  "Quinta-feira — Tempo da Cruz Gloriosa",
-  "Sexta-feira — Tempo da Cruz Gloriosa",
-  "Sábado — Tempo da Cruz Gloriosa"
-];
-const titulo = document.getElementById('titulo').querySelector('.big');
-let i = 0;
-function render(){ titulo.textContent = nomes[i]; }
-render();
-document.getElementById('prev').onclick = ()=>{ i = (i-1+nomes.length)%nomes.length; render(); };
-document.getElementById('next').onclick = ()=>{ i = (i+1)%nomes.length; render(); };
+const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1421950501&single=true&output=csv';
+
+const linkEl=document.getElementById('mainLink');
+const prevBt=document.getElementById('prev');
+const nextBt=document.getElementById('next');
+
+let itens=[]; // {label, href, ativo}
+let i=0;
+
+function parseCSV(text){
+  const lines=text.split(/\r?\n/).filter(l=>l.trim().length);
+  if(!lines.length) return [];
+  const head=lines[0].split(',').map(s=>s.trim().toLowerCase());
+  const r=head.indexOf('rotulo'), u=head.indexOf('link_doc'), a=head.indexOf('ativo');
+  const out=[];
+  for(let k=1;k<lines.length;k++){
+    const cols=lines[k].split(',');
+    const rot=(cols[r]||'').trim(), href=(cols[u]||'').trim(), atv=(cols[a]||'').trim();
+    if(!rot) continue;
+    out.push({label:rot, href:href||'#', ativo:atv==='1'});
+  }
+  return out;
+}
+function firstActiveIndex(v){const x=v.findIndex(t=>t.ativo && t.href && t.href!=='#'); return x>=0?x:0;}
+function render(){
+  if(!itens.length){ linkEl.textContent='Sem itens'; linkEl.href='#'; linkEl.style.pointerEvents='none'; linkEl.style.opacity=.6; return; }
+  const cur=itens[i];
+  linkEl.textContent=cur.label||'—';
+  if(cur.ativo && cur.href && cur.href!=='#'){ linkEl.href=cur.href; linkEl.style.pointerEvents='auto'; linkEl.style.opacity=1; linkEl.title='Abrir documento'; }
+  else { linkEl.href='#'; linkEl.style.pointerEvents='none'; linkEl.style.opacity=.55; linkEl.title='Item inativo'; }
+}
+function step(d){
+  if(!itens.length) return;
+  const n=itens.length;
+  for(let k=1;k<=n;k++){
+    const j=(i+d*k+n)%n, it=itens[j];
+    if(it.ativo && it.href && it.href!=='#'){ i=j; break; }
+    if(k===n){ i=j; }
+  }
+  render();
+}
+prevBt.onclick=()=>step(-1); nextBt.onclick=()=>step(1);
+
+fetch(CSV_URL).then(r=>r.text()).then(t=>{itens=parseCSV(t); i=firstActiveIndex(itens); render();})
+.catch(()=>{linkEl.textContent='Erro ao carregar'; linkEl.href='#'; linkEl.style.pointerEvents='none'; linkEl.style.opacity=.6;});
 </script>
 </body>
 </html>
