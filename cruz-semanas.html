@@ -1,7 +1,7 @@
 <!-- =========================================
-cruz-semanas.html
-Base de dados: aba “salmos-leituras-cruz”
-Chaves/linhas (Coluna A): w0…w6 (em ordem)
+cruz-semanas.html  — atualizado para ler a aba “salmos-leituras-cruz”
+CSV público:
+https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1865253816&single=true&output=csv
 ========================================= -->
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -57,14 +57,12 @@ function goBackOrMother(){
 <main class="wrap">
   <img class="hero" src="img/icone-tempo-cruz.png" alt="Ícone — Cruz" onerror="this.style.display='none'">
 
-  <!-- Botão central com a semana atual -->
   <a id="btn-week" class="btn" href="#" target="_blank" rel="noopener">
     <img class="icon" src="img/icone-tempo-cruz.png" alt="">
-    <span class="label" id="week-label">1ª Semana após a Cruz</span>
+    <span class="label" id="week-label">Carregando…</span>
     <span class="slot"></span>
   </a>
 
-  <!-- Navegação Anterior / Próxima -->
   <div class="navrow">
     <button class="navbtn" id="prev"><span class="arr">←</span><span>Anterior</span></button>
     <button class="navbtn" id="next"><span>Próxima</span><span class="arr">→</span></button>
@@ -74,46 +72,77 @@ function goBackOrMother(){
 </main>
 
 <script>
-/* 7 semanas: 1ª após a Cruz até 7ª após a Cruz (aba “salmos-leituras-cruz”) */
-const WEEKS = [
-  '1ª Semana após a Cruz',
-  '2ª Semana após a Cruz',
-  '3ª Semana após a Cruz',
-  '4ª Semana após a Cruz',
-  '5ª Semana após a Cruz',
-  '6ª Semana após a Cruz',
-  '7ª Semana após a Cruz'
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1865253816&single=true&output=csv';
+
+/* Ordem esperada (chaves da Coluna A) */
+const ORDER = ['w0','w1','w2','w3','w4','w5','w6'];
+
+/* Parser CSV simples que respeita aspas */
+function parseCSV(text){
+  const rows=[]; let cur='', row=[], inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], n=text[i+1];
+    if(inQ){
+      if(c==='"' && n==='"'){ cur+='"'; i++; }
+      else if(c==='"'){ inQ=false; }
+      else cur+=c;
+    }else{
+      if(c===','){ row.push(cur); cur=''; }
+      else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; }
+      else if(c==='"'){ inQ=true; }
+      else if(c!=='\r'){ cur+=c; }
+    }
+  }
+  if(cur.length || row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+
+const WEEKS_FALLBACK = [
+  '1ª Semana após a Cruz','2ª Semana após a Cruz','3ª Semana após a Cruz',
+  '4ª Semana após a Cruz','5ª Semana após a Cruz','6ª Semana após a Cruz','7ª Semana após a Cruz'
 ];
 
-/* PREENCHA a partir da planilha (Coluna A = chave, Coluna B = rótulo).
-   Use as chaves: w0…w6 na mesma ordem */
-const LINKS = { w0:null, w1:null, w2:null, w3:null, w4:null, w5:null, w6:null };
-
+let items = ORDER.map((key,idx)=>({key, label:WEEKS_FALLBACK[idx], url:null}));
 let idx = 0;
-const label = document.getElementById('week-label');
-const btn   = document.getElementById('btn-week');
+
+const labelEl = document.getElementById('week-label');
+const btnEl   = document.getElementById('btn-week');
 
 function render(){
-  label.textContent = WEEKS[idx];
-  const key = 'w'+idx;
-  const url = LINKS[key];
-
-  if(url){
-    btn.href = url;
-    btn.style.opacity = 1;
-    btn.style.pointerEvents = 'auto';
-    btn.title = 'Abrir Salmos e Leituras';
+  const it = items[idx];
+  labelEl.textContent = it.label || '—';
+  if(it.url){
+    btnEl.href = it.url;
+    btnEl.style.opacity = 1;
+    btnEl.style.pointerEvents = 'auto';
+    btnEl.title = 'Abrir Salmos e Leituras';
   }else{
-    btn.href = '#';
-    btn.style.opacity = .55;
-    btn.style.pointerEvents = 'none';
-    btn.title = 'Link não configurado';
+    btnEl.href = '#';
+    btnEl.style.opacity = .55;
+    btnEl.style.pointerEvents = 'none';
+    btnEl.title = 'Link não configurado';
   }
 }
-document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+WEEKS.length)%WEEKS.length; render(); });
-document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%WEEKS.length; render(); });
-render();
+
+document.getElementById('prev').addEventListener('click',()=>{ idx=(idx-1+items.length)%items.length; render(); });
+document.getElementById('next').addEventListener('click',()=>{ idx=(idx+1)%items.length; render(); });
+
+fetch(CSV_URL)
+  .then(r=>r.text())
+  .then(txt=>{
+    const rows = parseCSV(txt).filter(r=>r.length>=2);
+    const map = new Map(rows.map(r=>[String(r[0]).trim(), {label:(r[1]||'').trim(), url:(r[2]||'').trim()||null}]));
+    items = ORDER.map((k,i)=>{
+      const rec = map.get(k);
+      return {
+        key:k,
+        label: (rec && rec.label) || WEEKS_FALLBACK[i],
+        url:   (rec && rec.url)   || null
+      };
+    });
+  })
+  .catch(()=>{/* mantém fallback */})
+  .finally(render);
 </script>
 </body>
 </html>
-
