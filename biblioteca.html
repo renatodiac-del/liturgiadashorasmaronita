@@ -1,4 +1,4 @@
-<!-- biblioteca.html — filha de Qurbono, mesmo layout da mãe -->
+<!-- biblioteca.html — filha de Qurbono, dados vindos da aba biblioteca-qurbono (CSV) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -63,11 +63,15 @@
       width:92%;
       font-size:1rem; font-weight:bold;
       color:var(--vermelho);
-      transition:transform .15s ease, background-color .2s ease;
+      transition:transform .15s ease, background-color .2s ease, opacity .2s ease;
       text-decoration:none; margin:0 auto;
       text-align:center;
     }
     .btn:hover{transform:scale(1.02); background:#fff3da}
+
+    .btn[aria-disabled="true"]{
+      opacity:.55; cursor:not-allowed; pointer-events:none;
+    }
 
     .btn img{
       position:absolute; left:12px;
@@ -85,7 +89,7 @@
       padding:.3rem .55rem; cursor:pointer;
       display:inline-flex; align-items:center; gap:.4rem;
       text-decoration:none;
-      transform:scale(0.6);         /* 40% menor */
+      transform:scale(0.6);
       transform-origin:center;
     }
     .voltar:hover{background:#c00000}
@@ -96,34 +100,11 @@
     <h1 class="title">Biblioteca</h1>
 
     <!-- Mesmo ícone da página mãe (Qurbono) -->
-    <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone Biblioteca">
+    <img class="hero" src="img/icone-qurbono.jpg" alt="Ícone Biblioteca" onerror="this.style.display='none'">
 
-    <section class="buttons" aria-label="Biblioteca — coleções">
-      <!-- Substitua cada href pelo link da sua planilha (shots) que abre o .doc -->
-      <a class="btn" href="LINK-PLANILHA-MISSAL-V1" target="_blank" rel="noopener">
-        <img src="img/cruz2.jpg" alt="">
-        Missal Maronita vol. 1
-      </a>
-
-      <a class="btn" href="LINK-PLANILHA-MISSAL-V2" target="_blank" rel="noopener">
-        <img src="img/cruz2.jpg" alt="">
-        Missal Maronita vol. 2
-      </a>
-
-      <a class="btn" href="LINK-PLANILHA-MISSAL-V3" target="_blank" rel="noopener">
-        <img src="img/cruz2.jpg" alt="">
-        Missal Maronita vol. 3
-      </a>
-
-      <a class="btn" href="LINK-PLANILHA-LECIONARIO-DOM-SANT" target="_blank" rel="noopener">
-        <img src="img/cruz2.jpg" alt="">
-        Lecionário Dominical e Santoral
-      </a>
-
-      <a class="btn" href="LINK-PLANILHA-LECIONARIO-FERIAL" target="_blank" rel="noopener">
-        <img src="img/cruz2.jpg" alt="">
-        Lecionário Ferial
-      </a>
+    <section class="buttons" id="btnList" aria-label="Biblioteca — coleções">
+      <!-- Os botões serão gerados via JS a partir do CSV -->
+      <a class="btn" aria-disabled="true"><img src="img/cruz2.jpg" alt=""><span>Carregando…</span></a>
     </section>
 
     <footer>
@@ -133,5 +114,116 @@
       </a>
     </footer>
   </main>
+
+<script>
+/* ===== CSV publicado da aba biblioteca-qurbono ===== */
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1759728688&single=true&output=csv';
+
+/* CSV parser simples (suporta aspas) */
+function parseCSV(text){
+  const rows=[]; let i=0, cur='', inQ=false;
+  const push=()=>{ (rows.at(-1) ?? rows.push([]), rows.at(-1)).push(cur); cur=''; };
+  rows.push([]);
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"' && text[i+1]==='"'){ cur+='"'; i+=2; continue; }
+      if(c==='"'){ inQ=false; i++; continue; }
+      cur+=c; i++; continue;
+    }else{
+      if(c === '"'){ inQ=true; i++; continue; }
+      if(c === ','){ push(); i++; continue; }
+      if(c === '\r'){ i++; continue; }
+      if(c === '\n'){ push(); rows.push([]); i++; continue; }
+      cur+=c; i++; continue;
+    }
+  }
+  (rows.at(-1)||rows.push([])).length || rows.pop();
+  return rows;
+}
+
+/* Monta um <a> botão a partir do registro */
+function makeBtn({rotulo, link, ativo}){
+  const a = document.createElement('a');
+  a.className = 'btn';
+  a.target = '_blank';
+  a.rel = 'noopener';
+  const img = document.createElement('img');
+  img.src = 'img/cruz2.jpg';
+  img.alt = '';
+  const span = document.createElement('span');
+  span.textContent = rotulo || '—';
+  a.appendChild(img);
+  a.appendChild(span);
+
+  const enabled = (String(ativo).trim() === '1') && link;
+  if(enabled){
+    a.href = link;
+  }else{
+    a.setAttribute('aria-disabled','true');
+  }
+  return a;
+}
+
+/* Carrega CSV e popula a lista */
+(function(){
+  const list = document.getElementById('btnList');
+  fetch(CSV_URL)
+    .then(r=>r.text())
+    .then(txt=>{
+      const rows = parseCSV(txt).filter(r=>r.length && r.some(c=>String(c).trim()!==''));
+      if(!rows.length) throw new Error('CSV vazio');
+
+      const header = rows[0].map(h=>String(h).trim().toLowerCase());
+      const idx = {
+        ordem:   header.indexOf('ordem'),
+        rotulo:  header.indexOf('rotulo'),
+        key:     header.indexOf('key'),
+        link:    header.indexOf('link_doc'),
+        ativo:   header.indexOf('ativo'),
+        obs:     header.indexOf('obs')
+      };
+      if(idx.ordem<0 || idx.rotulo<0 || idx.link<0 || idx.ativo<0){
+        throw new Error('Cabeçalho esperado: ordem, rotulo, key, link_doc, ativo (obs opcional)');
+      }
+
+      const items = [];
+      for(let i=1;i<rows.length;i++){
+        const r = rows[i];
+        const ordem = parseInt((r[idx.ordem]||'').toString().trim(),10);
+        const rotulo = (r[idx.rotulo]||'').toString().trim();
+        const link = (r[idx.link]||'').toString().trim();
+        const ativo = (r[idx.ativo]||'').toString().trim();
+        if(!Number.isFinite(ordem)) continue;
+        items.push({ordem, rotulo, link, ativo});
+      }
+
+      items.sort((a,b)=>a.ordem-b.ordem);
+
+      list.innerHTML = ''; // limpa placeholder
+      if(!items.length){
+        const off = document.createElement('a');
+        off.className = 'btn';
+        off.setAttribute('aria-disabled','true');
+        off.innerHTML = '<img src="img/cruz2.jpg" alt=""><span>Sem itens disponíveis</span>';
+        list.appendChild(off);
+        return;
+      }
+
+      items.forEach(it => list.appendChild(makeBtn(it)));
+    })
+    .catch(err=>{
+      console.error('Falha ao carregar CSV:', err);
+      // Mantém um botão informativo
+      list.innerHTML = '';
+      const off = document.createElement('a');
+      off.className = 'btn';
+      off.setAttribute('aria-disabled','true');
+      off.innerHTML = '<img src="img/cruz2.jpg" alt=""><span>Não foi possível carregar a lista</span>';
+      list.appendChild(off);
+    });
+})();
+</script>
 </body>
 </html>
+
