@@ -17,14 +17,11 @@
   --vermelho:#a00000;
   --fonte: Arial, Helvetica, sans-serif;
 }
-/* Fonte geral +20% */
 html{font-size:120%}
-
 *{box-sizing:border-box} 
 html,body{height:100%}
 body{
   margin:0;font-family:var(--fonte); background:var(--azulbebe); color:var(--ink);
-  /* mosaico/ladrilho em ouro-velho */
   background-image:
     repeating-linear-gradient(45deg, rgba(var(--ouro-velho-rgb),.20) 0, rgba(var(--ouro-velho-rgb),.20) 2px, transparent 2px, transparent 40px),
     repeating-linear-gradient(-45deg, rgba(var(--ouro-velho-rgb),.16) 0, rgba(var(--ouro-velho-rgb),.16) 2px, transparent 2px, transparent 40px);
@@ -35,11 +32,10 @@ body{
 /* Cabeçalho */
 header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 12px 0}
 .title{
-  color:var(--dourado);              /* mantém a cor do título */
+  color:var(--dourado);
   font-weight:900;
-  font-size:calc(1.8rem + 3pt);      /* +3pt no título */
+  font-size:calc(1.8rem + 3pt);
   margin:0;
-  /* borda azul del-rey nas letras */
   -webkit-text-stroke:1px var(--azul-del-rey);
   text-shadow:
     -1px -1px 0 var(--azul-del-rey),
@@ -51,10 +47,8 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   margin-top:4px;
   color:var(--azul-del-rey);
   font-weight:800;
-  font-style:italic;                 /* itálico */
-  /* 15pt menor que o título */
+  font-style:italic;
   font-size:calc( (1.8rem + 3pt) - 15pt );
-  /* contorno ouro-velho no subtítulo */
   -webkit-text-stroke:.8px var(--ouro-velho);
   text-shadow:
     -1px -1px 0 var(--ouro-velho),
@@ -88,21 +82,28 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   margin:10px 0 6px;
 }
 
-/* Botão de DATA (duas linhas) — altura -25% (10px → 7.5px) */
+/* Botão de DATA (duas linhas) — altura -25% */
 .datebtn{
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   min-width:230px; padding:7.5px 16px; border-radius:14px; background:#fff; 
   font-weight:900; text-align:center; line-height:1.2;
+  transition:opacity .2s ease, transform .12s ease, background-color .2s ease;
 }
 .datebtn .date{
-  font-size:calc(1.25rem - 2pt);   /* −2pt na data */
-  color:var(--ouro-velho);         /* cor ouro-velho (sem bordas/contorno) */
+  font-size:calc(1.25rem - 2pt);
+  color:var(--ouro-velho);
 }
 .datebtn .weekday{
   font-size:1rem; font-weight:800; color:#27466a; text-transform:capitalize
 }
+.datebtn[aria-disabled="true"]{opacity:.55; cursor:not-allowed}
 
-/* Linha abaixo: Anterior | Próximo (centrados e juntinhos) */
+/* Rótulo extra (se houver na planilha) */
+.extra{
+  display:block; margin-top:2px; font-size:.92rem; font-weight:700; color:#27466a;
+}
+
+/* Navegação */
 .navrow{
   display:flex; align-items:center; justify-content:center;
   gap:6px; margin-top:6px;
@@ -110,14 +111,14 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 .navbtn{
   appearance:none;background:#fff;color:var(--navy);cursor:pointer;
   padding:8px 12px;border-radius:12px;font-weight:900;
-  transition:transform .12s ease, background-color .2s ease, border-color .2s ease;
+  transition:transform .12s ease, background-color .2s ease;
 }
 .navbtn:hover{background:#f4fbff;transform:translateY(-1px)}
 
-/* Botão Voltar (padrão): distância reduzida em 60% (resta 40%) */
+/* Voltar (padrão) */
 .back-wrap{
   display:flex; justify-content:center;
-  margin-top:min(3.6vh, 28px);  /* antes: min(9vh, 70px) */
+  margin-top:min(3.6vh, 28px);
   transform:scale(.48); transform-origin:center top;
 }
 .btn-back{
@@ -139,21 +140,22 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
   <img class="hero" id="hero" src="img/icone-leituras.png" alt="Ícone — Leituras"
        onerror="this.hidden=true">
 
-  <!-- Linha do botão de DATA -->
+  <!-- Botão de DATA -->
   <div class="datebox" aria-label="Data do dia">
-    <button id="datebtn" class="datebtn aro-duplo" type="button" aria-label="Data e dia da semana">
+    <button id="datebtn" class="datebtn aro-duplo" type="button" aria-label="Data e dia da semana" aria-disabled="true">
       <span class="date">--/--/----</span>
       <span class="weekday">-</span>
+      <span class="extra" id="extra" hidden></span>
     </button>
   </div>
 
-  <!-- Linha abaixo: Anterior | Próximo (centrados e juntinhos) -->
+  <!-- Navegação -->
   <div class="navrow" aria-label="Navegação por data">
     <button id="prev" class="navbtn aro-duplo" type="button">← Anterior</button>
     <button id="next" class="navbtn aro-duplo" type="button">Próximo →</button>
   </div>
 
-  <!-- Botão Voltar (padrão) -->
+  <!-- Voltar -->
   <div class="back-wrap">
     <button class="btn-back" type="button" onclick="goBackOrHome()">
       <span class="arr">←</span><span>Voltar</span>
@@ -162,6 +164,13 @@ header{display:flex;flex-direction:column;align-items:center;text-align:center;p
 </main>
 
 <script>
+/* ====== CONFIG: Link CSV publicado da aba `leituras-qurbono-data`
+   Cabeçalho esperado: data (DD/MM/AAAA), link_doc, ativo
+   Opcionais: rotulo, obs
+====== */
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=1245725725&single=true&output=csv';
+
+/* ====== Utilitários ====== */
 function goBackOrHome(){
   try{
     if(history.length>1) history.back();
@@ -170,32 +179,141 @@ function goBackOrHome(){
     location.href='index-teste.html';
   }
 }
-
-const dateBtn=document.getElementById('datebtn');
-const prevBt=document.getElementById('prev');
-const nextBt=document.getElementById('next');
-
-let current=new Date();
-
-function fmtDate(d){
-  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+function pad2(n){return String(n).padStart(2,'0');}
+function toISODateLocal(d){
+  const y=d.getFullYear(), m=pad2(d.getMonth()+1), day=pad2(d.getDate());
+  return `${y}-${m}-${day}`;
 }
-function fmtWeekday(d){
-  const wd=d.toLocaleDateString('pt-BR',{weekday:'long'});
+function fmtDateBR(d){ return `${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()}`; }
+function fmtWeekdayBR(d){
+  const wd = d.toLocaleDateString('pt-BR',{weekday:'long'});
   return wd.charAt(0).toUpperCase()+wd.slice(1);
 }
-function render(){
-  dateBtn.querySelector('.date').textContent = fmtDate(current);
-  dateBtn.querySelector('.weekday').textContent = fmtWeekday(current);
+/* Converte "DD/MM/AAAA" -> "AAAA-MM-DD" */
+function brToISO(br){
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec((br||'').trim());
+  if(!m) return null;
+  const [_, dd, mm, yyyy] = m;
+  return `${yyyy}-${mm}-${dd}`;
 }
-prevBt.addEventListener('click',()=>{current.setDate(current.getDate()-1);render();});
-nextBt.addEventListener('click',()=>{current.setDate(current.getDate()+1);render();});
+function parseCSV(text){
+  const rows=[]; let i=0, cur='', inQ=false;
+  const push=()=>{(rows.at(-1)??rows.push([]),rows.at(-1)).push(cur); cur='';};
+  rows.push([]);
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"' && text[i+1]==='"'){ cur+='"'; i+=2; continue; }
+      if(c==='"'){ inQ=false; i++; continue; }
+      cur+=c; i++; continue;
+    }else{
+      if(c==='\"'){ inQ=true; i++; continue; }
+      if(c===','){ push(); i++; continue; }
+      if(c==='\r'){ i++; continue; }
+      if(c==='\n'){ push(); rows.push([]); i++; continue; }
+      cur+=c; i++; continue;
+    }
+  }
+  (rows.at(-1)||rows.push([])).length || rows.pop();
+  return rows;
+}
+
+/* ====== Estado e elementos ====== */
+let current = new Date();
+const dateBtn = document.getElementById('datebtn');
+const extraEl = document.getElementById('extra');
+const prevBt  = document.getElementById('prev');
+const nextBt  = document.getElementById('next');
+
+const DATA_MAP = new Map(); // key: ISO -> {rotulo, link_doc, ativo}
+
+/* ====== Renderização ====== */
+function render(){
+  const br = fmtDateBR(current);
+  const wd = fmtWeekdayBR(current);
+  const iso = toISODateLocal(current);
+
+  const rec = DATA_MAP.get(iso);
+  const has = !!(rec && rec.link_doc && String(rec.ativo)==='1');
+
+  dateBtn.querySelector('.date').textContent = br;
+  dateBtn.querySelector('.weekday').textContent = wd;
+
+  const rot = rec && rec.rotulo ? rec.rotulo.trim() : '';
+  if(rot){
+    extraEl.hidden = false;
+    extraEl.textContent = rot;
+  }else{
+    extraEl.hidden = true;
+    extraEl.textContent = '';
+  }
+
+  if(has){
+    dateBtn.removeAttribute('aria-disabled');
+    dateBtn.title = 'Abrir as leituras deste dia';
+    dateBtn.style.pointerEvents = 'auto';
+    dateBtn.style.opacity = '1';
+  }else{
+    dateBtn.setAttribute('aria-disabled','true');
+    dateBtn.title = 'Sem link configurado para este dia';
+    dateBtn.style.pointerEvents = 'none';
+    dateBtn.style.opacity = '.55';
+  }
+}
+
+/* ====== Navegação ====== */
+prevBt.addEventListener('click', ()=>{ current.setDate(current.getDate()-1); render(); });
+nextBt.addEventListener('click', ()=>{ current.setDate(current.getDate()+1); render(); });
+
 dateBtn.addEventListener('click', ()=>{
-  // Ex.: abrir leituras do dia
-  // window.location.href = `leituras.html?data=${current.toISOString().slice(0,10)}`;
+  if(dateBtn.getAttribute('aria-disabled')==='true') return;
+  const iso = toISODateLocal(current);
+  const rec = DATA_MAP.get(iso);
+  if(rec && rec.link_doc) window.open(rec.link_doc,'_blank','noopener');
+});
+dateBtn.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' || e.key===' '){
+    e.preventDefault();
+    dateBtn.click();
+  }
 });
 
-render();
+/* ====== Carregar CSV ====== */
+fetch(CSV_URL)
+  .then(r=>r.text())
+  .then(txt=>{
+    const rows = parseCSV(txt).filter(r=>r.length && r.some(c=>c.trim()!==''));
+    if(!rows.length) throw new Error('CSV vazio');
+
+    const header = rows[0].map(h=>h.trim().toLowerCase());
+    const col = {
+      data:    header.indexOf('data'),      // DD/MM/AAAA
+      rotulo:  header.indexOf('rotulo'),
+      link:    header.indexOf('link_doc'),
+      ativo:   header.indexOf('ativo'),
+      obs:     header.indexOf('obs')
+    };
+    if(col.data<0 || col.link<0 || col.ativo<0){
+      throw new Error('Cabeçalho esperado: data, link_doc, ativo (rotulo e obs opcionais).');
+    }
+
+    for(let i=1;i<rows.length;i++){
+      const r=rows[i];
+      const br = (r[col.data]||'').trim();
+      const iso = brToISO(br);
+      if(!iso) continue;
+
+      const rotulo = (col.rotulo>=0 ? (r[col.rotulo]||'').trim() : '');
+      const link   = (r[col.link]||'').trim();
+      const ativo  = String((r[col.ativo]||'').trim());
+      DATA_MAP.set(iso,{rotulo, link_doc:link, ativo});
+    }
+    render();
+  })
+  .catch(err=>{
+    console.error('Falha ao carregar CSV:', err);
+    render();
+  });
 </script>
 </body>
 </html>
