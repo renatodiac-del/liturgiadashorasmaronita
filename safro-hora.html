@@ -6,10 +6,8 @@
 <meta name="theme-color" content="#243e6b">
 <style>
   :root{
-    --azul-topo:#0a1d3d; --azul-meio:#243e6b;
-    --amarelo-base:#ffe680; --amarelo-brilho:#ffd23a; --sol:#ffe45e;
-    --dourado:#b08d3b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18);
-    --fonte: Arial, Helvetica, sans-serif;
+    --azul-topo:#0a1d3d; --azul-meio:#243e6b; --amarelo-base:#ffe680; --amarelo-brilho:#ffd23a; --sol:#ffe45e;
+    --dourado:#b08d3b; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); --fonte: Arial, Helvetica, sans-serif;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -25,253 +23,232 @@
     background-attachment: fixed, fixed, scroll, scroll;
     min-height:100vh; display:flex; flex-direction:column;
   }
-  header{
-    position:relative; z-index:1; text-align:center;
-    padding:20px 12px 8px;
-    background:linear-gradient(to bottom, rgba(255,234,166,.35) 0%, rgba(10,29,61,0) 100%);
-  }
-  .titulo{
-    margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px;
-    font-size:36px; color:#ffe680; -webkit-text-stroke:1.5px var(--dourado);
-    text-shadow:0 1px 0 rgba(0,0,0,.12);
-  }
+  header{ position:relative; z-index:1; text-align:center; padding:20px 12px 8px; background:linear-gradient(to bottom, rgba(255,234,166,.35) 0%, rgba(10,29,61,0) 100%); }
+  .titulo{ margin:0; line-height:1.05; font-weight:900; letter-spacing:.6px; font-size:36px; color:#ffe680; -webkit-text-stroke:1.5px var(--dourado); text-shadow:0 1px 0 rgba(0,0,0,.12); }
   .sub{ margin-top:6px; font-size:19px; color:#fff; font-weight:600; }
-  .hero-icon{
-    display:block; margin:14px auto 8px; max-width:clamp(288px, 80vw, 512px);
-    width:100%; height:auto; object-fit:contain; object-position:center;
-    border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra); background:transparent;
-  }
+  .hero-icon{ display:block; margin:14px auto 8px; max-width:clamp(288px, 80vw, 512px); width:100%; height:auto; object-fit:contain; object-position:center; border:0; border-radius:0; box-shadow:0 6px 18px var(--sombra); background:transparent; }
 
-  .wrap{
-    position:relative; z-index:1; max-width:620px; margin:40px auto 24px;
-    padding:0 16px; display:flex; flex-direction:column; gap:10px; align-items:center; flex:1;
-  }
+  .wrap{ position:relative; z-index:1; max-width:620px; margin:40px auto 24px; padding:0 16px; display:flex; flex-direction:column; gap:10px; align-items:center; flex:1; }
   .btn{
-    position:relative; display:flex; align-items:center; justify-content:flex-start;
-    text-decoration:none; background:#fff;
-    border:2px solid var(--dourado); border-radius:14px;
-    width:55%; min-width:280px; padding:6px 12px; min-height:51px;
-    box-shadow:0 4px 10px var(--sombra); color:#101010; font-weight:800;
-    text-align:center; transition:transform .08s, box-shadow .12s; overflow:hidden;
+    position:relative; display:flex; align-items:center; justify-content:flex-start; text-decoration:none; background:#fff;
+    border:2px solid var(--dourado); border-radius:14px; width:55%; min-width:280px; padding:6px 12px; min-height:51px;
+    box-shadow:0 4px 10px var(--sombra); color:#101010; font-weight:800; text-align:center; transition:transform .08s, box-shadow .12s; overflow:hidden;
   }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--sombra); }
-  .btn .icon-round{
-    width:32px; height:32px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff;
-    margin-right:10px; flex:0 0 auto;
-  }
-  .btn .label{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:2px; pointer-events:none; text-align:center;
-  }
+  .btn .icon-round{ width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid var(--dourado); box-shadow:0 0 0 2px #fff inset; background:#fff; margin-right:10px; flex:0 0 auto; }
+  .btn .label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:2px; pointer-events:none; text-align:center; }
   .btn .main{ font-size:21px; line-height:1.06; -webkit-text-stroke:.8px var(--dourado); }
   .btn .sub{ font-size:15px; line-height:1.04; font-weight:700; color:#0a1d3d; -webkit-text-stroke:0; }
 
   footer{ text-align:center; margin:8px 0 28px }
   .btn-voltar{
-    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff;
-    text-decoration:none; border:none; border-radius:999px; padding:6px 12px;
-    font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra);
-    transform:scale(.6); transform-origin:center;
+    display:inline-flex; align-items:center; gap:8px; background:var(--vermelho); color:#fff; text-decoration:none; border:none; border-radius:999px; padding:6px 12px;
+    font-weight:800; font-size:12px; box-shadow:0 3px 8px var(--sombra); transform:scale(.6); transform-origin:center;
   }
-  .btn-voltar .seta{ font-weight:900 }
-  #toast{
-    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
-    background:#222; color:#fff; padding:9px 14px; border-radius:10px; font-size:.9rem;
-    opacity:0; pointer-events:none; transition:.2s
-  }
+  #toast{position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:9px 14px; border-radius:10px; font-size:.9rem; opacity:0; pointer-events:none; transition:.2s}
 </style>
 </head>
 <body>
   <header>
     <h1 class="titulo">SAFRO</h1>
     <div class="sub">Oração da Manhã</div>
-    <img class="hero-icon" src="img/icone-safro.horas.jpg"
-         onerror="this.onerror=null;this.src='img/cedro.jpg';"
-         alt="Ícone principal de Safro">
+    <img class="hero-icon" src="img/icone-safro.horas.jpg" onerror="this.onerror=null;this.src='img/cedro.jpg';" alt="Ícone principal de Safro">
   </header>
 
   <main class="wrap">
-    <!-- três botões padrão -->
-    <a id="btn-curta" href="#" class="btn">
+    <a id="btn-curta" href="#" class="btn" aria-disabled="true" title="Link não configurado">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Safro</span><span class="sub">versão curta</span></span>
     </a>
 
-    <a id="btn-longa" href="#" class="btn">
+    <a id="btn-longa" href="#" class="btn" aria-disabled="true" title="Link não configurado">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Safro</span><span class="sub">versão longa</span></span>
     </a>
 
-    <a id="btn-hinos" href="#" class="btn">
+    <a id="btn-hinos" href="#" class="btn" aria-disabled="true" title="Link não configurado">
       <img class="icon-round" src="img/cedro.jpg" alt="Cedro">
       <span class="label"><span class="main">Hinos e Melodias</span></span>
     </a>
   </main>
 
   <footer>
-    <a class="btn-voltar" id="backLink" href="horas-teste.html">
-      <span class="seta">←</span>voltar
-    </a>
+    <a class="btn-voltar" id="backLink" href="horas-teste.html"><span class="seta">←</span>voltar</a>
   </footer>
 
   <div id="toast"></div>
 
 <script>
 /* ====== CONFIG ====== */
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=970478871&single=true&output=csv';
-const PAGE_SLUG_CANON = 'safro'; // aceitamos variações.
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=970478871&single=true&output=csv'; // horas-menu
+const PAGE_SLUG = 'safro';
 
 /* ====== HELPERS ====== */
-const norm = s => (s||'').toString()
-  .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .replace(/\s+/g,' ').trim().toLowerCase();
+const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
 
-const slugOk = s => {
-  const x = norm(s).replace(/[^\w- ]/g,'');
-  return x===PAGE_SLUG_CANON || x===`${PAGE_SLUG_CANON}-hora` || x.startsWith(`${PAGE_SLUG_CANON} `);
-};
+/* TOLERÂNCIA DE CHAVES — FIX: prioriza "versão longa" e usa fronteira de palavra */
+function keyAlias(kRaw){
+  const k = norm(kRaw).replace(/[^\w- ]/g,''); // normaliza e remove pontuação solta
 
-// aceita AAAA-MM-DD, DD/MM/AAAA, e DD/MM (assume ano corrente)
-function toISOsmart(raw){
-  const s = (raw||'').trim();
-  if(!s) return null;
-  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;           // ISO
-  const mFull = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);  // DD/MM/AAAA
-  if(mFull){
-    const [_, dd, mm, yyyy] = mFull;
-    return `${yyyy}-${mm}-${dd}`;
+  // LONGA primeiro
+  if (/\bversao\b.*\blonga\b/.test(k) ||
+      /\bversao[- ]?longa\b/.test(k) ||
+      /\bsafro[- ]?longa\b/.test(k) ||
+      /\blonga\b/.test(k) ||
+      /\blong\b/.test(k)) {
+    return 'versao-longa';
   }
-  const mShort = /^(\d{2})\/(\d{2})$/.exec(s);          // DD/MM (assume ano corrente)
-  if(mShort){
-    const [_, dd, mm] = mShort;
-    const yyyy = new Date().getFullYear();
-    return `${yyyy}-${mm}-${dd}`;
+  // CURTA
+  if (/\bversao\b.*\bcurta\b/.test(k) ||
+      /\bversao[- ]?curta\b/.test(k) ||
+      /\bsafro[- ]?curta\b/.test(k) ||
+      /\bcurta\b/.test(k) ||
+      /\bshort\b/.test(k) ||
+      /\bbreve\b/.test(k)) {
+    return 'versao-curta';
   }
-  return null;
+  // HINOS / MELODIAS
+  if (/\bhinos?\b/.test(k) ||
+      /\bmelodias?\b/.test(k) ||
+      /\bhinos[- ]?melodias\b/.test(k) ||
+      /\bhymns?\b/.test(k) ||
+      /\bchants?\b/.test(k)) {
+    return 'hinos-melodias';
+  }
+  return k;
 }
-function todayISO(){
-  const d=new Date(), y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), da=String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${da}`;
-}
-function q(name){ return new URLSearchParams(location.search).get(name); }
 
 function parseCSV(t){
-  const rows=[]; let i=0,curr=[],val='',q=false;
+  const r=[];let i=0,c=[],v='',q=false;
   while(i<t.length){
     const ch=t[i++];
     if(q){
-      if(ch==='"' && t[i]==='"'){ val+='"'; i++; }
-      else if(ch==='"'){ q=false; }
-      else val+=ch;
+      if(ch=='"'&&t[i]=='"'){v+='"';i++;}
+      else if(ch=='"'){q=false;}
+      else v+=ch;
     }else{
-      if(ch===','){ curr.push(val); val=''; }
-      else if(ch==='"'){ q=true; }
-      else if(ch==='\n'){ curr.push(val); rows.push(curr); curr=[]; val=''; }
-      else if(ch!=='\r'){ val+=ch; }
+      if(ch===','){c.push(v);v='';}
+      else if(ch=='"'){q=true;}
+      else if(ch=='\n'){c.push(v);r.push(c);c=[];v='';}
+      else if(ch!=='\r'){v+=ch;}
     }
   }
-  if(val.length || curr.length){ curr.push(val); rows.push(curr); }
-  return rows.filter(r=> r.some(c=> String(c).trim()!==''));
+  if(v.length||c.length){c.push(v);r.push(c);}
+  return r;
 }
+
 async function fetchCSV(u){
   const cb=Math.floor(Date.now()/60000);
   const u1=u+(u.includes('?')?'&':'?')+'cb='+cb;
   try{
-    const r=await fetch(u1); if(!r.ok) throw new Error(r.status);
+    const r=await fetch(u1);
+    if(!r.ok) throw new Error(r.status);
     return await r.text();
   }catch(e){
     const p='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);
-    const r=await fetch(p); if(!r.ok) throw new Error('fallback '+r.status);
+    const r=await fetch(p);
+    if(!r.ok) throw new Error('fallback '+r.status);
     return await r.text();
   }
 }
 
-/* ====== TOLERÂNCIA DE CHAVES (option_key) ====== */
-function keyAlias(kRaw){
-  const k = norm(kRaw).replace(/[^\w- ]/g,'');
-  if(/(versao|versao-?curta|curta|short|safro-?curta)/.test(k)) return 'versao-curta';
-  if(/(versao|versao-?longa|longa|long|safro-?longa)/.test(k)) return 'versao-longa';
-  if(/(hinos|melodias|hinos-?melodias|hymns|chants)/.test(k)) return 'hinos-melodias';
-  return k;
+function toISO(d){
+  const s=(d||'').replace(/[-.]/g,'/').trim();
+  const p=s.split('/');
+  if(p.length!==3) return null;
+  if(p[0].length===4){const[y,m,da]=p;return `${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;}
+  const[da,m,y]=p; return `${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;
+}
+function todayISO(){
+  const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${da}`;
+}
+function q(name){return new URLSearchParams(location.search).get(name)}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity=1;
+  clearTimeout(window.__tid);
+  window.__tid=setTimeout(()=>t.style.opacity=0,2200);
 }
 
 /* ====== UI ====== */
-function setBtn(id, label, subtitle, url){
-  const a=document.getElementById(id);
-  if(!a) return;
-  if(label){ a.querySelector('.main')?.replaceChildren(label); }
-  if(subtitle){
-    const s=a.querySelector('.sub'); if(s) s.replaceChildren(subtitle);
-  }
+function setBtnState(a, url){
   if(url){
     a.href=url; a.target='_blank';
+    a.removeAttribute('aria-disabled');
     a.style.opacity='1'; a.style.pointerEvents='auto'; a.title='';
   }else{
-    a.href='#'; a.removeAttribute('target');
-    a.style.opacity='.55'; a.style.pointerEvents='none';
-    a.title='Link não configurado';
+    a.href='#'; a.target='';
+    a.setAttribute('aria-disabled','true');
+    a.style.opacity='.45'; a.style.pointerEvents='none'; a.title='Link não configurado';
   }
 }
 
 /* ====== BOOT ====== */
 (async function(){
   const iso = (q('d') && /^\d{4}-\d{2}-\d{2}$/.test(q('d'))) ? q('d') : todayISO();
-
-  // botão voltar com a mesma data
-  const back = document.getElementById('backLink');
-  if(back) back.href = `horas-teste.html?d=${iso}`;
+  document.getElementById('backLink').href = `horas-teste.html?d=${iso}`;
 
   try{
     const txt = await fetchCSV(SHEET_URL);
-    const rows = parseCSV(txt);
+    const rows = parseCSV(txt).filter(r=>r.join('').trim()!=='');
     const head = rows.shift().map(h=>norm(h));
-    const find = names => names.map(n=> head.indexOf(norm(n))).find(i=> i>=0);
+    const idx = nms => nms.map(n=>head.indexOf(norm(n))).find(i=>i>=0);
 
-    const iDate = find(['date','data','dia']);
-    const iSlug = find(['page_slug','pagina','page']);
-    const iKey  = find(['option_key','key','opcao','opção']);
-    const iLab  = find(['label','rotulo','rótulo']);
-    const iSub  = find(['subtitle','subtitulo','subtítulo']);
-    const iUrl  = find(['url','link','doc','arquivo']);
-    const iEn   = find(['enabled','ativo','publicado']);
+    const iDate=idx(['date','data','dia']);
+    const iSlug=idx(['page_slug','pagina','page']);
+    const iKey =idx(['option_key','key','opcao','opção']);
+    const iLab =idx(['label','rotulo','rótulo']);
+    const iSub =idx(['subtitle','subtitulo','subtítulo']);
+    const iUrl =idx(['url','link','doc','arquivo']);
+    const iOrd =idx(['order','ordem','pos']);
+    const iEn  =idx(['enabled','ativo','publicado']);
 
-    // filtra por página (aceita variações)
-    let list = rows.filter(r=> slugOk(r[iSlug]));
-    // apenas habilitados
-    list = list.filter(r=> iEn<0 || String(r[iEn]||'1').trim()!=='0');
+    // filtra pela página e ativos
+    let list = rows.filter(r=> norm(r[iSlug])===norm(PAGE_SLUG) && (iEn<0 || String(r[iEn]||'1').trim()!=='0'));
 
-    // separa por data: hoje vs base (data vazia ou inválida)
-    const today = list.filter(r=>{
-      if(iDate<0) return false;
-      const isod = toISOsmart(r[iDate]);
-      return isod === iso;
+    // prefere linha com data = hoje (se existir); senão, usa linhas "sem data"
+    const today = list.filter(r=> iDate>=0 && toISO((r[iDate]||'').trim())===iso);
+    list = today.length ? today : list.filter(r=> iDate<0 || (r[iDate]||'').trim()==='');
+
+    // mapeia por chave canônica
+    const map = {};
+    list.forEach(r=>{
+      const key = keyAlias(iKey>=0 ? r[iKey] : '');
+      const url = (r[iUrl]||'').trim();
+      const label = (r[iLab]||'').trim();
+      const sub = iSub>=0 ? (r[iSub]||'').trim() : '';
+      const ord = iOrd>=0 ? Number(r[iOrd]||0) : 0;
+      if(!map[key] || ord < map[key].ord){ // menor ordem ganha em caso de duplicata
+        map[key] = {url,label,sub,ord};
+      }
     });
-    const base = list.filter(r=>{
-      if(iDate<0) return true;
-      const raw = (r[iDate]||'').trim();
-      const isod = toISOsmart(raw);
-      return !raw || !isod; // base = sem data ou data inválida
-    });
 
-    const use = (today.length ? today : base);
+    const btnCurta = document.getElementById('btn-curta');
+    const btnLonga = document.getElementById('btn-longa');
+    const btnHinos = document.getElementById('btn-hinos');
 
-    // zera os botões primeiro
-    ['btn-curta','btn-longa','btn-hinos'].forEach(id=> setBtn(id,null,null,null));
+    // aplica URLs/estado
+    setBtnState(btnCurta, map['versao-curta']?.url);
+    setBtnState(btnLonga, map['versao-longa']?.url);
+    setBtnState(btnHinos, map['hinos-melodias']?.url);
 
-    // aplica valores vindos da planilha
-    use.forEach(r=>{
-      const idMap = {'versao-curta':'btn-curta','versao-longa':'btn-longa','hinos-melodias':'btn-hinos'};
-      const k = keyAlias(r[iKey]);
-      const id = idMap[k];
-      if(!id) return;
-      setBtn(id, r[iLab], r[iSub], r[iUrl]);
-    });
+    // se desejar sobrescrever rótulos/subtítulos vindos da planilha
+    if(map['versao-curta']?.label) btnCurta.querySelector('.main')?.replaceChildren(map['versao-curta'].label);
+    if(map['versao-curta']?.sub)   btnCurta.querySelector('.sub')?.replaceChildren(map['versao-curta'].sub);
+
+    if(map['versao-longa']?.label) btnLonga.querySelector('.main')?.replaceChildren(map['versao-longa'].label);
+    if(map['versao-longa']?.sub)   btnLonga.querySelector('.sub')?.replaceChildren(map['versao-longa'].sub);
+
+    if(map['hinos-melodias']?.label) btnHinos.querySelector('.main')?.replaceChildren(map['hinos-melodias'].label);
+
+    // feedback caso nada tenha link
+    if(!map['versao-curta']?.url && !map['versao-longa']?.url && !map['hinos-melodias']?.url){
+      toast('Nenhum link disponível para esta data.');
+    }
   }catch(e){
     console.error(e);
-    ['btn-curta','btn-longa','btn-hinos'].forEach(id=> setBtn(id,null,null,null));
-    const t=document.getElementById('toast');
-    if(t){ t.textContent='Erro ao carregar a planilha.'; t.style.opacity=1; setTimeout(()=>t.style.opacity=0,2200); }
+    toast('Erro ao carregar planilha');
   }
 })();
 </script>
