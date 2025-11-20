@@ -169,6 +169,13 @@ function brToISO(br){
   return `${yyyy}-${mm}-${dd}`;
 }
 
+/* ativo: aceita 1/true/sim/yes/y/on (case/esp.) */
+function isActive(val){
+  const v = String(val||'').trim().toLowerCase();
+  return v==='' /* se coluna não existir mais adiante, tratamos pelo link */
+      || v==='1' || v==='true' || v==='sim' || v==='yes' || v==='y' || v==='on';
+}
+
 function parseCSV(text){
   const rows=[]; let i=0, cur='', inQ=false;
   const push=()=>{(rows.at(-1)??rows.push([]),rows.at(-1)).push(cur); cur='';};
@@ -207,7 +214,8 @@ function render(){
   const iso = toISODateLocal(current);
 
   const rec = DATA_MAP.get(iso);
-  const has = !!(rec && rec.link_doc && String(rec.ativo)==='1');
+  // habilita se houver link válido E (ativo for aceitável OU não houver coluna ativo)
+  const has = !!(rec && rec.link_doc && rec.link_doc.trim() !== '' && isActive(rec.ativo));
 
   // conteúdo visual
   dateEl.innerHTML = `${br}<br><small>${wd}</small>`;
@@ -253,30 +261,36 @@ dateEl.addEventListener('keydown', (e)=>{
 });
 
 /* ====== Carregar CSV (DATA EM DD/MM/AAAA) ====== */
-fetch(CSV_URL)
+fetch(CSV_URL + (CSV_URL.includes('?')?'&':'?') + 'cb=' + Math.floor(Date.now()/60000))
   .then(r=>r.text())
   .then(txt=>{
     const rows = parseCSV(txt).filter(r=>r.length && r.some(c=>c.trim()!==''));
     if(!rows.length) throw new Error('CSV vazio');
 
-    // cabeçalho (aceita "data" ou "data_br" para DD/MM/AAAA; mantém compat. com "data_iso")
-    const header = rows[0].map(h=>h.trim().toLowerCase());
+    // cabeçalho robusto
+    const header = rows[0].map(h=>h.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''));
+    const hIdx = (names)=> names
+        .map(n=>n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''))
+        .map(n=>header.indexOf(n))
+        .find(i=>i>=0);
+
     const col = {
-      data_br:  (header.indexOf('data')>-1 ? header.indexOf('data') : header.indexOf('data_br')),
-      data_iso: header.indexOf('data_iso'),
-      rotulo:   header.indexOf('rotulo'),
-      link:     header.indexOf('link_doc'),
-      ativo:    header.indexOf('ativo'),
-      obs:      header.indexOf('obs')
+      data_br:  hIdx(['data','data_br']),
+      data_iso: hIdx(['data_iso']),
+      rotulo:   hIdx(['rotulo','rótulo','rotulo_extra','rotulo dia']),
+      link:     hIdx(['link_doc','link','url']),
+      ativo:    hIdx(['ativo','enabled','publicado']),
+      obs:      hIdx(['obs','observacao'])
     };
-    if(col.link<0 || col.ativo<0 || (col.data_br<0 && col.data_iso<0)){
-      throw new Error('Cabeçalho esperado: data (DD/MM/AAAA) ou data_br, link_doc, ativo (rotulo e obs opcionais)');
+
+    if(col.link<0 || (col.data_br<0 && col.data_iso<0)){
+      throw new Error('Cabeçalho esperado: data (DD/MM/AAAA) ou data_br ou data_iso; e link_doc (rotulo/ativo opcionais)');
     }
 
     for(let i=1;i<rows.length;i++){
       const r=rows[i];
 
-      // Se vier data BR, converte para ISO; senão usa data_iso como está.
+      // ISO
       let iso = null;
       if(col.data_br>=0){
         const br = (r[col.data_br]||'').trim();
@@ -288,10 +302,16 @@ fetch(CSV_URL)
       if(!iso) continue;
 
       const rotulo =(col.rotulo>=0? (r[col.rotulo]||'').trim() : '');
-      const link   =(r[col.link]||'').trim();
-      const ativo  = String((r[col.ativo]||'').trim());
+      const link   = (r[col.link]||'').trim();
+      const ativo  = (col.ativo>=0 ? (r[col.ativo]||'') : ''); // se não existe, fica vazio (será tratado por isActive)
+
       DATA_MAP.set(iso,{rotulo, link_doc:link, ativo});
     }
+
+    // logs úteis para depurar
+    console.log('[liturgia-dia] linhas carregadas:', DATA_MAP.size);
+    console.log('[liturgia-dia] exemplo hoje:', toISODateLocal(current), DATA_MAP.get(toISODateLocal(current)));
+
     render();
   })
   .catch(err=>{
