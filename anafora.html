@@ -76,32 +76,16 @@ h1{
       <span class="hint right">↓</span>
     </div>
 
-    <!-- Os 8 botões agora têm data-key (i0..i7) para ligar com a planilha -->
+    <!-- Os 8 botões têm data-key (i0..i7) para ligar com a planilha -->
     <section class="buttons" aria-label="Lista de Anáforas">
-      <a class="btn" data-key="i0" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
-      <a class="btn" data-key="i1" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
-      <a class="btn" data-key="i2" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
-      <a class="btn" data-key="i3" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
-      <a class="btn" data-key="i4" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
-      <a class="btn" data-key="i5" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
-      <a class="btn" data-key="i6" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
-      <a class="btn" data-key="i7" href="#" target="_blank" rel="noopener">
-        <img src="img/cruz8.jpeg" alt=""><span class="label">—</span>
-      </a>
+      <a class="btn" data-key="i0" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
+      <a class="btn" data-key="i1" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
+      <a class="btn" data-key="i2" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
+      <a class="btn" data-key="i3" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
+      <a class="btn" data-key="i4" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
+      <a class="btn" data-key="i5" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
+      <a class="btn" data-key="i6" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
+      <a class="btn" data-key="i7" href="#" target="_blank" rel="noopener"><img src="img/cruz8.jpeg" alt=""><span class="label">—</span></a>
     </section>
   </div>
 
@@ -113,8 +97,8 @@ h1{
 </main>
 
 <script>
-/* ===== CONFIGURE AQUI O LINK DA PLANILHA PUBLICADA ===== */
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=721498943&single=true&output=csv';
+/* ===== CONFIG: link da planilha publicada (aba Anáforas) ===== */
+const BASE_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=721498943&single=true&output=csv';
 
 /* Voltar */
 function goBackOrHome(){
@@ -129,94 +113,150 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(right && wrap){ right.addEventListener('animationend', ()=>{ wrap.remove(); }, {once:true}); }
 });
 
-/* ===== CSV Parser simples (suporta aspas) ===== */
+/* Helpers de normalização */
+const norm = s => (s??'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+
+/* CSV Parser (aspas/CRLF) */
 function parseCSV(text){
-  const rows = [];
-  let i=0, field='', row=[], inQuotes=false;
+  const rows = []; let i=0, field='', row=[], inQ=false;
   while(i<text.length){
     const c = text[i];
-    if(inQuotes){
+    if(inQ){
       if(c === '"'){
         if(text[i+1] === '"'){ field += '"'; i+=2; continue; }
-        inQuotes = false; i++; continue;
+        inQ = false; i++; continue;
       } else { field += c; i++; continue; }
     } else {
-      if(c === '"'){ inQuotes = true; i++; continue; }
-      if(c === ','){ row.push(field.trim()); field=''; i++; continue; }
+      if(c === '"'){ inQ = true; i++; continue; }
+      if(c === ','){ row.push(field); field=''; i++; continue; }
       if(c === '\n' || c === '\r'){
-        // fim de linha
-        if(field.length || row.length){ row.push(field.trim()); rows.push(row); }
+        if(c === '\r' && text[i+1] === '\n') { i+=2; } else { i++; }
+        if(field.length || row.length){ row.push(field); rows.push(row); }
         field=''; row=[]; 
-        // pular \r\n
-        if(c === '\r' && text[i+1] === '\n') i++;
-        i++; 
         continue;
       }
       field += c; i++;
     }
   }
-  // último campo
-  if(field.length || row.length){ row.push(field.trim()); rows.push(row); }
-  return rows;
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.map(r=>r.map(c=> (c??'').toString().trim() ));
 }
 
-/* ===== Carrega a planilha e aplica nos botões ===== */
+/* Ativo: aceita vários valores comuns */
+function isActive(val){
+  const v = norm(val);
+  return (v==='' /* sem coluna ou vazio */) || v==='1' || v==='true' || v==='sim' || v==='yes' || v==='y' || v==='on';
+}
+
+/* Fetch com cache-buster e fallback AllOrigins */
+async function fetchCSV(url){
+  const cb = Math.floor(Date.now()/60000);
+  const u = url + (url.includes('?') ? '&' : '?') + 'cb='+cb;
+  try{
+    const r = await fetch(u, {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return await r.text();
+  }catch(e){
+    const alt = 'https://api.allorigins.win/raw?url='+encodeURIComponent(u);
+    const r2 = await fetch(alt, {cache:'no-store'});
+    if(!r2.ok) throw new Error('fallback '+r2.status);
+    return await r2.text();
+  }
+}
+
+/* Boot */
 (async function(){
   try{
-    const res = await fetch(CSV_URL, {cache:'no-store'});
-    const csv = await res.text();
-    const rows = parseCSV(csv);
-    if(!rows.length) return;
+    const csv = await fetchCSV(BASE_CSV);
+    const rows = parseCSV(csv).filter(r=> r.some(c=>c && c.trim()!=='') );
+    if(!rows.length){ throw new Error('CSV vazio'); }
 
-    const header = rows[0].map(h => h.toLowerCase());
-    const idx = {
-      ordem: header.indexOf('ordem'),
-      rotulo: header.indexOf('rótulo') !== -1 ? header.indexOf('rótulo') : header.indexOf('rotulo'),
-      key: header.indexOf('key'),
-      link: header.indexOf('link_doc'),
-      ativo: header.indexOf('ativo'),
-      obs: header.indexOf('obs')
+    const headerRaw = rows[0];
+    const header = headerRaw.map(h=> norm(h) );
+
+    // Função que devolve o primeiro índice existente dentre os sinônimos
+    const hIdx = (alts)=> {
+      const nAlts = alts.map(norm);
+      for(const name of nAlts){
+        const i = header.indexOf(name);
+        if(i>=0) return i;
+      }
+      return -1;
     };
 
-    // cria mapa por key (i0..i7)
+    // Mapeamento robusto de colunas
+    const idx = {
+      key:   hIdx(['key','chave','i','indice','índice']),
+      rotulo:hIdx(['rótulo','rotulo','label','titulo','título','nome']),
+      link:  hIdx(['link_doc','link','url','href','arquivo','doc']),
+      ativo: hIdx(['ativo','enabled','publicado','ativo?']),
+      ordem: hIdx(['ordem','order','pos'])
+    };
+
+    if(idx.key<0){
+      throw new Error('Coluna "key" (i0..i7) não encontrada. Aceitos: key/chave/i/indice/índice.');
+    }
+    if(idx.link<0 && idx.rotulo<0){
+      throw new Error('Cabeçalhos não encontrados: link (link_doc/link/url) e rótulo (rótulo/label/título).');
+    }
+
+    // Monta mapa por key (i0..i7)
     const map = {};
     rows.slice(1).forEach(r=>{
-      const key = (idx.key>=0 ? r[idx.key] : '').trim();
-      if(!key) return;
-      const ativo = (idx.ativo>=0 ? (r[idx.ativo]||'').trim() : '1');
-      const rotulo = (idx.rotulo>=0 ? r[idx.rotulo] : '').trim() || '—';
-      const link = (idx.link>=0 ? r[idx.link] : '').trim() || '';
-      const obs  = (idx.obs>=0  ? r[idx.obs]  : '').trim();
-      map[key] = {rotulo, link, ativo, obs};
+      const k = (idx.key>=0 ? r[idx.key] : '').trim();
+      if(!k) return;
+      const label = (idx.rotulo>=0 ? r[idx.rotulo] : '').trim();
+      const href  = (idx.link>=0   ? r[idx.link]   : '').trim();
+      const ativo = (idx.ativo>=0  ? r[idx.ativo]  : '');
+      const order = (idx.ordem>=0  ? parseInt(r[idx.ordem]||'0',10) : 0);
+      map[k] = { label, href, ativo, order };
     });
 
-    document.querySelectorAll('.btn[data-key]').forEach(a=>{
+    // Aplica nos botões existentes
+    const btns = Array.from(document.querySelectorAll('.btn[data-key]'));
+    // Se quiser respeitar "ordem", pode reordenar aqui:
+    // btns.sort((a,b)=> (map[a.dataset.key]?.order ?? 0) - (map[b.dataset.key]?.order ?? 0))
+    // const container = document.querySelector('.buttons'); btns.forEach(b=>container.appendChild(b));
+
+    btns.forEach(a=>{
       const key = a.getAttribute('data-key');
+      const data = map[key];
       const labelEl = a.querySelector('.label');
-      if(map[key]){
-        const {rotulo, link, ativo, obs} = map[key];
-        labelEl.textContent = rotulo || labelEl.textContent;
-        if(ativo === '1' && link){
-          a.href = link;
-          a.setAttribute('aria-disabled','false');
-          a.title = obs || 'Abrir documento';
-        }else{
-          a.href = '#';
-          a.setAttribute('aria-disabled','true');
-          a.title = obs || 'Item desativado';
-        }
-      }else{
-        // não encontrado na planilha: desativa
+
+      if(!data){
         a.href = '#';
         a.setAttribute('aria-disabled','true');
         a.title = 'Não encontrado na planilha';
+        labelEl.textContent = '—';
+        return;
+      }
+
+      // Rótulo
+      labelEl.textContent = data.label || '—';
+
+      // Estado/link
+      const ativoOk = isActive(data.ativo);
+      const hasLink = !!data.href;
+      if((idx.ativo<0 && hasLink) || (ativoOk && hasLink)){
+        a.href = data.href;
+        a.setAttribute('aria-disabled','false');
+        a.title = 'Abrir documento';
+      }else{
+        a.href = '#';
+        a.setAttribute('aria-disabled','true');
+        a.title = 'Item desativado';
       }
     });
+
+    // Logs úteis
+    console.log('[anáforas] header:', headerRaw);
+    console.log('[anáforas] mapeado keys:', Object.keys(map));
+
   }catch(err){
     console.error('Falha ao carregar a planilha de Anáforas:', err);
-    // Em caso de erro, desativa todos
     document.querySelectorAll('.btn[data-key]').forEach(a=>{
       a.href = '#'; a.setAttribute('aria-disabled','true'); a.title = 'Erro ao carregar dados';
+      const labelEl = a.querySelector('.label'); if(labelEl) labelEl.textContent = '—';
     });
   }
 })();
