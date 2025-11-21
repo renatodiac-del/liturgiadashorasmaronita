@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ramsho — Oração da Tarde</title>
 <meta name="theme-color" content="#331a00" />
 <style>
+  /* (mesmo CSS que você já tinha — mantido) */
   :root{ --dourado:#d6b25a; --vermelho:#a00000; --sombra:rgba(0,0,0,.18); }
   body{ margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff; background:linear-gradient(#993300,#001a33); position:relative; overflow-x:hidden; min-height:100vh; display:flex; flex-direction:column; }
   body::before{
@@ -98,20 +98,32 @@
   <div id="toast"></div>
 
 <script>
-/* ====== CONFIG ====== */
 const SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTSNOwDCcQPyPihUkD8PbrtAmMjV9gcYgCmOXNnAfK6chO41qAAtltEpzl-mlxEvlnMwGQQ-JgKjMI3/pub?gid=970478871&single=true&output=csv';
 const PAGE_SLUG='ramsho';
 
-/* ====== HELPERS ====== */
 const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
-function parseCSV(t){const r=[];let i=0,c=[],v='',q=false;while(i<t.length){const ch=t[i++];if(q){if(ch=='"'&&t[i]=='"'){v+='"';i++;}else if(ch=='"'){q=false;}else v+=ch;}else{if(ch===','){c.push(v);v='';}else if(ch=='"'){q=true;}else if(ch=='\n'){c.push(v);r.push(c);c=[];v='';}else if(ch!=='\r'){v+=ch;}}}if(v.length||c.length){c.push(v);r.push(c);}return r;}
-async function fetchCSV(u){const cb=Math.floor(Date.now()/60000);const u1=u+(u.includes('?')?'&':'?')+'cb='+cb;try{const r=await fetch(u1);if(!r.ok)throw new Error(r.status);return await r.text();}catch(e){const p='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);const r=await fetch(p);if(!r.ok)throw new Error('fallback '+r.status);return await r.text();}}
-function toISO(d){const s=(d||'').replace(/[-.]/g,'/').trim();const p=s.split('/');if(p.length!==3)return null;if(p[0].length===4){const[y,m,da]=p;return`${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;}const[da,m,y]=p;return`${y}-${m.padStart(2,'0')}-${da.padStart(2,'0')}`;}
+
+function toISOfromCSV(val){
+  const s=(val||'').toString().trim();
+  if(!s) return null;
+  if(/^\d{8}$/.test(s)){
+    const dd=s.slice(0,2), mm=s.slice(2,4), yyyy=s.slice(4,8);
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const t=s.replace(/[-.]/g,'/');
+  const p=t.split('/');
+  if(p.length===3){
+    if(p[0].length===4){const[y,m,d]=p;return`${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;}
+    const[d,m,y]=p;return`${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;
+  }
+  return null;
+}
 function todayISO(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${da}`;}
 function q(name){return new URLSearchParams(location.search).get(name)}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity=1;clearTimeout(window.__tid);window.__tid=setTimeout(()=>t.style.opacity=0,2200);}
-
-/* ====== UI ====== */
+function parseCSV(t){const r=[];let i=0,c=[],v='',q=false;while(i<t.length){const ch=t[i++];if(q){if(ch=='"'&&t[i]=='"'){v+='"';i++;}else if(ch=='"'){q=false;}else v+=ch;}else{if(ch===','){c.push(v);v='';}else if(ch=='"'){q=true;}else if(ch=='\n'){c.push(v);r.push(c);c=[];v='';}else if(ch!=='\r'){v+=ch;}}}if(v.length||c.length){c.push(v);r.push(c);}return r;}
+async function fetchCSV(u){const cb=Math.floor(Date.now()/60000);const u1=u+(u.includes('?')?'&':'?')+'cb='+cb;try{const r=await fetch(u1);if(!r.ok)throw new Error(r.status);return await r.text();}catch(e){const p='https://api.allorigins.win/raw?url='+encodeURIComponent(u1);const r=await fetch(p);if(!r.ok)throw new Error('fallback '+r.status);return await r.text();}}
 function mkBtn(label, subtitle, url){
   const a=document.createElement('a'); a.className='btn'; a.href=url||'#'; a.target='_blank';
   if(!url){a.style.opacity='.45'; a.style.pointerEvents='none';}
@@ -120,9 +132,9 @@ function mkBtn(label, subtitle, url){
   return a;
 }
 
-/* ====== BOOT ====== */
 (async function(){
-  const iso=(q('d')&&/^\d{4}-\d{2}-\d{2}$/.test(q('d')))?q('d'):todayISO();
+  const raw=q('d')||q('data');
+  const iso = raw ? (toISOfromCSV(raw) || todayISO()) : todayISO();
   document.getElementById('backLink').href=`horas-teste.html?d=${iso}`;
 
   try{
@@ -139,9 +151,13 @@ function mkBtn(label, subtitle, url){
     const iOrd =idx(['order','ordem','pos']);
     const iEn  =idx(['enabled','ativo','publicado']);
 
-    let list=rows.filter(r=>norm(r[iSlug])===PAGE_SLUG && (iEn<0 || String(r[iEn]||'1').trim()!=='0'));
-    const today=list.filter(r=> iDate>=0 && toISO((r[iDate]||'').trim())===iso);
-    list=today.length?today:list.filter(r=> iDate<0 || (r[iDate]||'').trim()==='');
+    let list=rows.filter(r=>norm(r[iSlug])===norm(PAGE_SLUG) && (iEn<0 || String(r[iEn]||'1').trim()!=='0'));
+    const todayRows=list.filter(r=>{
+      if(iDate<0) return false;
+      const isoRow = toISOfromCSV((r[iDate]||'').trim());
+      return isoRow===iso;
+    });
+    list=todayRows.length?todayRows:list.filter(r=> iDate<0 || (r[iDate]||'').trim()==='');
     list.sort((a,b)=>(parseInt(a[iOrd]||0)-parseInt(b[iOrd]||0)));
 
     const col=document.getElementById('col');
