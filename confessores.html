@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Confessores · Comum dos Santos</title>
 <meta name="theme-color" content="#375b22">
+  
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/app-icon-180.png">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+  
 <style>
 :root{
   --ouro:#d6b25a;           /* ouro velho (título e bordas) */
