@@ -21,6 +21,16 @@ header{text-align:center;padding:24px 10px 8px}
 .back-wrap{display:flex;justify-content:center;margin-top:6px;transform:scale(.48);transform-origin:center top}
 .btn-back{display:inline-flex;align-items:center;gap:10px;background:#a00000;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 6px 14px var(--shadow);cursor:pointer}
 .btn-back .arr{font-size:18px;line-height:1}
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/app-icon-180.png">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+
+  
 </style>
 <script>
 function goBackOrMother(){try{if(document.referrer&&document.referrer.includes('quaresma.html')){history.back();return} if(history.length>1){history.back();return}}catch(e){} location.href='quaresma.html'}
