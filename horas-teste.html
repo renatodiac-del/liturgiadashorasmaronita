@@ -333,18 +333,39 @@
       return a;
     }
 
+    // Referências aos links das horas (para atualizar conforme a data)
+    let linkSafro, linkTerca, linkSexta, linkNona, linkRamsho, linkSutoro, linkLilyo;
+
     (function mountButtons(){
       const c=document.getElementById('col');
-      c.append(mkLink('safro-hora.html?from=horas','Safro','oração da manhã'));
+
+      linkSafro = mkLink('#','Safro','oração da manhã');
+      c.append(linkSafro);
+
       c.append(mkSalmoBtn('manha','manhã'));
-      c.append(mkLink('terca-hora.html?from=horas','Hora Terça','9 horas'));
-      c.append(mkLink('sexta-hora.html?from=horas','Hora Sexta','12 horas'));
-      c.append(mkLink('nona-hora.html?from=horas','Hora Nona','15 horas'));
-      c.append(mkLink('#','Synaxarion')); // href atualizado no updateDateBar()
-      c.append(mkLink('ramsho-hora.html?from=horas','Ramsho','oração da tarde'));
+
+      linkTerca = mkLink('#','Hora Terça','9 horas');
+      c.append(linkTerca);
+
+      linkSexta = mkLink('#','Hora Sexta','12 horas');
+      c.append(linkSexta);
+
+      linkNona = mkLink('#','Hora Nona','15 horas');
+      c.append(linkNona);
+
+      // Synaxarion terá o href atualizado no updateDateBar()
+      c.append(mkLink('#','Synaxarion'));
+
+      linkRamsho = mkLink('#','Ramsho','oração da tarde');
+      c.append(linkRamsho);
+
       c.append(mkSalmoBtn('tarde','tarde'));
-      c.append(mkLink('sutoro-hora.html?from=horas','Sutoro','oração da noite'));
-      c.append(mkLink('lilyo-hora.html?from=horas','Lilyo','vigílias'));
+
+      linkSutoro = mkLink('#','Sutoro','oração da noite');
+      c.append(linkSutoro);
+
+      linkLilyo = mkLink('#','Lilyo','vigílias');
+      c.append(linkLilyo);
     })();
 
     // clique nos dois botões de Salmo/Leitura (manhã/tarde)
@@ -360,22 +381,49 @@
     let currentDate=new Date();
     function formatDateBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
     function weekdayBR(d){return d.toLocaleDateString('pt-BR',{weekday:'long'})}
+
     function updateDateBar(){
-      document.getElementById('date-text').textContent=formatDateBR(currentDate);
+      document.getElementById('date-text').textContent = formatDateBR(currentDate);
       const wd = weekdayBR(currentDate);
       document.getElementById('weekday-text').textContent = wd.charAt(0).toUpperCase()+wd.slice(1);
 
+      // Data em ISO (AAAA-MM-DD) para passar às páginas filhas
+      const y = currentDate.getFullYear();
+      const m = String(currentDate.getMonth()+1).padStart(2,'0');
+      const da = String(currentDate.getDate()).padStart(2,'0');
+      const iso = `${y}-${m}-${da}`;
+
       // Atualiza o link do Synaxarion para a data atualmente selecionada
-      const y=currentDate.getFullYear(), m=String(currentDate.getMonth()+1).padStart(2,'0'), da=String(currentDate.getDate()).padStart(2,'0');
       const syn = Array.from(document.querySelectorAll('.btn')).find(b=>b.textContent.trim()==='Synaxarion');
-      if(syn){ syn.href = `synaxarion.html?data=${y}-${m}-${da}&from=horas`; }
+      if(syn){
+        syn.href = `synaxarion.html?data=${iso}&from=horas`;
+      }
+
+      // Atualiza os links das Horas, passando ?d=AAAA-MM-DD&from=horas
+      if(linkSafro)  linkSafro.href  = `safro-hora.html?d=${iso}&from=horas`;
+      if(linkTerca)  linkTerca.href  = `terca-hora.html?d=${iso}&from=horas`;
+      if(linkSexta)  linkSexta.href  = `sexta-hora.html?d=${iso}&from=horas`;
+      if(linkNona)   linkNona.href   = `nona-hora.html?d=${iso}&from=horas`;
+      if(linkRamsho) linkRamsho.href = `ramsho-hora.html?d=${iso}&from=horas`;
+      if(linkSutoro) linkSutoro.href = `sutoro-hora.html?d=${iso}&from=horas`;
+      if(linkLilyo)  linkLilyo.href  = `lilyo-hora.html?d=${iso}&from=horas`;
     }
-    document.getElementById('btn-prev').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()-1);updateDateBar();});
-    document.getElementById('btn-next').addEventListener('click',()=>{currentDate.setDate(currentDate.getDate()+1);updateDateBar();});
+
+    document.getElementById('btn-prev').addEventListener('click',()=>{
+      currentDate.setDate(currentDate.getDate()-1);
+      updateDateBar();
+    });
+    document.getElementById('btn-next').addEventListener('click',()=>{
+      currentDate.setDate(currentDate.getDate()+1);
+      updateDateBar();
+    });
+
     updateDateBar();
 
     /* ======= ícone “chip” ======= */
-    document.getElementById('hero').addEventListener('load',()=>{document.getElementById('hero-chip').style.display='none';});
+    document.getElementById('hero').addEventListener('load',()=>{
+      document.getElementById('hero-chip').style.display='none';
+    });
 
     /* ======= remover as setas após a animação (somem de vez) ======= */
     for(const el of document.querySelectorAll('.hint-arrow')){
@@ -384,5 +432,3 @@
   </script>
 </body>
 </html>
-
-
