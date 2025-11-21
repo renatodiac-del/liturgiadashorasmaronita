@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Domingos da Igreja · Biblioteca</title>
 <meta name="theme-color" content="#d6b25a">
+  
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/app-icon-180.png">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+  
 <style>
 :root{ --ouro:#d6b25a; --marrom:#582c0c; --prata:#b0b0b0; --shadow:rgba(0,0,0,.16); --fonte:Arial,Helvetica,sans-serif; --btnIcon:29.6px }
 *{box-sizing:border-box;margin:0;padding:0} html,body{height:100%}
