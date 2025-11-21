@@ -4,6 +4,17 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lilyo — Vigílias</title>
 <meta name="theme-color" content="#020814">
+  
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/app-icon-180.png">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+
+  
 <style>
   :root{ --fundo:#020814; --dourado:#d6b25a; --bege-escuro:#e8d6ad; --vermelho:#a00000; --sombra:rgba(0,0,0,.22); }
   body{ margin:0; font-family:Arial,Helvetica,sans-serif; color:#fff; background:var(--fundo); position:relative; overflow-x:hidden; min-height:100vh; display:flex; flex-direction:column;}
