@@ -4,6 +4,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Domingo Novo · Domingo da Misericórdia</title>
 <meta name="theme-color" content="#fdf5e6">
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/app-icon-180.png">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+  
 <style>
 /* (mesmo CSS do anterior) */
 *{box-sizing:border-box} html,body{height:100%}
