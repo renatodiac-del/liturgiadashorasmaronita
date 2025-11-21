@@ -4,6 +4,17 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Safro — Oração da Manhã</title>
 <meta name="theme-color" content="#243e6b">
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/app-icon-180.png">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+
+  
 <style>
   :root{
     --azul-topo:#0a1d3d; --azul-meio:#243e6b; --amarelo-base:#ffe680; --amarelo-brilho:#ffd23a; --sol:#ffe45e;
