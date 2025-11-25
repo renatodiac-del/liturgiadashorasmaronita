@@ -7,6 +7,5 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Modo online direto (não cacheia arquivos)
   e.respondWith(fetch(e.request));
 });
