@@ -3,7 +3,7 @@
   "short_name": "Capela Marun",
   "description": "Aplicativo litúrgico maronita — Qurbono, Horas, Patrística e Calendário.",
   
-  "start_url": "/liturgiadashorasmaronita/index-teste.html",
+  "start_url": "/liturgiadashorasmaronita/index.html",
   "scope": "/liturgiadashorasmaronita/",
   "display": "standalone",
 
@@ -20,6 +20,12 @@
       "src": "img/app-icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "img/app-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
