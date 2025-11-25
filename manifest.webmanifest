@@ -2,11 +2,14 @@
   "name": "Capela Virtual São Marun",
   "short_name": "Capela Marun",
   "description": "Aplicativo litúrgico maronita — Qurbono, Horas, Patrística e Calendário.",
-  "start_url": "index-teste.html",
-  "scope": "./",
+  
+  "start_url": "/liturgiadashorasmaronita/index-teste.html",
+  "scope": "/liturgiadashorasmaronita/",
   "display": "standalone",
+
   "theme_color": "#a00000",
   "background_color": "#ffffff",
+
   "icons": [
     {
       "src": "img/app-icon-192.png",
